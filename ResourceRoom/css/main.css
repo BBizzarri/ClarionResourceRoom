@@ -31,3 +31,23 @@ header, nav, section, footer {
         column-count: 6;
     }
 }
+
+.account-dropdown {
+    padding-left: 10px;
+}    
+
+.clarion-gold {
+    background-color: #97824A;
+}
+
+.clarion-blue {
+    background-color: #003366;
+}
+
+.clarion-white {
+    color: white;
+}
+
+.account-dropdown {
+    padding-left: 30px;
+}
