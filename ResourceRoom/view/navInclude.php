@@ -9,10 +9,13 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text" href="../controller/controller.php?action=Home">Resource Room<span class="sr-only">(current)</span></a>
+                            <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text" href="../controller/controller.php?action=shopperHome">Resource Room</a>
                         </li>
                         <li class="nav-item">
-                            <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text" href="../security/index.php">Orders (0)<span class="sr-only"></span></a>
+                            <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text" href="../controller/controller.php?action=shopperCart">Cart (0)</a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text" href="../controller/controller.php?action=shopperOrders">Orders</a>
                         </li>
                         <li class="nav-item">
                             <?php
@@ -50,10 +53,19 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text" href="../controller/controller.php?action=Home">Orders (0)<span class="sr-only">(current)</span></a>
+                            <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text" href="../controller/controller.php?action=adminOrders">Orders (0)<span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text" href="../security/index.php">Inventory<span class="sr-only"></span></a>
+                            <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text" href="../controller/controller.php?action=adminInventory">Inventory<span class="sr-only"></span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text" href="../controller/controller.php?action=adminReports">Reports<span class="sr-only"></span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text" href="../controller/controller.php?action=adminShoppingList">Shopping List<span class="sr-only"></span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text" href="../controller/controller.php?action=adminSecurity">Security<span class="sr-only"></span></a>
                         </li>
                         <li class="nav-item">
                             <?php
