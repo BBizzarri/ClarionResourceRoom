@@ -1,7 +1,9 @@
 <?php
-    $title = "Home Page";
+    $title = " Shopper Home Page";
     require '../view/headerInclude.php';
 ?>
+<html>
+<body>
     <section id="main" class="clarion-blue">
         <div class="container-fluid">
             <div class ="row">
@@ -37,7 +39,8 @@
             </div>
         </div>
     </section>
-
+</body>
+</html>
 <?php
     require '../view/footerInclude.php';
 ?>
