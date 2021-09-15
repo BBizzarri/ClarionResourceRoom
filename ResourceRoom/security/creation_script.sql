@@ -67,6 +67,16 @@ INSERT INTO functions (Name,Description) VALUES ('SecurityLogOut', 'Exit the app
 INSERT INTO functions (Name,Description) VALUES ('SecurityProcessLogin', 'Try to authorize a user login.');
 INSERT INTO functions (Name,Description) VALUES ('SecurityHome', 'Default security page with login button.');
 INSERT INTO functions (Name,Description) VALUES ('Home', 'Default home page with guest access and login button.');
+INSERT INTO functions (Name,Description) VALUES ('adminInventory', 'Inventory page to view inventory');
+INSERT INTO functions (Name,Description) VALUES ('adminOrders', 'orders page for admins to fill orders that are submitted');
+INSERT INTO functions (Name,Description) VALUES ('adminSecurity', 'security page for the admins to change security settings');
+INSERT INTO functions (Name,Description) VALUES ('adminReports', 'reports page for admin to generate and download reports');
+INSERT INTO functions (Name,Description) VALUES ('adminShoppingList', 'Shopping list page for admins to view and download their shopping list');
+INSERT INTO functions (Name,Description) VALUES ('shopperCart', 'Where shoppers can view what items they have in their cart and submit their order');
+INSERT INTO functions (Name,Description) VALUES ('shopperHome', 'where shoppers can select items that they would like to purchase');
+INSERT INTO functions (Name,Description) VALUES ('shopperOrders', 'where shoppers can view their current past and pending orders');
+
+
 
 INSERT INTO roles (Name,Description) VALUES ('admin','Full privileges.');
 INSERT INTO roles (Name,Description) VALUES ('updater','Update/Read privileges.');
@@ -93,6 +103,11 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,12);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,13);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,14);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,15);
+INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,21);
+INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,22);
+INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,23);
+INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,24);
+INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,25);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,1);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,6);
@@ -116,6 +131,9 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,17);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,18);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,19);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,20);
+INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,26);
+INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,27);
+INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,28);
 
 INSERT INTO userroles (UserID,RoleID) VALUES (1,1);
 INSERT INTO userroles (UserID,RoleID) VALUES (2,2);
