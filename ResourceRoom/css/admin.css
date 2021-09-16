@@ -7,9 +7,9 @@ margin-left: 1px;
 }
 
 table, th, td {
-border:1px solid black;
-font-size: 20px;
-color: white;
+  border:1px solid black;
+  font-size: 20px;
+  color: white;
 }
 
 th {
