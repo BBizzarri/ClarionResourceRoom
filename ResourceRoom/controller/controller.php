@@ -20,8 +20,15 @@
             include('../security/not_authorized.html');
         }
     } else {
+        switch ($action) {
+            case 'Home':
+                include '../view/index.php';
+                break;
             include('../controller/shopperCasesInclude.php');
             include('../controller/inventoryCasesInclude.php');
+            default:
+                include('../view/index.php');   // default
+        }
     }
     
     include('../controller/shopperFunctionsInclude.php');
