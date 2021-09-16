@@ -1,46 +1,47 @@
 .row-alignment {
- margin-left: 1px;
+margin-left: 1px;
 }
 
 .column-spacing {
-    margin-left: 50px;
+ margin-left: 50px;
 }
 
 table, th, td {
   border:1px solid black;
-  color: white;
   font-size: 20px;
+  color: white;
 }
 
 th {
-    text-align: center;
-    padding-left: 10px;
-    padding-right: 10px;
+ text-align: center;
+ padding-left: 10px;
+ padding-right: 10px;
 }
 
 table {
-    width: 1000px;
-    align: center;
-    text-align: center;
+ width: 1000px;
+ align: center;
+ text-align: center;
 }
 
 .text-left {
-    text-align: left;
+ text-align: left;
 }
 
 .text-right {
-    text-align: right
+ text-align: right
 }
 
 .incoming-textbox-div {
-    display: inline-block;
+ display: inline-block;
 }
 
 .incoming-textbox {
-    width: 55px;
+ width: 55px;
 }
 
 .sidebar {
+
     background-color:white;
     width: 325px;
 }
@@ -51,13 +52,16 @@ table {
 }
 
 .sidebar-dropdown {
-    width: 305px;
+ width: 305px;
+ background-color:white;
+ width: 200px;
+
 }
 
 .adjust-button-div {
-        display: inline-block;
-        padding-left: 10px;
-        font-size: 16px;
+     display: inline-block;
+     padding-left: 10px;
+     font-size: 16px;
 }
 
 .apply-button {
@@ -83,7 +87,5 @@ table {
 .table-heading-buttons {
     float: right;
 }
-
-
 
 
