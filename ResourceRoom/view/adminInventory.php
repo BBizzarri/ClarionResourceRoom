@@ -7,21 +7,49 @@
     <section class="clarion-blue">
         <div class="row row-alignment">
           <div class="column sidebar">
-            <div>
+            <div class="sidebar-elements">
                 <label for="category">Category:</label><br>
-                <select name="category" id="category">
-                  <option value="volvo">Volvo</option>
-                  <option value="saab">Saab</option>
-                  <option value="mercedes">Mercedes</option>
-                  <option value="audi">Audi</option>
+                <select class="sidebar-dropdown" name="category" id="category">
+                  <option value="Household Supplies">Household Supplies</option>
+                  <option value="Hygiene & Personal Care Items">Hygiene & Personal Care Items</option>
+                  <option value="Linens">Linens</option>
+                  <option value="Breakfast Foods">Breakfast Foods</option>
+                  <option value="Beverages">Beverages</option>
+                  <option value="Meal Items">Meal Items</option>
+                  <option value="Pasta & Rice">Pasta & Rice</option>
+                  <option value="Side Dishes">Side Dishes</option>
+                  <option value="Soup">Soup</option>
+                  <option value="Fruit">Fruit</option>
+                  <option value="Snack Items">Snack Items</option>
+                  <option value="Canned Vegetables, Beans, & Meats">Canned Vegetables, Beans, & Meats</option>
+                  <option value="Condiments & Seasonings">Condiments & Seasonings</option>
+                  <option value="Baking">Baking</option>
                 </select>
             </div>
-            <div>
+            <div class="sidebar-elements">
+                <div class="incoming-textbox-div">
+                    <label for="qtyLessThan"> Quantity Less Than:</label><br>
+                </div>
+                <div class="incoming-textbox-div">
+                    <input class="incoming-textbox" type="number" id="qtyLessThan" name="qtyLessThan" value="qtyLessThan">
+                </div>
+            </div>
+            <div class="sidebar-elements">
                 <input type="checkbox" id="inactiveItems" name="inactiveItems" value="inactiveItems">
                 <label for="inactiveItems"> Show Inactive Items</label><br>
             </div>
+            <div>
+                <button class="apply-button" type="button">Apply</button>
+            </div>
           </div>
-          <div class="column column-spacing">
+          <div class="container column column-spacing">
+                <div class=" clarion-white table-heading table-heading-category">
+                    <label>All Categories</label>
+                </div>
+                <div class="table-heading table-heading-buttons">
+                    <button type="button">Add New Item</button>
+                    <button type="button">Adjust All</button>
+                </div>
             <table>
               <tr>
                 <th>Product</th>
