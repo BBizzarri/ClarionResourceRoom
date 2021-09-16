@@ -1,0 +1,54 @@
+.row-alignment {
+margin-left: 1px;
+}
+
+.column-spacing {
+ margin-left: 50px;
+}
+
+table, th, td {
+border:1px solid black;
+font-size: 20px;
+color: white;
+}
+
+th {
+ text-align: center;
+ padding-left: 10px;
+ padding-right: 10px;
+}
+
+table {
+ width: 1000px;
+ align: center;
+ text-align: center;
+}
+
+.text-left {
+ text-align: left;
+}
+
+.text-right {
+ text-align: right
+}
+
+.incoming-textbox-div {
+ display: inline-block;
+}
+
+.incoming-textbox {
+ width: 55px;
+}
+
+.sidebar {
+ background-color:white;
+ width: 200px;
+}
+
+.adjust-button-div {
+     display: inline-block;
+     padding-left: 10px;
+     font-size: 16px;
+}
+
+
