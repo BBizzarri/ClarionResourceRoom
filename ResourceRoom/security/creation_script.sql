@@ -51,7 +51,7 @@ CREATE TABLE ORDERS
 (   ORDERID                 INT AUTO_INCREMENT UNIQUE,
     USERID                  INT,
     ORDERDATE               DATE,
-    STATUS                  VARCHAR(20),
+    STATUS                  VARCHAR(30),
     DATEFILLED              DATE,
     COMMENT                 TEXT,
     CONSTRAINT ORDERS_PK PRIMARY KEY (ORDERID),
@@ -70,13 +70,12 @@ CREATE TABLE PRODUCT
     CONSTRAINT PRODUCT_PK PRIMARY KEY (PRODUCTID)
 );
 
-/*INTERSECTION TABLE BETWEEN ORDERS, PRODUCT, AND ADJUSTMENT_REASON*/
+/*INTERSECTION TABLE BETWEEN ORDERS, PRODUCT*/
 CREATE TABLE ORDERDETAILS
 (   ORDERID                 INT,
     PRODUCTID               INT,
     QTYREQUESTED            INT,
     QTYFILLED               INT,
-    REASONID                INT,
     CONSTRAINT ORDER_DETAILS_PK PRIMARY KEY (ORDERID, PRODUCTID),
     CONSTRAINT ORDERID_FK FOREIGN KEY (ORDERID) REFERENCES ORDERS (ORDERID),
     CONSTRAINT PRODUCTID_FK FOREIGN KEY (PRODUCTID) REFERENCES PRODUCT (PRODUCTID)
@@ -96,6 +95,40 @@ CREATE TABLE PRODUCTCATEGORIES
     CONSTRAINT PRODUCT_CATEGORY_PK PRIMARY KEY (CATEGORYID, PRODUCTID),
     CONSTRAINT CATEGORYS_ID_FK FOREIGN KEY (CATEGORYID) REFERENCES CATEGORY (CATEGORYID),
     CONSTRAINT PRODUCTS_ID_FK FOREIGN KEY (PRODUCTID) REFERENCES PRODUCT (PRODUCTID)
+);
+
+CREATE TABLE CART
+(
+    USERID                  INT,
+    PRODUCTID               INT,
+    QTYREQUESTED            INT,
+    MOSTRECENTDATE          DATE,
+    CONSTRAINT CART_PK PRIMARY KEY (USERID, PRODUCTID),
+    CONSTRAINT USER_ID_FK FOREIGN KEY (USERID) REFERENCES USERS (USERID),
+    CONSTRAINT PRODUCT_ID_FK FOREIGN KEY (PRODUCTID) REFERENCES PRODUCT (PRODUCTID)
+);
+
+/*
+CREATE TABLE SETTING
+(   SETTINGID               INT,
+    SettingName             TEXT,
+    SettingBody             TEXT,
+    CONSTRAINT SETTING_PK PRIMARY KEY (SETTINGID)
+); */
+
+
+/*For now, PhotoDir is an int, but this is where the photos will theoretically be kept
+  (if I understood Dr O'Donnell correctly.)  Not sure of the type, so int is a placeholder variable type
+ */
+/* The table Dr. O'Donnell and I originally came up with, but
+   would the table commented out above make more sense? */
+CREATE TABLE SETTING
+(   SETTINGID               INT,
+    EmailAddresses          TEXT,
+    OrderReceivedText       TEXT,
+    OrderFilledText         TEXT,
+    PhotoDir                INT,
+    CONSTRAINT SETTING_PK PRIMARY KEY (SETTINGID)
 );
 
 
@@ -919,7 +952,71 @@ COMMIT;
 /* !40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /* !40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
+INSERT INTO `PRODUCT` (`ProductID`, `Name`, `Description`, `QtyOnHand`, `MaxOrderQty`, `GoalStock`) VALUES
+(1000, 'Blanket', 'Dark blue, fleece.  Approximately 50x50 inches', 1, 1, 0),  -- GoalStock = 0 (Temp item)
+(1001, 'Clear American Sparking Water, Wild Cherry', '1 bottle, 33.8 fl oz', 10, 5, 5),
+(1002, 'Basmati Rice', '1 bag, 32 oz', 2, 1, 5),  -- QtyOnHand < GoalStock (On shopping List)
+(1003, 'Gluten Free Angel Hair Pasta', '1 box, 1lb', 4, 2, 10), -- QtyOnHand < GoalStock (On shopping List)
+(1004, 'Coat', 'Forever 21 Faux Fur Lined Womens Coat, size Xtra Large', 1, 1, 0), -- GoalStock = 0 (Temp item)
+(1005, 'Canned Dragon Fruit', '1 can, 12 oz', 9, 3, 5),
+(1006, 'Sugar', '1 bag, .5 lb', 6, 2, 8), -- QtyOnHand < GoalStock (On shopping List)
+(1007, 'Flour', '1 bag, .5 lb', 8, 1, 3),
+(1008, 'Curtains', 'Barbie Pink, Room darkening, 63"', 1, 1, 0), -- GoalStock = 0 (Temp item)
+(1009, 'Vienna Sausages', '1 can, 6 oz', 10, 3, 6),
+(1010, 'Ruler', '12 inch Ruler', 20, 3, 5),
+(1011, 'Black Tank Top', 'Womens Tank Tops, size Small, Medium, and Xtra Large Available.
+Please put size in comment box before ordering', 30, 5, 0), -- GoalStock = 0 (Temp item)
+(1012, 'Composition Notebooks', '1 Black, regular ruled notebook', 0, 5, 19),  -- QtyOnHand = 0, out of stock
+(1013, 'Canned Alfredo Pasta Sauce', '1 can, 24 oz', 0, 3, 10); -- QtyOnHand = 0, out of stock
+COMMIT;
 
+INSERT INTO `ORDERS` (`ORDERID`, `USERID`, `ORDERDATE`, `STATUS`, `DATEFILLED`, `COMMENT`) VALUES
+(1, 1, '2021-08-29', 'COMPLETED', '2021-09-01', 'I am allergice to Nuts'),
+(2, 2, '2021-09-16', 'READY FOR PICKUP', '2021-09-17', ' '),
+(3, 1, '2021-09-18', 'SUBMITTED', '', 'I live off campus'),
+(4, 3, '2021-09-19', 'SUBMITTED', '', 'Size Xtra Large For the Tank Top');
+COMMIT;
+
+INSERT INTO `ORDERDETAILS` (`ORDERID`, `PRODUCTID`, `QTYREQUESTED`, `QTYFILLED`) VALUES
+-- Order 1, 5 different items, all items filled as requested, Order Complete
+(1, 1002, 1, 1),
+(1, 1003, 2, 2),
+(1, 1005, 2, 2),
+(1, 1009, 3, 3),
+(1, 1010, 1, 1),
+-- Order 2, 8 different items, 2 items not filled as requested, Ready for Pickup
+(2, 1000, 1, 1),
+(2, 1001, 3, 3),
+(2, 1003, 1, 1),
+(2, 1005, 2, 2),
+(2, 1006, 2, 1),  -- Only received 1 bag of sugar
+(2, 1007, 1, 1),
+(2, 1009, 2, 2),
+(2, 1012, 4, 0),  -- Received no notebooks
+-- Order 3, 4 different items, Submitted (Not Filled) so QtyFilled = 0 for all items
+(3, 1000, 1, 0),
+(3, 1004, 1, 0),
+(3, 1005, 2, 0),
+(3, 1010, 3, 0),
+-- Order 4, 10 different items, Submitted (Not Filled) so QtyFilled = 0 for all items
+(4, 1001, 4, 0),
+(4, 1002, 1, 0),
+(4, 1003, 2, 0),
+(4, 1004, 1, 0),
+(4, 1005, 2, 0),
+(4, 1006, 1, 0),
+(4, 1007, 1, 0),
+(4, 1009, 2, 0),
+(4, 1010, 1, 0),
+(4, 1011, 4, 0);
+COMMIT;
+
+INSERT INTO `CART` (`USERID`, `PRODUCTID`, `QTYREQUESTED`, `MOSTRECENTDATE`) VALUES
+(2, 1000, 1, '2021-09-01'),
+(2, 1002, 2, '2021-09-01'),
+(2, 1003, 1, '2021-07-29'),
+(2, 1008, 2, '2021-01-01');
+COMMIT;
 
 
 
