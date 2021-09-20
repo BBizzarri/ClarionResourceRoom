@@ -9,8 +9,15 @@
           <div class="column sidebar">
             <div class="sidebar-elements">
                 <label for="category">Category:</label><br>
-                <select class="sidebar-dropdown" name="category" id="category">
-                  <option value="Household Supplies">Household Supplies</option>
+                <select class="sidebar-dropdown" name="category" id="category" onchange="categoryLookup()">
+                    <option value="0">Filter By Category</option>
+                    <?php foreach ($results as $row){ ?>
+                            <option value="<?php echo $row['CATEGORYID']?>"><?php echo $row['DESCRIPTION'] ?></option>
+                    <?php } ?>
+
+
+
+                  <!--<option value="Household Supplies">Household Supplies</option>
                   <option value="Hygiene & Personal Care Items">Hygiene & Personal Care Items</option>
                   <option value="Linens">Linens</option>
                   <option value="Breakfast Foods">Breakfast Foods</option>
@@ -23,7 +30,7 @@
                   <option value="Snack Items">Snack Items</option>
                   <option value="Canned Vegetables, Beans, & Meats">Canned Vegetables, Beans, & Meats</option>
                   <option value="Condiments & Seasonings">Condiments & Seasonings</option>
-                  <option value="Baking">Baking</option>
+                  <option value="Baking">Baking</option>-->
                 </select>
             </div>
             <div class="sidebar-elements">
@@ -147,4 +154,11 @@
     </section>
 </body>
 </html>
+<script>
+    function categoryLookup ()
+    {
+        document.location = "../Controller/inventoryCasesInclude?action=displayCategory&CATEGORYID=" +
+                $('#category').val();
+    }
+</script>
 <?php

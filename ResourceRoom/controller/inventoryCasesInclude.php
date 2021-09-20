@@ -19,6 +19,32 @@
         case 'adminShoppingList':
             include '../view/adminShoppingList.php';
             break;
+        case 'displayCategory':
+            displayCategory();
+            break;
+    }
+
+    function displayCategory()
+    {
+        $categoryID = $_GET['CategoryID'];
+        if (!isset($categoryID))
+        {
+            $errorMessage = 'You must provide a CategoryID to display';
+            include '../view/errorPage.php';
+        }
+        else
+        {
+            $row = getCategory($categoryID);
+            if ($row == false)
+            {
+                $errorMessage = 'That category was not found';
+                include '../view/errorPage.php';
+            }
+            else
+            {
+                include '../view/adminInventory.php';
+            }
+        }
     }
 
 ?>
