@@ -87,3 +87,11 @@ table {
 .table-heading-buttons {
     float: right;
 }
+
+.export-button {
+    margin-left: 431px;
+}
+
+.date-selection {
+    margin-left: 275px;
+}
