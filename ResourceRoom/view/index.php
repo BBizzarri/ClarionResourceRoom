@@ -8,34 +8,36 @@
         <div class="container-fluid">
             <div class ="row">
                 <div class="col-2 clarion-white">
-                    <h3>Catagory Box</h3>
-                </div>
-                <div class="col-10">
-                    <div class="card-columns">
-                    <?php
-                    for ($x = 0; $x <= 10; $x++) {
-                         ?>
-                        <div class="container-fluid">
-                            <div class="card flex-row flex-wrap">
-                                <div class="card-header">
-                                    <img src="https://dummyimage.com/256x256/000/fff.jpg" class="card-img-top" alt="...">
-                                </div>
-                                <div class="card-body">
-                                    <h4 class="card-title">Title</h4>
-                                    <p class="card-text">Description</p>
-                                </div>
-                                <div class="card-block text-center">
-                                    <input type="number" id="quantity" name="quantity" min="1" max="5">
-                                    <a href="#" class="btn btn-primary">Add To Cart</a>
-                                </div>
 
-                            </div>
-                        </div>
+                    <div class="sticky-top">
+                        <h3>Category Box</h3>
+                    <?php foreach ($CategoryResults as $CategoryRow) {
+                        ?>
+                        <div class="container-fluid"><?php echo htmlspecialchars($CategoryRow['DESCRIPTION']) ?></div>
                         <?php
                     }
                     ?>
                     </div>
                 </div>
+                    <div class="col-10 card-columns">
+                    <?php foreach ($ProductResults as $ProductRow) {
+                         ?>
+                            <div class="card">
+                                <div class="card-header">
+                                    <img src="https://dummyimage.com/256x256/000/fff.jpg" class="card-img-top" alt="...">
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                    <h4 class="card-title"><?php echo htmlspecialchars($ProductRow['NAME']) ?></h4>
+                                    <p class="card-text">Description</p>
+                                    <input type="number" id="quantity" name="quantity" min="1" max="5">
+                                    <a href="#" class="btn btn-primary">Add To Cart</a>
+                                </div>
+                            </div>
+                        <?php
+                    }
+                    ?>
+                    </div>
+
             </div>
         </div>
     </section>

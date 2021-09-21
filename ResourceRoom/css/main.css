@@ -8,6 +8,7 @@ header, nav, section, footer {
     clear: both;
 }
 
+
 @media (min-width: 576px) {
     .card-columns {
         column-count: 2;
