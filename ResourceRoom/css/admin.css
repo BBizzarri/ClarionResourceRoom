@@ -44,6 +44,7 @@ table {
 
     background-color:white;
     width: 325px;
+    height: 100vh;
 }
 
 .sidebar-elements {
@@ -72,6 +73,10 @@ table {
     margin: 0 210px;
 }
 
+.container {
+    height: 100vh;
+}
+
 .table-heading {
     width: 100px;
     float: left;
@@ -81,9 +86,16 @@ table {
 .table-heading-category {
     font-size: 20px;
     padding-left: 200px;
-
 }
 
 .table-heading-buttons {
     float: right;
+}
+
+.export-button {
+    margin-left: 431px;
+}
+
+.date-selection {
+    margin-left: 275px;
 }
