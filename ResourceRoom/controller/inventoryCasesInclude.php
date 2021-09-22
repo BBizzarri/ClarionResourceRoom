@@ -26,7 +26,7 @@
 
     function displayCategory()
     {
-        $categoryID = $_GET['CategoryID'];
+        $categoryID = $_GET['CATEGORYID'];
         if (!isset($categoryID))
         {
             $errorMessage = 'You must provide a CategoryID to display';

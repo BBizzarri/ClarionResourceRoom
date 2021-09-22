@@ -9,7 +9,7 @@
           <div class="column sidebar">
             <div class="sidebar-elements">
                 <label for="category">Category:</label><br>
-                <select class="sidebar-dropdown" name="category" id="category" onchange="categoryLookup()">
+                <select class="sidebar-dropdown" id="category" onchange="categoryLookup()">
                     <option value="0">Filter By Category</option>
                     <?php foreach ($results as $row){ ?>
                             <option value="<?php echo $row['CATEGORYID']?>"><?php echo $row['DESCRIPTION'] ?></option>
@@ -155,10 +155,9 @@
 </body>
 </html>
 <script>
-    function categoryLookup ()
+    function categoryLookup()
     {
-        document.location = "../Controller/inventoryCasesInclude?action=displayCategory&CATEGORYID=" +
+        document.location = "../controller/controller.php?action=displayCategory&CATEGORYID=" +
                 $('#category').val();
     }
 </script>
-<?php
