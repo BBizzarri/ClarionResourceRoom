@@ -230,22 +230,22 @@ INSERT INTO `category` (`CategoryID`, `Description`) VALUES
 (1, 'Hygiene & Personal Care Items'),
 (2, 'Household Supplies'),
 (3, 'Linens'),
-(4, 'Breakfast Food'),
+(4, 'Breakfast Foods'),
 (5, 'Beverages'),
 (6, 'Meal Items'),
 (7, 'Pasta & Rice'),
 (8, 'Side Dishes'),
-(9, 'Soup'),
-(10, 'Fruit'),
+(9, 'Soups'),
+(10, 'Fruits'),
 (11, 'Snack Items'),
-(12, 'Canned Vegetables, Beans & Meat'),
+(12, 'Canned Vegetables, Beans & Meats'),
 (13, 'Condiments & Seasonings'),
-(14, 'Baking'),
+(14, 'Baking Supplies'),
 (15, 'Hair Care Products'),
 (16, 'Body Products'),
 (17, 'Face & Oral Hygiene Products'),
 (18, 'Feminine Hygiene Products'),
-(19, 'Clothing');
+(19, 'Clothing Items');
 COMMIT;
 
 INSERT INTO `product` (`ProductID`, `Name`, `Description`, `QtyOnHand`, `MaxOrderQty`, `GoalStock`) VALUES
