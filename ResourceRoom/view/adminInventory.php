@@ -8,33 +8,8 @@
         <div class="row row-alignment">
           <div class="column sidebar">
             <div class="sidebar-elements">
-                <label for="category">Category:</label><br>
-                <select class="sidebar-dropdown" id="category" onchange="categoryLookup()">
-                    <option value="0">Filter By Category</option>
-                    <?php foreach ($results as $row){ ?>
-                            <option value="<?php echo $row['CATEGORYID']?>"><?php echo $row['DESCRIPTION'] ?></option>
-                    <?php } ?>
-
-
-
-                  <!--<option value="Household Supplies">Household Supplies</option>
-                  <option value="Hygiene & Personal Care Items">Hygiene & Personal Care Items</option>
-                  <option value="Linens">Linens</option>
-                  <option value="Breakfast Foods">Breakfast Foods</option>
-                  <option value="Beverages">Beverages</option>
-                  <option value="Meal Items">Meal Items</option>
-                  <option value="Pasta & Rice">Pasta & Rice</option>
-                  <option value="Side Dishes">Side Dishes</option>
-                  <option value="Soup">Soup</option>
-                  <option value="Fruit">Fruit</option>
-                  <option value="Snack Items">Snack Items</option>
-                  <option value="Canned Vegetables, Beans, & Meats">Canned Vegetables, Beans, & Meats</option>
-                  <option value="Condiments & Seasonings">Condiments & Seasonings</option>
-                  <option value="Baking">Baking</option>-->
-                </select>
-            </div>
-            <div class="sidebar-elements">
                 <div class="incoming-textbox-div">
+                    <h3 class="sidebar-heading">Filter Options</h3>
                     <label for="qtyLessThan"> Quantity Less Than:</label><br>
                 </div>
                 <div class="incoming-textbox-div">
@@ -43,10 +18,30 @@
             </div>
             <div class="sidebar-elements">
                 <input type="checkbox" id="inactiveItems" name="inactiveItems" value="inactiveItems">
-                <label for="inactiveItems"> Show Inactive Items</label><br>
+                <label for="inactiveItems"> Include Inactive Items</label><br>
             </div>
             <div>
                 <button class="apply-button" type="button">Apply</button>
+            </div>
+            <hr class="hr-style">
+            <div class="sidebar-elements">
+                  <h3 class="sidebar-heading">Categories</h3>
+                  <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="category nav-link" href="#"><div class="container-fluid">Shopping List</div></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="category nav-link" href="#"><div class="container-fluid">All</div></a>
+                    </li>
+                    <li class="nav-item">
+                        <?php foreach ($CategoryResults as $CategoryRow) {
+                            ?>
+                            <a class="category nav-link" href="#"><div class="container-fluid"><?php echo htmlspecialchars($CategoryRow['DESCRIPTION']) ?></div></a>
+                            <?php
+                        }
+                        ?>
+                    </li>
+                  </ul>
             </div>
           </div>
           <div class="container column column-spacing">
@@ -65,12 +60,12 @@
                 <th>Incoming</th>
               </tr>
               <tr>
-                <td class="text-left">Strawberry Shampoo</td>
+                <td class="text-left">Ocean Breeze Shampoo</td>
                 <td class="text-right">1</td>
                 <td class="text-right">0</td>
                 <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
               </tr>
-              <tr>
+              <!--<tr>
                 <td class="text-left">Ocean Breeze Shampoo</td>
                 <td class="text-right">4</td>
                 <td class="text-right">5</td>
@@ -147,17 +142,11 @@
                 <td class="text-right">3</td>
                 <td class="text-right">5</td>
                 <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
+              </tr>-->
             </table>
           </div>
         </div>
     </section>
 </body>
 </html>
-<script>
-    function categoryLookup()
-    {
-        document.location = "../controller/controller.php?action=displayCategory&CATEGORYID=" +
-                $('#category').val();
-    }
-</script>
+<?php

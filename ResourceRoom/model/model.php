@@ -14,25 +14,6 @@
             return $db;
     }
 
-   function getCategory($categoryID)
-   {
-       try{
-           $db = getDBConnection();
-           $query = "SELECT * FROM category
-                   WHERE CATEGORYID = :categoryID";
-           $statement = $db->prepare($query);
-           $statement->execute();
-           $results = $statement->fetchAll();
-           $statement->closeCursor();
-           console_log($results);
-           return $result;
-       } catch (PDOException $e) {
-           $errorMessage = $e->getMessage();
-           include '../view/errorPage.php';
-           die;
-       }
-   }
-
     function logSQLError($errorInfo) {
         $errorMessage = $errorInfo[2];
         if (isset($_SESSION["UserName"])) {
@@ -57,14 +38,19 @@
         include '../view/errorPage.php';
     }
 
-
-
-
-
-
-    function console_log( $data ){
-      echo '<script>';
-      echo 'console.log('. json_encode( $data ) .')';
-      echo '</script>';
+    function getAllCategories() {
+        try {
+            $db = getDBConnection();
+            $query = "select * from category order by DESCRIPTION";
+            $statement = $db->prepare($query);
+            $statement->execute();
+            $results = $statement->fetchAll();
+            $statement->closeCursor();
+            return $results;           // Assoc Array of Rows
+        } catch (PDOException $e) {
+            $errorMessage = $e->getMessage();
+            include '../view/errorPage.php';
+            die;
+        }
     }
 ?>
