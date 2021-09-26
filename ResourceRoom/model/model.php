@@ -53,4 +53,45 @@
             die;
         }
     }
+
+        function getAllProducts() {
+            try {
+                $db = getDBConnection();
+                $query = "select * from product order by NAME";
+                $statement = $db->prepare($query);
+                $statement->execute();
+                $results = $statement->fetchAll();
+                $statement->closeCursor();
+                return $results;           // Assoc Array of Rows
+            } catch (PDOException $e) {
+                $errorMessage = $e->getMessage();
+                include '../view/errorPage.php';
+                die;
+            }
+        }
+
+        function getCategory($CATEGORYID)
+        {
+            try{
+                $db = getDBConnection();
+                $query = "select product.NAME, product.QTYONHAND, product.GOALSTOCK
+                          from product
+                          inner join productcategories on product.PRODUCTID = productcategories.PRODUCTID
+                          where productcategories.CATEGORYID = :CATEGORYID ";
+                $statement = $db->prepare($query);
+                $statement->bindValue(":CATEGORYID", $CATEGORYID);
+                $statement->execute();
+                $result = $statement->fetch();
+                $statement->closeCursor();
+                return $result;
+                echo '<script Type="javascript">alert("JavaScript Alert Box by PHP");</script>';
+            }
+            catch (Exception $ex)
+            {
+                $errorMessage = $e->getMessage();
+                include '../view/errorPage.php';
+                die;
+            }
+        }
+
 ?>

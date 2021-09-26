@@ -9,7 +9,7 @@ margin-left: 1px;
 table, th, td {
   border:1px solid black;
   font-size: 20px;
-  color: white;
+  color: black;
 }
 
 th {
@@ -26,10 +26,12 @@ table {
 
 .text-left {
  text-align: left;
+ padding-left: 10px;
 }
 
 .text-right {
  text-align: right
+ padding-right: 10px;
 }
 
 .incoming-textbox-div {

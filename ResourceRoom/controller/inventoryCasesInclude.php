@@ -5,7 +5,7 @@
 
     switch ($action) {
         case 'adminInventory':
-            displayCategories();
+             displayCategories();
             break;
         case 'adminOrders':
             include '../view/adminOrders.php';
@@ -19,16 +19,43 @@
         case 'adminShoppingList':
             include '../view/adminShoppingList.php';
             break;
+        case 'displaySelectedCategory':
+            retrieveCategory();
+            break;
     }
 
     function displayCategories()
     {
         $CategoryResults = getAllCategories();
+        $ProductResults = getAllProducts();
         if (count($CategoryResults) == 0) {
             $errorMessage = "No Categories found.";
             include '../view/errorPage.php';
         } else {
             include '../view/adminInventory.php';
+        }
+    }
+
+    function retrieveCategory()
+    {
+        $CATEGORYID = $_GET['CATEGORYID'];
+        if (!isset($CATEGORYID))
+        {
+            $errorMessage = 'You must provide a category ID to display';
+            include '../view/errorPage.php';
+        }
+        else
+        {
+            $SelectedCategoryResults = getCategory($CATEGORYID);
+            if ($SelectedCategoryResults == false)
+            {
+                $errorMessage = 'That category was not found';
+                include '../view/errorPage.php';
+            }
+            else
+            {
+                include '../view/adminInventoryCategories.php';
+            }
         }
     }
 

@@ -33,14 +33,14 @@
                     <li class="nav-item">
                         <a class="category nav-link" href="#"><div class="container-fluid">All</div></a>
                     </li>
-                    <li class="nav-item">
-                        <?php foreach ($CategoryResults as $CategoryRow) {
-                            ?>
-                            <a class="category nav-link" href="#"><div class="container-fluid"><?php echo htmlspecialchars($CategoryRow['DESCRIPTION']) ?></div></a>
-                            <?php
-                        }
-                        ?>
-                    </li>
+                    <?php foreach ($CategoryResults as $CategoryRow) {
+                    ?>
+                        <li class="nav-item">
+                            <a class="category nav-link" href="../Controller/Controller.php?action=displaySelectedCategory&CATEGORYID=<?php echo $CategoryRow['CATEGORYID'] ?>"><?php echo htmlspecialchars($CategoryRow['DESCRIPTION']) ?></a>
+                        </li>
+                    <?php
+                    }
+                    ?>
                   </ul>
             </div>
           </div>
@@ -53,96 +53,32 @@
                     <button type="button">Adjust All</button>
                 </div>
             <table>
-              <tr>
-                <th>Product</th>
+              <t<th>Product</th>
                 <th>On Hand</th>
                 <th>Goal Stock</th>
                 <th>Incoming</th>
               </tr>
-              <tr>
-                <td class="text-left">Ocean Breeze Shampoo</td>
-                <td class="text-right">1</td>
-                <td class="text-right">0</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
-              <!--<tr>
-                <td class="text-left">Ocean Breeze Shampoo</td>
-                <td class="text-right">4</td>
-                <td class="text-right">5</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
-              <tr>
-                <td class="text-left">Ocean Breeze Conditionor</td>
-                <td class="text-right">5</td>
-                <td class="text-right">5</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
-              <tr>
-                <td class="text-left">Topical Coconut Shampoo</td>
-                <td class="text-right">2</td>
-                <td class="text-right">5</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
-              <tr>
-                <td class="text-left">Topical Coconut Conditionor</td>
-                <td class="text-right">4</td>
-                <td class="text-right">5</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
-              <tr>
-                <td class="text-left">Dry Shampoo Spray</td>
-                <td class="text-right">6</td>
-                <td class="text-right">5</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
-              <tr>
-                <td class="text-left">Curling Cream</td>
-                <td class="text-right">0</td>
-                <td class="text-right">3</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
-              <tr>
-                <td class="text-left">Olive Oil Style Gel</td>
-                <td class="text-right">3</td>
-                <td class="text-right">3</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
-              <tr>
-                <td class="text-left">Hair Pick</td>
-                <td class="text-right">3</td>
-                <td class="text-right">4</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
-              <tr>
-                <td class="text-left">Lift and Style Comb</td>
-                <td class="text-right">4</td>
-                <td class="text-right">3</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
-              <tr>
-                <td class="text-left">Wide Tooth Comb</td>
-                <td class="text-right">0</td>
-                <td class="text-right">3</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
-              <tr>
-                <td class="text-left">Regular Comb</td>
-                <td class="text-right">2</td>
-                <td class="text-right">3</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
-              <tr>
-                <td class="text-left">Do Rag</td>
-                <td class="text-right">2</td>
-                <td class="text-right">3</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
-              <tr>
-                <td class="text-left">Night Bonnet</td>
-                <td class="text-right">3</td>
-                <td class="text-right">5</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>-->
+              <?php
+                          $i = 0;
+                          foreach($ProductResults as $ProductRow) {
+                          $i++;
+                      ?>
+                              <tr>
+                                  <td class="text-left">
+                                      <a href="#"><?php echo $ProductRow['NAME'] ?></a>
+                                  </td>
+                                  <td class="text-right">
+                                     <a href="#"><?php echo $ProductRow['QTYONHAND'] ?></a>
+                                </td>
+                                <td class="text-right">
+                                    <a href="#"><?php echo $ProductRow['GOALSTOCK'] ?></a>
+                                </td>
+                                <td>
+                                    <div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div>
+                                </td>
+                              </tr>
+
+                      <?php } ?>
             </table>
           </div>
         </div>
