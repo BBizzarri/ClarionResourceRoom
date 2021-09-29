@@ -8,26 +8,8 @@
         <div class="row row-alignment">
           <div class="column sidebar">
             <div class="sidebar-elements">
-                <label for="category">Category:</label><br>
-                <select class="sidebar-dropdown" name="category" id="category">
-                  <option value="Household Supplies">Household Supplies</option>
-                  <option value="Hygiene & Personal Care Items">Hygiene & Personal Care Items</option>
-                  <option value="Linens">Linens</option>
-                  <option value="Breakfast Foods">Breakfast Foods</option>
-                  <option value="Beverages">Beverages</option>
-                  <option value="Meal Items">Meal Items</option>
-                  <option value="Pasta & Rice">Pasta & Rice</option>
-                  <option value="Side Dishes">Side Dishes</option>
-                  <option value="Soup">Soup</option>
-                  <option value="Fruit">Fruit</option>
-                  <option value="Snack Items">Snack Items</option>
-                  <option value="Canned Vegetables, Beans, & Meats">Canned Vegetables, Beans, & Meats</option>
-                  <option value="Condiments & Seasonings">Condiments & Seasonings</option>
-                  <option value="Baking">Baking</option>
-                </select>
-            </div>
-            <div class="sidebar-elements">
                 <div class="incoming-textbox-div">
+                    <h3 class="sidebar-heading">Filter Options</h3>
                     <label for="qtyLessThan"> Quantity Less Than:</label><br>
                 </div>
                 <div class="incoming-textbox-div">
@@ -36,111 +18,74 @@
             </div>
             <div class="sidebar-elements">
                 <input type="checkbox" id="inactiveItems" name="inactiveItems" value="inactiveItems">
-                <label for="inactiveItems"> Show Inactive Items</label><br>
+                <label for="inactiveItems"> Include Inactive Items</label><br>
             </div>
             <div>
                 <button class="apply-button" type="button">Apply</button>
             </div>
+            <hr class="hr-style">
+            <div class="sidebar-elements">
+                  <h3 class="sidebar-heading">Categories</h3>
+                  <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="category nav-link" href="../Controller/Controller.php?action=displaySelectedCategory&Display=<?php echo 'All' ?>">All</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="category nav-link" href="#">Shopping List</a>
+                    </li>
+                    <?php foreach ($CategoryResults as $CategoryRow) {
+                    ?>
+                        <li class="nav-item">
+                            <a class="category nav-link " href="../Controller/Controller.php?action=displaySelectedCategory&CATEGORYID=<?php echo $CategoryRow['CATEGORYID']?>&DESCRIPTION=<?php echo $CategoryRow['DESCRIPTION']?>&Display=<?php echo 'category' ?>"><?php echo htmlspecialchars($CategoryRow['DESCRIPTION']) ?></a>
+                        </li>
+                    <?php
+                    }
+                    ?>
+                  </ul>
+            </div>
           </div>
           <div class="container column column-spacing">
                 <div class=" clarion-white table-heading table-heading-category">
-                    <label>All Categories</label>
+                    <label><?php echo $CategoryHeader ?></label>
                 </div>
                 <div class="table-heading table-heading-buttons">
                     <button type="button">Add New Item</button>
                     <button type="button">Adjust All</button>
                 </div>
-            <table>
-              <tr>
+            <table class="clarion-white">
                 <th>Product</th>
                 <th>On Hand</th>
                 <th>Goal Stock</th>
                 <th>Incoming</th>
               </tr>
-              <tr>
-                <td class="text-left">Strawberry Shampoo</td>
-                <td class="text-right">1</td>
-                <td class="text-right">0</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
-              <tr>
-                <td class="text-left">Ocean Breeze Shampoo</td>
-                <td class="text-right">4</td>
-                <td class="text-right">5</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
-              <tr>
-                <td class="text-left">Ocean Breeze Conditionor</td>
-                <td class="text-right">5</td>
-                <td class="text-right">5</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
-              <tr>
-                <td class="text-left">Topical Coconut Shampoo</td>
-                <td class="text-right">2</td>
-                <td class="text-right">5</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
-              <tr>
-                <td class="text-left">Topical Coconut Conditionor</td>
-                <td class="text-right">4</td>
-                <td class="text-right">5</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
-              <tr>
-                <td class="text-left">Dry Shampoo Spray</td>
-                <td class="text-right">6</td>
-                <td class="text-right">5</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
-              <tr>
-                <td class="text-left">Curling Cream</td>
-                <td class="text-right">0</td>
-                <td class="text-right">3</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
-              <tr>
-                <td class="text-left">Olive Oil Style Gel</td>
-                <td class="text-right">3</td>
-                <td class="text-right">3</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
-              <tr>
-                <td class="text-left">Hair Pick</td>
-                <td class="text-right">3</td>
-                <td class="text-right">4</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
-              <tr>
-                <td class="text-left">Lift and Style Comb</td>
-                <td class="text-right">4</td>
-                <td class="text-right">3</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
-              <tr>
-                <td class="text-left">Wide Tooth Comb</td>
-                <td class="text-right">0</td>
-                <td class="text-right">3</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
-              <tr>
-                <td class="text-left">Regular Comb</td>
-                <td class="text-right">2</td>
-                <td class="text-right">3</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
-              <tr>
-                <td class="text-left">Do Rag</td>
-                <td class="text-right">2</td>
-                <td class="text-right">3</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
-              <tr>
-                <td class="text-left">Night Bonnet</td>
-                <td class="text-right">3</td>
-                <td class="text-right">5</td>
-                <td><div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div></td>
-              </tr>
+              <?php
+                          $i = 0;
+                          foreach($ProductResults as $ProductRow) {
+                          $i++;
+                      ?>
+                              <tr>
+                                  <td class="text-left">
+                                      <a class="clarion-white" id="product" href="#"><?php echo $ProductRow['NAME'] ?></a>
+                                  </td>
+                                  <td class="text-right">
+                                     <?php echo $ProductRow['QTYONHAND'] ?>
+                                </td>
+                                <td class="text-right">
+                                    <?php echo $ProductRow['GOALSTOCK'] ?>
+                                </td>
+                                <td>
+                                    <form action="../Controller/Controller.php?action=processSingleStockAdjust&ProductID=<?php echo $ProductRow['PRODUCTID']?>&QTYOnHand=<?php echo $ProductRow['QTYONHAND']?>" method="post" enctype="multipart/form-data">
+                                        <div class="incoming-textbox-div">
+                                            <input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt">
+                                        </div>
+                                        <div class="adjust-button-div">
+                                            <input type="submit" value="Adjust Stock">
+                                        </div>
+                                    </form>
+                                </td>
+                              </tr>
+
+                      <?php } ?>
             </table>
           </div>
         </div>
