@@ -161,6 +161,7 @@ INSERT INTO functions (Name,Description) VALUES ('shopperCart', 'Where shoppers 
 INSERT INTO functions (Name,Description) VALUES ('shopperHome', 'where shoppers can select items that they would like to purchase');
 INSERT INTO functions (Name,Description) VALUES ('shopperOrders', 'where shoppers can view their current past and pending orders');
 INSERT INTO functions (Name,Description) VALUES ('displaySelectedCategory', 'Allows the admin to select different categories to only display certain ones in the admin inventory.');
+INSERT INTO functions (Name,Description) VALUES ('processSingleStockAdjust', 'Allows the admin to adjust individual stock amounts for products');
 
 
 
@@ -196,6 +197,7 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,23);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,24);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,25);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,29);
+INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,30);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,1);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,6);
