@@ -38,4 +38,60 @@
         $statement->closeCursor();            
         include '../view/errorPage.php';
     }
+
+    function getAllCategories() {
+        try {
+            $db = getDBConnection();
+            $query = "select * from category order by DESCRIPTION";
+            $statement = $db->prepare($query);
+            $statement->execute();
+            $results = $statement->fetchAll();
+            $statement->closeCursor();
+            return $results;           // Assoc Array of Rows
+        } catch (PDOException $e) {
+            $errorMessage = $e->getMessage();
+            include '../view/errorPage.php';
+            die;
+        }
+    }
+
+    function getAllProducts() {
+        try {
+            $db = getDBConnection();
+            $query = "select * from product order by NAME";
+            $statement = $db->prepare($query);
+            $statement->execute();
+            $results = $statement->fetchAll();
+            $statement->closeCursor();
+            return $results;           // Assoc Array of Rows
+        } catch (PDOException $e) {
+            $errorMessage = $e->getMessage();
+            include '../view/errorPage.php';
+            die;
+        }
+    }
+
+
+    function getByGeneralSearch($criteria) {
+        try {
+            $db = getDBConnection();
+            $query = 'SELECT *
+                            FROM product
+                            WHERE NAME LIKE :criteria OR 
+                            DESCRIPTION LIKE :criteria
+                            ORDER BY NAME';
+            $statement = $db->prepare($query);
+            $statement->bindValue(':criteria', "%$criteria%");
+            $statement->execute();
+            $results = $statement->fetchAll();
+            $statement->closeCursor();
+            return $results;           // Assoc Array of Rows
+        } catch (PDOException $e) {
+            $errorMessage = $e->getMessage();
+            include '../view/errorPage.php';
+            die;
+        }
+    }
+
+
 ?>

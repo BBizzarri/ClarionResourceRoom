@@ -7,10 +7,28 @@
             include '../view/shopperCart.php';
             break;
         case 'shopperHome':
-            include '../view/index.php';
+            listProducts();
             break;
         case 'shopperOrders':
             include '../view/shopperOrders.php';
             break;
     }
+
+
+
+function listProducts() {
+        $listType = filter_input(INPUT_GET, 'ListType');
+        if($listType =='GeneralSearch'){
+            $ProductResults = getByGeneralSearch($_GET['Criteria']);
+        } else {
+            $ProductResults = getAllProducts();
+        }
+        $CategoryResults = getAllCategories();
+        if (count($ProductResults) == 0) {
+            $errorMessage = "No Products found.";
+            include '../view/errorPage.php';
+        } else {
+            include '../view/index.php';
+        }
+}
 ?>

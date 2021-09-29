@@ -79,8 +79,8 @@
                         </li>
                     </ul>
                 <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn my-2 my-sm-0" type="submit">Search</button>
+                    <input class="form-control mr-sm-2" type="text" id="Criteria" placeholder="Search" aria-label="Search">
+                    <input class="btn my-2 my-sm-0" type="button" value="Search" onclick="generalSearch()"/>
                 </form>
             <div class="dropdown account-dropdown">
                 <button class="btn dropdown-toggle" type="button" data-toggle="dropdown"><img src="../Images/person-icon.png" alt="person" height="40px" width="40px"/></button>
