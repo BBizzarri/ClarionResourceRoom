@@ -8,19 +8,23 @@
         <div class="container-fluid">
             <div class ="row">
                 <div class="col-2 clarion-white">
-                    <div class="sticky-top">
-                        <h3>Pick A Category</h3>
-                    <?php foreach ($CategoryResults as $CategoryRow) {
-                        ?>
-                        <div class="container-fluid"><?php echo htmlspecialchars($CategoryRow['DESCRIPTION']) ?></div>
-                        <?php
-                    }
-                    ?>
+                    <div class="sidebar-elements">
+                        <h3 class="sidebar-heading">Categories</h3>
+                        <ul class="nav flex-column">
+                            <?php foreach ($CategoryResults as $CategoryRow) {
+                                ?>
+                                <li class="nav-item">
+                                    <a class="category nav-link " href="../Controller/controller.php?action=shopperHome&CATEGORYID=<?php echo $CategoryRow['CATEGORYID']?>&DESCRIPTION=<?php echo $CategoryRow['DESCRIPTION']?>&Display=<?php echo 'category' ?>"><?php echo htmlspecialchars($CategoryRow['DESCRIPTION']) ?></a>
+                                </li>
+                                <?php
+                            }
+                            ?>
+                        </ul>
                     </div>
                 </div>
                 <div class="col-10">
                     <div class="container-fluid">
-                        <h3>Selected Category</h3>
+                            <label><?php echo htmlspecialchars($CategoryHeader) ?></label>
                         <div class="row">
                             <?php foreach ($ProductResults as $ProductRow) {
                                 ?>
