@@ -71,6 +71,7 @@
 
     function displayStartingInventoryView()
     {
+        $CategoryHeader = 'All';
         $CategoryResults = getAllCategories();
         $ProductResults = getAllProducts();
         if (count($CategoryResults) == 0) {
