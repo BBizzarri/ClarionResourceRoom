@@ -4,7 +4,7 @@ CREATE DATABASE resourceroom;
 USE resourceroom;
 
 -- To create a user account for the database, run this script on your localhost/phpmyadmin in an SQL tab
-CREATE USER cis411 IDENTIFIED BY 'cis411';
+-- CREATE USER cis411 IDENTIFIED BY 'cis411';
 GRANT USAGE ON *.* TO cis411@localhost IDENTIFIED BY 'cis411';
 GRANT ALL PRIVILEGES ON resourceroom.* TO 'cis411'@'localhost';
 -- --------------------------------------------------------
@@ -51,7 +51,7 @@ CREATE TABLE ORDERS
 (   ORDERID                 INT AUTO_INCREMENT UNIQUE,
     USERID                  INT,
     ORDERDATE               DATE,
-    STATUS                  VARCHAR(20),
+    STATUS                  VARCHAR(30),
     DATEFILLED              DATE,
     COMMENT                 TEXT,
     CONSTRAINT ORDERS_PK PRIMARY KEY (ORDERID),
@@ -70,13 +70,12 @@ CREATE TABLE PRODUCT
     CONSTRAINT PRODUCT_PK PRIMARY KEY (PRODUCTID)
 );
 
-/*INTERSECTION TABLE BETWEEN ORDERS, PRODUCT, AND ADJUSTMENT_REASON*/
+/*INTERSECTION TABLE BETWEEN ORDERS, PRODUCT*/
 CREATE TABLE ORDERDETAILS
 (   ORDERID                 INT,
     PRODUCTID               INT,
     QTYREQUESTED            INT,
     QTYFILLED               INT,
-    REASONID                INT,
     CONSTRAINT ORDER_DETAILS_PK PRIMARY KEY (ORDERID, PRODUCTID),
     CONSTRAINT ORDERID_FK FOREIGN KEY (ORDERID) REFERENCES ORDERS (ORDERID),
     CONSTRAINT PRODUCTID_FK FOREIGN KEY (PRODUCTID) REFERENCES PRODUCT (PRODUCTID)
@@ -97,6 +96,40 @@ CREATE TABLE PRODUCTCATEGORIES
     CONSTRAINT CATEGORYS_ID_FK FOREIGN KEY (CATEGORYID) REFERENCES CATEGORY (CATEGORYID),
     CONSTRAINT PRODUCTS_ID_FK FOREIGN KEY (PRODUCTID) REFERENCES PRODUCT (PRODUCTID)
 );
+
+CREATE TABLE CART
+(
+    USERID                  INT,
+    PRODUCTID               INT,
+    QTYREQUESTED            INT,
+    MOSTRECENTDATE          DATE,
+    CONSTRAINT CART_PK PRIMARY KEY (USERID, PRODUCTID),
+    CONSTRAINT USER_ID_FK FOREIGN KEY (USERID) REFERENCES USERS (USERID),
+    CONSTRAINT PRODUCT_ID_FK FOREIGN KEY (PRODUCTID) REFERENCES PRODUCT (PRODUCTID)
+);
+
+
+CREATE TABLE SETTING
+(   SETTINGID               INT,
+    EmailAddresses          TEXT,
+    OrderReceivedText       TEXT,
+    OrderFilledText         TEXT,
+    PhotoDir                TEXT,
+    CONSTRAINT SETTING_PK PRIMARY KEY (SETTINGID)
+);
+
+
+-- Creates a View that generates the OnOrder amount for each product that is in a 'Submitted' order
+CREATE VIEW ONORDERVIEW AS
+    (SELECT OD.PRODUCTID, IFNULL(SUM(QTYREQUESTED),0) AS ONORDER
+        FROM ORDERDETAILS OD INNER JOIN ORDERS O ON OD.ORDERID = O.ORDERID AND O.STATUS = 'SUBMITTED'
+        GROUP BY OD.PRODUCTID);
+
+-- Create a Product View that includes QtyAvailable and OnOrder (Amount of product in orders that are requested but not filled)
+CREATE VIEW PRODUCTVEIW AS
+    (SELECT PRODUCT.PRODUCTID, PRODUCT.NAME, PRODUCT.DESCRIPTION, PRODUCT.QTYONHAND, PRODUCT.MAXORDERQTY, PRODUCT.GOALSTOCK,
+            IFNULL(ONORDER,0) AS ONORDER, IFNULL(PRODUCT.QTYONHAND - ONORDER, 0) AS QTYAVAILABLE
+            FROM PRODUCT LEFT OUTER JOIN ONORDERVIEW ON product.PRODUCTID = onorderview.PRODUCTID );
 
 
 INSERT INTO functions (Name,Description) VALUES ('SecurityManageUsers','Allows for reading users and interface to add, change, and delete.');
@@ -140,7 +173,8 @@ INSERT INTO users (FirstName,LastName,UserName,Password,Email) VALUES ('Jon','OD
 INSERT INTO users (FirstName,LastName,UserName,Password,Email) VALUES ('Bill','Updater','bill',SHA1('bill'),'bill@localhost');
 INSERT INTO users (FirstName,LastName,UserName,Password,Email) VALUES ('Joe','Reader','joe',SHA1('joe'),'joe@localhost');
 INSERT INTO users (FirstName,LastName,UserName,Password,Email) VALUES ('guest','guest','guest',SHA1('guest'),'guest@localhost');
-            
+INSERT INTO users (FirstName,LastName,UserName,Password,Email) VALUES ('cart','cart','cart',SHA1('cart'),'cart@localhost');
+
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,1);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,2);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,3);
@@ -198,28 +232,23 @@ INSERT INTO `category` (`CategoryID`, `Description`) VALUES
 (1, 'Hygiene & Personal Care Items'),
 (2, 'Household Supplies'),
 (3, 'Linens'),
-(4, 'Breakfast Food'),
+(4, 'Breakfast Foods'),
 (5, 'Beverages'),
 (6, 'Meal Items'),
 (7, 'Pasta & Rice'),
 (8, 'Side Dishes'),
-(9, 'Soup'),
-(10, 'Fruit'),
+(9, 'Soups'),
+(10, 'Fruits'),
 (11, 'Snack Items'),
-(12, 'Canned Vegetables, Beans & Meat'),
+(12, 'Canned Vegetables, Beans & Meats'),
 (13, 'Condiments & Seasonings'),
-(14, 'Baking'),
+(14, 'Baking Supplies'),
 (15, 'Hair Care Products'),
 (16, 'Body Products'),
 (17, 'Face & Oral Hygiene Products'),
-(18, 'Feminine Hygiene Products');
+(18, 'Feminine Hygiene Products'),
+(19, 'Clothing Items');
 COMMIT;
-
-/* !40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/* !40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/* !40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-
 
 INSERT INTO `product` (`ProductID`, `Name`, `Description`, `QtyOnHand`, `MaxOrderQty`, `GoalStock`) VALUES
 (1, 'Strawberry Shampoo', '', 1, 0, 0),
@@ -529,32 +558,6 @@ INSERT INTO `product` (`ProductID`, `Name`, `Description`, `QtyOnHand`, `MaxOrde
 (305, 'Baking Powder', '', 1, 0, 0),
 (306, 'Cheddar Bay Biscuit Mix', '', 1, 0, 0),
 (307, 'Angel Food cake mix: Box', '', 1, 0, 0);
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `product`
---
-/* ALTER TABLE `product`
-    ADD PRIMARY KEY (`ProductID`); */
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `product`
---
-/* ALTER TABLE `product`
-    MODIFY `ProductID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=308;
-COMMIT; */
-
-/* !40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/* !40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/* !40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
 
 INSERT INTO `productcategories` (`ProductID`, `CategoryID`) VALUES
 (1, 1),
@@ -917,11 +920,110 @@ INSERT INTO `productcategories` (`ProductID`, `CategoryID`) VALUES
 (51, 18);
 COMMIT;
 
-/* !40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/* !40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/* !40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+INSERT INTO `PRODUCT` (`ProductID`, `Name`, `Description`, `QtyOnHand`, `MaxOrderQty`, `GoalStock`) VALUES
+(1000, 'Blanket', 'Dark blue, fleece.  Approximately 50x50 inches', 1, 1, 0),  -- GoalStock = 0 (Temp item)
+(1001, 'Clear American Sparkling Water, Wild Cherry', '1 bottle, 33.8 fl oz', 10, 5, 5),
+(1002, 'Basmati Rice', '1 bag, 32 oz', 2, 1, 5),  -- QtyOnHand < GoalStock (On shopping List)
+(1003, 'Gluten Free Angel Hair Pasta', '1 box, 1lb', 4, 2, 10), -- QtyOnHand < GoalStock (On shopping List)
+(1004, 'Coat', 'Forever 21 Faux Fur Lined Womens Coat, size Xtra Large', 1, 1, 0), -- GoalStock = 0 (Temp item)
+(1005, 'Canned Dragon Fruit', '1 can, 12 oz', 9, 3, 5),
+(1006, 'Sugar', '1 bag, .5 lb', 6, 2, 8), -- QtyOnHand < GoalStock (On shopping List)
+(1007, 'Flour', '1 bag, .5 lb', 8, 1, 3),
+(1008, 'Curtains', 'Barbie Pink, Room darkening, 63"', 1, 1, 0), -- GoalStock = 0 (Temp item)
+(1009, 'Vienna Sausages', '1 can, 6 oz', 10, 15, 6),
+(1010, 'Ruler', '12 inch Ruler', 20, 3, 5),
+(1011, 'Black Tank Top', 'Womens Tank Tops, size Small, Medium, and Xtra Large Available.
+Please put size in comment box before ordering', 30, 5, 0), -- GoalStock = 0 (Temp item)
+(1012, 'Composition Notebooks', '1 Black, regular ruled notebook', 0, 5, 19),  -- QtyOnHand = 0, out of stock
+(1013, 'Canned Alfredo Pasta Sauce', '1 can, 24 oz', 0, 3, 10), -- QtyOnHand = 0, out of stock
+(1014, 'iPhone 10 case', 'blue with stars design, Otterbox', 0, 1, 0), -- inactive item
+(1015, 'Thinx Period Proof Underwear', 'black, size Medium, brief style', 1, 1, 0),  -- GoalStock = 0 (Temp item)
+(1016, 'Creamy Italian Wedding Soup', '12 oz can', 5, 8, 0),
+(1017, 'Suave 3-1 Shampoo, Body and Face Wash', '16 fl oz bottle, scent: ThunderBird Axe Attack', 3, 10, 15); -- QtyOnHand < GoalStock (On shopping List)
+COMMIT;
 
+INSERT INTO `ORDERS` (`ORDERID`, `USERID`, `ORDERDATE`, `STATUS`, `DATEFILLED`, `COMMENT`) VALUES
+(1, 1, '2021-08-29', 'COMPLETED', '2021-09-01', 'I am allergice to Nuts'),
+(2, 2, '2021-09-16', 'READY FOR PICKUP', '2021-09-17', ' '),
+(3, 1, '2021-09-18', 'SUBMITTED', '', 'I live off campus'),
+(4, 3, '2021-09-19', 'SUBMITTED', '', 'Size Xtra Large For the Tank Top');
+COMMIT;
 
+INSERT INTO `productcategories` (`ProductID`, `CategoryID`) VALUES
+(1000, 3),    -- Blanket in linens
+(1001, 5),    -- Water in Beverages
+(1002, 7),    -- Rice in Pasta & Rice
+(1003, 7),    -- Pasta in Pasta & Rice
+(1004, 19),   -- Coat in Clothing
+(1005, 10),   -- Dragon fruit in Fruit
+(1005, 11),   -- Dragon fruit in Snacks
+(1006, 14),   -- Sugar in Baking
+(1007, 14),   -- Flour in Baking
+(1008, 3),    -- Curtains in Linens
+(1009, 12),   -- Canned Sausage under Canned Meats
+(1010, 2),    -- Ruler in Household Supplies
+(1011, 19),   -- Tank Top in Clothing
+(1012, 2),    -- Notebook in Household Supplies
+(1013, 7),    -- Alfredo Sauce in Pasta & Rice
+(1014, 2),    -- Phone Case in Household Supplies
+(1015, 18),   -- Underwear in Feminine Hygiene Products
+(1015, 19),   -- Underwear in Clothing
+(1016, 9),    -- Italian Wedding in Soup
+(1017, 15),   -- Suave in Hair Care
+(1017, 16),   -- Suave in Body
+(1017, 17);   -- Suave in Face
+COMMIT;
 
+INSERT INTO `ORDERDETAILS` (`ORDERID`, `PRODUCTID`, `QTYREQUESTED`, `QTYFILLED`) VALUES
+-- Order 1, 5 different items, all items filled as requested, Order Complete
+(1, 1002, 1, 1),
+(1, 1003, 2, 2),
+(1, 1005, 2, 2),
+(1, 1009, 3, 3),
+(1, 1010, 1, 1),
+(1, 1012, 1, 1),
+-- Order 2, 8 different items, 2 items not filled as requested, Ready for Pickup
+(2, 1000, 1, 1),
+(2, 1001, 3, 3),
+(2, 1003, 1, 1),
+(2, 1005, 2, 2),
+(2, 1006, 2, 1),  -- Only received 1 bag of sugar
+(2, 1007, 1, 1),
+(2, 1009, 2, 2),
+(2, 1012, 4, 0),  -- Received no notebooks
+-- Order 3, 6 different items, Submitted (Not Filled) so QtyFilled = 0 for all items
+(3, 1000, 1, 0),
+(3, 1004, 1, 0),
+(3, 1005, 2, 0),
+(3, 1010, 3, 0),
+(3, 1016, 8, 0),  -- QtyRequested > Qty Available
+(3, 1017, 7, 0),  -- QtyRequested > Qty Available
+-- Order 4, 10 different items, Submitted (Not Filled) so QtyFilled = 0 for all items
+(4, 1001, 4, 0),
+(4, 1002, 1, 0),
+(4, 1003, 2, 0),
+(4, 1004, 1, 0), -- QtyAvailable < QtyRequested, Will not receive a coat
+(4, 1005, 2, 0),
+(4, 1006, 1, 0),
+(4, 1007, 1, 0),
+(4, 1009, 2, 0),
+(4, 1010, 1, 0),
+(4, 1011, 4, 0);
+COMMIT;
+
+INSERT INTO `CART` (`USERID`, `PRODUCTID`, `QTYREQUESTED`, `MOSTRECENTDATE`) VALUES
+(5, 1001, 6, 20210901),      -- QtyRequested > MaxOrderQty, can't be ordered as in cart
+(5, 1002, 1, 20210901),      -- No issues
+(5, 1003, 2, '2021-09-01'),  -- No issues
+(5, 1006, 1, 20200101),      -- Date is from 2020
+(5, 1009, 10, 20210907),     -- QtyRequested > QtyAvailable, can't be ordered as in cart
+(5, 1012, 4, 20210825);      -- QtyAvailable = 0, Item is out of stock
+COMMIT;
+
+INSERT INTO `SETTING` (SettingID, EmailAddresses, OrderReceivedText, OrderFilledText, PhotoDir) VALUES
+(1, 'mlkarg@clarion.edu, resourceroom@clarion.edu, admin@clarion.edu',
+ 'Hello!  We have received your order and will fill it as soon as we are able.  Once the order has been filled, another email will be sent to confirm pick up details.',
+ 'Hello!  Your order has been filled and can be picket up in Ralston Hall, Monday through Friday from 8am to 4pm.  In the entry way is a table.
+ Your order will be in a reusable shopping bag on the table. Please bring your order number to ensure you pick up the correct order.','');
 
 
