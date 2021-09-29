@@ -28,15 +28,15 @@
                   <h3 class="sidebar-heading">Categories</h3>
                   <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="category nav-link" href="#"><div class="container-fluid">Shopping List</div></a>
+                        <a class="category nav-link" href="../Controller/Controller.php?action=displaySelectedCategory&Display=<?php echo 'All' ?>">All</a>
                     </li>
                     <li class="nav-item">
-                        <a class="category nav-link" href="#"><div class="container-fluid">All</div></a>
+                        <a class="category nav-link" href="#">Shopping List</a>
                     </li>
                     <?php foreach ($CategoryResults as $CategoryRow) {
                     ?>
                         <li class="nav-item">
-                            <a class="category nav-link" href="../Controller/Controller.php?action=displaySelectedCategory&CATEGORYID=<?php echo $CategoryRow['CATEGORYID'] ?>"><?php echo htmlspecialchars($CategoryRow['DESCRIPTION']) ?></a>
+                            <a class="category nav-link " href="../Controller/Controller.php?action=displaySelectedCategory&CATEGORYID=<?php echo $CategoryRow['CATEGORYID']?>&DESCRIPTION=<?php echo $CategoryRow['DESCRIPTION']?>&Display=<?php echo 'category' ?>"><?php echo htmlspecialchars($CategoryRow['DESCRIPTION']) ?></a>
                         </li>
                     <?php
                     }
@@ -46,14 +46,14 @@
           </div>
           <div class="container column column-spacing">
                 <div class=" clarion-white table-heading table-heading-category">
-                    <label>All Categories</label>
+                    <label><?php echo $CategoryHeader ?></label>
                 </div>
                 <div class="table-heading table-heading-buttons">
                     <button type="button">Add New Item</button>
                     <button type="button">Adjust All</button>
                 </div>
-            <table>
-              <t<th>Product</th>
+            <table class="clarion-white">
+                <th>Product</th>
                 <th>On Hand</th>
                 <th>Goal Stock</th>
                 <th>Incoming</th>
@@ -65,16 +65,23 @@
                       ?>
                               <tr>
                                   <td class="text-left">
-                                      <a href="#"><?php echo $ProductRow['NAME'] ?></a>
+                                      <a class="clarion-white" id="product" href="#"><?php echo $ProductRow['NAME'] ?></a>
                                   </td>
                                   <td class="text-right">
-                                     <a href="#"><?php echo $ProductRow['QTYONHAND'] ?></a>
+                                     <?php echo $ProductRow['QTYONHAND'] ?>
                                 </td>
                                 <td class="text-right">
-                                    <a href="#"><?php echo $ProductRow['GOALSTOCK'] ?></a>
+                                    <?php echo $ProductRow['GOALSTOCK'] ?>
                                 </td>
                                 <td>
-                                    <div class="incoming-textbox-div"><input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt"></div><div class="adjust-button-div"><button type="button">Adjust Stock</button></div>
+                                    <form action="../Controller/Controller.php?action=processSingleStockAdjust&ProductID=<?php echo $ProductRow['PRODUCTID']?>&QTYOnHand=<?php echo $ProductRow['QTYONHAND']?>" method="post" enctype="multipart/form-data">
+                                        <div class="incoming-textbox-div">
+                                            <input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt">
+                                        </div>
+                                        <div class="adjust-button-div">
+                                            <input type="submit" value="Adjust Stock">
+                                        </div>
+                                    </form>
                                 </td>
                               </tr>
 

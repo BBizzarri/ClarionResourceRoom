@@ -9,7 +9,6 @@ margin-left: 1px;
 table, th, td {
   border:1px solid black;
   font-size: 20px;
-  color: black;
 }
 
 th {
@@ -95,6 +94,10 @@ table {
 .category {
     color: black;
 }
+
+category-background {
+    background-color: grey;
+}
 .category:hover {
     background-color: grey;
     color: black;
@@ -110,4 +113,7 @@ table {
 
 .sidebar-heading {
     margin-bottom: 20px;
+}
+#product:hover {
+    color:white;
 }
