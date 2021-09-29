@@ -1,4 +1,5 @@
 <?php
+
     function getDBConnection() {
             $dsn = 'mysql:host=localhost;dbname=resourceroom';
             $username = 'cis411';
@@ -127,5 +128,26 @@
           echo 'console.log('. json_encode( $data ) .')';
           echo '</script>';
         }
+
+        function getByGeneralSearch($criteria) {
+                try {
+                    $db = getDBConnection();
+                    $query = 'SELECT *
+                                    FROM product
+                                    WHERE NAME LIKE :criteria OR
+                                    DESCRIPTION LIKE :criteria
+                                    ORDER BY NAME';
+                    $statement = $db->prepare($query);
+                    $statement->bindValue(':criteria', "%$criteria%");
+                    $statement->execute();
+                    $results = $statement->fetchAll();
+                    $statement->closeCursor();
+                    return $results;           // Assoc Array of Rows
+                } catch (PDOException $e) {
+                    $errorMessage = $e->getMessage();
+                    include '../view/errorPage.php';
+                    die;
+                }
+            }
 
 ?>

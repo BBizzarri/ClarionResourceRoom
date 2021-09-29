@@ -9,6 +9,7 @@ margin-left: 1px;
 table, th, td {
   border:1px solid black;
   font-size: 20px;
+  color: white;
 }
 
 th {
@@ -46,6 +47,7 @@ table {
 
     background-color:white;
     width: 325px;
+    height: 100vh;
     float: left;
 }
 
@@ -72,7 +74,11 @@ table {
 }
 
 .container table {
-    margin: 0px 210px;
+    margin: 0 210px;
+}
+
+.container {
+    height: 100vh;
 }
 
 .table-heading {
@@ -116,4 +122,12 @@ category-background {
 }
 #product:hover {
     color:white;
+}
+
+.export-button {
+    margin-left: 431px;
+}
+
+.date-selection {
+    margin-left: 275px;
 }
