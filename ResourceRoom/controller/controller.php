@@ -13,7 +13,7 @@
         exit();
     }
 	
-    if (!userIsAuthorized($action)) {
+if (!userIsAuthorized($action)) {
         if(!loggedIn()) {
             header("Location:../security/index.php?action=SecurityLogin&RequestedPage=" . urlencode($_SERVER['REQUEST_URI']));
         } else {
