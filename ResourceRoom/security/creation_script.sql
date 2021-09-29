@@ -128,7 +128,7 @@ CREATE VIEW ONORDERVIEW AS
 -- Create a Product View that includes QtyAvailable and OnOrder (Amount of product in orders that are requested but not filled)
 CREATE VIEW PRODUCTVEIW AS
     (SELECT PRODUCT.PRODUCTID, PRODUCT.NAME, PRODUCT.DESCRIPTION, PRODUCT.QTYONHAND, PRODUCT.MAXORDERQTY, PRODUCT.GOALSTOCK,
-            IFNULL(ONORDER,0), IFNULL(PRODUCT.QTYONHAND - ONORDER, 0) AS QTYAVAILABLE
+            IFNULL(ONORDER,0) AS ONORDER, IFNULL(PRODUCT.QTYONHAND - ONORDER, 0) AS QTYAVAILABLE
             FROM PRODUCT LEFT OUTER JOIN ONORDERVIEW ON product.PRODUCTID = onorderview.PRODUCTID );
 
 
@@ -920,7 +920,7 @@ COMMIT;
 
 INSERT INTO `PRODUCT` (`ProductID`, `Name`, `Description`, `QtyOnHand`, `MaxOrderQty`, `GoalStock`) VALUES
 (1000, 'Blanket', 'Dark blue, fleece.  Approximately 50x50 inches', 1, 1, 0),  -- GoalStock = 0 (Temp item)
-(1001, 'Clear American Sparking Water, Wild Cherry', '1 bottle, 33.8 fl oz', 10, 5, 5),
+(1001, 'Clear American Sparkling Water, Wild Cherry', '1 bottle, 33.8 fl oz', 10, 5, 5),
 (1002, 'Basmati Rice', '1 bag, 32 oz', 2, 1, 5),  -- QtyOnHand < GoalStock (On shopping List)
 (1003, 'Gluten Free Angel Hair Pasta', '1 box, 1lb', 4, 2, 10), -- QtyOnHand < GoalStock (On shopping List)
 (1004, 'Coat', 'Forever 21 Faux Fur Lined Womens Coat, size Xtra Large', 1, 1, 0), -- GoalStock = 0 (Temp item)
