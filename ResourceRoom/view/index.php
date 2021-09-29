@@ -24,7 +24,7 @@
                         <div class="row">
                             <?php foreach ($ProductResults as $ProductRow) {
                                 ?>
-                            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 py-2">
+                            <div class="col-sm-6 col-md-4 col-lg-4 col-xl-2 py-3">
                                 <div class="card h-100">
                                     <div class="card-header">
                                         <img src="https://dummyimage.com/256x256/000/fff.jpg" class="card-img-top" alt="...">
@@ -33,8 +33,14 @@
                                         <h4 class="card-title"><?php echo htmlspecialchars($ProductRow['NAME']) ?></h4>
                                     </div>
                                     <div class="card-footer d-flex flex-column">
-                                        <input type="number" id="quantity" name="quantity" min="1" max="5">
-                                        <a href="#" class="btn btn-primary">Add To Cart</a>
+                                        <form id="card-form">
+                                            <div class="form-group row flex-column" id="shopperQuantityScroller">
+                                                <input type="number" id="quantity" name="quantity" min="1" max="5">
+                                            </div>
+                                            <div class="form-group row flex-column" id="shopperAddToCartButton">
+                                                <a href="#" id="<?php echo htmlspecialchars($ProductRow['PRODUCTID'])?>" onclick="addToCart(this);" class="btn btn-primary">Add To Cart</a>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
