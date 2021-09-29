@@ -197,6 +197,7 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,23);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,24);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,25);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,29);
+INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,30);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,1);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,6);
