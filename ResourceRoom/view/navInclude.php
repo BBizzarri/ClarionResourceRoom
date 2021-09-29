@@ -80,7 +80,7 @@
                     </ul>
                 <form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="text" id="Criteria" placeholder="Search" aria-label="Search">
-                    <input class="btn my-2 my-sm-0" type="button" value="Search" onclick="generalSearch()"/>
+                    <input class="btn my-2 my-sm-0" id="searchButton"type="button" value="Search" onclick="generalSearch();"/>
                 </form>
             <div class="dropdown account-dropdown">
                 <button class="btn dropdown-toggle" type="button" data-toggle="dropdown"><img src="../Images/person-icon.png" alt="person" height="40px" width="40px"/></button>
