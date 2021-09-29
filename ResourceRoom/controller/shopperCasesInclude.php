@@ -7,14 +7,34 @@
             include '../view/shopperCart.php';
             break;
         case 'shopperHome':
-            listProducts();
+            displayProducts();
             break;
         case 'shopperOrders':
             include '../view/shopperOrders.php';
             break;
     }
 
-
+    function displayProducts()
+    {
+        $CategoryResults = getAllCategories();
+        $CurrentCategory = $CategoryResults[0]['DESCRIPTION'];
+        $shopperCategoryID = $CategoryResults[0]['CATEGORYID'];
+        if(isset($_GET['CATEGORYID'])) {
+            $shopperCategoryID = $_GET['CATEGORYID'];
+            $CurrentCategory = $_GET['DESCRIPTION'];
+        }
+        $CategoryHeader = $CurrentCategory;
+        $ProductResults = getCategory($shopperCategoryID);
+            if ($ProductResults == false)
+            {
+                $errorMessage = 'That category was not found';
+                include '../view/errorPage.php';
+            }
+               else
+               {
+                   include '../view/index.php';
+               }
+    }
 
 function listProducts() {
         $listType = filter_input(INPUT_GET, 'ListType');
