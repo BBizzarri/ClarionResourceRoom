@@ -45,7 +45,6 @@ table {
 .sidebar {
     background-color:white;
     width: 325px;
-    height: 100vh;
     float: left;
 }
 
@@ -73,10 +72,6 @@ table {
 
 .container table {
     margin: 0 210px;
-}
-
-.container {
-    height: 100vh;
 }
 
 .table-heading {
