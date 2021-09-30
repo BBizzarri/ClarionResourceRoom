@@ -5,7 +5,7 @@ CREATE DATABASE resourceroom;
 USE resourceroom;
 
 -- To create a user account for the database, run this script on your localhost/phpmyadmin in an SQL tab
-CREATE USER cis411 IDENTIFIED BY 'cis411';
+-- CREATE USER cis411 IDENTIFIED BY 'cis411';
 GRANT USAGE ON *.* TO cis411@localhost IDENTIFIED BY 'cis411';
 GRANT ALL PRIVILEGES ON resourceroom.* TO 'cis411'@'localhost';
 -- --------------------------------------------------------
@@ -1091,6 +1091,7 @@ INSERT INTO functions (Name,Description) VALUES ('shopperOrders', 'where shopper
 INSERT INTO functions (Name,Description) VALUES ('displaySelectedCategory', 'Allows the admin to select different categories to only display certain ones in the admin inventory.');
 INSERT INTO functions (Name,Description) VALUES ('processSingleStockAdjust', 'Allows the admin to adjust individual stock amounts for products');
 INSERT INTO functions (Name,Description) VALUES ('processAddToCart', 'Processes adding product to cart');
+INSERT INTO functions (Name,Description) VALUES ('processRemoveFromCart', 'Processes removing product from cart');
 
 
 

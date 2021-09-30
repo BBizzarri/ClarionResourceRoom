@@ -93,6 +93,7 @@
             }
         }
 
+
         function addToCart($PRODUCTID, $QTYREQUESTED, $MostRecentDate)
         {
             $USERID = getUserID();
@@ -116,6 +117,28 @@
                 logSQLError($statement->errorInfo());
             }
         }
+
+    function removeFromCart($PRODUCTID)
+    {
+        $USERID = getUserID();
+        $db = getDBConnection();
+        $query = 'DELETE FROM cart WHERE (USERID = :USERID) AND (PRODUCTID = :PRODUCTID)
+                    VALUES (:USERID, :PRODUCTID)';
+        $statement = $db->prepare($query);
+        $statement->bindValue(':USERID', $USERID);
+        $statement->bindValue(':PRODUCTID', $PRODUCTID);
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success)
+        {
+
+            return $statement->rowCount();
+        }
+        else
+        {
+            logSQLError($statement->errorInfo());
+        }
+    }
 
         function getCategory($CATEGORYID)
         {

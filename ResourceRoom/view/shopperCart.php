@@ -46,15 +46,15 @@
                                                 <h4 class="card-title"><?php echo htmlspecialchars($ProductRow['NAME']) ?></h4>
                                             </div>
                                             <div class="card-footer d-flex flex-column">
-                                                <form id="card-form">
-                                                    <div class="form-group row flex-column" id="shopperAddToCartButton">
-                                                        <input type="number" id="quantity_<?php echo htmlspecialchars($ProductRow['PRODUCTID'])?>" name="quantity" min="1" max="<?php echo htmlspecialchars($ProductRow['QTYONHAND'])?>">
-                                                        <script>
-                                                            document.getElementById("quantity_<?php echo htmlspecialchars($ProductRow['PRODUCTID'])?>").defaultValue = "<?php echo htmlspecialchars($ProductRow['QTYREQUESTED'])?>"
-                                                        </script>
-                                                        <a href="#" id="addToCart_<?php echo htmlspecialchars($ProductRow['PRODUCTID'])?>" onclick="addToCart(this);" style="margin-top: 5px" class="btn btn-primary">Remove Item</a>
+                                                <form id="card-form" action="../controller/controller.php?action=shopperRemoveFromCart&ProductID=<?php echo $ProductRow['PRODUCTID']?>" method="post" enctype="multipart/form-data">
+                                                    <div class="form-group row flex-column" id="shopperRemoveFromCartButton">
+                                                        <input type="number" id="QTYRequested" name="QTYRequested" min="1" max="<?php echo htmlspecialchars($ProductRow['QTYONHAND'])?>">
+                                                        <input type="submit" class="btn btn-primary" value="Remove From Cart">
                                                     </div>
                                                 </form>
+                                                <script>
+                                                    document.getElementById("quantity_<?php echo htmlspecialchars($ProductRow['PRODUCTID'])?>").defaultValue = "<?php echo htmlspecialchars($ProductRow['QTYREQUESTED'])?>"
+                                                </script>
                                             </div>
                                         </div>
                                     </div>

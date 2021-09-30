@@ -15,6 +15,9 @@
         case 'processAddToCart':
             processAddToCart();
             break;
+        case 'shopperRemoveFromCart':
+            processRemoveFromCart();
+            break;
     }
 
     function displayProducts()
@@ -65,6 +68,22 @@
         else
         {
             $rowsAffected = addToCart($PRODUCTID, $QTYREQUESTED, $MostRecentDate);
+        }
+        header("Location: {$_SERVER['HTTP_REFERER']}");
+    }
+
+    function processRemoveFromCart()
+    {
+        $PRODUCTID = $_GET['ProductID'];
+        //Validations
+        $errors = "";
+        if($errors != "")
+        {
+            include '../view/shopperCart.php';
+        }
+        else
+        {
+            $rowsAffected = removeFromCart($PRODUCTID);
         }
         header("Location: {$_SERVER['HTTP_REFERER']}");
     }
