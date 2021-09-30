@@ -58,7 +58,7 @@
         function getAllProducts() {
             try {
                 $db = getDBConnection();
-                $query = "select * from productveiw order by NAME";
+                $query = "select * from productview order by NAME";
                 $statement = $db->prepare($query);
                 $statement->execute();
                 $results = $statement->fetchAll();
@@ -76,8 +76,8 @@
             try{
                 $db = getDBConnection();
                 $query = "select *
-                          from product
-                          inner join productcategories on product.PRODUCTID = productcategories.PRODUCTID
+                          from productview
+                          inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
                           where productcategories.CATEGORYID = :CATEGORYID ";
                 $statement = $db->prepare($query);
                 $statement->bindValue(":CATEGORYID", $CATEGORYID);
@@ -106,7 +106,7 @@
                 $QTYONHAND = $QTYONHAND + $INCOMINGAMT;
            }
            $db = getDBConnection();
-           $query = "update product set QTYONHAND = :QTYONHAND where PRODUCTID = :PRODUCTID";
+           $query = "update productview set QTYONHAND = :QTYONHAND where PRODUCTID = :PRODUCTID";
            $statement = $db->prepare($query);
            $statement->bindValue(':PRODUCTID', $PRODUCTID);
            $statement->bindValue(':QTYONHAND', $QTYONHAND);
@@ -133,7 +133,7 @@
                 try {
                     $db = getDBConnection();
                     $query = 'SELECT *
-                                    FROM productveiw
+                                    FROM productview
                                     WHERE NAME LIKE :criteria OR
                                     DESCRIPTION LIKE :criteria
                                     ORDER BY NAME';
