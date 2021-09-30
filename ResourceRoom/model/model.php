@@ -122,8 +122,7 @@
     {
         $USERID = getUserID();
         $db = getDBConnection();
-        $query = 'DELETE FROM cart WHERE (USERID = :USERID) AND (PRODUCTID = :PRODUCTID)
-                    VALUES (:USERID, :PRODUCTID)';
+        $query = 'DELETE FROM cart WHERE (USERID = :USERID) AND (PRODUCTID = :PRODUCTID)';
         $statement = $db->prepare($query);
         $statement->bindValue(':USERID', $USERID);
         $statement->bindValue(':PRODUCTID', $PRODUCTID);

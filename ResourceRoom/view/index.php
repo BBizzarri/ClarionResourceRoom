@@ -39,10 +39,13 @@
                                     <div class="card-footer d-flex flex-column">
                                         <form id="card-form" action="../controller/controller.php?action=processAddToCart&ProductID=<?php echo $ProductRow['PRODUCTID']?>" method="post" enctype="multipart/form-data">
                                             <div class="form-group row flex-column" id="shopperAddToCartButton">
-                                                <input type="number" id="QTYRequested" name="QTYRequested" min="1" max="<?php echo htmlspecialchars($ProductRow['QTYONHAND'])?>">
+                                                <input type="number" id="quantity_<?php echo htmlspecialchars($ProductRow['PRODUCTID'])?>" name="QTYRequested" min="1" max="<?php echo htmlspecialchars($ProductRow['QTYONHAND'])?>">
                                                 <input type="submit" class="btn btn-primary" value="Add To Cart">
                                             </div>
                                         </form>
+                                        <script>
+                                            document.getElementById("quantity_<?php echo htmlspecialchars($ProductRow['PRODUCTID'])?>").defaultValue = "1"
+                                        </script>
                                     </div>
                                 </div>
                             </div>
