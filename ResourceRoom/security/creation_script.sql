@@ -1090,6 +1090,7 @@ INSERT INTO functions (Name,Description) VALUES ('shopperHome', 'where shoppers 
 INSERT INTO functions (Name,Description) VALUES ('shopperOrders', 'where shoppers can view their current past and pending orders');
 INSERT INTO functions (Name,Description) VALUES ('displaySelectedCategory', 'Allows the admin to select different categories to only display certain ones in the admin inventory.');
 INSERT INTO functions (Name,Description) VALUES ('processSingleStockAdjust', 'Allows the admin to adjust individual stock amounts for products');
+INSERT INTO functions (Name,Description) VALUES ('processAddToCart', 'Processes adding product to cart');
 
 
 
