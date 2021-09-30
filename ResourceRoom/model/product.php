@@ -8,4 +8,5 @@ class product
     public $QtyOnHand;
     public $MaxOrderQty;
     public $GoalStock;
+    // add on order and available
 }

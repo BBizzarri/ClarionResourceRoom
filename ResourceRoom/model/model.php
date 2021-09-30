@@ -58,7 +58,7 @@
         function getAllProducts() {
             try {
                 $db = getDBConnection();
-                $query = "select * from product order by NAME";
+                $query = "select * from productveiw order by NAME";
                 $statement = $db->prepare($query);
                 $statement->execute();
                 $results = $statement->fetchAll();
@@ -133,7 +133,7 @@
                 try {
                     $db = getDBConnection();
                     $query = 'SELECT *
-                                    FROM product
+                                    FROM productveiw
                                     WHERE NAME LIKE :criteria OR
                                     DESCRIPTION LIKE :criteria
                                     ORDER BY NAME';
