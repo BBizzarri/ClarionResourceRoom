@@ -7,7 +7,7 @@
     <section id="main" class="clarion-blue">
         <div class="container-fluid">
             <div class ="row">
-                <div class="col-2 clarion-white">
+                <div class="col-2 sidebar">
                     <div class="sidebar-elements">
                         <h3 class="sidebar-heading">Categories</h3>
                         <ul class="nav flex-column">
@@ -24,7 +24,7 @@
                 </div>
                 <div class="col-10">
                     <div class="container-fluid">
-                            <label><?php echo htmlspecialchars($CategoryHeader) ?></label>
+                        <h3 class="category-heading"><?php echo htmlspecialchars($CategoryHeader)?></h3>
                         <div class="row">
                             <?php foreach ($ProductResults as $ProductRow) {
                                 ?>

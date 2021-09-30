@@ -27,6 +27,9 @@ header, nav, section, footer {
 .account-dropdown {
     padding-left: 30px;
 }
+.category-heading{
+    color: white;
+}
 
 .vl {
   border-left: 6px solid #003366;
