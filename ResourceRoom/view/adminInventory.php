@@ -23,7 +23,7 @@
             <div>
                 <button class="apply-button" type="button">Apply</button>
             </div>
-            <hr class="hr-style">
+            <hr class="sidebar-seperator">
             <div class="sidebar-elements">
                   <h3 class="sidebar-heading">Categories</h3>
                   <ul class="nav flex-column">
