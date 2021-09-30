@@ -14,7 +14,7 @@
                             <?php foreach ($CategoryResults as $CategoryRow) {
                                 ?>
                                 <li class="nav-item">
-                                    <a class="category nav-link " href="../Controller/controller.php?action=shopperHome&CATEGORYID=<?php echo $CategoryRow['CATEGORYID']?>&DESCRIPTION=<?php echo $CategoryRow['DESCRIPTION']?>&Display=<?php echo 'category' ?>"><?php echo htmlspecialchars($CategoryRow['DESCRIPTION']) ?></a>
+                                    <a class="category nav-link " href="../controller/controller.php?action=shopperHome&CATEGORYID=<?php echo $CategoryRow['CATEGORYID']?>&DESCRIPTION=<?php echo $CategoryRow['DESCRIPTION']?>&Display=<?php echo 'category' ?>"><?php echo htmlspecialchars($CategoryRow['DESCRIPTION']) ?></a>
                                 </li>
                                 <?php
                             }
@@ -37,12 +37,10 @@
                                         <h4 class="card-title"><?php echo htmlspecialchars($ProductRow['NAME']) ?></h4>
                                     </div>
                                     <div class="card-footer d-flex flex-column">
-                                        <form id="card-form">
-                                            <div class="form-group row flex-column" id="shopperQuantityScroller">
-                                                <input type="number" id="quantity" name="quantity" min="1" max="5">
-                                            </div>
+                                        <form id="card-form" action="../controller/controller.php?action=processAddToCart&ProductID=<?php echo $ProductRow['PRODUCTID']?>" method="post" enctype="multipart/form-data">
                                             <div class="form-group row flex-column" id="shopperAddToCartButton">
-                                                <a href="#" id="<?php echo htmlspecialchars($ProductRow['PRODUCTID'])?>" onclick="addToCart(this);" class="btn btn-primary">Add To Cart</a>
+                                                <input type="number" id="QTYRequested" name="QTYRequested" min="1" max="<?php echo htmlspecialchars($ProductRow['QTYONHAND'])?>">
+                                                <input type="submit" class="btn btn-primary" value="Add To Cart">
                                             </div>
                                         </form>
                                     </div>

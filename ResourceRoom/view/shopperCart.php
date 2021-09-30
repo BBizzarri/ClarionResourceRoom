@@ -35,27 +35,32 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <?php
-                                for ($x = 0; $x <= 11; $x++) {
-                                ?>
-                                <div class = "col-sm-6 col-md-4 col-lg-3 col-xl-2 py-2">
-                                    <div class="card h-100">
-                                        <div class="card-header">
-                                            <img src="https://dummyimage.com/256x256/000/fff.jpg" class="card-img-top" alt="...">
+                                <?php foreach ($ProductResults as $ProductRow) {
+                                    ?>
+                                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-2 py-3">
+                                        <div class="card h-100">
+                                            <div class="card-header">
+                                                <img src="https://dummyimage.com/256x256/000/fff.jpg" class="card-img-top" alt="...">
+                                            </div>
+                                            <div class="card-body">
+                                                <h4 class="card-title"><?php echo htmlspecialchars($ProductRow['NAME']) ?></h4>
+                                            </div>
+                                            <div class="card-footer d-flex flex-column">
+                                                <form id="card-form">
+                                                    <div class="form-group row flex-column" id="shopperAddToCartButton">
+                                                        <input type="number" id="quantity_<?php echo htmlspecialchars($ProductRow['PRODUCTID'])?>" name="quantity" min="1" max="<?php echo htmlspecialchars($ProductRow['QTYONHAND'])?>">
+                                                        <script>
+                                                            document.getElementById("quantity_<?php echo htmlspecialchars($ProductRow['PRODUCTID'])?>").defaultValue = "<?php echo htmlspecialchars($ProductRow['QTYREQUESTED'])?>"
+                                                        </script>
+                                                        <a href="#" id="addToCart_<?php echo htmlspecialchars($ProductRow['PRODUCTID'])?>" onclick="addToCart(this);" style="margin-top: 5px" class="btn btn-primary">Remove Item</a>
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
-                                        <div class="card-body">
-                                          <h4 class="card-title">Title</h4>
-                                            <p class="card-text">Description</p>
-                                        </div>
-                                        <div class="card-footer d-flex flex-column">
-                                            <input type="number" id="quantity" name="quantity" min="1" max="5">
-                                            <a href="#" class="btn btn-primary" style="margin-top: 5px">Remove Item</a>
-                                         </div>
                                     </div>
-                                </div>
-                        <?php
-                        }
-                        ?>
+                                    <?php
+                                }
+                                ?>
                             </div>
                             <div class="row" style="float: right">
                                 <a href ="#" class="btn btn-primary" style="background-color: white; border-color: #97824A; border-width: 2px; color: #003366; width: 150px; height: 40px; margin-top: 25px; margin-right: 15px">Submit Order</a>

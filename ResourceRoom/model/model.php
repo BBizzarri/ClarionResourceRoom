@@ -70,6 +70,52 @@
                 die;
             }
         }
+        function getCart($USERID)
+        {
+            try{
+                $db = getDBConnection();
+                $query = "select *
+                          from productview
+                          inner join cart on productview.PRODUCTID = cart.PRODUCTID
+                          where cart.USERID = :USERID";
+                $statement = $db->prepare($query);
+                $statement->bindValue(":USERID", $USERID);
+                $statement->execute();
+                $result = $statement->fetchAll();
+                $statement->closeCursor();
+                return $result;
+            }
+            catch (Exception $ex)
+            {
+                $errorMessage = $e->getMessage();
+                include '../view/errorPage.php';
+                die;
+            }
+        }
+
+        function addToCart($PRODUCTID, $QTYREQUESTED, $MostRecentDate)
+        {
+            $USERID = getUserID();
+            $db = getDBConnection();
+            $query = 'INSERT INTO cart (UserID, PRODUCTID, QTYREQUESTED, MOSTRECENTDATE)
+                VALUES (:USERID, :PRODUCTID, :QTYREQUESTED, :MOSTRECENTDATE)';
+            $statement = $db->prepare($query);
+            $statement->bindValue(':USERID', $USERID);
+            $statement->bindValue(':PRODUCTID', $PRODUCTID);
+            $statement->bindValue(':QTYREQUESTED', $QTYREQUESTED);
+            $statement->bindValue(':MOSTRECENTDATE', $MostRecentDate);
+            $success = $statement->execute();
+            $statement->closeCursor();
+            if($success)
+            {
+
+                return $statement->rowCount();
+            }
+            else
+            {
+                logSQLError($statement->errorInfo());
+            }
+        }
 
         function getCategory($CATEGORYID)
         {
@@ -129,6 +175,10 @@
           echo '</script>';
         }
 
+        function getUserID(){
+            return $_SESSION["UserID"];
+}
+
         function getByGeneralSearch($criteria) {
                 try {
                     $db = getDBConnection();
@@ -149,5 +199,4 @@
                     die;
                 }
             }
-
 ?>

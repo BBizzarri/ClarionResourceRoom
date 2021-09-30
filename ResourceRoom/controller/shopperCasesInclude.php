@@ -4,13 +4,16 @@
     // The purpose is to separate the shopper actions from the back-end inventory actions to help version control.
     switch ($action) {
         case 'shopperCart':
-            include '../view/shopperCart.php';
+            displayCart();
             break;
         case 'shopperHome':
             displayProducts();
             break;
         case 'shopperOrders':
             include '../view/shopperOrders.php';
+            break;
+        case 'processAddToCart':
+            processAddToCart();
             break;
     }
 
@@ -40,4 +43,28 @@
                {
                    include '../view/index.php';
                }
+    }
+    function displayCart()
+    {
+        $USERID = getUserID();
+        $ProductResults = getCart($USERID);
+        include '../view/shopperCart.php';
+    }
+
+    function processAddToCart()
+    {
+        $PRODUCTID = $_GET['ProductID'];
+        $QTYREQUESTED = $_POST['QTYRequested'];
+        $MostRecentDate = date("Y/m/d");
+        //Validations
+        $errors = "";
+        if($errors != "")
+        {
+            include '../view/adminInventory.php';
+        }
+        else
+        {
+            $rowsAffected = addToCart($PRODUCTID, $QTYREQUESTED, $MostRecentDate);
+        }
+        header("Location: {$_SERVER['HTTP_REFERER']}");
     }
