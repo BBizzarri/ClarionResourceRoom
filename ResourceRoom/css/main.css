@@ -27,3 +27,8 @@ header, nav, section, footer {
 .account-dropdown {
     padding-left: 30px;
 }
+
+.vl {
+  border-left: 6px solid #003366;
+  height: 50px;
+}
