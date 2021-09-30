@@ -9,7 +9,6 @@ margin-left: 1px;
 table, th, td {
   border:1px solid black;
   font-size: 20px;
-  color: white;
 }
 
 th {
@@ -26,14 +25,17 @@ table {
 
 .text-left {
  text-align: left;
+ padding-left: 10px;
 }
 
 .text-right {
- text-align: right
+ text-align: right;
+ padding-right: 10px;
 }
 
 .incoming-textbox-div {
  display: inline-block;
+ padding-top: 10px;
 }
 
 .incoming-textbox {
@@ -41,8 +43,21 @@ table {
 }
 
 .sidebar {
+    background-color:white;
+    width: 325px;
+    float: left;
+}
+
+.sidebar-elements {
+    margin-left: 10px;
+    padding-bottom: 15px;
+}
+
+.sidebar-dropdown {
+ width: 305px;
  background-color:white;
- width: 200px;
+ width: 300px;
+
 }
 
 .adjust-button-div {
@@ -51,4 +66,61 @@ table {
      font-size: 16px;
 }
 
+.apply-button {
+    margin-left: 125px;
+}
 
+.container table {
+    margin: 0 210px;
+}
+
+.table-heading {
+    width: 100px;
+    float: left;
+    margin: 10px;
+}
+
+.table-heading-category {
+    font-size: 20px;
+    padding-left: 200px;
+
+}
+
+.table-heading-buttons {
+    float: right;
+}
+
+.category {
+    color: black;
+}
+
+category-background {
+    background-color: grey;
+}
+.category:hover {
+    background-color: grey;
+    color: black;
+}
+
+.sidebar-seperator {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-width: 3px;
+    border-color: #003366;
+}
+
+.sidebar-heading {
+    margin-bottom: 20px;
+}
+#product:hover {
+    color:white;
+}
+
+.export-button {
+    margin-left: 431px;
+}
+
+.date-selection {
+    margin-left: 275px;
+}

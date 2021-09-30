@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,13 +14,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
     <script src="../js/main.js"></script>
+
 </head>
 <body>
 <div class="container-fluid">
     <header class="center">
         <h1>Resource Room</h1>
     </header>
-    
+
     <?php
         require_once '../view/navInclude.php';
     ?>

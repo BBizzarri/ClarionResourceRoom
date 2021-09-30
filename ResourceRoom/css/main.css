@@ -8,30 +8,6 @@ header, nav, section, footer {
     clear: both;
 }
 
-@media (min-width: 576px) {
-    .card-columns {
-        column-count: 2;
-    }
-}
-
-@media (min-width: 768px) {
-    .card-columns {
-        column-count: 3;
-    }
-}
-
-@media (min-width: 992px) {
-    .card-columns {
-        column-count: 4;
-    }
-}
-
-@media (min-width: 1200px) {
-    .card-columns {
-        column-count: 6;
-    }
-}
-
 .account-dropdown {
     padding-left: 10px;
 }
@@ -51,3 +27,12 @@ header, nav, section, footer {
 .account-dropdown {
     padding-left: 30px;
 }
+.category-heading{
+    color: white;
+}
+
+.vl {
+  border-left: 6px solid #003366;
+  height: 50px;
+}
+hr {width: 50px; color: #97824A}
