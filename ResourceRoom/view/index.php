@@ -26,7 +26,7 @@
                     <div class="container-fluid">
                         <h3 class="category-heading"><?php echo htmlspecialchars($CategoryHeader)?></h3>
                         <div class="row">
-                            <?php foreach ($ProductResults as $ProductRow) {
+                            <?php foreach ($ProductArray as $product) {
                                 ?>
                             <div class="col-sm-6 col-md-4 col-lg-4 col-xl-2 py-3">
                                 <div class="card h-100">
@@ -34,17 +34,17 @@
                                         <img src="https://dummyimage.com/256x256/000/fff.jpg" class="card-img-top" alt="...">
                                     </div>
                                     <div class="card-body">
-                                        <h4 class="card-title"><?php echo htmlspecialchars($ProductRow['NAME']) ?></h4>
+                                        <h4 class="card-title"><?php echo htmlspecialchars($product->getProductName())?></h4>
                                     </div>
                                     <div class="card-footer d-flex flex-column">
-                                        <form id="card-form" action="../controller/controller.php?action=processAddToCart&ProductID=<?php echo $ProductRow['PRODUCTID']?>" method="post" enctype="multipart/form-data">
+                                        <form id="card-form" action="../controller/controller.php?action=processAddToCart&ProductID=<?php echo $product->getProductID()?>" method="post" enctype="multipart/form-data">
                                             <div class="form-group row flex-column" id="shopperAddToCartButton">
-                                                <input type="number" id="quantity_<?php echo htmlspecialchars($ProductRow['PRODUCTID'])?>" name="QTYRequested" min="1" max="<?php echo htmlspecialchars($ProductRow['QTYONHAND'])?>">
+                                                <input type="number" id="quantity_<?php echo htmlspecialchars($product->getProductID())?>" name="QTYRequested" min="1" max="<?php echo htmlspecialchars($ProductRow['QTYONHAND'])?>">
                                                 <input type="submit" class="btn btn-primary" value="Add To Cart">
                                             </div>
                                         </form>
                                         <script>
-                                            document.getElementById("quantity_<?php echo htmlspecialchars($ProductRow['PRODUCTID'])?>").defaultValue = "1"
+                                            document.getElementById("quantity_<?php echo htmlspecialchars($product->getProductID())?>").defaultValue = "1"
                                         </script>
                                     </div>
                                 </div>

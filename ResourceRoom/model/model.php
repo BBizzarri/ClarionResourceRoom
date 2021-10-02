@@ -1,4 +1,6 @@
 <?php
+    include_once 'product.php';
+    include_once 'cart.php';
 
     function getDBConnection() {
             $dsn = 'mysql:host=localhost;dbname=resourceroom';
@@ -63,7 +65,13 @@
                 $statement->execute();
                 $results = $statement->fetchAll();
                 $statement->closeCursor();
-                return $results;           // Assoc Array of Rows
+                $products = array();
+                foreach($results as $ProductRow)
+                {
+                    array_push($products,new product($ProductRow['PRODUCTID'],$ProductRow['NAME'],$ProductRow['DESCRIPTION'],$ProductRow['QTYONHAND'],
+                        $ProductRow['MAXORDERQTY'],$ProductRow['GOALSTOCK'],$ProductRow['ONORDER'],$ProductRow['QTYAVAILABLE']));
+                }
+                return $products;
             } catch (PDOException $e) {
                 $errorMessage = $e->getMessage();
                 include '../view/errorPage.php';
@@ -83,7 +91,13 @@
                 $statement->execute();
                 $result = $statement->fetchAll();
                 $statement->closeCursor();
-                return $result;
+                $products = array();
+                foreach($result as $CartRow)
+                {
+                    array_push($products,new cartItem(new product($CartRow['PRODUCTID'],$CartRow['NAME'],$CartRow['DESCRIPTION'],$CartRow['QTYONHAND'],
+                        $CartRow['MAXORDERQTY'],$CartRow['GOALSTOCK'],$CartRow['ONORDER'],$CartRow['QTYAVAILABLE']),$CartRow['QTYREQUESTED'],$CartRow['MOSTRECENTDATE']));
+                }
+                return new cart($USERID, $products);
             }
             catch (Exception $ex)
             {
@@ -152,7 +166,13 @@
                 $statement->execute();
                 $result = $statement->fetchAll();
                 $statement->closeCursor();
-                return $result;
+                $products = array();
+                foreach($result as $ProductRow)
+                {
+                    array_push($products,new product($ProductRow['PRODUCTID'],$ProductRow['NAME'],$ProductRow['DESCRIPTION'],$ProductRow['QTYONHAND'],
+                        $ProductRow['MAXORDERQTY'],$ProductRow['GOALSTOCK'],$ProductRow['ONORDER'],$ProductRow['QTYAVAILABLE']));
+                }
+                return $products;
             }
             catch (Exception $ex)
             {
@@ -214,11 +234,18 @@
                     $statement->execute();
                     $results = $statement->fetchAll();
                     $statement->closeCursor();
-                    return $results;           // Assoc Array of Rows
+                    $products = array();
+                    foreach($results as $ProductRow)
+                    {
+                        array_push($products,new product($ProductRow['PRODUCTID'],$ProductRow['NAME'],$ProductRow['DESCRIPTION'],$ProductRow['QTYONHAND'],
+                            $ProductRow['MAXORDERQTY'],$ProductRow['GOALSTOCK'],$ProductRow['ONORDER'],$ProductRow['QTYAVAILABLE']));
+                    }
+                    return $products;
                 } catch (PDOException $e) {
                     $errorMessage = $e->getMessage();
                     include '../view/errorPage.php';
                     die;
                 }
             }
+
 ?>

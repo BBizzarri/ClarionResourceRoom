@@ -25,19 +25,19 @@
         $listType = filter_input(INPUT_GET, 'ListType');
         $CategoryResults = getAllCategories();
         if($listType =='GeneralSearch'){
-            $ProductResults = getByGeneralSearch($_GET['Criteria']);
+            $ProductArray = getByGeneralSearch($_GET['Criteria']);
             $CurrentCategory = "Search: " . $_GET['Criteria'];
         }else if (isset($_GET['CATEGORYID'])) {
             $shopperCategoryID = $_GET['CATEGORYID'];
             $CurrentCategory = $_GET['DESCRIPTION'];
-            $ProductResults = getCategory($shopperCategoryID);
+            $ProductArray = getCategory($shopperCategoryID);
         }else{
             $CurrentCategory = $CategoryResults[0]['DESCRIPTION'];
             $shopperCategoryID = $CategoryResults[0]['CATEGORYID'];
-            $ProductResults = getCategory($shopperCategoryID);
+            $ProductArray = getCategory($shopperCategoryID);
         }
         $CategoryHeader = $CurrentCategory;
-            if ($ProductResults == false)
+            if ($ProductArray == false)
             {
                 $errorMessage = 'That category was not found';
                 include '../view/errorPage.php';
@@ -50,7 +50,7 @@
     function displayCart()
     {
         $USERID = getUserID();
-        $ProductResults = getCart($USERID);
+        $cart = getCart($USERID);
         include '../view/shopperCart.php';
     }
 
