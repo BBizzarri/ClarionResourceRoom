@@ -75,13 +75,12 @@ table {
 }
 
 .table-heading {
-    width: 100px;
     float: left;
     margin: 10px;
 }
 
 .table-heading-category {
-    font-size: 20px;
+    font-size: 1.75rem;
     padding-left: 200px;
 
 }
@@ -123,4 +122,16 @@ category-background {
 
 .date-selection {
     margin-left: 275px;
+}
+
+.product-info-left {
+    margin-left: 30px;
+}
+
+.product-info-right {
+    margin-left: 260px;
+}
+
+.product-info-spacing {
+    padding-bottom: 20px;
 }

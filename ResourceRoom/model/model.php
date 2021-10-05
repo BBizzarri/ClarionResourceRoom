@@ -71,6 +71,27 @@
             }
         }
 
+        function getFilteredProducts($QTYONHAND) {
+            try {
+                $db = getDBConnection();
+                $query = $query = "select *
+                                   from productview
+                                   where QTYONHAND < :QTYONHAND
+                                   order by NAME";
+                $statement = $db->prepare($query);
+                $statement->bindValue(":QTYONHAND", $QTYONHAND);
+                $statement->execute();
+                $results = $statement->fetchAll();
+                $statement->closeCursor();
+                return $results;           // Assoc Array of Rows
+                console_log($results);
+            } catch (PDOException $e) {
+                $errorMessage = $e->getMessage();
+                include '../view/errorPage.php';
+                die;
+            }
+        }
+
         function getCategory($CATEGORYID)
         {
             try{
@@ -81,6 +102,51 @@
                           where productcategories.CATEGORYID = :CATEGORYID ";
                 $statement = $db->prepare($query);
                 $statement->bindValue(":CATEGORYID", $CATEGORYID);
+                $statement->execute();
+                $result = $statement->fetchAll();
+                $statement->closeCursor();
+                return $result;
+            }
+            catch (Exception $ex)
+            {
+                $errorMessage = $e->getMessage();
+                include '../view/errorPage.php';
+                die;
+            }
+        }
+
+        function getFilteredCategory($CATEGORYID, $QTYONHAND)
+                {
+                    try{
+                        $db = getDBConnection();
+                        $query = "select *
+                                  from productview
+                                  inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
+                                  where productcategories.CATEGORYID = :CATEGORYID AND QTYONHAND < :QTYONHAND";
+                        $statement = $db->prepare($query);
+                        $statement->bindValue(":CATEGORYID", $CATEGORYID);
+                        $statement->bindValue(":QTYONHAND", $QTYONHAND);
+                        $statement->execute();
+                        $result = $statement->fetchAll();
+                        $statement->closeCursor();
+                        return $result;
+                    }
+                    catch (Exception $ex)
+                    {
+                        $errorMessage = $e->getMessage();
+                        include '../view/errorPage.php';
+                        die;
+                    }
+                }
+
+        function getFilterResults($QTYLESSTHAN) {
+            try{
+                $db = getDBConnection();
+                $query = "select *
+                          from productview
+                          where QTYONHAND < :QTYLESSTHAN ";
+                $statement = $db->prepare($query);
+                $statement->bindValue(":QTYLESSTHAN", $QTYLESSTHAN);
                 $statement->execute();
                 $result = $statement->fetchAll();
                 $statement->closeCursor();

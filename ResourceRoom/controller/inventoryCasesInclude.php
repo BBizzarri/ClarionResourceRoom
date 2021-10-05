@@ -19,23 +19,62 @@
         case 'adminShoppingList':
             include '../view/adminShoppingList.php';
             break;
+        case 'applyFilter':
+            displayCategories();
+            break;
         case 'displaySelectedCategory':
             displayCategories();
+            break;
+        case 'getProductInfo':
+            getProductInfo();
+            break;
+        case 'processBulkStockAdjust':
+            processBulkStockAdjust();
             break;
         case 'processSingleStockAdjust':
             processSingleStockAdjust();
             break;
     }
 
+    function applyFilter($ProductResults)
+    {
+        $QTYLESSTHAN = $_POST['qtyLessThan'];
+        if($QTYLESSTHAN !== '')
+        {
+            $ProductResults = getFilterResults($QTYLESSTHAN, $ProductResults);
+        }
+        if(isset($_POST['inactiveItems']))
+        {
+            console_log('inactive items is checked');
+        }
+        $CategoryResults = getAllCategories();
+        include '../view/adminInventory.php';
+    }
+
     function displayCategories()
     {
+       if (isset($_POST['action']))
+        {
+            $action = $_POST['action'];
+        }
+        else if (isset($_GET['action']))
+        {
+            $action = $_GET['action'];
+        }
         $Display = $_GET['Display'];
-        console_log($Display);
         if($Display === 'All')
         {
             $CategoryHeader = 'All';
             $CategoryResults = getAllCategories();
-            $ProductResults = getAllProducts();
+            if($action === 'applyFilter')
+            {
+                $QTYLESSTHAN = $_POST['qtyLessThan'];
+                $ProductResults = getFilteredProducts($QTYLESSTHAN);
+            }
+            else
+            {
+                $ProductResults = getAllProducts();
+            }
             if (count($CategoryResults) == 0) {
                 $errorMessage = "No Categories found.";
                 include '../view/errorPage.php';
@@ -55,7 +94,15 @@
             {
                 $CategoryHeader = $DESCRIPTION;
                 $CategoryResults = getAllCategories();
-                $ProductResults = getCategory($CATEGORYID);
+                if($action === 'applyFilter')
+                {
+                    $QTYLESSTHAN = $_POST['qtyLessThan'];
+                    $ProductResults = getFilteredCategory($CATEGORYID, $QTYLESSTHAN);
+                }
+                else
+                {
+                    $ProductResults = getCategory($CATEGORYID);
+                }
                 if ($ProductResults == false)
                 {
                     $errorMessage = 'That category was not found';
@@ -82,6 +129,19 @@
         }
     }
 
+    function getProductInfo()
+    {
+        console_log('here');
+        $PRODUCTID = $_GET['ProductID'];
+        console_log($PRODUCTID);
+    }
+
+    function processBulkStockAdjust()
+    {
+        console_log('action triggered');
+        $CATEGORYID = $_GET['CATEGORYID'];
+
+    }
     function processSingleStockAdjust()
         {
             $PRODUCTID = $_GET['ProductID'];
