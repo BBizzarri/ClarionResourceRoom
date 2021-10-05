@@ -10,6 +10,8 @@ function addToCart(button){
 }
 
 function adjustAll(){
-    ProductRow.forEach(product => console.log(product));
-    document.location="../Controller/Controller.php?action=processBulkStockAdjust&CATEGORYID=<?php echo $CategoryRow['CATEGORYID']?>";
+    var textBoxes = document.querySelectorAll('[id^=number]');
+
+//    var ProductRow = "<?php echo $ProductRow['PRODUCTID']; ?>";
+//    document.location="../Controller/Controller.php?action=processBulkStockAdjust&PRODUCTID=" + ProductRow;
 }

@@ -61,8 +61,8 @@
         {
             $action = $_GET['action'];
         }
-        $Display = $_GET['Display'];
-        if($Display === 'All')
+        //$Display = $_GET['Display'];
+        if(!isset($_GET['CATEGORYID']))
         {
             $CategoryHeader = 'All';
             $CategoryResults = getAllCategories();
@@ -82,7 +82,7 @@
                 include '../view/adminInventory.php';
             }
         }
-        else if ($Display == 'category') {
+        else if (isset($_GET['CATEGORYID'])) {
             $CATEGORYID = $_GET['CATEGORYID'];
             $DESCRIPTION = $_GET['DESCRIPTION'];
             if (!isset($CATEGORYID))
@@ -139,7 +139,7 @@
     function processBulkStockAdjust()
     {
         console_log('action triggered');
-        $CATEGORYID = $_GET['CATEGORYID'];
+        $PRODUCTID = $_GET['PRODUCTID'];
 
     }
     function processSingleStockAdjust()

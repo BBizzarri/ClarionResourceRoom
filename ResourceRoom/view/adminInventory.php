@@ -10,7 +10,7 @@
 
 
 
-          <form id="filterForm" action="../Controller/Controller.php?action=applyFilter" method="post" enctype="multipart/form-data">
+          <form id="filterForm" action="../Controller/Controller.php?action=applyFilter&CATEGORYID=<?php echo $CategoryRow['CATEGORYID']?>&DESCRIPTION=<?php echo $CategoryRow['DESCRIPTION']?>" method="post" enctype="multipart/form-data">
               <div class="sidebar-elements">
                   <div class="incoming-textbox-div">
                       <h3 class="sidebar-heading">Filter Options</h3>
@@ -89,9 +89,9 @@
                                     <?php echo htmlspecialchars($ProductRow['GOALSTOCK']) ?>
                                 </td>
                                 <td>
-                                    <form action="../Controller/Controller.php?action=processSingleStockAdjust&ProductID=<?php echo $ProductRow['PRODUCTID']?>&QTYOnHand=<?php echo $ProductRow['QTYONHAND']?>" method="post" enctype="multipart/form-data">
+                                    <form id="singleStockAdjust" action="../Controller/Controller.php?action=processSingleStockAdjust&ProductID=<?php echo $ProductRow['PRODUCTID']?>&QTYOnHand=<?php echo $ProductRow['QTYONHAND']?>" method="post" enctype="multipart/form-data">
                                         <div class="incoming-textbox-div">
-                                            <input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt">
+                                            <input class="incoming-textbox" type="number" id="incomingAmt_<?php echo $ProductRow['PRODUCTID']?>" name="incomingAmt">
                                         </div>
                                         <div class="adjust-button-div">
                                             <input type="submit" value="Adjust Stock">
