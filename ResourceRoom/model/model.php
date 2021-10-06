@@ -1,4 +1,6 @@
 <?php
+    include_once 'product.php';
+    include_once 'cart.php';
 
     function getDBConnection() {
             $dsn = 'mysql:host=localhost;dbname=resourceroom';
@@ -63,13 +65,93 @@
                 $statement->execute();
                 $results = $statement->fetchAll();
                 $statement->closeCursor();
-                return $results;           // Assoc Array of Rows
+                $products = array();
+                foreach($results as $ProductRow)
+                {
+                    array_push($products,new product($ProductRow['PRODUCTID'],$ProductRow['NAME'],$ProductRow['DESCRIPTION'],$ProductRow['QTYONHAND'],
+                        $ProductRow['MAXORDERQTY'],$ProductRow['GOALSTOCK'],$ProductRow['ONORDER'],$ProductRow['QTYAVAILABLE']));
+                }
+                return $products;
             } catch (PDOException $e) {
                 $errorMessage = $e->getMessage();
                 include '../view/errorPage.php';
                 die;
             }
         }
+        function getCart($USERID)
+        {
+            try{
+                $db = getDBConnection();
+                $query = "select *
+                          from productview
+                          inner join cart on productview.PRODUCTID = cart.PRODUCTID
+                          where cart.USERID = :USERID";
+                $statement = $db->prepare($query);
+                $statement->bindValue(":USERID", $USERID);
+                $statement->execute();
+                $result = $statement->fetchAll();
+                $statement->closeCursor();
+                $products = array();
+                foreach($result as $CartRow)
+                {
+                    array_push($products,new cartItem(new product($CartRow['PRODUCTID'],$CartRow['NAME'],$CartRow['DESCRIPTION'],$CartRow['QTYONHAND'],
+                        $CartRow['MAXORDERQTY'],$CartRow['GOALSTOCK'],$CartRow['ONORDER'],$CartRow['QTYAVAILABLE']),$CartRow['QTYREQUESTED'],$CartRow['MOSTRECENTDATE']));
+                }
+                return new cart($USERID, $products);
+            }
+            catch (Exception $ex)
+            {
+                $errorMessage = $e->getMessage();
+                include '../view/errorPage.php';
+                die;
+            }
+        }
+
+
+        function addToCart($PRODUCTID, $QTYREQUESTED, $MostRecentDate)
+        {
+            $USERID = getUserID();
+            $db = getDBConnection();
+            $query = 'INSERT INTO cart (UserID, PRODUCTID, QTYREQUESTED, MOSTRECENTDATE)
+                VALUES (:USERID, :PRODUCTID, :QTYREQUESTED, :MOSTRECENTDATE)';
+            $statement = $db->prepare($query);
+            $statement->bindValue(':USERID', $USERID);
+            $statement->bindValue(':PRODUCTID', $PRODUCTID);
+            $statement->bindValue(':QTYREQUESTED', $QTYREQUESTED);
+            $statement->bindValue(':MOSTRECENTDATE', $MostRecentDate);
+            $success = $statement->execute();
+            $statement->closeCursor();
+            if($success)
+            {
+
+                return $statement->rowCount();
+            }
+            else
+            {
+                logSQLError($statement->errorInfo());
+            }
+        }
+
+    function removeFromCart($PRODUCTID)
+    {
+        $USERID = getUserID();
+        $db = getDBConnection();
+        $query = 'DELETE FROM cart WHERE (USERID = :USERID) AND (PRODUCTID = :PRODUCTID)';
+        $statement = $db->prepare($query);
+        $statement->bindValue(':USERID', $USERID);
+        $statement->bindValue(':PRODUCTID', $PRODUCTID);
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success)
+        {
+
+            return $statement->rowCount();
+        }
+        else
+        {
+            logSQLError($statement->errorInfo());
+        }
+    }
 
         function getFilteredProducts($QTYONHAND) {
             try {
@@ -105,7 +187,13 @@
                 $statement->execute();
                 $result = $statement->fetchAll();
                 $statement->closeCursor();
-                return $result;
+                $products = array();
+                foreach($result as $ProductRow)
+                {
+                    array_push($products,new product($ProductRow['PRODUCTID'],$ProductRow['NAME'],$ProductRow['DESCRIPTION'],$ProductRow['QTYONHAND'],
+                        $ProductRow['MAXORDERQTY'],$ProductRow['GOALSTOCK'],$ProductRow['ONORDER'],$ProductRow['QTYAVAILABLE']));
+                }
+                return $products;
             }
             catch (Exception $ex)
             {
@@ -195,6 +283,10 @@
           echo '</script>';
         }
 
+        function getUserID(){
+            return $_SESSION["UserID"];
+}
+
         function getByGeneralSearch($criteria) {
                 try {
                     $db = getDBConnection();
@@ -208,7 +300,13 @@
                     $statement->execute();
                     $results = $statement->fetchAll();
                     $statement->closeCursor();
-                    return $results;           // Assoc Array of Rows
+                    $products = array();
+                    foreach($results as $ProductRow)
+                    {
+                        array_push($products,new product($ProductRow['PRODUCTID'],$ProductRow['NAME'],$ProductRow['DESCRIPTION'],$ProductRow['QTYONHAND'],
+                            $ProductRow['MAXORDERQTY'],$ProductRow['GOALSTOCK'],$ProductRow['ONORDER'],$ProductRow['QTYAVAILABLE']));
+                    }
+                    return $products;
                 } catch (PDOException $e) {
                     $errorMessage = $e->getMessage();
                     include '../view/errorPage.php';

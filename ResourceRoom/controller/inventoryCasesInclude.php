@@ -69,11 +69,11 @@
             if($action === 'applyFilter')
             {
                 $QTYLESSTHAN = $_POST['qtyLessThan'];
-                $ProductResults = getFilteredProducts($QTYLESSTHAN);
+                $ProductArray = getFilteredProducts($QTYLESSTHAN);
             }
             else
             {
-                $ProductResults = getAllProducts();
+                $ProductArray = getAllProducts();
             }
             if (count($CategoryResults) == 0) {
                 $errorMessage = "No Categories found.";
@@ -97,13 +97,13 @@
                 if($action === 'applyFilter')
                 {
                     $QTYLESSTHAN = $_POST['qtyLessThan'];
-                    $ProductResults = getFilteredCategory($CATEGORYID, $QTYLESSTHAN);
+                    $ProductArray = getFilteredCategory($CATEGORYID, $QTYLESSTHAN);
                 }
                 else
                 {
-                    $ProductResults = getCategory($CATEGORYID);
+                    $ProductArray = getCategory($CATEGORYID);
                 }
-                if ($ProductResults == false)
+                if ($ProductArray == false)
                 {
                     $errorMessage = 'That category was not found';
                     include '../view/errorPage.php';
@@ -120,7 +120,7 @@
     {
         $CategoryHeader = 'All';
         $CategoryResults = getAllCategories();
-        $ProductResults = getAllProducts();
+        $ProductArray = getAllProducts();
         if (count($CategoryResults) == 0) {
             $errorMessage = "No Categories found.";
             include '../view/errorPage.php';
@@ -173,8 +173,8 @@
         {
             $CategoryHeader = $DESCRIPTION;
             $CategoryResults = getAllCategories();
-            $ProductResults = getCategory($CATEGORYID);
-            if ($ProductResults == false)
+            $ProductArray = getCategory($CATEGORYID);
+            if ($ProductArray == false)
             {
                 $errorMessage = 'That category was not found';
                 include '../view/errorPage.php';

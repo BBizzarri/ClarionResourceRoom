@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="" />
+    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -48,11 +50,6 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\ClarionResourceRoom\ResourceRoom\Images" />
-    </key>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -63,6 +60,9 @@
       <updated>1631803416568</updated>
       <workItem from="1632945992602" duration="224000" />
       <workItem from="1633029717961" duration="1646000" />
+      <workItem from="1633149685889" duration="2904000" />
+      <workItem from="1633205579373" duration="4453000" />
+      <workItem from="1633477898949" duration="39000" />
     </task>
     <task id="LOCAL-00001" summary="fixing merge conflict">
       <created>1631803451977</created>
@@ -204,14 +204,42 @@
       <option name="project" value="LOCAL" />
       <updated>1633034037339</updated>
     </task>
-    <task id="LOCAL-00021" summary="filtering work">
-      <created>1633444402919</created>
+    <task id="LOCAL-00021" summary="Fixed creationscript, switched to use productview table v2">
+      <created>1633034128010</created>
       <option name="number" value="00021" />
       <option name="presentableId" value="LOCAL-00021" />
       <option name="project" value="LOCAL" />
-      <updated>1633444402920</updated>
+      <updated>1633034128010</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Add to cart and displaying card based on signed in user">
+      <created>1633038128883</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1633038128883</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Add to cart and displaying card based on signed in user">
+      <created>1633038231629</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1633038231629</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Add and remove items from cart as signed in user">
+      <created>1633041663041</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1633041663041</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Converted project to use php classes.">
+      <created>1633209990498</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1633209990498</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -219,7 +247,6 @@
   </component>
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.css" />
-    <option featureType="com.intellij.fileTypeFactory" implementationName="*.js" />
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.sql" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -250,7 +277,10 @@
     <MESSAGE value="Fixing table text color and updating creation script" />
     <MESSAGE value="Adding functional sidebar to shopping page" />
     <MESSAGE value="Fixed creationscript, switched to use productview table" />
-    <MESSAGE value="filtering work" />
-    <option name="LAST_COMMIT_MESSAGE" value="filtering work" />
+    <MESSAGE value="Fixed creationscript, switched to use productview table v2" />
+    <MESSAGE value="Add to cart and displaying card based on signed in user" />
+    <MESSAGE value="Add and remove items from cart as signed in user" />
+    <MESSAGE value="Converted project to use php classes." />
+    <option name="LAST_COMMIT_MESSAGE" value="Converted project to use php classes." />
   </component>
 </project>

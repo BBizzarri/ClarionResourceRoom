@@ -75,21 +75,21 @@
               </tr>
               <?php
                           $i = 0;
-                          foreach($ProductResults as $ProductRow) {
+                          foreach($ProductArray as $product) {
                           $i++;
                       ?>
                               <tr>
                                   <td class="text-left">
-                                      <a class="clarion-white" href="#productModal" data-toggle="modal"><?php echo $ProductRow['NAME'] ?></a>
+                                      <a class="clarion-white" id="product" href="#"><?php echo htmlspecialchars($product->getProductName())?></a>
                                   </td>
                                   <td class="text-right">
-                                     <?php echo htmlspecialchars($ProductRow['QTYONHAND']) ?>
+                                     <?php echo $product->getProductQTYOnHand() ?>
                                 </td>
                                 <td class="text-right">
-                                    <?php echo htmlspecialchars($ProductRow['GOALSTOCK']) ?>
+                                    <?php echo $product->getProductGoalStock() ?>
                                 </td>
                                 <td>
-                                    <form id="singleStockAdjust" action="../Controller/Controller.php?action=processSingleStockAdjust&ProductID=<?php echo $ProductRow['PRODUCTID']?>&QTYOnHand=<?php echo $ProductRow['QTYONHAND']?>" method="post" enctype="multipart/form-data">
+                                    <form action="../Controller/Controller.php?action=processSingleStockAdjust&ProductID=<?php echo $product->getProductID()?>&QTYOnHand=<?php echo $product->getProductQTYOnHand()?>" method="post" enctype="multipart/form-data">
                                         <div class="incoming-textbox-div">
                                             <input class="incoming-textbox" type="number" id="incomingAmt_<?php echo $ProductRow['PRODUCTID']?>" name="incomingAmt">
                                         </div>
