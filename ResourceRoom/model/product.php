@@ -54,22 +54,22 @@ class product
         $this->ProductName = $productName;
     }
     function setProductDescription($productDescription) {
-        $this->ProductDescription = $productDescription;
+        $this->Description = $productDescription;
     }
     function setProductQtyOnHand($productQtyOnHand) {
-        $this->ProductQtyOnHand = $productQtyOnHand;
+        $this->QtyOnHand = $productQtyOnHand;
     }
     function setProductMaxOrderQty($productMaxOrderQty) {
-        $this->ProductMaxOrderQty = $productMaxOrderQty;
+        $this->MaxOrderQty = $productMaxOrderQty;
     }
     function setProductGoalStock($productGoalStock) {
-        $this->ProductGoalStock = $productGoalStock;
+        $this->GoalStock = $productGoalStock;
     }
     function setProductOnOrder($productOnOrder) {
-        $this->ProductOnOrder = $productOnOrder;
+        $this->OnOrder = $productOnOrder;
     }
     function setProductAvailable($productAvailable) {
-        $this->ProductAvailable = $productAvailable;
+        $this->Available = $productAvailable;
     }
 
     function toString(){

@@ -143,10 +143,10 @@
                                               <h3><?php echo htmlspecialchars($product->getProductName())?></h3>
                                               <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             </div>
-                                            <form action="../Controller/Controller.php?action=editProduct&">
+                                            <form action="../Controller/Controller.php?action=addEditProduct&Product=$product">
                                                 <div class="row modal-body">
                                                     <div class="column product-info-left">
-                                                        <h4 class="product-info-spacing">QTY On Hand: <input type="number" name="Qty" value="<?php echo htmlspecialchars($product->getProductQTYOnHand())?>" onchange="<?php $product->setProductQtyOnHand(this.value)?>"/></h4>
+                                                        <h4 class="product-info-spacing">QTY On Hand: <input type="number" name="Qty" value="<?php echo htmlspecialchars($product->getProductQTYOnHand())?>"/></h4>
                                                         <h4 class="product-info-spacing">Max Order QTY: <input type="number" value="<?php echo htmlspecialchars($product->getProductMaxOrderQty())?>"/></h4>
                                                         <h4 class="product-info-spacing">Goal Stock: <input type="number" value="<?php echo htmlspecialchars($product->getProductGoalStock())?>"/></h4>
                                                         <h4>Description:</h4><textarea id="description" rows="4" cols="50"><?php echo htmlspecialchars($product->getProductDescription())?></textarea>

@@ -4,6 +4,8 @@
     // The purpose is to separate the shopper actions from the back-end inventory actions to help version control.
 
     switch ($action) {
+        case 'addEditProduct':
+            addEditProduct();
         case 'adminInventory':
              displayStartingInventoryView();
             break;
@@ -24,9 +26,6 @@
             break;
         case 'displaySelectedCategory':
             displayCategories();
-            break;
-        case editProduct();
-            editProduct();
             break;
         case 'getProductInfo':
             getProductInfo();
@@ -144,7 +143,7 @@
 
     function editProduct()
     {
-        updateProduct();
+        updateProduct($product);
     }
 
 
@@ -203,5 +202,10 @@
                 include '../view/adminInventory.php';
             }
         }
+    }
+
+    function addEditProduct($product)
+    {
+        console_log($product);
     }
 ?>
