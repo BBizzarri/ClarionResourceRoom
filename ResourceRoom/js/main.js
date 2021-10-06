@@ -6,7 +6,7 @@ function generalSearch(){
 
 function generalSearchAdmin(){
     var criteria = '';
-    criteria = $(`#Criteria`).val();
+    criteria = $(`#AdminCriteria`).val();
     document.location="../controller/controller.php?action=adminInventory&ListType=GeneralSearch&Criteria=" + encodeURIComponent(criteria);
 }
 

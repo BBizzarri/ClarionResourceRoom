@@ -11,8 +11,8 @@
 
           <div class="sidebar-search-div">
             <form class="sidebar-search-form form-inline my-2 my-lg-0">
-                          <input class="form-control mr-sm-2" type="text" id="Criteria" placeholder="Search" aria-label="Search">
-                          <input class="btn my-2 my-sm-0" id="searchButton"type="button" value="Search" onclick="generalSearchAdmin();"/>
+                          <input class="form-control mr-sm-2" type="text" id="AdminCriteria" placeholder="Search" aria-label="Search">
+                          <input class="btn my-2 my-sm-0" id="adminSearchButton"type="button" value="Search" onclick="generalSearchAdmin();"/>
             </form>
           </div>
           <form id="filterForm" action="../Controller/Controller.php?action=applyFilter&CATEGORYID=<?php echo $CategoryRow['CATEGORYID']?>&DESCRIPTION=<?php echo $CategoryRow['DESCRIPTION']?>" method="post" enctype="multipart/form-data">
@@ -32,6 +32,9 @@
               <div>
                   <input class="apply-button" type="submit" value="Apply"/>
               </div>
+              <li class="nav-item">
+                  <a class="category nav-link" href="#">Shopping List</a>
+              </li>
           </form>
 
 
@@ -48,9 +51,6 @@
                   <ul class="nav flex-column">
                     <li class="nav-item">
                         <a class="category nav-link" href="../Controller/Controller.php?action=displaySelectedCategory&Display=<?php echo 'All' ?>">All</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="category nav-link" href="#">Shopping List</a>
                     </li>
                     <?php foreach ($CategoryArray as $category) {
                     ?>

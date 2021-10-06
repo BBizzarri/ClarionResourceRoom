@@ -142,6 +142,12 @@
         }
     }
 
+    function editProduct()
+    {
+        updateProduct();
+    }
+
+
     function getProductInfo()
     {
         console_log('here');
