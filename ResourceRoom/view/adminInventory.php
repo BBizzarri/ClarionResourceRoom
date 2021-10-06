@@ -28,7 +28,7 @@
                   <h3 class="sidebar-heading">Categories</h3>
                   <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="category nav-link" href="../Controller/Controller.php?action=displaySelectedCategory&Display=<?php echo 'All' ?>">All</a>
+                        <a class="category nav-link" href="../controller/controller.php?action=displaySelectedCategory&Display=<?php echo 'All' ?>">All</a>
                     </li>
                     <li class="nav-item">
                         <a class="category nav-link" href="#">Shopping List</a>
@@ -36,7 +36,7 @@
                     <?php foreach ($CategoryResults as $CategoryRow) {
                     ?>
                         <li class="nav-item">
-                            <a class="category nav-link " href="../Controller/Controller.php?action=displaySelectedCategory&CATEGORYID=<?php echo $CategoryRow['CATEGORYID']?>&DESCRIPTION=<?php echo $CategoryRow['DESCRIPTION']?>&Display=<?php echo 'category' ?>"><?php echo htmlspecialchars($CategoryRow['DESCRIPTION']) ?></a>
+                            <a class="category nav-link " href="../controller/controller.php?action=displaySelectedCategory&CATEGORYID=<?php echo $CategoryRow['CATEGORYID']?>&DESCRIPTION=<?php echo $CategoryRow['DESCRIPTION']?>&Display=<?php echo 'category' ?>"><?php echo htmlspecialchars($CategoryRow['DESCRIPTION']) ?></a>
                         </li>
                     <?php
                     }
@@ -74,7 +74,7 @@
                                     <?php echo $product->getProductGoalStock() ?>
                                 </td>
                                 <td>
-                                    <form action="../Controller/Controller.php?action=processSingleStockAdjust&ProductID=<?php echo $product->getProductID()?>&QTYOnHand=<?php echo $product->getProductQTYOnHand()?>" method="post" enctype="multipart/form-data">
+                                    <form action="../controller/controller.php?action=processSingleStockAdjust&ProductID=<?php echo $product->getProductID()?>&QTYOnHand=<?php echo $product->getProductQTYOnHand()?>" method="post" enctype="multipart/form-data">
                                         <div class="incoming-textbox-div">
                                             <input class="incoming-textbox" type="number" id="incomingAmt" name="incomingAmt">
                                         </div>
