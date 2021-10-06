@@ -50,6 +50,27 @@ class product
     function getProductAvailable(){
         return $this->Available;
     }
+    function setProductName($productName) {
+        $this->ProductName = $productName;
+    }
+    function setProductDescription($productDescription) {
+        $this->Description = $productDescription;
+    }
+    function setProductQtyOnHand($productQtyOnHand) {
+        $this->QtyOnHand = $productQtyOnHand;
+    }
+    function setProductMaxOrderQty($productMaxOrderQty) {
+        $this->MaxOrderQty = $productMaxOrderQty;
+    }
+    function setProductGoalStock($productGoalStock) {
+        $this->GoalStock = $productGoalStock;
+    }
+    function setProductOnOrder($productOnOrder) {
+        $this->OnOrder = $productOnOrder;
+    }
+    function setProductAvailable($productAvailable) {
+        $this->Available = $productAvailable;
+    }
 
     function toString(){
         print_r($this);

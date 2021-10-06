@@ -26,4 +26,5 @@
         require_once '../view/navInclude.php';
         require_once '../model/product.php';
         require_once '../model/cart.php';
+        require_once '../model/category.php';
     ?>

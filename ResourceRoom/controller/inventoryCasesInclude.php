@@ -4,6 +4,8 @@
     // The purpose is to separate the shopper actions from the back-end inventory actions to help version control.
 
     switch ($action) {
+        case 'addEditProduct':
+            addEditProduct();
         case 'adminInventory':
              displayStartingInventoryView();
             break;
@@ -19,31 +21,70 @@
         case 'adminShoppingList':
             include '../view/adminShoppingList.php';
             break;
+        case 'applyFilter':
+            displayCategories();
+            break;
         case 'displaySelectedCategory':
             displayCategories();
+            break;
+        case 'getProductInfo':
+            getProductInfo();
+            break;
+        case 'processBulkStockAdjust':
+            processBulkStockAdjust();
             break;
         case 'processSingleStockAdjust':
             processSingleStockAdjust();
             break;
     }
 
+    function applyFilter($ProductResults)
+    {
+        $QTYLESSTHAN = $_POST['qtyLessThan'];
+        if($QTYLESSTHAN !== '')
+        {
+            $ProductResults = getFilterResults($QTYLESSTHAN, $ProductResults);
+        }
+        if(isset($_POST['inactiveItems']))
+        {
+            console_log('inactive items is checked');
+        }
+        $CategoryArray = getAllCategories();
+        include '../view/adminInventory.php';
+    }
+
     function displayCategories()
     {
-        $Display = $_GET['Display'];
-        console_log($Display);
-        if($Display === 'All')
+       if (isset($_POST['action']))
+        {
+            $action = $_POST['action'];
+        }
+        else if (isset($_GET['action']))
+        {
+            $action = $_GET['action'];
+        }
+        //$Display = $_GET['Display'];
+        if(!isset($_GET['CATEGORYID']))
         {
             $CategoryHeader = 'All';
-            $CategoryResults = getAllCategories();
-            $ProductArray = getAllProducts();
-            if (count($CategoryResults) == 0) {
+            $CategoryArray = getAllCategories();
+            if($action === 'applyFilter')
+            {
+                $QTYLESSTHAN = $_POST['qtyLessThan'];
+                $ProductArray = getFilteredProducts($QTYLESSTHAN);
+            }
+            else
+            {
+                $ProductArray = getAllProducts();
+            }
+            if ($CategoryArray == false) {
                 $errorMessage = "No Categories found.";
                 include '../view/errorPage.php';
             } else {
                 include '../view/adminInventory.php';
             }
         }
-        else if ($Display == 'category') {
+        else if (isset($_GET['CATEGORYID'])) {
             $CATEGORYID = $_GET['CATEGORYID'];
             $DESCRIPTION = $_GET['DESCRIPTION'];
             if (!isset($CATEGORYID))
@@ -54,8 +95,16 @@
             else
             {
                 $CategoryHeader = $DESCRIPTION;
-                $CategoryResults = getAllCategories();
-                $ProductArray = getCategory($CATEGORYID);
+                $CategoryArray = getAllCategories();
+                if($action === 'applyFilter')
+                {
+                    $QTYLESSTHAN = $_POST['qtyLessThan'];
+                    $ProductArray = getFilteredCategory($CATEGORYID, $QTYLESSTHAN);
+                }
+                else
+                {
+                    $ProductArray = getCategory($CATEGORYID);
+                }
                 if ($ProductArray == false)
                 {
                     $errorMessage = 'That category was not found';
@@ -71,10 +120,20 @@
 
     function displayStartingInventoryView()
     {
-        $CategoryHeader = 'All';
-        $CategoryResults = getAllCategories();
-        $ProductArray = getAllProducts();
-        if (count($CategoryResults) == 0) {
+        $listType = filter_input(INPUT_GET, 'ListType');
+        $CategoryArray = getAllCategories();
+        if($listType =='GeneralSearch'){
+            $CategoryHeader = 'All';
+            $ProductArray = getByGeneralSearch($_GET['Criteria']);
+            $CurrentCategory = "Search: " . $_GET['Criteria'];
+        }
+        else {
+
+            $CategoryHeader = 'All';
+            //$CategoryArray = getAllCategories();
+            $ProductArray = getAllProducts();
+        }
+        if ($ProductArray == false) {
             $errorMessage = "No Categories found.";
             include '../view/errorPage.php';
         } else {
@@ -82,6 +141,25 @@
         }
     }
 
+    function editProduct()
+    {
+        updateProduct($product);
+    }
+
+
+    function getProductInfo()
+    {
+        console_log('here');
+        $PRODUCTID = $_GET['ProductID'];
+        console_log($PRODUCTID);
+    }
+
+    function processBulkStockAdjust()
+    {
+        console_log('action triggered');
+        $PRODUCTID = $_GET['PRODUCTID'];
+
+    }
     function processSingleStockAdjust()
         {
             $PRODUCTID = $_GET['ProductID'];
@@ -112,7 +190,7 @@
         else
         {
             $CategoryHeader = $DESCRIPTION;
-            $CategoryResults = getAllCategories();
+            $CategoryArray = getAllCategories();
             $ProductArray = getCategory($CATEGORYID);
             if ($ProductArray == false)
             {
@@ -124,5 +202,10 @@
                 include '../view/adminInventory.php';
             }
         }
+    }
+
+    function addEditProduct($product)
+    {
+        console_log($product);
     }
 ?>
