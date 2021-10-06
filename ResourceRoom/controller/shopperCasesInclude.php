@@ -23,7 +23,7 @@
     function displayProducts()
     {
         $listType = filter_input(INPUT_GET, 'ListType');
-        $CategoryResults = getAllCategories();
+        $CategoryArray = getAllCategories();
         if($listType =='GeneralSearch'){
             $ProductArray = getByGeneralSearch($_GET['Criteria']);
             $CurrentCategory = "Search: " . $_GET['Criteria'];
@@ -32,8 +32,8 @@
             $CurrentCategory = $_GET['DESCRIPTION'];
             $ProductArray = getCategory($shopperCategoryID);
         }else{
-            $CurrentCategory = $CategoryResults[0]['DESCRIPTION'];
-            $shopperCategoryID = $CategoryResults[0]['CATEGORYID'];
+            $CurrentCategory = $CategoryArray[0]->getCategoryDescription();
+            $shopperCategoryID = $CategoryArray[0]->getCategoryID();
             $ProductArray = getCategory($shopperCategoryID);
         }
         $CategoryHeader = $CurrentCategory;

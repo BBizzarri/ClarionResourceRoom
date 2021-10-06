@@ -55,7 +55,7 @@
                     <?php foreach ($CategoryArray as $category) {
                     ?>
                         <li class="nav-item">
-                            <a class="category nav-link " href="../Controller/Controller.php?action=displaySelectedCategory&CATEGORYID=<?php echo $CategoryRow['CATEGORYID']?>&DESCRIPTION=<?php echo htmlspecialchars($CategoryRow['DESCRIPTION'])?>&Display=<?php echo 'category' ?>"><?php echo htmlspecialchars($category->getCategoryID() ?></a>
+                            <a class="category nav-link " href="../Controller/Controller.php?action=displaySelectedCategory&CATEGORYID=<?php echo $category->getCategoryID()?>&DESCRIPTION=<?php echo htmlspecialchars($category->getCategoryDescription())?>&Display=<?php echo 'category' ?>"><?php echo htmlspecialchars($category->getCategoryDescription()) ?></a>
                         </li>
                     <?php
                     }
@@ -143,7 +143,7 @@
                                               <h3><?php echo htmlspecialchars($product->getProductName())?></h3>
                                               <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             </div>
-                                            <form action="../Controller/Controller.php?action=editProduct">
+                                            <form action="../Controller/Controller.php?action=editProduct&">
                                                 <div class="row modal-body">
                                                     <div class="column product-info-left">
                                                         <h4 class="product-info-spacing">QTY On Hand: <input type="number" name="Qty" value="<?php echo htmlspecialchars($product->getProductQTYOnHand())?>" onchange="<?php $product->setProductQtyOnHand(this.value)?>"/></h4>

@@ -122,7 +122,7 @@
     function displayStartingInventoryView()
     {
         $listType = filter_input(INPUT_GET, 'ListType');
-        $CategoryResults = getAllCategories();
+        $CategoryArray = getAllCategories();
         if($listType =='GeneralSearch'){
             $CategoryHeader = 'All';
             $ProductArray = getByGeneralSearch($_GET['Criteria']);
@@ -131,7 +131,7 @@
         else {
 
             $CategoryHeader = 'All';
-            $CategoryArray = getAllCategories();
+            //$CategoryArray = getAllCategories();
             $ProductArray = getAllProducts();
         }
         if ($ProductArray == false) {

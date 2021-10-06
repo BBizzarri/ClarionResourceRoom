@@ -1,6 +1,7 @@
 <?php
     include_once 'product.php';
     include_once 'cart.php';
+    include_once 'category.php';
 
     function getDBConnection() {
             $dsn = 'mysql:host=localhost;dbname=resourceroom';
@@ -54,7 +55,7 @@
             {
                 array_push($categories,new category($CategoryRow['CATEGORYID'],$CategoryRow['DESCRIPTION']));
             }
-            return $results;           // Assoc Array of Rows
+            return $categories;           // Assoc Array of Rows
         } catch (PDOException $e) {
             $errorMessage = $e->getMessage();
             include '../view/errorPage.php';

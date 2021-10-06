@@ -11,10 +11,10 @@
                     <div class="sidebar-elements">
                         <h3 class="sidebar-heading">Categories</h3>
                         <ul class="nav flex-column">
-                            <?php foreach ($CategoryResults as $CategoryRow) {
+                            <?php foreach ($CategoryArray as $category) {
                                 ?>
                                 <li class="nav-item">
-                                    <a class="category nav-link " href="../controller/controller.php?action=shopperHome&CATEGORYID=<?php echo $CategoryRow['CATEGORYID']?>&DESCRIPTION=<?php echo $CategoryRow['DESCRIPTION']?>&Display=<?php echo 'category' ?>"><?php echo htmlspecialchars($CategoryRow['DESCRIPTION']) ?></a>
+                                    <a class="category nav-link " href="../Controller/Controller.php?action=shopperHome&CATEGORYID=<?php echo $category->getCategoryID()?>&DESCRIPTION=<?php echo htmlspecialchars($category->getCategoryDescription())?>&Display=<?php echo 'category' ?>"><?php echo htmlspecialchars($category->getCategoryDescription()) ?></a>
                                 </li>
                                 <?php
                             }
