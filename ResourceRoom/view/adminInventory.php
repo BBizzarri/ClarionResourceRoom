@@ -15,7 +15,7 @@
                           <input class="btn my-2 my-sm-0" id="adminSearchButton"type="button" value="Search" onclick="generalSearchAdmin();"/>
             </form>
           </div>
-          <form id="filterForm" action="../Controller/Controller.php?action=applyFilter&CATEGORYID=<?php echo $CategoryRow['CATEGORYID']?>&DESCRIPTION=<?php echo $CategoryRow['DESCRIPTION']?>" method="post" enctype="multipart/form-data">
+          <form id="filterForm" action="../Controller/Controller.php?action=applyFilter&CATEGORYID=<?php echo $category->getCategoryID()?>&DESCRIPTION=<?php echo html($category->getCategoryDescription())?>" method="post" enctype="multipart/form-data">
               <div class="sidebar-elements">
                   <div class="incoming-textbox-div">
                       <h3 class="sidebar-heading">Filter Options</h3>
