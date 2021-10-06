@@ -12,7 +12,7 @@ GRANT ALL PRIVILEGES ON resourceroom.* TO 'cis411'@'localhost';
 
 CREATE TABLE functions ( FunctionID INT NOT NULL AUTO_INCREMENT,
                          Name VARCHAR(64) NOT NULL,
-                         Description TEXT,     
+                         Description TEXT,
                          PRIMARY KEY (FunctionID) );
 
 CREATE TABLE roles ( RoleID INT NOT NULL AUTO_INCREMENT,
@@ -25,7 +25,7 @@ CREATE TABLE users ( UserID INT NOT NULL AUTO_INCREMENT,
                      LastName VARCHAR(32) NOT NULL,
                      UserName VARCHAR(32) NOT NULL,
                      Password VARCHAR(40) NOT NULL,
-                     Email VARCHAR(32) NOT NULL,
+                     Email VARCHAR(50) NOT NULL,
                      PRIMARY KEY (UserID) );
 
 CREATE TABLE rolefunctions ( RoleID INT NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE userroles ( UserID INT NOT NULL,
                          PRIMARY KEY (UserID, RoleID),
                          FOREIGN KEY (UserID) REFERENCES users(UserID) ON DELETE CASCADE,
                          FOREIGN KEY (RoleID) REFERENCES roles(RoleID) ON DELETE CASCADE);
-                         
+
 CREATE TABLE errorlog (
         LogID     INT NOT NULL AUTO_INCREMENT,
         TimeInserted     TIMESTAMP NOT NULL,
@@ -141,7 +141,7 @@ INSERT INTO users (FirstName,LastName,UserName,Password,Email) VALUES ('Jon','OD
 INSERT INTO users (FirstName,LastName,UserName,Password,Email) VALUES ('Bill','Updater','bill',SHA1('bill'),'bill@localhost');
 INSERT INTO users (FirstName,LastName,UserName,Password,Email) VALUES ('Joe','Reader','joe',SHA1('joe'),'joe@localhost');
 INSERT INTO users (FirstName,LastName,UserName,Password,Email) VALUES ('guest','guest','guest',SHA1('guest'),'guest@localhost');
-            
+
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,1);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,2);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,3);
@@ -939,7 +939,7 @@ GRANT ALL PRIVILEGES ON resourceroom.* TO 'cis411'@'localhost';
 
 CREATE TABLE functions ( FunctionID INT NOT NULL AUTO_INCREMENT,
                          Name VARCHAR(64) NOT NULL,
-                         Description TEXT,     
+                         Description TEXT,
                          PRIMARY KEY (FunctionID) );
 
 CREATE TABLE roles ( RoleID INT NOT NULL AUTO_INCREMENT,
@@ -966,7 +966,7 @@ CREATE TABLE userroles ( UserID INT NOT NULL,
                          PRIMARY KEY (UserID, RoleID),
                          FOREIGN KEY (UserID) REFERENCES users(UserID) ON DELETE CASCADE,
                          FOREIGN KEY (RoleID) REFERENCES roles(RoleID) ON DELETE CASCADE);
-                         
+
 CREATE TABLE errorlog (
         LogID     INT NOT NULL AUTO_INCREMENT,
         TimeInserted     TIMESTAMP NOT NULL,
@@ -1047,18 +1047,28 @@ CREATE TABLE SETTING
 );
 
 
--- Creates a View that generates the OnOrder amount for each product that is in a 'Submitted' order
+-- Creates a View that generates the OnOrder amount for each product that is in a ''Submitted'' order
 CREATE VIEW ONORDERVIEW AS
-    (SELECT OD.PRODUCTID, IFNULL(SUM(QTYREQUESTED),0) AS ONORDER
+    (SELECT OD.PRODUCTID, IFNULL(SUM(QTYREQUESTED),0) AS QTYONORDER
         FROM ORDERDETAILS OD INNER JOIN ORDERS O ON OD.ORDERID = O.ORDERID AND O.STATUS = 'SUBMITTED'
         GROUP BY OD.PRODUCTID);
 
--- Create a Product View that includes QtyAvailable and OnOrder (Amount of product in orders that are requested but not filled)
-CREATE VIEW PRODUCTVIEW AS
-    (SELECT PRODUCT.PRODUCTID, PRODUCT.NAME, PRODUCT.DESCRIPTION, PRODUCT.QTYONHAND, PRODUCT.MAXORDERQTY, PRODUCT.GOALSTOCK,
-            IFNULL(ONORDER,0) AS ONORDER, IFNULL(PRODUCT.QTYONHAND - ONORDER, 0) AS QTYAVAILABLE
-            FROM PRODUCT LEFT OUTER JOIN ONORDERVIEW ON product.PRODUCTID = onorderview.PRODUCTID );
+-- Create a Qty Available View, which includes product id and qty available
+CREATE VIEW QTYAVAILABLEVIEW AS
+    (SELECT PRODUCT.PRODUCTID, IFNULL(IF(PRODUCT.QTYONHAND - QTYONORDER<0,0,PRODUCT.QTYONHAND - QTYONORDER), 0) AS QTYAVAILABLE
+    FROM PRODUCT LEFT OUTER JOIN ONORDERVIEW ON product.PRODUCTID = onorderview.PRODUCTID);
 
+-- Create a Product View that includes QtyAvailable, OrderLimit, and OnOrder (Amount of product in orders that are requested but not filled)
+CREATE VIEW PRODUCTVIEW AS
+    (SELECT PRODUCT.PRODUCTID, PRODUCT.NAME, PRODUCT.DESCRIPTION, PRODUCT.QTYONHAND, PRODUCT.MAXORDERQTY,
+            (CASE PRODUCT.MAXORDERQTY
+             WHEN 0 THEN QTYAVAILABLE
+             ELSE IF(PRODUCT.MAXORDERQTY<QTYAVAILABLE, PRODUCT.MAXORDERQTY, QTYAVAILABLE)
+             END
+            ) AS ORDERLIMIT,
+    PRODUCT.GOALSTOCK, IFNULL(QTYONORDER,0) AS QTYONORDER, QTYAVAILABLE
+    FROM PRODUCT LEFT OUTER JOIN ONORDERVIEW ON product.PRODUCTID = onorderview.PRODUCTID
+    JOIN QTYAVAILABLEVIEW ON product.PRODUCTID = QTYAVAILABLEVIEW.PRODUCTID);
 
 INSERT INTO functions (Name,Description) VALUES ('SecurityManageUsers','Allows for reading users and interface to add, change, and delete.');
 INSERT INTO functions (Name,Description) VALUES ('SecurityUserAdd','Allows for adding of users by enabling link on manage form.');

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
+    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Fixing table text color and updating creation script">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/security/creation_script.sql" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/security/creation_script.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +49,14 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -58,11 +66,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1631803416568</updated>
-      <workItem from="1632945992602" duration="224000" />
-      <workItem from="1633029717961" duration="1646000" />
-      <workItem from="1633149685889" duration="2904000" />
-      <workItem from="1633205579373" duration="4453000" />
-      <workItem from="1633477898949" duration="39000" />
+      <workItem from="1632945793651" duration="1343000" />
+      <workItem from="1633524002236" duration="8974000" />
     </task>
     <task id="LOCAL-00001" summary="fixing merge conflict">
       <created>1631803451977</created>
@@ -190,56 +195,7 @@
       <option name="project" value="LOCAL" />
       <updated>1632940042329</updated>
     </task>
-    <task id="LOCAL-00019" summary="Adding functional sidebar to shopping page">
-      <created>1632945724175</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1632945724175</updated>
-    </task>
-    <task id="LOCAL-00020" summary="Fixed creationscript, switched to use productview table">
-      <created>1633034037339</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1633034037339</updated>
-    </task>
-    <task id="LOCAL-00021" summary="Fixed creationscript, switched to use productview table v2">
-      <created>1633034128010</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1633034128010</updated>
-    </task>
-    <task id="LOCAL-00022" summary="Add to cart and displaying card based on signed in user">
-      <created>1633038128883</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1633038128883</updated>
-    </task>
-    <task id="LOCAL-00023" summary="Add to cart and displaying card based on signed in user">
-      <created>1633038231629</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1633038231629</updated>
-    </task>
-    <task id="LOCAL-00024" summary="Add and remove items from cart as signed in user">
-      <created>1633041663041</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1633041663041</updated>
-    </task>
-    <task id="LOCAL-00025" summary="Converted project to use php classes.">
-      <created>1633209990498</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1633209990498</updated>
-    </task>
-    <option name="localTasksCounter" value="26" />
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -275,12 +231,6 @@
     <MESSAGE value="adding functionality to the admin inventory page" />
     <MESSAGE value="adding idea" />
     <MESSAGE value="Fixing table text color and updating creation script" />
-    <MESSAGE value="Adding functional sidebar to shopping page" />
-    <MESSAGE value="Fixed creationscript, switched to use productview table" />
-    <MESSAGE value="Fixed creationscript, switched to use productview table v2" />
-    <MESSAGE value="Add to cart and displaying card based on signed in user" />
-    <MESSAGE value="Add and remove items from cart as signed in user" />
-    <MESSAGE value="Converted project to use php classes." />
-    <option name="LAST_COMMIT_MESSAGE" value="Converted project to use php classes." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixing table text color and updating creation script" />
   </component>
 </project>
