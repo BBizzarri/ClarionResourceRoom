@@ -1,6 +1,7 @@
 <?php
     include_once 'product.php';
     include_once 'cart.php';
+    include_once 'category.php';
 
     function getDBConnection() {
             $dsn = 'mysql:host=localhost;dbname=resourceroom';
@@ -49,7 +50,12 @@
             $statement->execute();
             $results = $statement->fetchAll();
             $statement->closeCursor();
-            return $results;           // Assoc Array of Rows
+            $categories = array();
+            foreach($results as $CategoryRow)
+            {
+                array_push($categories,new category($CategoryRow['CATEGORYID'],$CategoryRow['DESCRIPTION']));
+            }
+            return $categories;           // Assoc Array of Rows
         } catch (PDOException $e) {
             $errorMessage = $e->getMessage();
             include '../view/errorPage.php';
@@ -153,6 +159,27 @@
         }
     }
 
+        function getFilteredProducts($QTYONHAND) {
+            try {
+                $db = getDBConnection();
+                $query = $query = "select *
+                                   from productview
+                                   where QTYONHAND < :QTYONHAND
+                                   order by NAME";
+                $statement = $db->prepare($query);
+                $statement->bindValue(":QTYONHAND", $QTYONHAND);
+                $statement->execute();
+                $results = $statement->fetchAll();
+                $statement->closeCursor();
+                return $results;           // Assoc Array of Rows
+                console_log($results);
+            } catch (PDOException $e) {
+                $errorMessage = $e->getMessage();
+                include '../view/errorPage.php';
+                die;
+            }
+        }
+
         function getCategory($CATEGORYID)
         {
             try{
@@ -173,6 +200,51 @@
                         $ProductRow['MAXORDERQTY'],$ProductRow['GOALSTOCK'],$ProductRow['ONORDER'],$ProductRow['QTYAVAILABLE']));
                 }
                 return $products;
+            }
+            catch (Exception $ex)
+            {
+                $errorMessage = $e->getMessage();
+                include '../view/errorPage.php';
+                die;
+            }
+        }
+
+        function getFilteredCategory($CATEGORYID, $QTYONHAND)
+                {
+                    try{
+                        $db = getDBConnection();
+                        $query = "select *
+                                  from productview
+                                  inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
+                                  where productcategories.CATEGORYID = :CATEGORYID AND QTYONHAND < :QTYONHAND";
+                        $statement = $db->prepare($query);
+                        $statement->bindValue(":CATEGORYID", $CATEGORYID);
+                        $statement->bindValue(":QTYONHAND", $QTYONHAND);
+                        $statement->execute();
+                        $result = $statement->fetchAll();
+                        $statement->closeCursor();
+                        return $result;
+                    }
+                    catch (Exception $ex)
+                    {
+                        $errorMessage = $e->getMessage();
+                        include '../view/errorPage.php';
+                        die;
+                    }
+                }
+
+        function getFilterResults($QTYLESSTHAN) {
+            try{
+                $db = getDBConnection();
+                $query = "select *
+                          from productview
+                          where QTYONHAND < :QTYLESSTHAN ";
+                $statement = $db->prepare($query);
+                $statement->bindValue(":QTYLESSTHAN", $QTYLESSTHAN);
+                $statement->execute();
+                $result = $statement->fetchAll();
+                $statement->closeCursor();
+                return $result;
             }
             catch (Exception $ex)
             {
