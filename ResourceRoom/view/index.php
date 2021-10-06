@@ -7,8 +7,8 @@
     <section id="main" class="clarion-blue">
         <div class="container-fluid">
             <div class ="row">
-                <div class="col-2 sidebar">
-                    <div class="sidebar-elements">
+                <div class="col-lg-2 hidden-xs sidebar">
+                    <div class="sidebar-elements w-100">
                         <h3 class="sidebar-heading">Categories</h3>
                         <ul class="nav flex-column">
                             <?php foreach ($CategoryArray as $category) {
@@ -22,7 +22,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-10">
+                <div class="col-lg-10 col-xs-12">
                     <div class="container-fluid">
                         <h3 class="category-heading"><?php echo htmlspecialchars($CategoryHeader)?></h3>
                         <div class="row">
@@ -36,7 +36,7 @@
                                     <div class="card-body">
                                         <h4 class="card-title"><?php echo htmlspecialchars($product->getProductName())?></h4>
                                     </div>
-                                    <div class="card-footer d-flex flex-column">
+                                    <div class="card-footer">
                                         <form id="card-form" action="../controller/controller.php?action=processAddToCart&ProductID=<?php echo $product->getProductID()?>" method="post" enctype="multipart/form-data">
                                             <div class="form-group row flex-column" id="shopperAddToCartButton">
                                                 <input type="number" id="quantity_<?php echo htmlspecialchars($product->getProductID())?>" name="QTYRequested" min="1" max="<?php echo htmlspecialchars($ProductRow['QTYONHAND'])?>">

@@ -283,6 +283,31 @@
            }
        }
 
+        function updateProduct($product)
+        {
+            $db = getDBConnection();
+            $query = "update productview set NAME = :NAME, DESCRIPTION = :DESCRIPTION, QTYONHAND = :QTYONHAND,
+                       MAXORDERQTY = :MAXORDERQTY, GOALSTOCK = :GOALSTOCK where PRODUCTID = :PRODUCTID";
+            $statement = $db->prepare($query);
+            $statement->bindValue(':PRODUCTID', $product->getProductID());
+            $statement->bindValue(':NAME', $product->getProductName());
+            $statement->bindValue(':DESCRIPTION', $product->getProductDescription());
+            $statement->bindValue(':QTYONHAND', $product->getProductQTYOnhand());
+            $statement->bindValue(':MAXORDERQTY', $product->getProductMaxOrderQty());
+            $statement->bindValue(':GOALSTOCK', $product->getProductGoalStock());
+            $success = $statement->execute();
+            $statement->closeCursor();
+            if($success)
+            {
+
+                return $statement->rowCount();
+            }
+            else
+            {
+                logSQLError($statement->errorInfo());
+            }
+        }
+
         function console_log( $data ){
           echo '<script>';
           echo 'console.log('. json_encode( $data ) .')';
