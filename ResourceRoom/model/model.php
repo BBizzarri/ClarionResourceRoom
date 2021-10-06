@@ -49,6 +49,11 @@
             $statement->execute();
             $results = $statement->fetchAll();
             $statement->closeCursor();
+            $categories = array();
+            foreach($results as $CategoryRow)
+            {
+                array_push($categories,new category($CategoryRow['CATEGORYID'],$CategoryRow['DESCRIPTION']));
+            }
             return $results;           // Assoc Array of Rows
         } catch (PDOException $e) {
             $errorMessage = $e->getMessage();

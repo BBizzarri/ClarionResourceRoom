@@ -129,9 +129,22 @@ category-background {
 }
 
 .product-info-right {
-    margin-left: 260px;
+    padding-left: 30px;
 }
 
 .product-info-spacing {
     padding-bottom: 20px;
+}
+
+.sidebar-search-div {
+    display: block;
+    text-align: center;
+}
+
+.sidebar-search-form {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    padding-top: 20px;
 }

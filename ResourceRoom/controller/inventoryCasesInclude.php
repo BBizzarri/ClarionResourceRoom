@@ -25,6 +25,9 @@
         case 'displaySelectedCategory':
             displayCategories();
             break;
+        case editProduct();
+            editProduct();
+            break;
         case 'getProductInfo':
             getProductInfo();
             break;
@@ -47,7 +50,7 @@
         {
             console_log('inactive items is checked');
         }
-        $CategoryResults = getAllCategories();
+        $CategoryArray = getAllCategories();
         include '../view/adminInventory.php';
     }
 
@@ -65,7 +68,7 @@
         if(!isset($_GET['CATEGORYID']))
         {
             $CategoryHeader = 'All';
-            $CategoryResults = getAllCategories();
+            $CategoryArray = getAllCategories();
             if($action === 'applyFilter')
             {
                 $QTYLESSTHAN = $_POST['qtyLessThan'];
@@ -75,7 +78,7 @@
             {
                 $ProductArray = getAllProducts();
             }
-            if (count($CategoryResults) == 0) {
+            if ($CategoryArray == false) {
                 $errorMessage = "No Categories found.";
                 include '../view/errorPage.php';
             } else {
@@ -93,7 +96,7 @@
             else
             {
                 $CategoryHeader = $DESCRIPTION;
-                $CategoryResults = getAllCategories();
+                $CategoryArray = getAllCategories();
                 if($action === 'applyFilter')
                 {
                     $QTYLESSTHAN = $_POST['qtyLessThan'];
@@ -118,10 +121,20 @@
 
     function displayStartingInventoryView()
     {
-        $CategoryHeader = 'All';
+        $listType = filter_input(INPUT_GET, 'ListType');
         $CategoryResults = getAllCategories();
-        $ProductArray = getAllProducts();
-        if (count($CategoryResults) == 0) {
+        if($listType =='GeneralSearch'){
+            $CategoryHeader = 'All';
+            $ProductArray = getByGeneralSearch($_GET['Criteria']);
+            $CurrentCategory = "Search: " . $_GET['Criteria'];
+        }
+        else {
+
+            $CategoryHeader = 'All';
+            $CategoryArray = getAllCategories();
+            $ProductArray = getAllProducts();
+        }
+        if ($ProductArray == false) {
             $errorMessage = "No Categories found.";
             include '../view/errorPage.php';
         } else {
@@ -172,7 +185,7 @@
         else
         {
             $CategoryHeader = $DESCRIPTION;
-            $CategoryResults = getAllCategories();
+            $CategoryArray = getAllCategories();
             $ProductArray = getCategory($CATEGORYID);
             if ($ProductArray == false)
             {
