@@ -51,9 +51,10 @@ CREATE TABLE errorlog (
 CREATE TABLE ORDERS
 (   ORDERID                 INT AUTO_INCREMENT UNIQUE,
     USERID                  INT,
-    ORDERDATE               DATE,
     STATUS                  VARCHAR(20),
+    DATEORDERED             DATE,
     DATEFILLED              DATE,
+    DATECOMPLETED           DATE,
     COMMENT                 TEXT,
     CONSTRAINT ORDERS_PK PRIMARY KEY (ORDERID),
     CONSTRAINT USERID_FK FOREIGN KEY (USERID) REFERENCES USERS (USERID)
@@ -978,9 +979,10 @@ CREATE TABLE errorlog (
 CREATE TABLE ORDERS
 (   ORDERID                 INT AUTO_INCREMENT UNIQUE,
     USERID                  INT,
-    ORDERDATE               DATE,
     STATUS                  VARCHAR(30),
+    DATEORDERED             DATE,
     DATEFILLED              DATE,
+    DATECOMPLETED           DATE,
     COMMENT                 TEXT,
     CONSTRAINT ORDERS_PK PRIMARY KEY (ORDERID),
     CONSTRAINT USERID_FK FOREIGN KEY (USERID) REFERENCES USERS (USERID)
@@ -1055,12 +1057,12 @@ CREATE VIEW ONORDERVIEW AS
 
 -- Create a Qty Available View, which includes product id and qty available
 CREATE VIEW QTYAVAILABLEVIEW AS
-    (SELECT PRODUCT.PRODUCTID, IFNULL(IF(PRODUCT.QTYONHAND - QTYONORDER<0,0,PRODUCT.QTYONHAND - QTYONORDER), 0) AS QTYAVAILABLE
+    (SELECT PRODUCT.PRODUCTID, IFNULL(PRODUCT.QTYONHAND - QTYONORDER, 0) AS QTYAVAILABLE
     FROM PRODUCT LEFT OUTER JOIN ONORDERVIEW ON product.PRODUCTID = onorderview.PRODUCTID);
 
 -- Create a Product View that includes QtyAvailable, OrderLimit, and OnOrder (Amount of product in orders that are requested but not filled)
 CREATE VIEW PRODUCTVIEW AS
-    (SELECT PRODUCT.PRODUCTID, PRODUCT.NAME, PRODUCT.DESCRIPTION, PRODUCT.QTYONHAND, PRODUCT.MAXORDERQTY,
+    (SELECT PRODUCT.PRODUCTID, PRODUCT.NAME, PRODUCT.DESCRIPTION, IF(PRODUCT.QTYONHAND<0, 0, PRODUCT.QTYONHAND) AS QTYONHAND, PRODUCT.MAXORDERQTY,
             (CASE PRODUCT.MAXORDERQTY
              WHEN 0 THEN QTYAVAILABLE
              ELSE IF(PRODUCT.MAXORDERQTY<QTYAVAILABLE, PRODUCT.MAXORDERQTY, QTYAVAILABLE)
@@ -1884,11 +1886,11 @@ Please put size in comment box before ordering', 30, 5, 0), -- GoalStock = 0 (Te
 (1017, 'Suave 3-1 Shampoo, Body and Face Wash', '16 fl oz bottle, scent: ThunderBird Axe Attack', 3, 10, 15); -- QtyOnHand < GoalStock (On shopping List)
 COMMIT;
 
-INSERT INTO `ORDERS` (`ORDERID`, `USERID`, `ORDERDATE`, `STATUS`, `DATEFILLED`, `COMMENT`) VALUES
-(1, 1, '2021-08-29', 'COMPLETED', '2021-09-01', 'I am allergice to Nuts'),
-(2, 2, '2021-09-16', 'READY FOR PICKUP', '2021-09-17', ' '),
-(3, 1, '2021-09-18', 'SUBMITTED', '', 'I live off campus'),
-(4, 3, '2021-09-19', 'SUBMITTED', '', 'Size Xtra Large For the Tank Top');
+INSERT INTO `ORDERS` (`ORDERID`, `USERID`, `STATUS`, `DATEORDERED`, `DATEFILLED`, `DATECOMPLETED`, `COMMENT`) VALUES
+(1, 1, 'COMPLETED', '2021-08-29', '2021-09-01', '2021-09-05', 'I am allergice to Nuts'),
+(2, 2, 'READY FOR PICKUP', '2021-09-16', '2021-09-17', '', ' '),
+(3, 1, 'SUBMITTED', '2021-09-18',  '', '', 'I live off campus'),
+(4, 3, 'SUBMITTED', '2021-09-19', '', '', 'Size Xtra Large For the Tank Top');
 COMMIT;
 
 INSERT INTO `productcategories` (`ProductID`, `CategoryID`) VALUES
