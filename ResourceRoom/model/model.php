@@ -75,7 +75,7 @@
                 foreach($results as $ProductRow)
                 {
                     array_push($products,new product($ProductRow['PRODUCTID'],$ProductRow['NAME'],$ProductRow['DESCRIPTION'],$ProductRow['QTYONHAND'],
-                        $ProductRow['MAXORDERQTY'],$ProductRow['GOALSTOCK'],$ProductRow['ONORDER'],$ProductRow['QTYAVAILABLE']));
+                        $ProductRow['MAXORDERQTY'],$ProductRow['GOALSTOCK'],$ProductRow['QTYONORDER'],$ProductRow['QTYAVAILABLE']));
                 }
                 return $products;
             } catch (PDOException $e) {
@@ -107,7 +107,7 @@
             }
             catch (Exception $ex)
             {
-                $errorMessage = $e->getMessage();
+                $errorMessage = $ex->getMessage();
                 include '../view/errorPage.php';
                 die;
             }
@@ -197,13 +197,13 @@
                 foreach($result as $ProductRow)
                 {
                     array_push($products,new product($ProductRow['PRODUCTID'],$ProductRow['NAME'],$ProductRow['DESCRIPTION'],$ProductRow['QTYONHAND'],
-                        $ProductRow['MAXORDERQTY'],$ProductRow['GOALSTOCK'],$ProductRow['ONORDER'],$ProductRow['QTYAVAILABLE']));
+                        $ProductRow['MAXORDERQTY'],$ProductRow['GOALSTOCK'],$ProductRow['QTYONORDER'],$ProductRow['QTYAVAILABLE']));
                 }
                 return $products;
             }
             catch (Exception $ex)
             {
-                $errorMessage = $e->getMessage();
+                $errorMessage = $ex->getMessage();
                 include '../view/errorPage.php';
                 die;
             }
@@ -227,7 +227,7 @@
                     }
                     catch (Exception $ex)
                     {
-                        $errorMessage = $e->getMessage();
+                        $errorMessage = $ex->getMessage();
                         include '../view/errorPage.php';
                         die;
                     }
@@ -248,7 +248,7 @@
             }
             catch (Exception $ex)
             {
-                $errorMessage = $e->getMessage();
+                $errorMessage = $ex->getMessage();
                 include '../view/errorPage.php';
                 die;
             }
