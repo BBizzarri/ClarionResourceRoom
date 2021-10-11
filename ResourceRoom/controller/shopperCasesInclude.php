@@ -58,7 +58,6 @@
     {
         $PRODUCTID = $_GET['ProductID'];
         $QTYREQUESTED = $_POST['QTYRequested'];
-        $MostRecentDate = date("Y/m/d");
         //Validations
         $errors = "";
         if($errors != "")
@@ -67,7 +66,7 @@
         }
         else
         {
-            $rowsAffected = addToCart($PRODUCTID, $QTYREQUESTED, $MostRecentDate);
+            $rowsAffected = addToCart($PRODUCTID, $QTYREQUESTED);
         }
         header("Location: {$_SERVER['HTTP_REFERER']}");
     }

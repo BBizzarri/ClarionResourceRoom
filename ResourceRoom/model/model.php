@@ -114,17 +114,16 @@
         }
 
 
-        function addToCart($PRODUCTID, $QTYREQUESTED, $MostRecentDate)
+        function addToCart($PRODUCTID, $QTYREQUESTED)
         {
             $USERID = getUserID();
             $db = getDBConnection();
-            $query = 'INSERT INTO cart (UserID, PRODUCTID, QTYREQUESTED, MOSTRECENTDATE)
-                VALUES (:USERID, :PRODUCTID, :QTYREQUESTED, :MOSTRECENTDATE)';
+            $query = 'INSERT INTO cart (UserID, PRODUCTID, QTYREQUESTED)
+                VALUES (:USERID, :PRODUCTID, :QTYREQUESTED)';
             $statement = $db->prepare($query);
             $statement->bindValue(':USERID', $USERID);
             $statement->bindValue(':PRODUCTID', $PRODUCTID);
             $statement->bindValue(':QTYREQUESTED', $QTYREQUESTED);
-            $statement->bindValue(':MOSTRECENTDATE', $MostRecentDate);
             $success = $statement->execute();
             $statement->closeCursor();
             if($success)
