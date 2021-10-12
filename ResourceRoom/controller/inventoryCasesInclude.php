@@ -6,6 +6,7 @@
     switch ($action) {
         case 'addEditProduct':
             addEditProduct();
+            break;
         case 'adminInventory':
              displayStartingInventoryView();
             break;
@@ -38,12 +39,13 @@
             break;
     }
 
-    function applyFilter($ProductResults)
+    function applyFilter()
     {
-        $QTYLESSTHAN = $_POST['qtyLessThan'];
-        if($QTYLESSTHAN !== '')
+        $QtyLessThan = $_POST['qtyLessThan'];
+        if($QtyLessThan !== '')
         {
-            $ProductResults = getFilterResults($QTYLESSTHAN, $ProductResults);
+            $CategoryHeader = 'All';
+            $ProductArray = getFilterResults($QtyLessThan);
         }
         if(isset($_POST['inactiveItems']))
         {
@@ -63,15 +65,15 @@
         {
             $action = $_GET['action'];
         }
-        //$Display = $_GET['Display'];
         if(!isset($_GET['CATEGORYID']))
         {
             $CategoryHeader = 'All';
             $CategoryArray = getAllCategories();
             if($action === 'applyFilter')
             {
-                $QTYLESSTHAN = $_POST['qtyLessThan'];
-                $ProductArray = getFilteredProducts($QTYLESSTHAN);
+                console_log('the apply button was hit with the all categories showing');
+                $QtyLessThan = $_POST['QtyLessThan'];
+                $ProductArray = getFilteredProducts($QtyLessThan);
             }
             else
             {
@@ -86,7 +88,7 @@
         }
         else if (isset($_GET['CATEGORYID'])) {
             $CATEGORYID = $_GET['CATEGORYID'];
-            $DESCRIPTION = $_GET['DESCRIPTION'];
+            //$DESCRIPTION = $_GET['DESCRIPTION'];
             if (!isset($CATEGORYID))
             {
                 $errorMessage = 'You must provide a category ID to display';
@@ -94,11 +96,11 @@
             }
             else
             {
-                $CategoryHeader = $DESCRIPTION;
+                $CategoryHeader = $CATEGORYID;
                 $CategoryArray = getAllCategories();
                 if($action === 'applyFilter')
                 {
-                    $QTYLESSTHAN = $_POST['qtyLessThan'];
+                    $QTYLESSTHAN = $_POST['QtyLessThan'];
                     $ProductArray = getFilteredCategory($CATEGORYID, $QTYLESSTHAN);
                 }
                 else
@@ -204,8 +206,49 @@
         }
     }
 
-    function addEditProduct($product)
+    function addEditProduct()
     {
-        console_log($product);
+        $ProductName = $_POST['ProductName'];
+        $QtyOnHand = $_POST['QtyOnHand'];
+        $MaxOrderQty = $_POST['MaxOrderQty'];
+        $GoalStock = $_POST['GoalStock'];
+        $ProductDescription = $_POST['ProductDescription'];
+        $ProductMode = $_GET['productMode'];
+        $errorMessage = "";
+        if(empty($ProductName))
+        {
+            $errorMessage .= "\\n* Product name is required.";
+        }
+        if(empty($QtyOnHand) || !is_numeric($QtyOnHand))
+        {
+            $errorMessage .= "\\n* Qty on hand is required and must be numeric.";
+        }
+        if(empty($MaxOrderQty) || !is_numeric($MaxOrderQty))
+        {
+            $errorMessage .= "\\n* Max order quantity is required and must be numeric.";
+        }
+        if(empty($GoalStock) || !is_numeric($GoalStock))
+        {
+            $errorMessage .= "\\n* Goal stock is required and must be numeric.";
+        }
+        if($errorMessage == "")
+        {
+            if($ProductMode == 'Add')
+            {
+                $ProductID = addProduct($ProductName, $QtyOnHand, $MaxOrderQty, $GoalStock, $ProductDescription);
+            }
+            else
+            {
+               $ProductID = $_POST['ProductID'];
+               $rowsAffected = updateProduct($ProductID, $ProductName, $QtyOnHand, $MaxOrderQty, $GoalStock, $ProductDescription);
+               console_log($rowsAffected);
+            }
+            header("Location:../Controller/Controller.php?action=adminInventory");
+        }
+        else
+        {
+            include '../view/errorPage.php';
+        }
+
     }
 ?>

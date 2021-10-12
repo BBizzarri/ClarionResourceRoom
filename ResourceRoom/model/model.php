@@ -159,20 +159,26 @@
         }
     }
 
-        function getFilteredProducts($QTYONHAND) {
+        function getFilteredProducts($QtyLessThan) {
+            console_log($QtyLessThan);
             try {
                 $db = getDBConnection();
-                $query = $query = "select *
+                $query = "select *
                                    from productview
                                    where QTYONHAND < :QTYONHAND
                                    order by NAME";
                 $statement = $db->prepare($query);
-                $statement->bindValue(":QTYONHAND", $QTYONHAND);
+                $statement->bindValue(":QTYONHAND", $QtyLessThan);
                 $statement->execute();
                 $results = $statement->fetchAll();
                 $statement->closeCursor();
-                return $results;           // Assoc Array of Rows
-                console_log($results);
+                $products = array();
+                foreach($results as $ProductRow)
+                {
+                    array_push($products,new product($ProductRow['PRODUCTID'],$ProductRow['NAME'],$ProductRow['DESCRIPTION'],$ProductRow['QTYONHAND'],
+                        $ProductRow['MAXORDERQTY'],$ProductRow['GOALSTOCK'],$ProductRow['QTYONORDER'],$ProductRow['QTYAVAILABLE']));
+                }
+                return $products;
             } catch (PDOException $e) {
                 $errorMessage = $e->getMessage();
                 include '../view/errorPage.php';
@@ -221,9 +227,15 @@
                         $statement->bindValue(":CATEGORYID", $CATEGORYID);
                         $statement->bindValue(":QTYONHAND", $QTYONHAND);
                         $statement->execute();
-                        $result = $statement->fetchAll();
+                        $results = $statement->fetchAll();
                         $statement->closeCursor();
-                        return $result;
+                        $products = array();
+                        foreach($results as $ProductRow)
+                        {
+                            array_push($products,new product($ProductRow['PRODUCTID'],$ProductRow['NAME'],$ProductRow['DESCRIPTION'],$ProductRow['QTYONHAND'],
+                                $ProductRow['MAXORDERQTY'],$ProductRow['GOALSTOCK'],$ProductRow['QTYONORDER'],$ProductRow['QTYAVAILABLE']));
+                        }
+                        return $products;
                     }
                     catch (Exception $ex)
                     {
@@ -233,18 +245,24 @@
                     }
                 }
 
-        function getFilterResults($QTYLESSTHAN) {
+        function getFilterResults($QtyLessThan) {
             try{
                 $db = getDBConnection();
                 $query = "select *
                           from productview
-                          where QTYONHAND < :QTYLESSTHAN ";
+                          where QTYONHAND < :QtyLessThan";
                 $statement = $db->prepare($query);
-                $statement->bindValue(":QTYLESSTHAN", $QTYLESSTHAN);
+                $statement->bindValue(":QtyLessThan", $QtyLessThan);
                 $statement->execute();
-                $result = $statement->fetchAll();
+                $results = $statement->fetchAll();
                 $statement->closeCursor();
-                return $result;
+                $products = array();
+                foreach($results as $ProductRow)
+                {
+                    array_push($products,new product($ProductRow['PRODUCTID'],$ProductRow['NAME'],$ProductRow['DESCRIPTION'],$ProductRow['QTYONHAND'],
+                        $ProductRow['MAXORDERQTY'],$ProductRow['GOALSTOCK'],$ProductRow['QTYONORDER'],$ProductRow['QTYAVAILABLE']));
+                }
+                return $products;
             }
             catch (Exception $ex)
             {
@@ -283,29 +301,52 @@
            }
        }
 
-        function updateProduct($product)
+        function addProduct($ProductName, $QtyOnHand, $MaxOrderQty, $GoalStock, $ProductDescription)
+        {
+           $db = getDBConnection();
+           $query = 'INSERT INTO product (NAME, QTYONHAND, MAXORDERQTY, GOALSTOCK, DESCRIPTION)
+                                            VALUES (:NAME, :QTYONHAND, :MAXORDERQTY, :GOALSTOCK, :DESCRIPTION)';
+           $statement = $db->prepare($query);
+           $statement->bindValue(':NAME', $ProductName);
+           $statement->bindValue(':QTYONHAND', $QtyOnHand);
+           $statement->bindValue(':MAXORDERQTY', $MaxOrderQty);
+           $statement->bindValue(':GOALSTOCK', $GoalStock);
+           $statement->bindValue(':DESCRIPTION', $ProductDescription);
+           $success = $statement->execute();
+           $statement->closeCursor();
+
+           if($success)
+           {
+               //savePriceImageFile($db->lastInsertId());
+               return $db->lastInsertId();
+           }
+           else
+           {
+               logSQLError($statement->errorInfo());
+           }
+        }
+
+        function updateProduct($ProductID, $ProductName, $QtyOnHand, $MaxOrderQty, $GoalStock, $ProductDescription)
         {
             $db = getDBConnection();
-            $query = "update productview set NAME = :NAME, DESCRIPTION = :DESCRIPTION, QTYONHAND = :QTYONHAND,
-                       MAXORDERQTY = :MAXORDERQTY, GOALSTOCK = :GOALSTOCK where PRODUCTID = :PRODUCTID";
-            $statement = $db->prepare($query);
-            $statement->bindValue(':PRODUCTID', $product->getProductID());
-            $statement->bindValue(':NAME', $product->getProductName());
-            $statement->bindValue(':DESCRIPTION', $product->getProductDescription());
-            $statement->bindValue(':QTYONHAND', $product->getProductQTYOnhand());
-            $statement->bindValue(':MAXORDERQTY', $product->getProductMaxOrderQty());
-            $statement->bindValue(':GOALSTOCK', $product->getProductGoalStock());
-            $success = $statement->execute();
-            $statement->closeCursor();
-            if($success)
-            {
-
-                return $statement->rowCount();
-            }
-            else
-            {
-                logSQLError($statement->errorInfo());
-            }
+           $query = 'UPDATE product SET NAME = :NAME, QTYONHAND = :QTYONHAND, MAXORDERQTY = :MAXORDERQTY, GOALSTOCK = :GOALSTOCK, DESCRIPTION = :DESCRIPTION WHERE PRODUCTID = :PRODUCTID';
+           $statement = $db->prepare($query);
+           $statement->bindValue(':PRODUCTID', $ProductID);
+           $statement->bindValue(':NAME', $ProductName);
+           $statement->bindValue(':QTYONHAND', $QtyOnHand);
+           $statement->bindValue(':MAXORDERQTY', $MaxOrderQty);
+           $statement->bindValue(':GOALSTOCK', $GoalStock);
+           $statement->bindValue(':DESCRIPTION', $ProductDescription);
+           $success = $statement->execute();
+           $statement->closeCursor();
+           if($success)
+           {
+               return $statement->rowCount();
+           }
+           else
+           {
+               logSQLError($statement->errorInfo());
+           }
         }
 
         function console_log( $data ){
