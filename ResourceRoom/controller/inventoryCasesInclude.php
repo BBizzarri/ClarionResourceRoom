@@ -239,10 +239,10 @@
         {
             $errorMessage .= "\\n* Qty on hand is required and must be numeric.";
         }
-        if(empty($MaxOrderQty) || !is_numeric($MaxOrderQty))
-        {
-            $errorMessage .= "\\n* Max order quantity is required and must be numeric.";
-        }
+//         if(empty($MaxOrderQty) || !is_numeric($MaxOrderQty))
+//         {
+//             $errorMessage .= "\\n* Max order quantity is required and must be numeric.";
+//         }
         if(empty($GoalStock) || !is_numeric($GoalStock))
         {
             $errorMessage .= "\\n* Goal stock is required and must be numeric.";
