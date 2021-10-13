@@ -6,6 +6,7 @@
     switch ($action) {
         case 'addEditProduct':
             addEditProduct();
+            break;
         case 'adminInventory':
              displayStartingInventoryView();
             break;
@@ -38,12 +39,13 @@
             break;
     }
 
-    function applyFilter($ProductResults)
+    function applyFilter()
     {
-        $QTYLESSTHAN = $_POST['qtyLessThan'];
-        if($QTYLESSTHAN !== '')
+        $QtyLessThan = $_POST['qtyLessThan'];
+        if($QtyLessThan !== '')
         {
-            $ProductResults = getFilterResults($QTYLESSTHAN, $ProductResults);
+            $CategoryHeader = 'All';
+            $ProductArray = getFilterResults($QtyLessThan);
         }
         if(isset($_POST['inactiveItems']))
         {
@@ -55,6 +57,7 @@
 
     function displayCategories()
     {
+        $Display = $_GET['Display'];
        if (isset($_POST['action']))
         {
             $action = $_POST['action'];
@@ -63,15 +66,30 @@
         {
             $action = $_GET['action'];
         }
-        //$Display = $_GET['Display'];
-        if(!isset($_GET['CATEGORYID']))
+        if($Display == 'All')
         {
+            $CATEGORYID = '';
             $CategoryHeader = 'All';
             $CategoryArray = getAllCategories();
             if($action === 'applyFilter')
             {
-                $QTYLESSTHAN = $_POST['qtyLessThan'];
-                $ProductArray = getFilteredProducts($QTYLESSTHAN);
+                if(isset($_POST['QtyLessThan']))
+                {
+                    if(is_numeric($_POST['QtyLessThan']))
+                    {
+                        $QtyLessThanStatus = isset($_POST['QtyLessThan']);
+                        $QtyLessThan = $_POST['QtyLessThan'];
+                    }
+                    else
+                    {
+                        $QtyLessThanStatus = false;
+                        $QtyLessThan = 0;
+                    }
+                }
+                console_log(isset($_POST['QtyLessThan']));
+                $InactiveItems = isset($_POST['inactiveItems']);
+                $StockedItems = isset($_POST['stockedItems']);
+                $ProductArray = getFilteredProducts($QtyLessThan, $QtyLessThanStatus, $InactiveItems, $StockedItems);
             }
             else
             {
@@ -84,9 +102,9 @@
                 include '../view/adminInventory.php';
             }
         }
-        else if (isset($_GET['CATEGORYID'])) {
+        else if ($Display == 'category') {
             $CATEGORYID = $_GET['CATEGORYID'];
-            $DESCRIPTION = $_GET['DESCRIPTION'];
+            //$DESCRIPTION = $_GET['DESCRIPTION'];
             if (!isset($CATEGORYID))
             {
                 $errorMessage = 'You must provide a category ID to display';
@@ -94,11 +112,11 @@
             }
             else
             {
-                $CategoryHeader = $DESCRIPTION;
+                $CategoryHeader = $CATEGORYID;
                 $CategoryArray = getAllCategories();
                 if($action === 'applyFilter')
                 {
-                    $QTYLESSTHAN = $_POST['qtyLessThan'];
+                    $QTYLESSTHAN = $_POST['QtyLessThan'];
                     $ProductArray = getFilteredCategory($CATEGORYID, $QTYLESSTHAN);
                 }
                 else
@@ -204,8 +222,49 @@
         }
     }
 
-    function addEditProduct($product)
+    function addEditProduct()
     {
-        console_log($product);
+        $ProductName = $_POST['ProductName'];
+        $QtyOnHand = $_POST['QtyOnHand'];
+        $MaxOrderQty = $_POST['MaxOrderQty'];
+        $GoalStock = $_POST['GoalStock'];
+        $ProductDescription = $_POST['ProductDescription'];
+        $ProductMode = $_GET['productMode'];
+        $errorMessage = "";
+        if(empty($ProductName))
+        {
+            $errorMessage .= "\\n* Product name is required.";
+        }
+        if(empty($QtyOnHand) || !is_numeric($QtyOnHand))
+        {
+            $errorMessage .= "\\n* Qty on hand is required and must be numeric.";
+        }
+//         if(empty($MaxOrderQty) || !is_numeric($MaxOrderQty))
+//         {
+//             $errorMessage .= "\\n* Max order quantity is required and must be numeric.";
+//         }
+        if(empty($GoalStock) || !is_numeric($GoalStock))
+        {
+            $errorMessage .= "\\n* Goal stock is required and must be numeric.";
+        }
+        if($errorMessage == "")
+        {
+            if($ProductMode == 'Add')
+            {
+                $ProductID = addProduct($ProductName, $QtyOnHand, $MaxOrderQty, $GoalStock, $ProductDescription);
+            }
+            else
+            {
+               $ProductID = $_POST['ProductID'];
+               $rowsAffected = updateProduct($ProductID, $ProductName, $QtyOnHand, $MaxOrderQty, $GoalStock, $ProductDescription);
+               console_log($rowsAffected);
+            }
+            header("Location:../Controller/Controller.php?action=adminInventory");
+        }
+        else
+        {
+            include '../view/errorPage.php';
+        }
+
     }
 ?>

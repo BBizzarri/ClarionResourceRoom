@@ -15,20 +15,24 @@
                           <input class="btn my-2 my-sm-0" id="adminSearchButton"type="button" value="Search" onclick="generalSearchAdmin();"/>
             </form>
           </div>
-          <form id="filterForm" action="../Controller/Controller.php?action=applyFilter&CATEGORYID=<?php echo $CategoryRow['CATEGORYID']?>&DESCRIPTION=<?php echo $CategoryRow['DESCRIPTION']?>" method="post" enctype="multipart/form-data">
+          <form id="filterForm" action="../Controller/Controller.php?action=applyFilter&Display=<?php echo $Display?>&CATEGORYID=<?php echo $CATEGORYID?>" method="post" enctype="multipart/form-data">
               <div class="sidebar-elements">
                   <div class="incoming-textbox-div">
                       <h3 class="sidebar-heading">Filter Options</h3>
                       <label for="qtyLessThan">Quantity Less Than:</label>
                   </div>
                   <div class="incoming-textbox-div">
-                      <input class="incoming-textbox" type="number" id="qtyLessThan" name="qtyLessThan" value="qtyLessThan"/>
+                      <input class="incoming-textbox" type="number" id="QtyLessThan" name="QtyLessThan" value="QtyLessThan"/>
                   </div>
               </div>
-              <!--<div class="sidebar-elements">
-                  <label for="inactiveItems">Include Inactive Items</label>
+              <div class="sidebar-elements">
+                  <label for="inactiveItems">Show Inactive Items</label>
                   <input type="checkbox" id="inactiveItems" name="inactiveItems"/>
-              </div>-->
+              </div>
+              <div class="sidebar-elements">
+                  <label for="stockedItems">Show Stocked Items Only</label>
+                  <input type="checkbox" id="stockedItems" name="stockedItems"/>
+              </div>
               <div>
                   <input class="apply-button" type="submit" value="Apply"/>
               </div>
@@ -36,15 +40,6 @@
                   <a class="category nav-link" href="#">Shopping List</a>
               </li>
           </form>
-
-
-
-
-
-
-
-
-
             <hr class="sidebar-seperator">
             <div class="sidebar-elements">
                   <h3 class="sidebar-heading">Categories</h3>
@@ -68,7 +63,7 @@
                     <label><?php echo $CategoryHeader ?></label>
                 </div>
                 <div class="table-heading table-heading-buttons">
-                    <input class="btn my-2 my-sm-0" id="addNewItemButton" type="button" onclick="addNewItem();" value="Add New Item"/>
+                    <input class="btn my-2 my-sm-0" id="addNewItemButton" type="button" data-toggle="modal" data-target="#addProductModal" value="Add New Item"/>
                     <input class="btn my-2 my-sm-0" id="adjustAllButton" type="button" onclick="adjustAll();" value="Adjust All"/>
                 </div>
             <table class="clarion-white">
@@ -84,7 +79,7 @@
                       ?>
                               <tr>
                                   <td class="text-left">
-                                      <a class="clarion-white" href="#" data-toggle="modal" data-target="#productModal_<?php echo $product->getProductID()?>"><?php echo htmlspecialchars($product->getProductName())?></a>
+                                      <a class="clarion-white" href="#" data-toggle="modal" data-target="#editProductModal_<?php echo $product->getProductID()?>"><?php echo htmlspecialchars($product->getProductName())?></a>
                                   </td>
                                   <td class="text-right">
                                      <?php echo $product->getProductQTYOnHand() ?>
@@ -104,63 +99,66 @@
                                 </td>
                               </tr>
 
-                                      <!-- Modal -->
-                                      <div class="modal fade" id="#" role="dialog">
-                                        <div class="modal-dialog modal-lg">
-
-                                          <!-- Modal content-->
-                                          <div class="modal-content clarion-blue clarion-white">
-                                            <div class="modal-header" style="border-bottom: 1px solid #97824A;">
-                                              <h3><?php echo htmlspecialchars($product->getProductName())?></h3>
-                                              <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            </div>
-                                            <div class="row modal-body">
-                                                <div class="column product-info-left">
-                                                    <h4 class="product-info-spacing">QTY On Hand: <?php echo htmlspecialchars($product->getProductQTYOnHand())?></h4>
-                                                    <h4 class="product-info-spacing">Max Order QTY: <?php echo htmlspecialchars($product->getProductMaxOrderQty())?></h4>
-                                                    <h4 class="product-info-spacing">Goal Stock: <?php echo htmlspecialchars($product->getProductGoalStock())?></h4>
-                                                </div>
-                                                <div class="column product-info-right">
-                                                    <img class="product-info-spacing" src="../Images/productSizeImage.jpg">
-                                                    <p class="product-info-spacing">Description: <?php echo htmlspecialchars($product->getProductDescription())?></p>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer" style="border-top: 1px solid #97824A;">
-                                              <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editProductModal">Edit</button>
-                                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-
-                                      <!-- Modal -->
-                                      <div class="modal fade" id="productModal_<?php echo $product->getProductID()?>" role="dialog">
+                                      <!-- Edit Product Modal -->
+                                      <div class="modal fade" id="editProductModal_<?php echo $product->getProductID()?>" role="dialog">
                                         <div class="modal-dialog modal-lg">-->
 
                                           <!-- Modal content-->
-                                          <div class="modal-content clarion-blue clarion-white">
-                                            <div class="modal-header" style="border-bottom: 1px solid #97824A;">
-                                              <h3><?php echo htmlspecialchars($product->getProductName())?></h3>
-                                              <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            </div>
-                                            <form action="../Controller/Controller.php?action=addEditProduct&Product=$product">
+                                          <form action="../controller/controller.php?action=addEditProduct&productMode=edit" method="post" enctype="multipart/form-data" onSubmit="return validateForm()">
+                                              <div class="modal-content clarion-blue clarion-white">
+                                                <div class="modal-header" style="border-bottom: 1px solid #97824A;">
+                                                  <h4>Name: <input type="text" name="ProductName" value="<?php echo htmlspecialchars($product->getProductName())?>" required maxlength="50" autofocus/></h4>
+                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
                                                 <div class="row modal-body">
                                                     <div class="column product-info-left">
-                                                        <h4 class="product-info-spacing">QTY On Hand: <input type="number" name="Qty" value="<?php echo htmlspecialchars($product->getProductQTYOnHand())?>"/></h4>
-                                                        <h4 class="product-info-spacing">Max Order QTY: <input type="number" value="<?php echo htmlspecialchars($product->getProductMaxOrderQty())?>"/></h4>
-                                                        <h4 class="product-info-spacing">Goal Stock: <input type="number" value="<?php echo htmlspecialchars($product->getProductGoalStock())?>"/></h4>
-                                                        <h4>Description:</h4><textarea id="description" rows="4" cols="50"><?php echo htmlspecialchars($product->getProductDescription())?></textarea>
+                                                        <input type="hidden" name="ProductID" value="<?php echo htmlspecialchars($product->getProductID()) ?>"/>
+                                                        <h4 class="product-info-spacing">QTY On Hand: <input type="number" name="QtyOnHand" value="<?php echo htmlspecialchars($product->getProductQTYOnHand())?>" required/></h4>
+                                                        <h4 class="product-info-spacing">Max Order QTY: <input type="number" name="MaxOrderQty" value="<?php echo htmlspecialchars($product->getProductMaxOrderQty())?>"/></h4>
+                                                        <h4 class="product-info-spacing">Goal Stock: <input type="number" name="GoalStock" value="<?php echo htmlspecialchars($product->getProductGoalStock())?>" required/></h4>
+                                                        <h4>Description:</h4><textarea id="description" name="ProductDescription" rows="4" cols="50"><?php echo htmlspecialchars($product->getProductDescription())?></textarea>
                                                     </div>
                                                     <div class="column product-info-right">
                                                         <img class="product-info-spacing" src="../Images/productSizeImage.jpg">
                                                     </div>
                                                 </div>
+                                                <div class="modal-footer" style="border-top: 1px solid #97824A;">
+                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                  <button type="submit" class="btn btn-default">Save</button>
+                                                </div>
                                             </form>
-                                            <div class="modal-footer" style="border-top: 1px solid #97824A;">
-                                              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                              <button type="button" class="btn btn-default">Save</button>
-                                            </div>
                                           </div>
+                                        </div>
+                                      </div>
+
+                                      <!-- Add Product Modal -->
+                                      <div class="modal fade" id="addProductModal" role="dialog">
+                                        <div class="modal-dialog modal-lg">-->
+                                            <!-- Modal content-->
+                                            <form action="../controller/controller.php?action=addEditProduct&productMode=Add" method="post" enctype="multipart/form-data" onSubmit="return validateForm()">
+                                                <div class="modal-content clarion-blue clarion-white">
+                                                  <div class="modal-header" style="border-bottom: 1px solid #97824A;">
+                                                    <h4>Name: <input type="text" name="ProductName" value="" required maxlength="50" autofocus/></h4>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                  </div>
+                                                  <div class="row modal-body">
+                                                      <div class="column product-info-left">
+                                                          <!--<input type="hidden" name="ProductID" value="<?php echo htmlspecialchars($product->getProductID()) ?>"/>-->
+                                                          <h4 class="product-info-spacing">QTY On Hand: <input type="number" name="QtyOnHand" value="" required/></h4>
+                                                          <h4 class="product-info-spacing">Max Order QTY: <input type="number" name="MaxOrderQty" value=""/></h4>
+                                                          <h4 class="product-info-spacing">Goal Stock: <input type="number" name="GoalStock" value="" required/></h4>
+                                                          <h4>Description:</h4><textarea id="description" name="ProductDescription" rows="4" cols="50"></textarea>
+                                                      </div>
+                                                      <div class="column product-info-right">
+                                                          <img class="product-info-spacing" src="../Images/productSizeImage.jpg">
+                                                      </div>
+                                                  </div>
+                                                      <div class="modal-footer" style="border-top: 1px solid #97824A;">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                        <button type="submit" class="btn btn-default">Save</button>
+                                                      </div>
+                                                </div>
+                                            </form>
                                         </div>
                                       </div>
 
