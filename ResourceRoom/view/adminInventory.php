@@ -15,7 +15,7 @@
                           <input class="btn my-2 my-sm-0" id="adminSearchButton"type="button" value="Search" onclick="generalSearchAdmin();"/>
             </form>
           </div>
-          <form id="filterForm" action="../Controller/Controller.php?action=applyFilter&CATEGORYID=<?php echo $CATEGORYID?>" method="post" enctype="multipart/form-data">
+          <form id="filterForm" action="../Controller/Controller.php?action=applyFilter&Display=<?php echo $Display?>&CATEGORYID=<?php echo $CATEGORYID?>" method="post" enctype="multipart/form-data">
               <div class="sidebar-elements">
                   <div class="incoming-textbox-div">
                       <h3 class="sidebar-heading">Filter Options</h3>
@@ -25,10 +25,14 @@
                       <input class="incoming-textbox" type="number" id="QtyLessThan" name="QtyLessThan" value="QtyLessThan"/>
                   </div>
               </div>
-              <!--<div class="sidebar-elements">
-                  <label for="inactiveItems">Include Inactive Items</label>
+              <div class="sidebar-elements">
+                  <label for="inactiveItems">Show Inactive Items</label>
                   <input type="checkbox" id="inactiveItems" name="inactiveItems"/>
-              </div>-->
+              </div>
+              <div class="sidebar-elements">
+                  <label for="stockedItems">Show Stocked Items Only</label>
+                  <input type="checkbox" id="stockedItems" name="stockedItems"/>
+              </div>
               <div>
                   <input class="apply-button" type="submit" value="Apply"/>
               </div>

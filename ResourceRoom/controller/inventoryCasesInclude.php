@@ -57,6 +57,7 @@
 
     function displayCategories()
     {
+        $Display = $_GET['Display'];
        if (isset($_POST['action']))
         {
             $action = $_POST['action'];
@@ -65,15 +66,30 @@
         {
             $action = $_GET['action'];
         }
-        if(!isset($_GET['CATEGORYID']))
+        if($Display == 'All')
         {
+            $CATEGORYID = '';
             $CategoryHeader = 'All';
             $CategoryArray = getAllCategories();
             if($action === 'applyFilter')
             {
-                console_log('the apply button was hit with the all categories showing');
-                $QtyLessThan = $_POST['QtyLessThan'];
-                $ProductArray = getFilteredProducts($QtyLessThan);
+                if(isset($_POST['QtyLessThan']))
+                {
+                    if(is_numeric($_POST['QtyLessThan']))
+                    {
+                        $QtyLessThanStatus = isset($_POST['QtyLessThan']);
+                        $QtyLessThan = $_POST['QtyLessThan'];
+                    }
+                    else
+                    {
+                        $QtyLessThanStatus = false;
+                        $QtyLessThan = 0;
+                    }
+                }
+                console_log(isset($_POST['QtyLessThan']));
+                $InactiveItems = isset($_POST['inactiveItems']);
+                $StockedItems = isset($_POST['stockedItems']);
+                $ProductArray = getFilteredProducts($QtyLessThan, $QtyLessThanStatus, $InactiveItems, $StockedItems);
             }
             else
             {
@@ -86,7 +102,7 @@
                 include '../view/adminInventory.php';
             }
         }
-        else if (isset($_GET['CATEGORYID'])) {
+        else if ($Display == 'category') {
             $CATEGORYID = $_GET['CATEGORYID'];
             //$DESCRIPTION = $_GET['DESCRIPTION'];
             if (!isset($CATEGORYID))

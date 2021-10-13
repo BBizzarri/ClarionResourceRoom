@@ -66,7 +66,7 @@
         function getAllProducts() {
             try {
                 $db = getDBConnection();
-                $query = "select * from productview order by NAME";
+                $query = "select * from productview where QTYONHAND > 0 order by NAME";
                 $statement = $db->prepare($query);
                 $statement->execute();
                 $results = $statement->fetchAll();
@@ -159,14 +159,76 @@
         }
     }
 
-        function getFilteredProducts($QtyLessThan) {
-            console_log($QtyLessThan);
+        function getFilteredProducts($QtyLessThan, $QtyLessThanStatus, $InactiveItems, $StockedItems) {
             try {
+                console_log($QtyLessThanStatus);
                 $db = getDBConnection();
-                $query = "select *
-                                   from productview
-                                   where QTYONHAND < :QTYONHAND
-                                   order by NAME";
+                if($QtyLessThanStatus == true && $InactiveItems == false && $StockedItems == false)
+                {
+                    $query = "select *
+                               from productview
+                               where QTYONHAND > 0 and QTYONHAND < :QTYONHAND
+                               order by NAME";
+                }
+                else if($InactiveItems == true && $QtyLessThanStatus == false && $StockedItems == false)
+                {
+                    $query = "select *
+                               from productview
+                               where QTYONHAND > 0
+                               union
+                               select *
+                               from productview
+                               where GOALSTOCK = 0 and QTYONHAND = 0
+                               order by NAME";
+                }
+                else if($StockedItems == true && $QtyLessThanStatus == false && $InactiveItems == false)
+                {
+                    console_log('im in the else if 1');
+                    $query = "select *
+                               from productview
+                               where GOALSTOCK > 0
+                               order by NAME";
+                }
+                else if($InactiveItems == true && $StockedItems == true && $QtyLessThanStatus == false)
+                {
+                    console_log('im in the else if 2');
+                    $query = "select *
+                               from productview
+                               where GOALSTOCK > 0
+                               union
+                               select *
+                               from productview
+                               where GOALSTOCK = 0 and QTYONHAND = 0
+                               order by NAME";
+                }
+                else if ($InactiveItems == true && $QtyLessThanStatus == true && $StockedItems == false)
+                {
+                    console_log('im in the else if 3');
+                    $query = "select *
+                               from productview
+                               where QTYONHAND > 0 and QTYONHAND < :QTYONHAND
+                               union
+                               select *
+                               from productview
+                               where GOALSTOCK = 0 and QTYONHAND = 0
+                               order by NAME";
+                }
+                else if ($StockedItems == true && $QtyLessThanStatus == true && $InactiveItems == false)
+                {
+                    console_log('im in the else if 4');
+                    $query = "select *
+                                from productview
+                                where QTYONHAND > 0 and QTYONHAND < :QTYONHAND and GOALSTOCK > 0
+                                order by NAME";
+                }
+                else
+                {
+                    $query = "select *
+                               from productview
+                               where QTYONHAND > 0
+                               order by NAME";
+                }
+
                 $statement = $db->prepare($query);
                 $statement->bindValue(":QTYONHAND", $QtyLessThan);
                 $statement->execute();
@@ -193,7 +255,7 @@
                 $query = "select *
                           from productview
                           inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
-                          where productcategories.CATEGORYID = :CATEGORYID ";
+                          where QTYONHAND > 0 and productcategories.CATEGORYID = :CATEGORYID ";
                 $statement = $db->prepare($query);
                 $statement->bindValue(":CATEGORYID", $CATEGORYID);
                 $statement->execute();
