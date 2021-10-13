@@ -44,6 +44,8 @@
             }
                else
                {
+                   $USERID = getUserID();
+                   $cart = getCart($USERID);
                    include '../view/index.php';
                }
     }
@@ -67,7 +69,7 @@
         }
         else
         {
-            $rowsAffected = addToCart($PRODUCTID, $QTYREQUESTED, $MostRecentDate);
+            $rowsAffected = addToCart($PRODUCTID, $QTYREQUESTED);
         }
         header("Location: {$_SERVER['HTTP_REFERER']}");
     }

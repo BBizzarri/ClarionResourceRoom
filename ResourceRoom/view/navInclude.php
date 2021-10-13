@@ -12,7 +12,7 @@
                             <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text" href="../controller/controller.php?action=shopperHome">Resource Room</a>
                         </li>
                         <li class="nav-item">
-                            <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text" href="../controller/controller.php?action=shopperCart">Cart (0)</a>
+                            <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text" href="../controller/controller.php?action=shopperCart">Cart (<?php if(isset($cart)){ echo($cart->getNumberOfItemsInCart());} else { echo("0");} ?>)</a>
                         </li>
                         <li class="nav-item">
                             <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text" href="../controller/controller.php?action=shopperOrders">Orders</a>

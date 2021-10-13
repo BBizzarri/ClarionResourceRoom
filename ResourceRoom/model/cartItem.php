@@ -4,15 +4,13 @@ class cartItem
     //Properties
     public $Product;
     public $QTYRequested;
-    public $MostRecentDate;
 
 
 
     //Constructor
-    function __construct($Product,$QTYRequested,$MostRecentDate)
+    function __construct($Product,$QTYRequested)
     {
         $this->Product = $Product;
-        $this->MostRecentDate = $MostRecentDate;
         $this->QTYRequested = $QTYRequested;
     }
 
@@ -26,10 +24,6 @@ class cartItem
     function getProductObject()
     {
         return $this->Product;
-    }
-    function getMostRecentDate()
-    {
-        return $this->MostRecentDate;
     }
     function getQTYRequested(){
         return $this->QTYRequested;

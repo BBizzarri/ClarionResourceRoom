@@ -75,7 +75,7 @@
                 foreach($results as $ProductRow)
                 {
                     array_push($products,new product($ProductRow['PRODUCTID'],$ProductRow['NAME'],$ProductRow['DESCRIPTION'],$ProductRow['QTYONHAND'],
-                        $ProductRow['MAXORDERQTY'],$ProductRow['GOALSTOCK'],$ProductRow['QTYONORDER'],$ProductRow['QTYAVAILABLE']));
+                        $ProductRow['MAXORDERQTY'],$ProductRow['ORDERLIMIT'],$ProductRow['GOALSTOCK'],$ProductRow['QTYONORDER'],$ProductRow['QTYAVAILABLE']));
                 }
                 return $products;
             } catch (PDOException $e) {
@@ -101,7 +101,7 @@
                 foreach($result as $CartRow)
                 {
                     array_push($products,new cartItem(new product($CartRow['PRODUCTID'],$CartRow['NAME'],$CartRow['DESCRIPTION'],$CartRow['QTYONHAND'],
-                        $CartRow['MAXORDERQTY'],$CartRow['GOALSTOCK'],$CartRow['ONORDER'],$CartRow['QTYAVAILABLE']),$CartRow['QTYREQUESTED'],$CartRow['MOSTRECENTDATE']));
+                        $CartRow['MAXORDERQTY'],$CartRow['ORDERLIMIT'],$CartRow['GOALSTOCK'],$CartRow['ONORDER'],$CartRow['QTYAVAILABLE']),$CartRow['QTYREQUESTED'],$CartRow['MOSTRECENTDATE']));
                 }
                 return new cart($USERID, $products);
             }
@@ -114,17 +114,16 @@
         }
 
 
-        function addToCart($PRODUCTID, $QTYREQUESTED, $MostRecentDate)
+        function addToCart($PRODUCTID, $QTYREQUESTED)
         {
             $USERID = getUserID();
             $db = getDBConnection();
-            $query = 'INSERT INTO cart (UserID, PRODUCTID, QTYREQUESTED, MOSTRECENTDATE)
-                VALUES (:USERID, :PRODUCTID, :QTYREQUESTED, :MOSTRECENTDATE)';
+            $query = 'INSERT INTO cart (UserID, PRODUCTID, QTYREQUESTED)
+                VALUES (:USERID, :PRODUCTID, :QTYREQUESTED)';
             $statement = $db->prepare($query);
             $statement->bindValue(':USERID', $USERID);
             $statement->bindValue(':PRODUCTID', $PRODUCTID);
             $statement->bindValue(':QTYREQUESTED', $QTYREQUESTED);
-            $statement->bindValue(':MOSTRECENTDATE', $MostRecentDate);
             $success = $statement->execute();
             $statement->closeCursor();
             if($success)
@@ -197,7 +196,7 @@
                 foreach($result as $ProductRow)
                 {
                     array_push($products,new product($ProductRow['PRODUCTID'],$ProductRow['NAME'],$ProductRow['DESCRIPTION'],$ProductRow['QTYONHAND'],
-                        $ProductRow['MAXORDERQTY'],$ProductRow['GOALSTOCK'],$ProductRow['QTYONORDER'],$ProductRow['QTYAVAILABLE']));
+                        $ProductRow['MAXORDERQTY'],$ProductRow['ORDERLIMIT'],$ProductRow['GOALSTOCK'],$ProductRow['QTYONORDER'],$ProductRow['QTYAVAILABLE']));
                 }
                 return $products;
             }
@@ -335,7 +334,7 @@
                     foreach($results as $ProductRow)
                     {
                         array_push($products,new product($ProductRow['PRODUCTID'],$ProductRow['NAME'],$ProductRow['DESCRIPTION'],$ProductRow['QTYONHAND'],
-                            $ProductRow['MAXORDERQTY'],$ProductRow['GOALSTOCK'],$ProductRow['ONORDER'],$ProductRow['QTYAVAILABLE']));
+                            $ProductRow['MAXORDERQTY'],$ProductRow['ORDERLIMIT'],$ProductRow['GOALSTOCK'],$ProductRow['ONORDER'],$ProductRow['QTYAVAILABLE']));
                     }
                     return $products;
                 } catch (PDOException $e) {

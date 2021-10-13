@@ -7,20 +7,22 @@ class product
     public $Description;
     public $QtyOnHand;
     public $MaxOrderQty;
+    public $OrderLimit;
     public $GoalStock;
     public $OnOrder;
-    public $Available;
+    public $QTYAvailable;
 
     //Constructor
-    function __construct($ProductID, $Name, $Description, $QtyOnHand, $MaxOrderQty, $GoalStock, $OnOrder, $Available) {
+    function __construct($ProductID, $Name, $Description, $QtyOnHand, $MaxOrderQty,$OrderLimit, $GoalStock, $OnOrder, $QTYAvailable) {
         $this->ProductID = $ProductID;
         $this->Name = $Name;
         $this->Description = $Description;
         $this->QtyOnHand = $QtyOnHand;
         $this->MaxOrderQty = $MaxOrderQty;
+        $this->OrderLimit = $OrderLimit;
         $this->GoalStock = $GoalStock;
         $this->OnOrder = $OnOrder;
-        $this->Available = $Available;
+        $this->QTYAvailable = $QTYAvailable;
     }
     //Destructor
     function __destruct() {
@@ -41,17 +43,20 @@ class product
     function  getProductMaxOrderQty(){
         return $this->MaxOrderQty;
     }
+    function getProductOrderLimit(){
+        return $this->OrderLimit;
+    }
     function getProductGoalStock(){
         return $this->GoalStock;
     }
     function getProductOnOrder(){
         return $this->OnOrder;
     }
-    function getProductAvailable(){
-        return $this->Available;
+    function getProductQTYAvailable(){
+        return $this->QTYAvailable;
     }
     function setProductName($productName) {
-        $this->ProductName = $productName;
+        $this->Name = $productName;
     }
     function setProductDescription($productDescription) {
         $this->Description = $productDescription;
@@ -59,6 +64,7 @@ class product
     function setProductQtyOnHand($productQtyOnHand) {
         $this->QtyOnHand = $productQtyOnHand;
     }
+
     function setProductMaxOrderQty($productMaxOrderQty) {
         $this->MaxOrderQty = $productMaxOrderQty;
     }
@@ -69,8 +75,11 @@ class product
         $this->OnOrder = $productOnOrder;
     }
     function setProductAvailable($productAvailable) {
-        $this->Available = $productAvailable;
+        $this->QTYAvailable = $productAvailable;
     }
+
+
+
 
     function toString(){
         print_r($this);
