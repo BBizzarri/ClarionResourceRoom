@@ -30,7 +30,7 @@
                                 </div>
                                 <div class="text-right clarion-white" style="margin-left: 650px">
                                     <div class="sticky-top" style="margin-block: 15px">
-                                <h4>Total Items in cart: 0<?php ?></h4>
+                                <h4>Total Items in cart: <?php echo($cart->getNumberOfItemsInCart()) ?><?php ?></h4>
                                     </div>
                                 </div>
                             </div>
@@ -42,7 +42,12 @@
                                     <div class="col-sm-6 col-md-4 col-lg-4 col-xl-2 py-3">
                                         <div class="card h-100">
                                             <div class="card-header">
-                                                <img src="https://dummyimage.com/256x256/000/fff.jpg" class="card-img-top" alt="...">
+                                                <img <?php if(file_exists("../productImages/{$product->getProductID()}.jpg")):?>
+                                                    src="../productImages/<?php echo($product->getProductID())?>.jpg"
+                                                <?php else :?>
+                                                    src="https://dummyimage.com/256x256/000/fff.jpg"
+                                                <?php endif ;?>
+                                                        class="card-img-top" alt="...">
                                             </div>
                                             <div class="card-body">
                                                 <h4 class="card-title"><?php echo htmlspecialchars($product->getProductName()) ?></h4>
@@ -51,7 +56,7 @@
                                                 <form id="card-form" action="../controller/controller.php?action=shopperRemoveFromCart&ProductID=<?php echo htmlspecialchars($product->getProductID())?>" method="post" enctype="multipart/form-data">
                                                     <div class="form-group row flex-column" id="shopperRemoveFromCartButton">
                                                         <input type="number" id="quantity_<?php echo htmlspecialchars($product->getProductID())?>" name="QTYRequested" min="1" max="<?php echo htmlspecialchars($product->getProductQTYOnHand())?>">
-                                                        <input type="submit" class="btn btn-primary" value="Remove From Cart">
+                                                        <input type="submit" class="btn btn-danger" value="Remove From Cart">
                                                     </div>
                                                 </form>
                                                 <script>

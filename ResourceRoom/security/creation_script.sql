@@ -1032,7 +1032,6 @@ CREATE TABLE CART
     USERID                  INT,
     PRODUCTID               INT,
     QTYREQUESTED            INT,
-    MOSTRECENTDATE          DATE,
     CONSTRAINT CART_PK PRIMARY KEY (USERID, PRODUCTID),
     CONSTRAINT USER_ID_FK FOREIGN KEY (USERID) REFERENCES USERS (USERID),
     CONSTRAINT PRODUCT_ID_FK FOREIGN KEY (PRODUCTID) REFERENCES PRODUCT (PRODUCTID)
@@ -1071,6 +1070,12 @@ CREATE VIEW PRODUCTVIEW AS
         PRODUCT.GOALSTOCK, IFNULL(QTYONORDER,0) AS QTYONORDER, QTYAVAILABLE
 FROM PRODUCT LEFT OUTER JOIN ONORDERVIEW ON product.PRODUCTID = onorderview.PRODUCTID
              JOIN QTYAVAILABLEVIEW ON product.PRODUCTID = QTYAVAILABLEVIEW.PRODUCTID);
+
+-- Create a Cart View, which has the number of products in each users cart
+-- QtyItemsInCart = number of unique product ids for each user
+CREATE VIEW CARTVIEW AS
+(SELECT C.USERID, COUNT(DISTINCT C.PRODUCTID) AS QYTITEMSINCART
+FROM CART C GROUP BY C.USERID);
 
 INSERT INTO functions (Name,Description) VALUES ('SecurityManageUsers','Allows for reading users and interface to add, change, and delete.');
 INSERT INTO functions (Name,Description) VALUES ('SecurityUserAdd','Allows for adding of users by enabling link on manage form.');
@@ -1955,13 +1960,13 @@ INSERT INTO `ORDERDETAILS` (`ORDERID`, `PRODUCTID`, `QTYREQUESTED`, `QTYFILLED`)
 (4, 1011, 4, 0);
 COMMIT;
 
-INSERT INTO `CART` (`USERID`, `PRODUCTID`, `QTYREQUESTED`, `MOSTRECENTDATE`) VALUES
-(5, 1001, 6, 20210901),      -- QtyRequested > MaxOrderQty, can't be ordered as in cart
-(5, 1002, 1, 20210901),      -- No issues
-(5, 1003, 2, '2021-09-01'),  -- No issues
-(5, 1006, 1, 20200101),      -- Date is from 2020
-(5, 1009, 10, 20210907),     -- QtyRequested > QtyAvailable, can't be ordered as in cart
-(5, 1012, 4, 20210825);      -- QtyAvailable = 0, Item is out of stock
+INSERT INTO `CART` (`USERID`, `PRODUCTID`, `QTYREQUESTED`) VALUES
+(5, 1001, 6),      -- QtyRequested > MaxOrderQty, can't be ordered as in cart
+(5, 1002, 1),      -- No issues
+(5, 1003, 2),  -- No issues
+(5, 1006, 1),      -- Date is from 2020
+(5, 1009, 10),     -- QtyRequested > QtyAvailable, can't be ordered as in cart
+(5, 1012, 4);      -- QtyAvailable = 0, Item is out of stock
 COMMIT;
 
 INSERT INTO `SETTING` (SettingID, EmailAddresses, OrderReceivedText, OrderFilledText, PhotoDir) VALUES
