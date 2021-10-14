@@ -69,6 +69,7 @@
         if($Display == 'All')
         {
             $CATEGORYID = '';
+            $DESCRIPTION = '';
             $CategoryHeader = 'All';
             $CategoryArray = getAllCategories();
             if($action === 'applyFilter')
@@ -86,7 +87,6 @@
                         $QtyLessThan = 0;
                     }
                 }
-                console_log(isset($_POST['QtyLessThan']));
                 $InactiveItems = isset($_POST['inactiveItems']);
                 $StockedItems = isset($_POST['stockedItems']);
                 $ProductArray = getFilteredProducts($QtyLessThan, $QtyLessThanStatus, $InactiveItems, $StockedItems);
@@ -104,7 +104,7 @@
         }
         else if ($Display == 'category') {
             $CATEGORYID = $_GET['CATEGORYID'];
-            //$DESCRIPTION = $_GET['DESCRIPTION'];
+            $DESCRIPTION = $_GET['DESCRIPTION'];
             if (!isset($CATEGORYID))
             {
                 $errorMessage = 'You must provide a category ID to display';
@@ -112,12 +112,26 @@
             }
             else
             {
-                $CategoryHeader = $CATEGORYID;
+                $CategoryHeader = $DESCRIPTION;
                 $CategoryArray = getAllCategories();
                 if($action === 'applyFilter')
                 {
-                    $QTYLESSTHAN = $_POST['QtyLessThan'];
-                    $ProductArray = getFilteredCategory($CATEGORYID, $QTYLESSTHAN);
+                    if(isset($_POST['QtyLessThan']))
+                    {
+                        if(is_numeric($_POST['QtyLessThan']))
+                        {
+                            $QtyLessThanStatus = isset($_POST['QtyLessThan']);
+                            $QtyLessThan = $_POST['QtyLessThan'];
+                        }
+                        else
+                        {
+                            $QtyLessThanStatus = false;
+                            $QtyLessThan = 0;
+                        }
+                    }
+                    $InactiveItems = isset($_POST['inactiveItems']);
+                    $StockedItems = isset($_POST['stockedItems']);
+                    $ProductArray = getFilteredCategory($CATEGORYID, $QtyLessThan, $QtyLessThanStatus, $InactiveItems, $StockedItems);
                 }
                 else
                 {
@@ -174,9 +188,14 @@
 
     function processBulkStockAdjust()
     {
-        console_log('action triggered');
-        $PRODUCTID = $_GET['PRODUCTID'];
-
+        $ProductID = $_GET['ProductID'];
+        foreach($_POST['incomingAmt_' + $ProductID] as $key=>$value) {
+            if($value!='')
+            {
+                $incomingAmt = $value;
+                console_log($incomingAmt);
+            }
+        }
     }
     function processSingleStockAdjust()
         {
