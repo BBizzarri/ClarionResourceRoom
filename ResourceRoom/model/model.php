@@ -2,6 +2,7 @@
     include_once 'product.php';
     include_once 'cart.php';
     include_once 'category.php';
+    include_once 'order.php';
 
     function getDBConnection() {
             $dsn = 'mysql:host=localhost;dbname=resourceroom';
@@ -40,6 +41,28 @@
         $success = $statement->execute();
         $statement->closeCursor();            
         include '../view/errorPage.php';
+    }
+
+    function AdjustCart($PRODUCTID, $QTYREQUESTED)
+    {
+        $USERID = getUserID();
+        $db = getDBConnection();
+        $query = "update cart set QTYREQUESTED = :QTYREQUESTED where PRODUCTID = :PRODUCTID and USERID = :USERID";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':USERID', $USERID);
+        $statement->bindValue(':PRODUCTID', $PRODUCTID);
+        $statement->bindValue(':QTYREQUESTED', $QTYREQUESTED);
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success)
+        {
+
+            return $statement->rowCount();
+        }
+        else
+        {
+            logSQLError($statement->errorInfo());
+        }
     }
 
     function getAllCategories() {
@@ -84,6 +107,7 @@
                 die;
             }
         }
+
         function getCart($USERID)
         {
             try{
@@ -112,7 +136,58 @@
                 die;
             }
         }
+        function getOrderIDsByUSERID($USERID){
+            try{
+                $db = getDBConnection();
+                $query = "SELECT * FROM orders where orders.USERID = :USERID";
+                $statement = $db->prepare($query);
+                $statement->bindValue(":USERID", $USERID);
+                $statement->execute();
+                $result = $statement->fetchAll();
+                $statement->closeCursor();
+                $orderIDs = array();
+                foreach($result as $order)
+                {
+                    array_push($orderIDs,$order['ORDERID']);
+                }
+                return $orderIDs;
+            }
+            catch (Exception $ex)
+            {
+                $errorMessage = $ex->getMessage();
+                include '../view/errorPage.php';
+                die;
+            }
+        }
 
+
+        function getOrdersByUserIDOrderID($USERID,$ORDERID)
+        {
+            try{
+                $db = getDBConnection();
+                $query = "SELECT * FROM orders inner join orderdetails on orders.ORDERID = orderdetails.ORDERID 
+                            inner join productview on orderdetails.PRODUCTID = productview.PRODUCTID where orders.USERID = :USERID and orders.ORDERID =:ORDERID ORDER BY orders.DATEORDERED ASC";
+                $statement = $db->prepare($query);
+                $statement->bindValue(":USERID", $USERID);
+                $statement->bindValue(":ORDERID", $ORDERID);
+                $statement->execute();
+                $result = $statement->fetchAll();
+                $statement->closeCursor();
+                $orderDetails = array();
+                foreach($result as $orderRow)
+                {
+                    array_push($orderDetails,new orderDetail($orderRow['ORDERID'],new product($orderRow['PRODUCTID'],$orderRow['NAME'],$orderRow['DESCRIPTION'],$orderRow['QTYONHAND'],
+                        $orderRow['MAXORDERQTY'],$orderRow['ORDERLIMIT'],$orderRow['GOALSTOCK'],$orderRow['QTYONORDER'],$orderRow['QTYAVAILABLE']),$orderRow['QTYREQUESTED'],$orderRow['QTYFILLED']));
+                }
+                return new order($ORDERID, $USERID, $result[0]['STATUS'],$result[0]['DATEORDERED'],$result[0]['DATEFILLED'],$result[0]['DATECOMPLETED'],$result[0]['COMMENT'],$orderDetails);
+            }
+            catch (Exception $ex)
+            {
+                $errorMessage = $ex->getMessage();
+                include '../view/errorPage.php';
+                die;
+            }
+        }
 
         function addToCart($PRODUCTID, $QTYREQUESTED)
         {
@@ -333,9 +408,68 @@
             }
         }
 
+
+        function submitOrder($USERID,$CART,$COMMENT){
+            $db = getDBConnection();
+            $query = 'INSERT INTO orders (UserID, STATUS, DATEORDERED, COMMENT)
+                VALUES (:USERID, :STATUS, :DATEORDERED,:COMMENT)';
+            $statement = $db->prepare($query);
+            $statement->bindValue(':USERID', $USERID);
+            $statement->bindValue(':STATUS', 'SUBMITTED');
+            $statement->bindValue(':DATEORDERED', date("Y-m-d"));
+            $statement->bindValue(':COMMENT', $COMMENT);
+            $success = $statement->execute();
+            $statement->closeCursor();
+            if($success)
+            {
+                $ORDERID = $db -> lastInsertId();
+                foreach($CART->getProductsInCart() as $cartItem){
+                    $query = 'INSERT INTO orderdetails (ORDERID, PRODUCTID, QTYREQUESTED, QTYFILLED)
+                    VALUES (:ORDERID, :PRODUCTID, :QTYREQUESTED,:QTYFILLED)';
+                    $statement = $db->prepare($query);
+                    $statement->bindValue(':ORDERID', $ORDERID);
+                    $statement->bindValue(':PRODUCTID',$cartItem->getProductObject()->getProductID());
+                    $statement->bindValue(':QTYREQUESTED', $cartItem->getQTYRequested());
+                    $statement->bindValue(':QTYFILLED', '0');
+                    $success = $statement->execute();
+                    $statement->closeCursor();
+                }
+                if($success){
+                    clearCart($USERID);
+                    return $statement->rowCount();
+                }
+                else {
+                    logSQLError($statement->errorInfo());
+                }
+
+            }
+            else
+            {
+                logSQLError($statement->errorInfo());
+            }
+        }
+
+
+        function clearCart($USERID){
+            $db = getDBConnection();
+            $query = 'DELETE FROM cart WHERE (USERID = :USERID)';
+            $statement = $db->prepare($query);
+            $statement->bindValue(':USERID', $USERID);
+            $success = $statement->execute();
+            $statement->closeCursor();
+            if($success)
+            {
+
+                return $statement->rowCount();
+            }
+            else
+            {
+                logSQLError($statement->errorInfo());
+            }
+        }
         function updateQTY($PRODUCTID, $QTYONHAND, $INCOMINGAMT)
        {
-            $chars = preg_split('//', $INCOMINGAMT, -1, PREG_SPLIT_NO_EMPTY);
+           $chars = preg_split('//', $INCOMINGAMT, -1, PREG_SPLIT_NO_EMPTY);
            if($chars[0] === '-')
            {
                 $QTYONHAND = $QTYONHAND - $chars[1];

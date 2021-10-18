@@ -3,6 +3,9 @@
     // This file is included in the main controller as a series of cases to check the $action querystring parameter.
     // The purpose is to separate the shopper actions from the back-end inventory actions to help version control.
     switch ($action) {
+        case 'shopperAdjustQTYInCart':
+            processAdjustQTYInCart();
+            break;
         case 'shopperCart':
             displayCart();
             break;
@@ -10,7 +13,7 @@
             displayProducts();
             break;
         case 'shopperOrders':
-            include '../view/shopperOrders.php';
+            displayShopperOrders();
             break;
         case 'processAddToCart':
             processAddToCart();
@@ -18,7 +21,24 @@
         case 'shopperRemoveFromCart':
             processRemoveFromCart();
             break;
+        case 'shopperSubmitOrder':
+            processSubmitOrder();
+            break;
     }
+
+    function displayShopperOrders(){
+        $USERID = getUserID();
+        $orderIDs = getOrderIDsByUSERID($USERID);
+
+        if(sizeof($orderIDs) > 0){
+            $orders = array();
+            foreach($orderIDs as $ID){
+                array_push($orders,getOrdersByUserIDOrderID($USERID,$ID));
+            }
+        }
+        include '../view/shopperOrders.php';
+    }
+
 
     function displayProducts()
     {
@@ -60,16 +80,31 @@
     {
         $PRODUCTID = $_GET['ProductID'];
         $QTYREQUESTED = $_POST['QTYRequested'];
-        $MostRecentDate = date("Y/m/d");
         //Validations
         $errors = "";
         if($errors != "")
         {
-            include '../view/adminInventory.php';
+            include '../view/errorPage.php';
         }
         else
         {
             $rowsAffected = addToCart($PRODUCTID, $QTYREQUESTED);
+        }
+        header("Location: {$_SERVER['HTTP_REFERER']}");
+    }
+
+    function processAdjustQTYInCart(){
+        $PRODUCTID = $_GET['ProductID'];
+        $QTYREQUESTED = $_POST['QTYRequested'];
+        //Validations
+        $errors = "";
+        if($errors != "")
+        {
+            include '../view/errorPage.php';
+        }
+        else
+        {
+            $rowsAffected = AdjustCart($PRODUCTID, $QTYREQUESTED);
         }
         header("Location: {$_SERVER['HTTP_REFERER']}");
     }
@@ -89,3 +124,25 @@
         }
         header("Location: {$_SERVER['HTTP_REFERER']}");
     }
+
+    function processSubmitOrder(){
+        $USERID = getUserID();
+        $invalidRequests = validateCart($USERID);
+        $COMMENT = $_POST["cartComment"];
+        if(sizeof($invalidRequests) == 0){
+            submitOrder($USERID,getCart($USERID),$COMMENT);
+        }
+        header("Location: {$_SERVER['HTTP_REFERER']}");
+    }
+
+    function validateCart($USERID){
+        $cart = getCart($USERID);
+        $invalidRequests = array();
+        foreach($cart->getProductsInCart() as $cartItem){
+            if($cartItem->getQTYRequested() > $cartItem->getProductObject()->getProductQTYAvailable()){
+                array_push($invalidRequests,$cartItem);
+            }
+        }
+        return $invalidRequests;
+    }
+

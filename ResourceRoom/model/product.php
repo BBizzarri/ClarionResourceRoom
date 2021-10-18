@@ -79,8 +79,6 @@ class product
     }
 
 
-
-
     function toString(){
         print_r($this);
     }

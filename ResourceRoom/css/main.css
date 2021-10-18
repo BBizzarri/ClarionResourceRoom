@@ -36,3 +36,7 @@ header, nav, section, footer {
   height: 50px;
 }
 hr {width: 50px; color: #97824A}
+
+.hiddenRow {
+    padding: 0 !important;
+}
