@@ -140,7 +140,7 @@ CREATE VIEW productview AS
             ) AS ORDERLIMIT,
         product.GOALSTOCK, IFNULL(QTYONORDER,0) AS QTYONORDER, QTYAVAILABLE
 FROM product LEFT OUTER JOIN onorderview ON product.PRODUCTID = onorderview.PRODUCTID
-             JOIN QTYAVAILABLEVIEW ON product.PRODUCTID = qtyavailableview.PRODUCTID);
+             JOIN qtyavailableview ON product.PRODUCTID = qtyavailableview.PRODUCTID);
 
 -- Create a Cart View, which has the number of products in each users cart
 -- QtyItemsInCart = number of unique product ids for each user
