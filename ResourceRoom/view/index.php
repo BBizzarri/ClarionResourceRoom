@@ -35,12 +35,39 @@
                                         <img <?php if(file_exists("../productImages/{$product->getProductID()}.jpg")):?>
                                                 src="../productImages/<?php echo($product->getProductID())?>.jpg"
                                              <?php else :?>
-                                                src="https://dummyimage.com/256x256/000/fff.jpg"
+                                                src="../productImages/Image Not Available.jpg"
                                              <?php endif ;?>
-                                                class="card-img-top" alt="..." data-toggle="modal" data-target="#productModal_<?php echo $product->getProductID()?>">
+                                                class="card-img-top" alt="...">
                                     </div>
-                                    <div class="card-body" data-toggle="modal" data-target="#productModal_<?php echo $product->getProductID()?>">
-                                        <h4 class="card-title" data-toggle="modal" data-target="#productModal_<?php echo $product->getProductID()?>"><?php echo htmlspecialchars($product->getProductName())?></h4>
+                                    <div class="card-body">
+                                        <h4 class="card-title"><?php echo htmlspecialchars($product->getProductName())?></h4>
+                                        <?php if($product->getProductDescription() != ""): ?>
+                                            <div>
+                                                <button type="button" class="btn btn-light" data-toggle="modal" data-target="#modal_<?php echo $product->getProductID()?>">
+                                                    ...
+                                                </button>
+                                            </div>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="modal_<?php echo $product->getProductID()?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Description:</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <?php echo htmlspecialchars($product->getProductName())?>
+                                                            <?php echo htmlspecialchars($product->getProductDescription())?>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endif ; ?>
                                     </div>
                                     <?php if ($cart->inCart($product->getProductID())) : ?>
                                         <div class="card-footer">
@@ -49,8 +76,11 @@
                                     <?php elseif($product->getProductQTYAvailable() > 0) :?>
                                         <div class="card-footer">
                                             <form id="card-form" action="../controller/controller.php?action=processAddToCart&ProductID=<?php echo $product->getProductID()?>" method="post" enctype="multipart/form-data">
-                                                <div class="form-group row flex-column" id="shopperAddToCartButton">
-                                                    <input type="number" id="quantity_<?php echo htmlspecialchars($product->getProductID())?>" name="QTYRequested" min="1" max="<?php echo htmlspecialchars($product->getProductOrderLimit())?>">
+                                                <div class="form-group container" id="shopperAddToCartButton">
+                                                    <label>QTY:</label>
+                                                    <input class="col-10" type="number" id="quantity_<?php echo htmlspecialchars($product->getProductID())?>" name="QTYRequested" min="1" max="<?php echo htmlspecialchars($product->getProductOrderLimit())?>">
+                                                </div>
+                                                <div class="form-group row flex-column">
                                                     <input type="submit" class="btn btn-primary" value="Add To Cart">
                                                 </div>
                                             </form>
@@ -69,35 +99,6 @@
                                     <?php endif;?>
                                 </div>
                             </div>
-                                <!-- Modal -->
-                                <div class="modal fade" id="productModal_<?php echo $product->getProductID()?>" role="dialog">
-                                    <div class="modal-dialog modal-lg">-->
-
-                                        <!-- Modal content-->
-                                        <div class="modal-content clarion-blue clarion-white">
-                                            <div class="modal-header" style="border-bottom: 1px solid #97824A;">
-                                                <h3><?php echo htmlspecialchars($product->getProductName())?></h3>
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            </div>
-                                                <div class="row modal-body">
-                                                    <div class="column product-info-left">
-                                                        <h4>Description:</h4>
-                                                        <p><?php echo htmlspecialchars($product->getProductDescription())?></p>
-                                                    </div>
-                                                    <div class="column product-info-right">
-                                                        <img class="product-info-spacing" <?php if(file_exists("../productImages/{$product->getProductID()}.jpg")):?>
-                                                        src="../productImages/<?php echo($product->getProductID())?>.jpg"
-                                                            <?php else :?>
-                                                                src="https://dummyimage.com/256x256/000/fff.jpg"
-                                                            <?php endif ;?>>
-                                                    </div>
-                                                </div>
-                                            <div class="modal-footer" style="border-top: 1px solid #97824A;">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <?php
                             }
                             ?>
