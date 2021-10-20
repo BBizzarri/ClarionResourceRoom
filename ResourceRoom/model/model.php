@@ -108,6 +108,34 @@
             }
         }
 
+
+        function getAllProductsAndCategories() {
+            try {
+                $db = getDBConnection();
+                $query = " SELECT productview.*,GROUP_CONCAT(category.DESCRIPTION SEPARATOR'=') as CATEGORYDESCRIPTIONS
+                           FROM productview INNER JOIN productcategories on productview.PRODUCTID = productcategories.PRODUCTID
+                           INNER JOIN category on productcategories.CATEGORYID = category.CATEGORYID
+                           where productview.QTYONHAND > 0
+                           GROUP BY productview.PRODUCTID
+                           order by productview.NAME";
+                $statement = $db->prepare($query);
+                $statement->execute();
+                $results = $statement->fetchAll();
+                $statement->closeCursor();
+                $products = array();
+                foreach($results as $ProductRow)
+                {
+                    array_push($products,new product($ProductRow['PRODUCTID'],$ProductRow['NAME'],$ProductRow['DESCRIPTION'],$ProductRow['QTYONHAND'],
+                        $ProductRow['MAXORDERQTY'],$ProductRow['ORDERLIMIT'],$ProductRow['GOALSTOCK'],$ProductRow['QTYONORDER'],$ProductRow['QTYAVAILABLE'], $ProductRow['CATEGORYDESCRIPTIONS']));
+                }
+                return $products;
+            } catch (PDOException $e) {
+                $errorMessage = $e->getMessage();
+                include '../view/errorPage.php';
+                die;
+            }
+        }
+
         function getCart($USERID)
         {
             try{
@@ -125,7 +153,7 @@
                 foreach($result as $CartRow)
                 {
                     array_push($products,new cartItem(new product($CartRow['PRODUCTID'],$CartRow['NAME'],$CartRow['DESCRIPTION'],$CartRow['QTYONHAND'],
-                        $CartRow['MAXORDERQTY'],$CartRow['ORDERLIMIT'],$CartRow['GOALSTOCK'],$CartRow['QTYONORDER'],$CartRow['QTYAVAILABLE']),$CartRow['QTYREQUESTED'],$CartRow['MOSTRECENTDATE']));
+                        $CartRow['MAXORDERQTY'],$CartRow['ORDERLIMIT'],$CartRow['GOALSTOCK'],$CartRow['QTYONORDER'],$CartRow['QTYAVAILABLE']),$CartRow['QTYREQUESTED']));
                 }
                 return new cart($USERID, $products);
             }
@@ -165,7 +193,7 @@
         {
             try{
                 $db = getDBConnection();
-                $query = "SELECT * FROM orders inner join orderdetails on orders.ORDERID = orderdetails.ORDERID 
+                $query = "SELECT * FROM orders inner join orderdetails on orders.ORDERID = orderdetails.ORDERID
                             inner join productview on orderdetails.PRODUCTID = productview.PRODUCTID where orders.USERID = :USERID and orders.ORDERID =:ORDERID ORDER BY orders.DATEORDERED ASC";
                 $statement = $db->prepare($query);
                 $statement->bindValue(":USERID", $USERID);
@@ -235,7 +263,6 @@
 
         function getFilteredProducts($QtyLessThan, $QtyLessThanStatus, $InactiveItems, $StockedItems) {
             try {
-                console_log($QtyLessThanStatus);
                 $db = getDBConnection();
                 if($QtyLessThanStatus == true && $InactiveItems == false && $StockedItems == false)
                 {
@@ -257,7 +284,6 @@
                 }
                 else if($StockedItems == true && $QtyLessThanStatus == false && $InactiveItems == false)
                 {
-                    console_log('im in the else if 1');
                     $query = "select *
                                from productview
                                where GOALSTOCK > 0
@@ -265,7 +291,6 @@
                 }
                 else if($InactiveItems == true && $StockedItems == true && $QtyLessThanStatus == false)
                 {
-                    console_log('im in the else if 2');
                     $query = "select *
                                from productview
                                where GOALSTOCK > 0
@@ -277,7 +302,6 @@
                 }
                 else if ($InactiveItems == true && $QtyLessThanStatus == true && $StockedItems == false)
                 {
-                    console_log('im in the else if 3');
                     $query = "select *
                                from productview
                                where QTYONHAND > 0 and QTYONHAND < :QTYONHAND
@@ -289,10 +313,20 @@
                 }
                 else if ($StockedItems == true && $QtyLessThanStatus == true && $InactiveItems == false)
                 {
-                    console_log('im in the else if 4');
                     $query = "select *
                                 from productview
                                 where QTYONHAND > 0 and QTYONHAND < :QTYONHAND and GOALSTOCK > 0
+                                order by NAME";
+                }
+                else if($QtyLessThanStatus == true && $StockedItems == true && $InactiveItems == true)
+                {
+                    $query = "select *
+                                 from productview
+                                 where (QTYONHAND > 0 and QTYONHAND < 5) and GOALSTOCK > 0
+                                 union
+                                 select *
+                                from productview
+                                where GOALSTOCK = 0 and QTYONHAND = 0
                                 order by NAME";
                 }
                 else
@@ -351,7 +385,7 @@
             }
         }
 
-        function getFilteredCategory($CATEGORYID, $QTYONHAND)
+        function getFilteredCategory($CATEGORYID, $QtyLessThan, $QtyLessThanStatus, $InactiveItems, $StockedItems)
                 {
                     try{
                         $db = getDBConnection();
@@ -359,9 +393,94 @@
                                   from productview
                                   inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
                                   where productcategories.CATEGORYID = :CATEGORYID AND QTYONHAND < :QTYONHAND";
+
+                        if($QtyLessThanStatus == true && $InactiveItems == false && $StockedItems == false)
+                        {
+                            $query = "select *
+                                       from productview
+                                       inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
+                                       where productcategories.CATEGORYID = :CATEGORYID and QTYONHAND > 0 and QTYONHAND < :QTYONHAND
+                                       order by NAME";
+                        }
+                        else if($InactiveItems == true && $QtyLessThanStatus == false && $StockedItems == false)
+                        {
+                            $query = "select *
+                                       from productview
+                                       inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
+                                       where productcategories.CATEGORYID = :CATEGORYID and QTYONHAND > 0
+                                       union
+                                       select *
+                                       from productview
+                                       inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
+                                       where productcategories.CATEGORYID = :CATEGORYID and GOALSTOCK = 0 and QTYONHAND = 0
+                                       order by NAME";
+                        }
+                        else if($StockedItems == true && $QtyLessThanStatus == false && $InactiveItems == false)
+                        {
+                            $query = "select *
+                                       from productview
+                                       inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
+                                       where productcategories.CATEGORYID = :CATEGORYID and GOALSTOCK > 0
+                                       order by NAME";
+                        }
+                        else if($InactiveItems == true && $StockedItems == true && $QtyLessThanStatus == false)
+                        {
+                            $query = "select *
+                                       from productview
+                                       inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
+                                       where productcategories.CATEGORYID = :CATEGORYID and GOALSTOCK > 0
+                                       union
+                                       select *
+                                       from productview
+                                       inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
+                                       where productcategories.CATEGORYID = :CATEGORYID and GOALSTOCK = 0 and QTYONHAND = 0
+                                       order by NAME";
+                        }
+                        else if ($InactiveItems == true && $QtyLessThanStatus == true && $StockedItems == false)
+                        {
+                            $query = "select *
+                                       from productview
+                                       inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
+                                       where productcategories.CATEGORYID = :CATEGORYID and QTYONHAND > 0 and QTYONHAND < :QTYONHAND
+                                       union
+                                       select *
+                                       from productview
+                                       inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
+                                       where productcategories.CATEGORYID = :CATEGORYID and GOALSTOCK = 0 and QTYONHAND = 0
+                                       order by NAME";
+                        }
+                        else if ($StockedItems == true && $QtyLessThanStatus == true && $InactiveItems == false)
+                        {
+                            $query = "select *
+                                        from productview
+                                        inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
+                                        where productcategories.CATEGORYID = :CATEGORYID and QTYONHAND > 0 and QTYONHAND < :QTYONHAND and GOALSTOCK > 0
+                                        order by NAME";
+                        }
+                        else if($QtyLessThanStatus == true && $StockedItems == true && $InactiveItems == true)
+                        {
+                            $query = "select *
+                                         from productview
+                                         inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
+                                         where productcategories.CATEGORYID = :CATEGORYID and (QTYONHAND > 0 and QTYONHAND < 5) and GOALSTOCK > 0
+                                         union
+                                         select *
+                                        from productview
+                                        inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
+                                        where productcategories.CATEGORYID = :CATEGORYID and GOALSTOCK = 0 and QTYONHAND = 0
+                                        order by NAME";
+                        }
+                        else
+                        {
+                            $query = "select *
+                                       from productview
+                                       inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
+                                       where productcategories.CATEGORYID = :CATEGORYID and QTYONHAND > 0
+                                       order by NAME";
+                        }
                         $statement = $db->prepare($query);
                         $statement->bindValue(":CATEGORYID", $CATEGORYID);
-                        $statement->bindValue(":QTYONHAND", $QTYONHAND);
+                        $statement->bindValue(":QTYONHAND", $QtyLessThan);
                         $statement->execute();
                         $results = $statement->fetchAll();
                         $statement->closeCursor();
@@ -479,7 +598,7 @@
                 $QTYONHAND = $QTYONHAND + $INCOMINGAMT;
            }
            $db = getDBConnection();
-           $query = "update productview set QTYONHAND = :QTYONHAND where PRODUCTID = :PRODUCTID";
+           $query = "update product set QTYONHAND = :QTYONHAND where PRODUCTID = :PRODUCTID";
            $statement = $db->prepare($query);
            $statement->bindValue(':PRODUCTID', $PRODUCTID);
            $statement->bindValue(':QTYONHAND', $QTYONHAND);
@@ -496,7 +615,7 @@
            }
        }
 
-        function addProduct($ProductName, $QtyOnHand, $MaxOrderQty, $GoalStock, $ProductDescription)
+        function addProduct($ProductName, $QtyOnHand, $MaxOrderQty, $GoalStock, $ProductDescription, $ProductCategories)
         {
            $db = getDBConnection();
            $query = 'INSERT INTO product (NAME, QTYONHAND, MAXORDERQTY, GOALSTOCK, DESCRIPTION)
@@ -509,11 +628,11 @@
            $statement->bindValue(':DESCRIPTION', $ProductDescription);
            $success = $statement->execute();
            $statement->closeCursor();
-
+           $ProductID = $db->lastInsertId();
            if($success)
            {
-               //savePriceImageFile($db->lastInsertId());
-               return $db->lastInsertId();
+               addProductCategories($ProductCategories, $ProductID);
+               return $ProductID;
            }
            else
            {
@@ -521,7 +640,7 @@
            }
         }
 
-        function updateProduct($ProductID, $ProductName, $QtyOnHand, $MaxOrderQty, $GoalStock, $ProductDescription)
+        function updateProduct($ProductID, $ProductName, $QtyOnHand, $MaxOrderQty, $GoalStock, $ProductDescription, $ProductCategories)
         {
             $db = getDBConnection();
            $query = 'UPDATE product SET NAME = :NAME, QTYONHAND = :QTYONHAND, MAXORDERQTY = :MAXORDERQTY, GOALSTOCK = :GOALSTOCK, DESCRIPTION = :DESCRIPTION WHERE PRODUCTID = :PRODUCTID';
@@ -536,12 +655,50 @@
            $statement->closeCursor();
            if($success)
            {
+               addProductCategories($ProductCategories, $ProductID);
                return $statement->rowCount();
            }
            else
            {
                logSQLError($statement->errorInfo());
            }
+        }
+
+        function saveProductImageFile($ProductID, $tempImageFilePath)
+        {
+             if($tempImageFilePath != "")
+             {
+                $newImagePath = getProductImage($ProductID);
+                if(move_uploaded_file($tempImageFilePath, $newImagePath) == FALSE)
+                {
+                    $errorMessage = "Unable to move the image file.";
+                    include '../view/errorPage.php';
+                }
+             }
+        }
+
+        function getProductImage($ProductID)
+        {
+            $ProductImageDirectory = "../productImages";
+            return "$ProductImageDirectory/$ProductID.jpg";
+        }
+
+        function getCategories($ProductID){
+             $db = getDBConnection();
+             $query = 'select CATEGORYID from productcategories where PRODUCTID = :PRODUCTID';
+             $statement = $db->prepare($query);
+             $statement->bindValue(':PRODUCTID', $ProductID);
+             $statement->execute();
+             $results = $statement->fetch();
+             $statement->closeCursor();
+             if($results)
+             {
+                return $results;
+             }
+             else
+             {
+               logSQLError($statement->errorInfo());
+             }
         }
 
         function console_log( $data ){
@@ -580,5 +737,72 @@
                     die;
                 }
             }
+
+        function addProductCategories($ProductCategories, $ProductID) {
+            $db = getDBConnection();
+            clearCategories($ProductID);
+            foreach($ProductCategories as $IndividualCategory)
+            {
+               $query = 'INSERT INTO productcategories (PRODUCTID, CATEGORYID)
+                                                VALUES (:PRODUCTID, :CATEGORYID)';
+               $statement = $db->prepare($query);
+               $statement->bindValue(':PRODUCTID', $ProductID);
+               $statement->bindValue(':CATEGORYID', $IndividualCategory);
+               $success = $statement->execute();
+               $statement->closeCursor();
+
+               if($success)
+               {
+                   //savePriceImageFile($db->lastInsertId());
+               }
+               else
+               {
+                   logSQLError($statement->errorInfo());
+               }
+            }
+        }
+
+        function clearCategories($ProductID)
+        {
+           $db = getDBConnection();
+           $query = 'DELETE FROM productcategories WHERE PRODUCTID = :PRODUCTID';
+           $statement = $db->prepare($query);
+           $statement->bindValue(':PRODUCTID', $ProductID);
+           $success = $statement->execute();
+           $statement->closeCursor();
+
+           if($success)
+           {
+               //savePriceImageFile($db->lastInsertId());
+           }
+           else
+           {
+               logSQLError($statement->errorInfo());
+           }
+        }
+
+
+        function updateProductCategories($ProductCategories, $ProductID) {
+                    $db = getDBConnection();
+                    foreach($ProductCategories as $IndividualCategory)
+                    {
+                       $query = 'update productcategories set CATEGORYID = :CATEGORYID where PRODUCTID = :PRODUCTID';
+                       $statement = $db->prepare($query);
+                       $statement->bindValue(':PRODUCTID', $ProductID);
+                       $statement->bindValue(':CATEGORYID', $IndividualCategory);
+                       $success = $statement->execute();
+                       $statement->closeCursor();
+
+                       if($success)
+                       {
+                           //savePriceImageFile($db->lastInsertId());
+                       }
+                       else
+                       {
+                           logSQLError($statement->errorInfo());
+                       }
+                    }
+                }
+
 
 ?>

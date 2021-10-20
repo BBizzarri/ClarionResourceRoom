@@ -10,9 +10,19 @@ function generalSearchAdmin(){
     document.location="../controller/controller.php?action=adminInventory&ListType=GeneralSearch&Criteria=" + encodeURIComponent(criteria);
 }
 
-function adjustAll(){
-    var textBoxes = document.querySelectorAll('[id^=number]');
+function clearFilters(){
+     document.getElementById("QtyLessThan").value = "";
+     let inactiveItemsCheckbox = document.getElementById('inactiveItems');
+     inactiveItemsCheckbox.checked = false;
+     let stockedItemsCheckbox = document.getElementById('stockedItems');
+     stockedItemsCheckbox.checked = false;
+     document.location="../controller/controller.php?action=adminInventory&Display=All";
+}
 
-//    var ProductRow = "<?php echo $ProductRow['PRODUCTID']; ?>";
-//    document.location="../Controller/Controller.php?action=processBulkStockAdjust&PRODUCTID=" + ProductRow;
+$('.my-select').selectpicker();
+
+function getCategories($ProductID) {
+        //var ProductID = $(`#CurrentProductID`).val();
+        alert($ProductID);
+        document.location="../controller/controller.php?action=getProductCategories&ProductID=" + encodeURIComponent(ProductID);
 }
