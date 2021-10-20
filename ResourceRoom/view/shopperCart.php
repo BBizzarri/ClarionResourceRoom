@@ -37,7 +37,7 @@
                                                 <img <?php if(file_exists("../productImages/{$product->getProductID()}.jpg")):?>
                                                     src="../productImages/<?php echo($product->getProductID())?>.jpg"
                                                 <?php else :?>
-                                                    src="../productImages/Image Not Available.jpg"
+                                                    src="../productImages/ImageNotAvailable.jpg"
                                                 <?php endif ;?>
                                                         class="card-img-top" alt="...">
                                             </div>
