@@ -11,9 +11,10 @@ class product
     public $GoalStock;
     public $OnOrder;
     public $QTYAvailable;
+    public $CategoryDescriptions;
 
     //Constructor
-    function __construct($ProductID, $Name, $Description, $QtyOnHand, $MaxOrderQty,$OrderLimit, $GoalStock, $OnOrder, $QTYAvailable) {
+    function __construct($ProductID, $Name, $Description, $QtyOnHand, $MaxOrderQty,$OrderLimit, $GoalStock, $OnOrder, $QTYAvailable, $CategoryDescriptions= "") {
         $this->ProductID = $ProductID;
         $this->Name = $Name;
         $this->Description = $Description;
@@ -23,6 +24,7 @@ class product
         $this->GoalStock = $GoalStock;
         $this->OnOrder = $OnOrder;
         $this->QTYAvailable = $QTYAvailable;
+        $this->CategoryDescriptions = $CategoryDescriptions;
     }
     //Destructor
     function __destruct() {
@@ -54,6 +56,9 @@ class product
     }
     function getProductQTYAvailable(){
         return $this->QTYAvailable;
+    }
+    function getProductCategories(){
+        return explode('=', $this->CategoryDescriptions);
     }
     function setProductName($productName) {
         $this->Name = $productName;
