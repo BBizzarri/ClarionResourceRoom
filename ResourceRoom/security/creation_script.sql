@@ -47,24 +47,24 @@ CREATE TABLE errorlog (
                           ErrorMessage     VARCHAR(1024) NOT NULL,
                           PRIMARY KEY (LogID));
 
-CREATE TABLE ORDERS
-(   ORDERID                 INT AUTO_INCREMENT UNIQUE,
+CREATE TABLE orders
+(   ORDERID                 INT AUTO_INCREMENT,
     USERID                  INT,
     STATUS                  VARCHAR(30),
     DATEORDERED             DATE,
     DATEFILLED              DATE,
     DATECOMPLETED           DATE,
-    COMMENT                 TEXT,
+    COMMENT                 VARCHAR(255),
     CONSTRAINT ORDERS_PK PRIMARY KEY (ORDERID),
-    CONSTRAINT USERID_FK FOREIGN KEY (USERID) REFERENCES USERS (USERID)
-    /*CONSTRAINT STATUS_CK CHECK
-            (STATUS IN ('Completed', 'Ready for Pickup', 'Submitted')) */
+    CONSTRAINT USERID_FK FOREIGN KEY (USERID) REFERENCES users (USERID)
+    -- CONSTRAINT STATUS_CK CHECK
+           -- (STATUS IN ('Completed', 'Ready for Pickup', 'Submitted')) */
 );
 
-CREATE TABLE PRODUCT
-(   PRODUCTID               INT AUTO_INCREMENT UNIQUE NOT NULL,
+CREATE TABLE product
+(   PRODUCTID               INT,
     NAME                    VARCHAR(50),
-    DESCRIPTION             TEXT,
+    DESCRIPTION             VARCHAR(255),
     QTYONHAND               INT,
     MAXORDERQTY             INT,
     GOALSTOCK               INT,
@@ -72,44 +72,44 @@ CREATE TABLE PRODUCT
 );
 
 /*INTERSECTION TABLE BETWEEN ORDERS, PRODUCT*/
-CREATE TABLE ORDERDETAILS
+CREATE TABLE orderdetails
 (   ORDERID                 INT,
     PRODUCTID               INT,
     QTYREQUESTED            INT,
     QTYFILLED               INT,
     CONSTRAINT ORDER_DETAILS_PK PRIMARY KEY (ORDERID, PRODUCTID),
-    CONSTRAINT ORDERID_FK FOREIGN KEY (ORDERID) REFERENCES ORDERS (ORDERID),
-    CONSTRAINT PRODUCTID_FK FOREIGN KEY (PRODUCTID) REFERENCES PRODUCT (PRODUCTID)
+    CONSTRAINT ORDERID_FK FOREIGN KEY (ORDERID) REFERENCES orders (ORDERID),
+    CONSTRAINT PRODUCTID_FK FOREIGN KEY (PRODUCTID) REFERENCES product (PRODUCTID)
 );
 
-CREATE TABLE CATEGORY
-(   CATEGORYID              INT AUTO_INCREMENT UNIQUE NOT NULL,
+CREATE TABLE category
+(   CATEGORYID              INT,
     DESCRIPTION             VARCHAR(50),
     CONSTRAINT CATEGORY_PK PRIMARY KEY (CATEGORYID)
 );
 
 /*INTERSECTION TABLE BETWEEN PRODUCT AND CATEGORY
 DETERMINES WHICH PRODUCTS BELONG TO WHICH CATEGORIES*/
-CREATE TABLE PRODUCTCATEGORIES
+CREATE TABLE productcategories
 (   PRODUCTID               INT,
     CATEGORYID              INT,
     CONSTRAINT PRODUCT_CATEGORY_PK PRIMARY KEY (CATEGORYID, PRODUCTID),
-    CONSTRAINT CATEGORYS_ID_FK FOREIGN KEY (CATEGORYID) REFERENCES CATEGORY (CATEGORYID),
-    CONSTRAINT PRODUCTS_ID_FK FOREIGN KEY (PRODUCTID) REFERENCES PRODUCT (PRODUCTID)
+    CONSTRAINT CATEGORYS_ID_FK FOREIGN KEY (CATEGORYID) REFERENCES category (CATEGORYID),
+    CONSTRAINT PRODUCTS_ID_FK FOREIGN KEY (PRODUCTID) REFERENCES product (PRODUCTID)
 );
 
-CREATE TABLE CART
+CREATE TABLE cart
 (
     USERID                  INT,
     PRODUCTID               INT,
     QTYREQUESTED            INT,
     CONSTRAINT CART_PK PRIMARY KEY (USERID, PRODUCTID),
-    CONSTRAINT USER_ID_FK FOREIGN KEY (USERID) REFERENCES USERS (USERID),
-    CONSTRAINT PRODUCT_ID_FK FOREIGN KEY (PRODUCTID) REFERENCES PRODUCT (PRODUCTID)
+    CONSTRAINT USER_ID_FK FOREIGN KEY (USERID) REFERENCES users (USERID),
+    CONSTRAINT PRODUCT_ID_FK FOREIGN KEY (PRODUCTID) REFERENCES product (PRODUCTID)
 );
 
 
-CREATE TABLE SETTING
+CREATE TABLE setting
 (   SETTINGID               INT,
     EmailAddresses          TEXT,
     OrderReceivedText       TEXT,
@@ -120,33 +120,33 @@ CREATE TABLE SETTING
 
 
 -- Creates a View that generates the OnOrder amount for each product that is in a ''Submitted'' order
-CREATE VIEW ONORDERVIEW AS
+CREATE VIEW onorderview AS
 (SELECT OD.PRODUCTID, IFNULL(SUM(QTYREQUESTED),0) AS QTYONORDER
-FROM ORDERDETAILS OD INNER JOIN ORDERS O ON OD.ORDERID = O.ORDERID AND O.STATUS = 'SUBMITTED'
+FROM orderdetails OD INNER JOIN orders O ON OD.ORDERID = O.ORDERID AND O.STATUS = 'SUBMITTED'
 GROUP BY OD.PRODUCTID);
 
 -- Create a Qty Available View, which includes product id and qty available
-CREATE VIEW QTYAVAILABLEVIEW AS
-(SELECT PRODUCT.PRODUCTID, IFNULL(PRODUCT.QTYONHAND - QTYONORDER, PRODUCT.QTYONHAND) AS QTYAVAILABLE
-FROM PRODUCT LEFT OUTER JOIN ONORDERVIEW ON product.PRODUCTID = onorderview.PRODUCTID);
+CREATE VIEW qtyavailableview AS
+(SELECT product.PRODUCTID, IFNULL(product.QTYONHAND - QTYONORDER, product.QTYONHAND) AS QTYAVAILABLE
+FROM product LEFT OUTER JOIN onorderview ON product.PRODUCTID = onorderview.PRODUCTID);
 
 -- Create a Product View that includes QtyAvailable, OrderLimit, and OnOrder (Amount of product in orders that are requested but not filled)
-CREATE VIEW PRODUCTVIEW AS
-(SELECT PRODUCT.PRODUCTID, PRODUCT.NAME, PRODUCT.DESCRIPTION, IF(PRODUCT.QTYONHAND<0, 0, PRODUCT.QTYONHAND) AS QTYONHAND, PRODUCT.MAXORDERQTY,
-        (CASE PRODUCT.MAXORDERQTY
+CREATE VIEW productview AS
+(SELECT product.PRODUCTID, product.NAME, product.DESCRIPTION, IF(product.QTYONHAND<0, 0, product.QTYONHAND) AS QTYONHAND, product.MAXORDERQTY,
+        (CASE product.MAXORDERQTY
              WHEN 0 THEN QTYAVAILABLE
-             ELSE IF(PRODUCT.MAXORDERQTY<QTYAVAILABLE, PRODUCT.MAXORDERQTY, IF(QTYAVAILABLE<0, 0, QTYAVAILABLE))
+             ELSE IF(product.MAXORDERQTY<QTYAVAILABLE, product.MAXORDERQTY, IF(QTYAVAILABLE<0, 0, QTYAVAILABLE))
             END
             ) AS ORDERLIMIT,
-        PRODUCT.GOALSTOCK, IFNULL(QTYONORDER,0) AS QTYONORDER, QTYAVAILABLE
-FROM PRODUCT LEFT OUTER JOIN ONORDERVIEW ON product.PRODUCTID = onorderview.PRODUCTID
-             JOIN QTYAVAILABLEVIEW ON product.PRODUCTID = QTYAVAILABLEVIEW.PRODUCTID);
+        product.GOALSTOCK, IFNULL(QTYONORDER,0) AS QTYONORDER, QTYAVAILABLE
+FROM product LEFT OUTER JOIN onorderview ON product.PRODUCTID = onorderview.PRODUCTID
+             JOIN qtyavailableview ON product.PRODUCTID = qtyavailableview.PRODUCTID);
 
 -- Create a Cart View, which has the number of products in each users cart
 -- QtyItemsInCart = number of unique product ids for each user
-CREATE VIEW CARTVIEW AS
+CREATE VIEW cartview AS
 (SELECT C.USERID, COUNT(DISTINCT C.PRODUCTID) AS QYTITEMSINCART
-FROM CART C GROUP BY C.USERID);
+FROM cart C GROUP BY C.USERID);
 
 INSERT INTO functions (Name,Description) VALUES ('SecurityManageUsers','Allows for reading users and interface to add, change, and delete.');
 INSERT INTO functions (Name,Description) VALUES ('SecurityUserAdd','Allows for adding of users by enabling link on manage form.');
@@ -991,7 +991,7 @@ INSERT INTO `productcategories` (`ProductID`, `CategoryID`) VALUES
 (51, 18);
 COMMIT;
 
-INSERT INTO `PRODUCT` (`ProductID`, `Name`, `Description`, `QtyOnHand`, `MaxOrderQty`, `GoalStock`) VALUES
+INSERT INTO `product` (`ProductID`, `Name`, `Description`, `QtyOnHand`, `MaxOrderQty`, `GoalStock`) VALUES
 (1000, 'Blanket', 'Dark blue, fleece.  Approximately 50x50 inches', 1, 1, 0),  -- GoalStock = 0 (Temp item)
 (1001, 'Clear American Sparkling Water, Wild Cherry', '1 bottle, 33.8 fl oz', 10, 5, 5),
 (1002, 'Basmati Rice', '1 bag, 32 oz', 2, 1, 5),  -- QtyOnHand < GoalStock (On shopping List)
@@ -1013,7 +1013,7 @@ Please put size in comment box before ordering', 30, 5, 0), -- GoalStock = 0 (Te
 (1017, 'Suave 3-1 Shampoo, Body and Face Wash', '16 fl oz bottle, scent: ThunderBird Axe Attack', 3, 10, 15); -- QtyOnHand < GoalStock (On shopping List)
 COMMIT;
 
-INSERT INTO `ORDERS` (`ORDERID`, `USERID`, `STATUS`, `DATEORDERED`, `DATEFILLED`, `DATECOMPLETED`, `COMMENT`) VALUES
+INSERT INTO `orders` (`ORDERID`, `USERID`, `STATUS`, `DATEORDERED`, `DATEFILLED`, `DATECOMPLETED`, `COMMENT`) VALUES
 (1, 1, 'COMPLETED', '2021-08-29', '2021-09-01', '2021-09-05', 'I am allergice to Nuts'),
 (2, 2, 'READY FOR PICKUP', '2021-09-16', '2021-09-17', '', ' '),
 (3, 1, 'SUBMITTED', '2021-09-18',  '', '', 'I live off campus'),
@@ -1045,7 +1045,7 @@ INSERT INTO `productcategories` (`ProductID`, `CategoryID`) VALUES
 (1017, 17);   -- Suave in Face
 COMMIT;
 
-INSERT INTO `ORDERDETAILS` (`ORDERID`, `PRODUCTID`, `QTYREQUESTED`, `QTYFILLED`) VALUES
+INSERT INTO `orderdetails` (`ORDERID`, `PRODUCTID`, `QTYREQUESTED`, `QTYFILLED`) VALUES
 -- Order 1, 5 different items, all items filled as requested, Order Complete
 (1, 1002, 1, 1),
 (1, 1003, 2, 2),
@@ -1082,7 +1082,7 @@ INSERT INTO `ORDERDETAILS` (`ORDERID`, `PRODUCTID`, `QTYREQUESTED`, `QTYFILLED`)
 (4, 1011, 4, 0);
 COMMIT;
 
-INSERT INTO `CART` (`USERID`, `PRODUCTID`, `QTYREQUESTED`) VALUES
+INSERT INTO `cart` (`USERID`, `PRODUCTID`, `QTYREQUESTED`) VALUES
 (5, 1001, 6),      -- QtyRequested > MaxOrderQty, can't be ordered as in cart
 (5, 1002, 1),      -- No issues
 (5, 1003, 2),      -- No issues
@@ -1091,7 +1091,7 @@ INSERT INTO `CART` (`USERID`, `PRODUCTID`, `QTYREQUESTED`) VALUES
 (5, 1012, 4);      -- QtyAvailable = 0, Item is out of stock
 COMMIT;
 
-INSERT INTO `SETTING` (SettingID, EmailAddresses, OrderReceivedText, OrderFilledText, PhotoDir) VALUES
+INSERT INTO `setting` (SettingID, EmailAddresses, OrderReceivedText, OrderFilledText, PhotoDir) VALUES
 (1, 'mlkarg@clarion.edu, resourceroom@clarion.edu, admin@clarion.edu',
  'Hello!  We have received your order and will fill it as soon as we are able.  Once the order has been filled, another email will be sent to confirm pick up details.',
  'Hello!  Your order has been filled and can be picket up in Ralston Hall, Monday through Friday from 8am to 4pm.  In the entry way is a table.
