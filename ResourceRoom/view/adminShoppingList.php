@@ -1,14 +1,9 @@
 <?php
-    $title = " Admin Shopping List Page";
-    require '../view/headerInclude.php';
-?>
-<html>
-<body>
-    <section class="clarion-blue">
-        <h1>Under Construction</h1>
-    </section>
-</body>
-</html>
-<?php
-    require '../view/footerInclude.php';
+echo '<pre>';
+$products = $info[0];
+$selectedCategoryIDs = $info[1];
+print_r($selectedCategoryIDs);
+print_r($products);
+echo '<pre>';
+
 ?>

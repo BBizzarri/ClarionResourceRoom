@@ -14,7 +14,7 @@
                             <?php foreach ($CategoryArray as $category) {
                                 ?>
                                 <li class="nav-item">
-                                    <a class="category nav-link " href="../Controller/Controller.php?action=shopperHome&CATEGORYID=<?php echo $category->getCategoryID()?>&DESCRIPTION=<?php echo htmlspecialchars($category->getCategoryDescription())?>&Display=<?php echo 'category' ?>"><?php echo htmlspecialchars($category->getCategoryDescription()) ?></a>
+                                    <a class="category nav-link " href="../controller/controller.php?action=shopperHome&CATEGORYID=<?php echo $category->getCategoryID()?>&DESCRIPTION=<?php echo htmlspecialchars($category->getCategoryDescription())?>&Display=<?php echo 'category' ?>"><?php echo htmlspecialchars($category->getCategoryDescription()) ?></a>
                                 </li>
                                 <?php
                             }
@@ -44,7 +44,7 @@
                                         <?php if($product->getProductDescription() != ""): ?>
                                             <div>
                                                 <button type="button" class="btn btn-light" data-toggle="modal" data-target="#modal_<?php echo $product->getProductID()?>">
-                                                    ...
+                                                    Description
                                                 </button>
                                             </div>
                                             <!-- Modal -->
@@ -71,14 +71,14 @@
                                     </div>
                                     <?php if ($cart->inCart($product->getProductID())) : ?>
                                         <div class="card-footer">
-                                            <h4>PRODUCT IN CART</h4>
+                                            <h5>PRODUCT IN CART</h5>
                                         </div>
                                     <?php elseif($product->getProductQTYAvailable() > 0) :?>
                                         <div class="card-footer">
                                             <form id="card-form" action="../controller/controller.php?action=processAddToCart&ProductID=<?php echo $product->getProductID()?>" method="post" enctype="multipart/form-data">
-                                                <div class="form-group container" id="shopperAddToCartButton">
-                                                    <label>QTY:</label>
-                                                    <input class="col-10" type="number" id="quantity_<?php echo htmlspecialchars($product->getProductID())?>" name="QTYRequested" min="1" max="<?php echo htmlspecialchars($product->getProductOrderLimit())?>">
+                                                <div class="form-group row" id="shopperAddToCartButton">
+                                                    <label class="col-4"for="quantity_<?php echo htmlspecialchars($product->getProductID())?>">QTY:</label>
+                                                    <input class="col-6" type="number" id="quantity_<?php echo htmlspecialchars($product->getProductID())?>" name="QTYRequested" min="1" max="<?php echo htmlspecialchars($product->getProductOrderLimit())?>">
                                                 </div>
                                                 <div class="form-group row flex-column">
                                                     <input type="submit" class="btn btn-primary" value="Add To Cart">
@@ -90,11 +90,11 @@
                                         </div>
                                     <?php elseif($product->getProductGoalStock() > 0) : ?>
                                         <div class="card-footer">
-                                            <h4>WILL BE RESTOCKED</h4>
+                                            <h5>WILL BE RESTOCKED</h5>
                                         </div>
                                     <?php else : ?>
                                         <div class="card-footer">
-                                            <h4>Unstocked Product</h4>
+                                            <h5>Unstocked Product</h5>
                                         </div>
                                     <?php endif;?>
                                 </div>

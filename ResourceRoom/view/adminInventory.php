@@ -68,13 +68,17 @@
                         <div class="table-heading table-heading-buttons">
                             <input class="btn my-2 my-sm-0" id="addNewItemButton" type="button" data-toggle="modal" data-target="#addProductModal" value="Add New Item"/>
                             <input class="btn my-2 my-sm-0" id="adjustAllButton" type="submit" value="Adjust All"/>
-                        </div>
-                        <table class="clarion-white">
-                            <th>Product</th>
-                            <th>On Hand <?php if($action == 'applyFilter' && $_POST['QtyLessThan']){ echo  '<' . ' ' . $_POST['QtyLessThan'];} ?></th>
-                            <th>Goal Stock</th>
-                            <th>Incoming</th>
-                          <?php
+                    </div>
+          </form>
+                <table class="clarion-white">
+                <tr>
+                    <th>Product</th>
+                    <th>On Hand</th>
+                    <th>Goal Stock</th>
+                    <th>Incoming</th>
+                  </tr>
+                  <?php
+                              $i = 0;
                               foreach($ProductArray as $product) {
                           ?>
                                           <tr>

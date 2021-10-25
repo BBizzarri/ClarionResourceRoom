@@ -14,7 +14,7 @@ class product
     public $CategoryInfo;
 
     //Constructor
-    function __construct($ProductID, $Name, $Description, $QtyOnHand, $MaxOrderQty,$OrderLimit, $GoalStock, $OnOrder, $QTYAvailable, $CategoryIDS=[]) {
+    function __construct($ProductID, $Name, $Description, $QtyOnHand, $MaxOrderQty,$OrderLimit, $GoalStock, $OnOrder, $QTYAvailable,$CategoryInfo=[]) {
         $this->ProductID = $ProductID;
         $this->Name = $Name;
         $this->Description = $Description;
