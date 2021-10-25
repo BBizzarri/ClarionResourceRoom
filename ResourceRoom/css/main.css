@@ -40,3 +40,8 @@ hr {width: 50px; color: #97824A}
 .hiddenRow {
     padding: 0 !important;
 }
+
+.orderModals{
+    max-width: 50%;
+    width: auto !important;
+}

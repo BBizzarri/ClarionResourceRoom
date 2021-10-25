@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="filtering finished &#10;category dropdown selection &#10;picture upload and swap">
+    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Filter work">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/shopperCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/shopperCasesInclude.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/model/model.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/model/order.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/order.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/model/product.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/product.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/security/creation_script.sql" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/security/creation_script.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminShoppingList.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminShoppingList.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/view/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/navInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/navInclude.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/view/shopperCart.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/shopperCart.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -58,6 +69,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -74,6 +86,11 @@
       <updated>1631803416568</updated>
       <workItem from="1632945793651" duration="1343000" />
       <workItem from="1633524002236" duration="8974000" />
+      <workItem from="1634844093872" duration="9053000" />
+      <workItem from="1635026490795" duration="13494000" />
+      <workItem from="1635145946772" duration="576000" />
+      <workItem from="1635164274358" duration="1163000" />
+      <workItem from="1635167323295" duration="15201000" />
     </task>
     <task id="LOCAL-00001" summary="fixing merge conflict">
       <created>1631803451977</created>

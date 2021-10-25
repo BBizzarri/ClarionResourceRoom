@@ -28,33 +28,28 @@
 
     function displayShopperOrders(){
         $USERID = getUserID();
-        $orderIDs = getOrderIDsByUSERID($USERID);
-
-        if(sizeof($orderIDs) > 0){
-            $orders = array();
-            foreach($orderIDs as $ID){
-                array_push($orders,getOrdersByUserIDOrderID($USERID,$ID));
-            }
-        }
+        $orders = getOrderIDsByUSERID($USERID);
         include '../view/shopperOrders.php';
     }
-
 
     function displayProducts()
     {
         $listType = filter_input(INPUT_GET, 'ListType');
         $CategoryArray = getAllCategories();
         if($listType =='GeneralSearch'){
-            $ProductArray = getByGeneralSearch($_GET['Criteria']);
+            $info = getProducts([0],'',$IncludeInactiveItems = false ,$HideUnstockedItems = false,$ShoppingList = false,$_GET['Criteria']);
+            $ProductArray = $info[0];
             $CurrentCategory = "Search: " . $_GET['Criteria'];
         }else if (isset($_GET['CATEGORYID'])) {
             $shopperCategoryID = $_GET['CATEGORYID'];
             $CurrentCategory = $_GET['DESCRIPTION'];
-            $ProductArray = getCategory($shopperCategoryID);
+            $info = getProducts([$shopperCategoryID],'',$IncludeInactiveItems = false ,$HideUnstockedItems = false,$ShoppingList = false,'');
+            $ProductArray = $info[0];
         }else{
             $CurrentCategory = $CategoryArray[0]->getCategoryDescription();
             $shopperCategoryID = $CategoryArray[0]->getCategoryID();
-            $ProductArray = getCategory($shopperCategoryID);
+            $info = getProducts([$shopperCategoryID],'',$IncludeInactiveItems = false ,$HideUnstockedItems = false,$ShoppingList = false,'');
+            $ProductArray = $info[0];
         }
         $CategoryHeader = $CurrentCategory;
             if ($ProductArray == false)

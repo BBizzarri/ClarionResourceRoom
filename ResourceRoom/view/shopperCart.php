@@ -7,22 +7,17 @@
     <section id="main" class="clarion-blue">
         <div class="container-fluid">
             <div class ="row">
-                <div class="col-2 clarion-white">
-                    <div class="sticky-top" style="margin-top: 15px">
-                     <h4>Finalize your Order!</h4>
-                    </div>
-                </div>
-                <div class="col-10">
+                <div class="col-12">
                         <div class="container-fluid">
-                            <div class="row sticky-top">
+                            <div class="row">
                                 <div class="text-left clarion-white" style="margin-left: 25px">
                                     <div style="margin-block: 15px">
-                                        <h2>Your Shopping Cart<?php ?></h2>
+                                        <h2>Your Shopping Cart</h2>
                                     </div>
                                 </div>
                                 <div class="text-right clarion-white" style="margin-left: 650px">
-                                    <div class="sticky-top" style="margin-block: 15px">
-                                <h4>Total Items in cart: <?php echo($cart->getNumberOfItemsInCart()) ?><?php ?></h4>
+                                    <div style="margin-block: 15px">
+                                        <h3>Total Items in cart: <?php echo($cart->getNumberOfItemsInCart()) ?><?php ?></h3>
                                     </div>
                                 </div>
                             </div>

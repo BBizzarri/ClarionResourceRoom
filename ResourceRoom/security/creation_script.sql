@@ -177,16 +177,18 @@ INSERT INTO functions (Name,Description) VALUES ('shopperCart', 'Where shoppers 
 INSERT INTO functions (Name,Description) VALUES ('shopperHome', 'where shoppers can select items that they would like to purchase');
 INSERT INTO functions (Name,Description) VALUES ('shopperOrders', 'where shoppers can view their current past and pending orders');
 INSERT INTO functions (Name,Description) VALUES ('displaySelectedCategory', 'Allows the admin to select different categories to only display certain ones in the admin inventory.');
-INSERT INTO functions (Name, Description) VALUES ('addEditProduct','Creates a new product or edits a product info if product already exists'),
-                                                 ('applyFilter','Allows for use of filters on inventory page'),
-                                                 ('displaySelectedCategory','REPEAT!!  REPLACE WHEN ANOTHER FUNCTION IS ADDED!!!!!'),
-                                                 ('getProductInfo','Returns Products Infromation'),
-                                                 ('processBulkStockAdjust','Adjust QtyOnHand for multiple products on inventory page'),
-                                                 ('processSingleStockAdjust','Adjust QtyOnHand for a single product on inventory page'),
-                                                 ('shopperAdjustQTYInCart','Adjust QtyRequested for users in cart table'),
-                                                 ('processAddToCart','Adds product to an users cart in cart table'),
-                                                 ('shopperRemoveFromCart','Removes a product from an users cart in cart table'),
-                                                 ('shopperSubmitOrder','Creates an order for users based off of users cart');
+INSERT INTO functions (Name,Description) VALUES ('addEditProduct','Creates a new product or edits a product info if product already exists'),
+                                                ('adminChangeOrderStatus','Changes the status of an order'),
+                                                ('adminFillOrder','Lets the user fill an order'),
+                                                ('applyFilter','Allows for use of filters on inventory page'),
+                                                ('displaySelectedCategory','REPEAT!!  REPLACE WHEN ANOTHER FUNCTION IS ADDED!!!!!'),
+                                                ('getProductInfo','Returns Products Infromation'),
+                                                ('processBulkStockAdjust','Adjust QtyOnHand for multiple products on inventory page'),
+                                                ('processSingleStockAdjust','Adjust QtyOnHand for a single product on inventory page'),
+                                                ('shopperAdjustQTYInCart','Adjust QtyRequested for users in cart table'),
+                                                ('processAddToCart','Adds product to an users cart in cart table'),
+                                                ('shopperRemoveFromCart','Removes a product from an users cart in cart table'),
+                                                ('shopperSubmitOrder','Creates an order for users based off of users cart');
 
 
 

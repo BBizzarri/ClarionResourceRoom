@@ -31,6 +31,9 @@ class order
 
     }
 
+    function addOrderDetails($orderDetail){
+        array_push($this->OrderDetails,$orderDetail);
+    }
 
     function getOrderID()
     {
