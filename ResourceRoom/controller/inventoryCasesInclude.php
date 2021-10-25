@@ -107,6 +107,7 @@
 
     function displayCategories()
     {
+        print_r($_POST);
         $Display = $_GET['Display'];
        if (isset($_POST['action']))
         {
@@ -118,7 +119,7 @@
         }
         if($Display == 'All')
         {
-            $CATEGORYID = '';
+            $CategoryID = [];
             $DESCRIPTION = '';
             $CategoryHeader = 'All';
             $CategoryArray = getAllCategories();
@@ -134,22 +135,25 @@
                     else
                     {
                         $QtyLessThanStatus = false;
-                        $QtyLessThan = 0;
+                        $QtyLessThan = '';
                     }
                 }
                 else
                 {
                     $QtyLessThanStatus = false;
-                    $QtyLessThan = 0;
+                    $QtyLessThan = '';
                 }
                 $InactiveItems = isset($_POST['inactiveItems']);
                 $StockedItems = isset($_POST['stockedItems']);
                 $ShoppingList = isset($_POST['shoppingList']);
-                $ProductArray = getFilteredProducts($QtyLessThan, $QtyLessThanStatus, $InactiveItems, $StockedItems, $ShoppingList);
+                $info = getProducts($CategoryID,$QtyLessThan,$InactiveItems,$StockedItems,$ShoppingList,$SearchTerm='');
+                $ProductArray = $info[0];
             }
             else
             {
-                $ProductArray = getAllProductsAndCategories();
+                //$ProductArray = getAllProductsAndCategories();
+                $info = getProducts($CategoryID,$QTYLessThan = '',$IncludeInactiveItems = false,$HideUnstockedItems = false,$ShoppingList= false,$SearchTerm='');
+                $ProductArray = $info[0];
             }
             if ($CategoryArray == false) {
                 $errorMessage = "No Categories found.";
@@ -159,9 +163,10 @@
             }
         }
         else if ($Display == 'category') {
-            $CATEGORYID = $_GET['CATEGORYID'];
+            $CategoryID = [];
+            array_push($CategoryID, $_GET['CATEGORYID']);
             $DESCRIPTION = $_GET['DESCRIPTION'];
-            if (!isset($CATEGORYID))
+            if (!isset($CategoryID))
             {
                 $errorMessage = 'You must provide a category ID to display';
                 include '../view/errorPage.php';
@@ -188,11 +193,13 @@
                     $InactiveItems = isset($_POST['inactiveItems']);
                     $StockedItems = isset($_POST['stockedItems']);
                     $ShoppingList = isset($_POST['shoppingList']);
-                    $ProductArray = getFilteredCategory($CATEGORYID, $QtyLessThan, $QtyLessThanStatus, $InactiveItems, $StockedItems, $ShoppingList);
+                    $info = getProducts($CategoryID,$QTYLessThan = '',$InactiveItems,$StockedItems,$ShoppingList,$SearchTerm='');
+                    $ProductArray = $info[0];
                 }
                 else
                 {
-                    $ProductArray = getCategory($CATEGORYID);
+                    $info = getProducts($CategoryID,$QTYLessThan = '',$IncludeInactiveItems = false,$HideUnstockedItems = false,$ShoppingList= false,$SearchTerm='');
+                    $ProductArray = $info[0];
                 }
                 if ($ProductArray == false)
                 {
