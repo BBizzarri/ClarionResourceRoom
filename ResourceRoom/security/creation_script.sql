@@ -64,7 +64,7 @@ CREATE TABLE orders
 CREATE TABLE product
 (   PRODUCTID               INT,
     NAME                    VARCHAR(50),
-    DESCRIPTION             VARCHAR(255),
+    PRODUCTDESCRIPTION             VARCHAR(255),
     QTYONHAND               INT,
     MAXORDERQTY             INT,
     GOALSTOCK               INT,
@@ -84,7 +84,7 @@ CREATE TABLE orderdetails
 
 CREATE TABLE category
 (   CATEGORYID              INT,
-    DESCRIPTION             VARCHAR(50),
+    CATEGORYDESCRIPTION     VARCHAR(50),
     CONSTRAINT CATEGORY_PK PRIMARY KEY (CATEGORYID)
 );
 
@@ -132,7 +132,7 @@ FROM product LEFT OUTER JOIN onorderview ON product.PRODUCTID = onorderview.PROD
 
 -- Create a Product View that includes QtyAvailable, OrderLimit, and OnOrder (Amount of product in orders that are requested but not filled)
 CREATE VIEW productview AS
-(SELECT product.PRODUCTID, product.NAME, product.DESCRIPTION, IF(product.QTYONHAND<0, 0, product.QTYONHAND) AS QTYONHAND, product.MAXORDERQTY,
+(SELECT product.PRODUCTID, product.NAME, product.PRODUCTDESCRIPTION, IF(product.QTYONHAND<0, 0, product.QTYONHAND) AS QTYONHAND, product.MAXORDERQTY,
         (CASE product.MAXORDERQTY
              WHEN 0 THEN QTYAVAILABLE
              ELSE IF(product.MAXORDERQTY<QTYAVAILABLE, product.MAXORDERQTY, IF(QTYAVAILABLE<0, 0, QTYAVAILABLE))
@@ -299,7 +299,7 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,20),
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (5,20),
                                                      (5,22);
 
-INSERT INTO `category` (`CategoryID`, `Description`) VALUES
+INSERT INTO `category` (`CategoryID`, `CategoryDescription`) VALUES
 (1, 'Hygiene & Personal Care Items'),
 (2, 'Household Supplies'),
 (3, 'Linens'),
@@ -321,7 +321,7 @@ INSERT INTO `category` (`CategoryID`, `Description`) VALUES
 (19, 'Clothing Items');
 COMMIT;
 
-INSERT INTO `product` (`ProductID`, `Name`, `Description`, `QtyOnHand`, `MaxOrderQty`, `GoalStock`) VALUES
+INSERT INTO `product` (`ProductID`, `Name`, `ProductDescription`, `QtyOnHand`, `MaxOrderQty`, `GoalStock`) VALUES
 (1, 'Strawberry Shampoo', '', 1, 0, 0),
 (2, 'Ocean Breeze Shampoo', '', 4, 0, 5),
 (3, 'Ocean Breeze Conditioner', '', 5, 0, 5),
@@ -991,7 +991,7 @@ INSERT INTO `productcategories` (`ProductID`, `CategoryID`) VALUES
 (51, 18);
 COMMIT;
 
-INSERT INTO `product` (`ProductID`, `Name`, `Description`, `QtyOnHand`, `MaxOrderQty`, `GoalStock`) VALUES
+INSERT INTO `product` (`ProductID`, `Name`, `ProductDescription`, `QtyOnHand`, `MaxOrderQty`, `GoalStock`) VALUES
 (1000, 'Blanket', 'Dark blue, fleece.  Approximately 50x50 inches', 1, 1, 0),  -- GoalStock = 0 (Temp item)
 (1001, 'Clear American Sparkling Water, Wild Cherry', '1 bottle, 33.8 fl oz', 10, 5, 5),
 (1002, 'Basmati Rice', '1 bag, 32 oz', 2, 1, 5),  -- QtyOnHand < GoalStock (On shopping List)
