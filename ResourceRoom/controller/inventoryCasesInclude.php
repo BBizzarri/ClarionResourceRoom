@@ -34,9 +34,6 @@
         case 'getProductInfo':
             getProductInfo();
             break;
-        case 'processBulkStockAdjust':
-            processBulkStockAdjust();
-            break;
         case 'processSingleStockAdjust':
             processSingleStockAdjust();
             break;
@@ -90,9 +87,15 @@
                         $QtyLessThan = 0;
                     }
                 }
+                else
+                {
+                    $QtyLessThanStatus = false;
+                    $QtyLessThan = 0;
+                }
                 $InactiveItems = isset($_POST['inactiveItems']);
                 $StockedItems = isset($_POST['stockedItems']);
-                $ProductArray = getFilteredProducts($QtyLessThan, $QtyLessThanStatus, $InactiveItems, $StockedItems);
+                $ShoppingList = isset($_POST['shoppingList']);
+                $ProductArray = getFilteredProducts($QtyLessThan, $QtyLessThanStatus, $InactiveItems, $StockedItems, $ShoppingList);
             }
             else
             {
@@ -134,7 +137,8 @@
                     }
                     $InactiveItems = isset($_POST['inactiveItems']);
                     $StockedItems = isset($_POST['stockedItems']);
-                    $ProductArray = getFilteredCategory($CATEGORYID, $QtyLessThan, $QtyLessThanStatus, $InactiveItems, $StockedItems);
+                    $ShoppingList = isset($_POST['shoppingList']);
+                    $ProductArray = getFilteredCategory($CATEGORYID, $QtyLessThan, $QtyLessThanStatus, $InactiveItems, $StockedItems, $ShoppingList);
                 }
                 else
                 {
@@ -166,33 +170,28 @@
         console_log($PRODUCTID);
     }
 
-    function processBulkStockAdjust()
-    {
-        foreach($_POST['incomingAmt_'] as $key=>$value) {
-            if($value!='')
-            {
-                $incomingAmt = $value;
-                console_log($incomingAmt);
-            }
-        }
-    }
     function processSingleStockAdjust()
+    {
+        console_log($_GET['Type']);
+        if($_GET['Type'] == 'bulk')
         {
-            $PRODUCTID = $_GET['ProductID'];
-            $QTYONHAND = $_GET['QTYOnHand'];
-            $INCOMINGAMT = $_POST['incomingAmt'];
-            //Validations
-            $errors = "";
-            if($errors != "")
+            $IncomingAmtArray = $_POST;
+            foreach($IncomingAmtArray as $IncomingAmt)
             {
-                include '../view/adminInventory.php';
+                $IncomingAmtKey = explode('_', key($IncomingAmtArray));
+                $ProductID = $IncomingAmtKey[1];
+                $rowsAffected = updateQTY($ProductID, $IncomingAmt);
+                next($IncomingAmtArray);
             }
-            else
-            {
-                $rowsAffected = updateQTY($PRODUCTID, $QTYONHAND, $INCOMINGAMT);
-            }
-            header("Location: {$_SERVER['HTTP_REFERER']}");
         }
+        else
+        {
+            $IncomingAmt = $_GET['IncomingAmt'];
+            $ProductID = $_GET['ProductID'];
+            $rowsAffected = updateQTY($ProductID, $IncomingAmt);
+        }
+        header("Location: {$_SERVER['HTTP_REFERER']}");
+    }
 
     function retrieveCategory()
     {
@@ -334,19 +333,19 @@
 
                 // Display of output image and save in set directory
                 imagejpeg($image_p, $target_file);
-                header("Location: ../Controller/Controller.php?action=adminInventory&Display=All");
+                header("Location: {$_SERVER['HTTP_REFERER']}");
             }
         }
         else if(file_exists($target_dir . $ProductID . 'jpg'))
         {
-            header("Location: ../Controller/Controller.php?action=adminInventory&Display=All");
+            header("Location: {$_SERVER['HTTP_REFERER']}");
         }
         else {
             $imgName = imagecreatefromjpeg('../productImages/ImageNotAvailable.jpg');
             $new_Name =  $ProductID;
             // Display of output image and save in set directory
             imagejpeg($imgName, '../productImages/'.$new_Name.'.jpg');
-            header("Location: ../Controller/Controller.php?action=adminInventory&Display=All");
+            header("Location: {$_SERVER['HTTP_REFERER']}");
         }
     }
 

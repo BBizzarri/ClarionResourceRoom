@@ -154,3 +154,7 @@ category-background {
     text-align: left;
     padding-top: 20px;
 }
+
+.category-selected {
+    background-color: grey;
+}

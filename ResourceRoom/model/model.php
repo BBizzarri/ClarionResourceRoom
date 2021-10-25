@@ -261,7 +261,7 @@
         }
     }
 
-        function getFilteredProducts($QtyLessThan, $QtyLessThanStatus, $InactiveItems, $StockedItems) {
+        function getFilteredProducts($QtyLessThan, $QtyLessThanStatus, $InactiveItems, $StockedItems, $ShoppingList) {
             try {
                 $db = getDBConnection();
                 if($QtyLessThanStatus == true && $InactiveItems == false && $StockedItems == false)
@@ -329,6 +329,12 @@
                                 where GOALSTOCK = 0 and QTYONHAND = 0
                                 order by NAME";
                 }
+                else if ($ShoppingList == true)
+                {
+                    $query = "select *
+                             from productview
+                             where QTYONHAND < GOALSTOCK";
+                }
                 else
                 {
                     $query = "select *
@@ -346,7 +352,7 @@
                 foreach($results as $ProductRow)
                 {
                     array_push($products,new product($ProductRow['PRODUCTID'],$ProductRow['NAME'],$ProductRow['DESCRIPTION'],$ProductRow['QTYONHAND'],
-                        $ProductRow['MAXORDERQTY'],$ProductRow['ORDERLIMIT'],$ProductRow['GOALSTOCK'],$ProductRow['QTYONORDER'],$ProductRow['QTYAVAILABLE']));
+                        $ProductRow['MAXORDERQTY'],$ProductRow['ORDERLIMIT'],$ProductRow['GOALSTOCK'],$ProductRow['QTYONORDER'],$ProductRow['QTYAVAILABLE'], $ProductRow['CATEGORYDESCRIPTIONS']));
                 }
                 return $products;
             } catch (PDOException $e) {
@@ -360,10 +366,12 @@
         {
             try{
                 $db = getDBConnection();
-                $query = "select *
-                          from productview
-                          inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
-                          where QTYONHAND > 0 and productcategories.CATEGORYID = :CATEGORYID ";
+                $query = "SELECT productview.*,GROUP_CONCAT(category.DESCRIPTION SEPARATOR'=') as CATEGORYDESCRIPTIONS
+                                                    FROM productview INNER JOIN productcategories on productview.PRODUCTID = productcategories.PRODUCTID
+                                                    INNER JOIN category on productcategories.CATEGORYID = category.CATEGORYID
+                                                    where productview.QTYONHAND > 0 and productcategories.CATEGORYID = :CATEGORYID
+                                                    GROUP BY productview.PRODUCTID
+                                                    order by productview.NAME";
                 $statement = $db->prepare($query);
                 $statement->bindValue(":CATEGORYID", $CATEGORYID);
                 $statement->execute();
@@ -373,7 +381,7 @@
                 foreach($result as $ProductRow)
                 {
                     array_push($products,new product($ProductRow['PRODUCTID'],$ProductRow['NAME'],$ProductRow['DESCRIPTION'],$ProductRow['QTYONHAND'],
-                        $ProductRow['MAXORDERQTY'],$ProductRow['ORDERLIMIT'],$ProductRow['GOALSTOCK'],$ProductRow['QTYONORDER'],$ProductRow['QTYAVAILABLE']));
+                        $ProductRow['MAXORDERQTY'],$ProductRow['ORDERLIMIT'],$ProductRow['GOALSTOCK'],$ProductRow['QTYONORDER'],$ProductRow['QTYAVAILABLE'], $ProductRow['CATEGORYDESCRIPTIONS']));
                 }
                 return $products;
             }
@@ -385,7 +393,7 @@
             }
         }
 
-        function getFilteredCategory($CATEGORYID, $QtyLessThan, $QtyLessThanStatus, $InactiveItems, $StockedItems)
+        function getFilteredCategory($CATEGORYID, $QtyLessThan, $QtyLessThanStatus, $InactiveItems, $StockedItems, $ShoppingList)
                 {
                     try{
                         $db = getDBConnection();
@@ -469,6 +477,13 @@
                                         inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
                                         where productcategories.CATEGORYID = :CATEGORYID and GOALSTOCK = 0 and QTYONHAND = 0
                                         order by NAME";
+                        }
+                        else if($ShoppingList == true)
+                        {
+                            $query = "select *
+                                     from productview
+                                     inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
+                                     where QTYONHAND < GOALSTOCK and productcategories.CATEGORYID = 10";
                         }
                         else
                         {
@@ -586,22 +601,24 @@
                 logSQLError($statement->errorInfo());
             }
         }
-        function updateQTY($PRODUCTID, $QTYONHAND, $INCOMINGAMT)
+        function updateQTY($ProductID, $IncomingAmt)
        {
-           $chars = preg_split('//', $INCOMINGAMT, -1, PREG_SPLIT_NO_EMPTY);
-           if($chars[0] === '-')
+           $db = getDBConnection();
+           if(substr($IncomingAmt, -strlen($IncomingAmt), 1) == '-')
            {
-                $QTYONHAND = $QTYONHAND - $chars[1];
+                $Operation = '-';
+                $IncomingAmtSep = explode('-', $IncomingAmt);
+                $IncomingAmt = $IncomingAmtSep[1];
+                $query = "update product set QTYONHAND = QTYONHAND - :QTYONHAND where PRODUCTID = :PRODUCTID";
            }
            else
            {
-                $QTYONHAND = $QTYONHAND + $INCOMINGAMT;
+                $Operation = '+';
+                $query = "update product set QTYONHAND = QTYONHAND + :QTYONHAND where PRODUCTID = :PRODUCTID";
            }
-           $db = getDBConnection();
-           $query = "update product set QTYONHAND = :QTYONHAND where PRODUCTID = :PRODUCTID";
            $statement = $db->prepare($query);
-           $statement->bindValue(':PRODUCTID', $PRODUCTID);
-           $statement->bindValue(':QTYONHAND', $QTYONHAND);
+           $statement->bindValue(':PRODUCTID', $ProductID);
+           $statement->bindValue(':QTYONHAND', $IncomingAmt);
            $success = $statement->execute();
            $statement->closeCursor();
            if($success)
@@ -740,6 +757,8 @@
 
         function addProductCategories($ProductCategories, $ProductID) {
             $db = getDBConnection();
+            console_log($ProductCategories);
+            console_log($ProductID);
             clearCategories($ProductID);
             foreach($ProductCategories as $IndividualCategory)
             {
@@ -783,26 +802,45 @@
 
 
         function updateProductCategories($ProductCategories, $ProductID) {
-                    $db = getDBConnection();
-                    foreach($ProductCategories as $IndividualCategory)
-                    {
-                       $query = 'update productcategories set CATEGORYID = :CATEGORYID where PRODUCTID = :PRODUCTID';
-                       $statement = $db->prepare($query);
-                       $statement->bindValue(':PRODUCTID', $ProductID);
-                       $statement->bindValue(':CATEGORYID', $IndividualCategory);
-                       $success = $statement->execute();
-                       $statement->closeCursor();
+            $db = getDBConnection();
+            foreach($ProductCategories as $IndividualCategory)
+            {
+               $query = 'update productcategories set CATEGORYID = :CATEGORYID where PRODUCTID = :PRODUCTID';
+               $statement = $db->prepare($query);
+               $statement->bindValue(':PRODUCTID', $ProductID);
+               $statement->bindValue(':CATEGORYID', $IndividualCategory);
+               $success = $statement->execute();
+               $statement->closeCursor();
 
-                       if($success)
-                       {
-                           //savePriceImageFile($db->lastInsertId());
-                       }
-                       else
-                       {
-                           logSQLError($statement->errorInfo());
-                       }
-                    }
-                }
+               if($success)
+               {
+                   //savePriceImageFile($db->lastInsertId());
+               }
+               else
+               {
+                   logSQLError($statement->errorInfo());
+               }
+            }
+        }
+
+        function getProductIDS()
+        {
+            $db = getDBConnection();
+            $query = 'select PRODUCTID FROM product';
+            $statement = $db->prepare($query);
+            $success = $statement->execute();
+            $AllProductIDS = $statement->fetchAll();
+            $statement->closeCursor();
+
+            if($success)
+            {
+               return $AllProductIDS;
+            }
+            else
+            {
+                logSQLError($statement->errorInfo());
+            }
+        }
 
 
 ?>

@@ -26,3 +26,20 @@ function getCategories($ProductID) {
         alert($ProductID);
         document.location="../controller/controller.php?action=getProductCategories&ProductID=" + encodeURIComponent(ProductID);
 }
+
+function adjustSingleStock(ProductID) {
+        let IncomingAmt = document.getElementById('incomingAmt_' + ProductID).value
+        document.location="../controller/controller.php?action=processSingleStockAdjust&Type=single&IncomingAmt=" + encodeURIComponent(IncomingAmt) + "&ProductID=" + encodeURIComponent(ProductID);
+}
+
+function adjustFilters() {
+    alert("Here");
+    if(document.getElementById('stockedItems').checked || document.getElementById('inactiveItems').checked)
+    {
+        document.getElementById('shoppingList').disabled = true;
+    }
+    else
+    {
+        document.getElementById('shoppingList').disabled = false;
+    }
+}
