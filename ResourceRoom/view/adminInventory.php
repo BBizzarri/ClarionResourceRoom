@@ -70,6 +70,7 @@
                     </div>
           </form>
                 <table class="clarion-white">
+                <tr>
                     <th>Product</th>
                     <th>On Hand</th>
                     <th>Goal Stock</th>

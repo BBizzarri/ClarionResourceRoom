@@ -4,14 +4,20 @@
     // The purpose is to separate the shopper actions from the back-end inventory actions to help version control.
 
     switch ($action) {
+        case 'adminChangeOrderStatus':
+            adminChangeOrderStatus();
+            break;
         case 'addEditProduct':
             addEditProduct();
+            break;
+        case 'adminFillOrder':
+            adminFillOrder();
             break;
         case 'adminInventory':
              displayCategories();
             break;
         case 'adminOrders':
-            include '../view/adminOrders.php';
+            showAdminOrders();
             break;
         case 'adminReports':
             include '../view/adminReports.php';
@@ -20,7 +26,7 @@
             include '../security/index.php';
             break;
         case 'adminShoppingList':
-            include '../view/adminShoppingList.php';
+            shopperPage();
             break;
         case 'applyFilter':
             displayCategories();
@@ -42,6 +48,50 @@
             break;
     }
 
+    function shopperPage(){
+        $IncludeInactiveItems = false;
+        $HideUnstockedItems = true;
+        $ShoppingList = false;
+        $info = getProducts([1,7,9],10,$IncludeInactiveItems,$HideUnstockedItems,$ShoppingList,"");
+        include '../view/adminShoppingList.php';
+    }
+    function adminChangeOrderStatus(){
+        $orderID = $_GET['orderID'];
+        $status = $_GET['STATUS'];
+        if($status == "SUBMITTED"){
+            $newStatus = "READY FOR PICKUP";
+        }
+        else if($status == "READY FOR PICKUP"){
+            $newStatus = "COMPLETED";
+        }else{
+            $newStatus = "COMPLETED";
+        }
+        changeOrderStatus($orderID,$newStatus);
+        header("Location: {$_SERVER['HTTP_REFERER']}");
+    }
+
+    function adminFillOrder(){
+        $orderID = $_GET['orderID'];
+        $status = $_GET['status'];
+        $orderDetails = array();
+        $QTYRequested = '';
+        foreach($_POST as $productID=>$QTYFilled){
+            array_push($orderDetails,new orderDetail($orderID,new product((int)$productID,'','','','','','','','',''),$QTYRequested,$QTYFilled));
+        }
+        $order = new order($orderID,'',$status,'','','','',$orderDetails);
+        if($status == "SUBMITTED"){
+            $newStatus = "READY FOR PICKUP";
+        }
+        else if($status == "READY FOR PICKUP"){
+            $newStatus = "COMPLETED";
+        }else{
+            $newStatus = "ERROR";
+        }
+        changeOrderStatus($orderID,$newStatus);
+        fillOrderDetails($order);
+        fillOrder($order);
+        header("Location: {$_SERVER['HTTP_REFERER']}");
+    }
     function applyFilter()
     {
         $QtyLessThan = $_POST['qtyLessThan'];
@@ -152,6 +202,15 @@
             }
         }
     }
+
+    function showAdminOrders(){
+        $AllOrders = getAdminOrders();
+        $SubmittedOrders = $AllOrders[0];
+        $ReadyOrders = $AllOrders[1];
+        $CompletedOrders = $AllOrders[2];
+        include '../view/adminOrders.php';
+    }
+
 
     function editProduct()
     {
