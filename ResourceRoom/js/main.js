@@ -26,3 +26,10 @@ function getCategories($ProductID) {
         alert($ProductID);
         document.location="../controller/controller.php?action=getProductCategories&ProductID=" + encodeURIComponent(ProductID);
 }
+
+function adjustSingleStock(ProductID) {
+        let IncomingAmt = document.getElementById('incomingAmt_' + ProductID).value
+        document.location="../controller/controller.php?action=processSingleStockAdjust&Type=single&IncomingAmt=" + encodeURIComponent(IncomingAmt) + "&ProductID=" + encodeURIComponent(ProductID);
+}
+
+

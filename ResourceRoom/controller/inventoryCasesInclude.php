@@ -14,7 +14,7 @@
             adminFillOrder();
             break;
         case 'adminInventory':
-             displayCategories();
+            showInventory();
             break;
         case 'adminOrders':
             showAdminOrders();
@@ -29,19 +29,16 @@
             shopperPage();
             break;
         case 'applyFilter':
-            displayCategories();
+
             break;
         case 'displaySelectedCategory':
-            displayCategories();
+
             break;
         case 'getProductCategories':
             getProductCategories();
             break;
         case 'getProductInfo':
             getProductInfo();
-            break;
-        case 'processBulkStockAdjust':
-            processBulkStockAdjust();
             break;
         case 'processSingleStockAdjust':
             processSingleStockAdjust();
@@ -108,99 +105,147 @@
         include '../view/adminInventory.php';
     }
 
-    function displayCategories()
+    function showInventory()
     {
-        $Display = $_GET['Display'];
-       if (isset($_POST['action']))
+        $CategoryArray = getAllCategories();
+        $InactiveItems = isset($_POST['inactiveItems']);
+        $StockedItems = isset($_POST['stockedItems']);
+        $ShoppingList = isset($_POST['shoppingList']);
+        if(isset($_POST['CategoryList']))
         {
-            $action = $_POST['action'];
+            $CategoryList = $_POST['CategoryList'];
+            $CategoryID = $CategoryList;
+            $CategoryHeader = getCategoryHeader($CategoryID);
         }
-        else if (isset($_GET['action']))
+        else
         {
-            $action = $_GET['action'];
-        }
-        if($Display == 'All')
-        {
-            $CATEGORYID = '';
-            $DESCRIPTION = '';
+            $CategoryID = [];
             $CategoryHeader = 'All';
-            $CategoryArray = getAllCategories();
-            if($action === 'applyFilter')
-            {
-                if(isset($_POST['QtyLessThan']))
-                {
-                    if(is_numeric($_POST['QtyLessThan']))
-                    {
-                        $QtyLessThanStatus = isset($_POST['QtyLessThan']);
-                        $QtyLessThan = $_POST['QtyLessThan'];
-                    }
-                    else
-                    {
-                        $QtyLessThanStatus = false;
-                        $QtyLessThan = 0;
-                    }
-                }
-                $InactiveItems = isset($_POST['inactiveItems']);
-                $StockedItems = isset($_POST['stockedItems']);
-                $ProductArray = getFilteredProducts($QtyLessThan, $QtyLessThanStatus, $InactiveItems, $StockedItems);
-            }
-            else
-            {
-                $ProductArray = getAllProductsAndCategories();
-            }
-            if ($CategoryArray == false) {
-                $errorMessage = "No Categories found.";
-                include '../view/errorPage.php';
-            } else {
-                include '../view/adminInventory.php';
-            }
         }
-        else if ($Display == 'category') {
-            $CATEGORYID = $_GET['CATEGORYID'];
-            $DESCRIPTION = $_GET['DESCRIPTION'];
-            if (!isset($CATEGORYID))
-            {
-                $errorMessage = 'You must provide a category ID to display';
-                include '../view/errorPage.php';
-            }
-            else
-            {
-                $CategoryHeader = $DESCRIPTION;
-                $CategoryArray = getAllCategories();
-                if($action === 'applyFilter')
-                {
-                    if(isset($_POST['QtyLessThan']))
-                    {
-                        if(is_numeric($_POST['QtyLessThan']))
-                        {
-                            $QtyLessThanStatus = isset($_POST['QtyLessThan']);
-                            $QtyLessThan = $_POST['QtyLessThan'];
-                        }
-                        else
-                        {
-                            $QtyLessThanStatus = false;
-                            $QtyLessThan = 0;
-                        }
-                    }
-                    $InactiveItems = isset($_POST['inactiveItems']);
-                    $StockedItems = isset($_POST['stockedItems']);
-                    $ProductArray = getFilteredCategory($CATEGORYID, $QtyLessThan, $QtyLessThanStatus, $InactiveItems, $StockedItems);
-                }
-                else
-                {
-                    $ProductArray = getCategory($CATEGORYID);
-                }
-                if ($ProductArray == false)
-                {
-                    $errorMessage = 'That category was not found';
-                    include '../view/errorPage.php';
-                }
-                else
-                {
-                    include '../view/adminInventory.php';
-                }
-            }
+        if(isset($_POST['QtyLessThan']))
+        {
+            $QtyLessThan = $_POST['QtyLessThan'];
         }
+        else
+        {
+            $QtyLessThan = '';
+        }
+        if(isset($_POST['adminSearchCriteria']))
+        {
+            $SearchTerm = $_POST['adminSearchCriteria'];
+        }
+        else
+        {
+            $SearchTerm = '';
+        }
+        $info = getProducts($CategoryID,$QtyLessThan,$InactiveItems,$StockedItems,$ShoppingList,$SearchTerm);
+        $ProductArray = $info[0];
+        include '../view/adminInventory.php';
+
+//         $Display = $_GET['Display'];
+//        if (isset($_POST['action']))
+//         {
+//             $action = $_POST['action'];
+//         }
+//         else if (isset($_GET['action']))
+//         {
+//             $action = $_GET['action'];
+//         }
+//         if($Display == 'All')
+//         {
+//             $CategoryID = [];
+//             $DESCRIPTION = '';
+//             $CategoryHeader = 'All';
+//             $CategoryArray = getAllCategories();
+//             if($action === 'applyFilter')
+//             {
+//                 if(isset($_POST['QtyLessThan']))
+//                 {
+//                     if(is_numeric($_POST['QtyLessThan']))
+//                     {
+//                         $QtyLessThanStatus = isset($_POST['QtyLessThan']);
+//                         $QtyLessThan = $_POST['QtyLessThan'];
+//                     }
+//                     else
+//                     {
+//                         $QtyLessThanStatus = false;
+//                         $QtyLessThan = '';
+//                     }
+//                 }
+//                 else
+//                 {
+//                     $QtyLessThanStatus = false;
+//                     $QtyLessThan = '';
+//                 }
+//                 $InactiveItems = isset($_POST['inactiveItems']);
+//                 $StockedItems = isset($_POST['stockedItems']);
+//                 $ShoppingList = isset($_POST['shoppingList']);
+//                 $info = getProducts($CategoryID,$QtyLessThan,$InactiveItems,$StockedItems,$ShoppingList,$SearchTerm='');
+//                 $ProductArray = $info[0];
+//             }
+//             else
+//             {
+//                 //$ProductArray = getAllProductsAndCategories();
+//                 $info = getProducts($CategoryID,$QTYLessThan = '',$IncludeInactiveItems = false,$HideUnstockedItems = false,$ShoppingList= false,$SearchTerm='');
+//                 $ProductArray = $info[0];
+//             }
+//             if ($CategoryArray == false) {
+//                 $errorMessage = "No Categories found.";
+//                 include '../view/errorPage.php';
+//             } else {
+//                 include '../view/adminInventory.php';
+//             }
+//         }
+//         else if ($Display == 'category') {
+//             $CategoryID = [];
+//             array_push($CategoryID, $_GET['CATEGORYID']);
+//             $DESCRIPTION = $_GET['DESCRIPTION'];
+//             if (!isset($CategoryID))
+//             {
+//                 $errorMessage = 'You must provide a category ID to display';
+//                 include '../view/errorPage.php';
+//             }
+//             else
+//             {
+//                 $CategoryHeader = $DESCRIPTION;
+//                 $CategoryArray = getAllCategories();
+//                 if($action === 'applyFilter')
+//                 {
+//                     if(isset($_POST['QtyLessThan']))
+//                     {
+//                         if(is_numeric($_POST['QtyLessThan']))
+//                         {
+//                             $QtyLessThanStatus = isset($_POST['QtyLessThan']);
+//                             $QtyLessThan = $_POST['QtyLessThan'];
+//                         }
+//                         else
+//                         {
+//                             $QtyLessThanStatus = false;
+//                             $QtyLessThan = 0;
+//                         }
+//                     }
+//                     $InactiveItems = isset($_POST['inactiveItems']);
+//                     $StockedItems = isset($_POST['stockedItems']);
+//                     $ShoppingList = isset($_POST['shoppingList']);
+//                     $info = getProducts($CategoryID,$QTYLessThan = '',$InactiveItems,$StockedItems,$ShoppingList,$SearchTerm='');
+//                     $ProductArray = $info[0];
+//                 }
+//                 else
+//                 {
+//                     $info = getProducts($CategoryID,$QTYLessThan = '',$IncludeInactiveItems = false,$HideUnstockedItems = false,$ShoppingList= false,$SearchTerm='');
+//                     $ProductArray = $info[0];
+//                 }
+//                 if ($ProductArray == false)
+//                 {
+//                     $errorMessage = 'That category was not found';
+//                     include '../view/errorPage.php';
+//                 }
+//                 else
+//                 {
+//                     include '../view/adminInventory.php';
+//                 }
+//             }
+//         }
     }
 
     function showAdminOrders(){
@@ -225,33 +270,28 @@
         console_log($PRODUCTID);
     }
 
-    function processBulkStockAdjust()
-    {
-        foreach($_POST['incomingAmt_'] as $key=>$value) {
-            if($value!='')
-            {
-                $incomingAmt = $value;
-                console_log($incomingAmt);
-            }
-        }
-    }
     function processSingleStockAdjust()
+    {
+        console_log($_GET['Type']);
+        if($_GET['Type'] == 'bulk')
         {
-            $PRODUCTID = $_GET['ProductID'];
-            $QTYONHAND = $_GET['QTYOnHand'];
-            $INCOMINGAMT = $_POST['incomingAmt'];
-            //Validations
-            $errors = "";
-            if($errors != "")
+            $IncomingAmtArray = $_POST;
+            foreach($IncomingAmtArray as $IncomingAmt)
             {
-                include '../view/adminInventory.php';
+                $IncomingAmtKey = explode('_', key($IncomingAmtArray));
+                $ProductID = $IncomingAmtKey[1];
+                $rowsAffected = updateQTY($ProductID, $IncomingAmt);
+                next($IncomingAmtArray);
             }
-            else
-            {
-                $rowsAffected = updateQTY($PRODUCTID, $QTYONHAND, $INCOMINGAMT);
-            }
-            header("Location: {$_SERVER['HTTP_REFERER']}");
         }
+        else
+        {
+            $IncomingAmt = $_GET['IncomingAmt'];
+            $ProductID = $_GET['ProductID'];
+            $rowsAffected = updateQTY($ProductID, $IncomingAmt);
+        }
+        header("Location: {$_SERVER['HTTP_REFERER']}");
+    }
 
     function retrieveCategory()
     {
@@ -295,7 +335,7 @@
         }
         else
         {
-            console_log('no categories set');
+
         }
         $QtyOnHand = $_POST['QtyOnHand'];
         $MaxOrderQty = $_POST['MaxOrderQty'];
@@ -393,19 +433,19 @@
 
                 // Display of output image and save in set directory
                 imagejpeg($image_p, $target_file);
-                header("Location: ../Controller/Controller.php?action=adminInventory&Display=All");
+                header("Location: {$_SERVER['HTTP_REFERER']}");
             }
         }
         else if(file_exists($target_dir . $ProductID . 'jpg'))
         {
-            header("Location: ../Controller/Controller.php?action=adminInventory&Display=All");
+            header("Location: {$_SERVER['HTTP_REFERER']}");
         }
         else {
             $imgName = imagecreatefromjpeg('../productImages/ImageNotAvailable.jpg');
             $new_Name =  $ProductID;
             // Display of output image and save in set directory
             imagejpeg($imgName, '../productImages/'.$new_Name.'.jpg');
-            header("Location: ../Controller/Controller.php?action=adminInventory&Display=All");
+            header("Location: {$_SERVER['HTTP_REFERER']}");
         }
     }
 

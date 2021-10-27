@@ -58,7 +58,7 @@ class product
         return $this->QTYAvailable;
     }
     function getProductCategories(){
-        return explode('=', $this->CategoryDescriptions);
+        return $this->CategoryInfo;
     }
     function setProductName($productName) {
         $this->Name = $productName;

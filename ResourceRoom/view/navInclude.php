@@ -22,7 +22,7 @@
                             <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text" href="../controller/controller.php?action=adminOrders">Orders<span class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item">
-                                <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text" href="../controller/controller.php?action=adminInventory&Display=<?php echo 'All' ?>">Inventory<span class="sr-only"></span></a>
+                                <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text" href="../controller/controller.php?action=adminInventory">Inventory<span class="sr-only"></span></a>
                             </li>
                             <li class="nav-item">
                                 <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text" href="../controller/controller.php?action=adminReports">Reports<span class="sr-only"></span></a>
