@@ -979,12 +979,26 @@
                 $statement->closeCursor();
                 array_push($AllProductsCategoriesArray, $results[0]);
             }
+            console_log(end($AllProductsCategoriesArray));
             foreach($AllProductsCategoriesArray as $SingleCategory)
             {
-                $AllProductsCategories = $AllProductsCategories  . $SingleCategory . ',' . ' ';
+                if(end($AllProductsCategoriesArray) == $SingleCategory)
+                {
+                    $AllProductsCategories = $AllProductsCategories  . $SingleCategory;
+                }
+                else
+                {
+                    $AllProductsCategories = $AllProductsCategories  . $SingleCategory . ',' . ' ';
+                }
             }
-             return substr($AllProductsCategories, 0, 45)."...";
-            //return $AllProductsCategories;
+             if(strlen($AllProductsCategories) >= 45)
+             {
+                return substr($AllProductsCategories, 0, 45)."...";
+             }
+             else
+             {
+                return $AllProductsCategories;
+             }
         }
 
 
