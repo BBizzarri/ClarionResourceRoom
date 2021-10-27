@@ -145,6 +145,11 @@ category-background {
 .sidebar-search-div {
     display: block;
     text-align: center;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    padding-top: 20px;
 }
 
 .sidebar-search-form {
@@ -158,3 +163,19 @@ category-background {
 .category-selected {
     background-color: grey;
 }
+
+.category-list
+{
+    overflow-y: hidden;
+    outline-color: white;
+    border:none;
+}
+
+.add-edit-container {
+    display: flex;
+}
+
+.item {
+  flex-basis: 100px;
+  height: 500px;
+  margin: 5px;

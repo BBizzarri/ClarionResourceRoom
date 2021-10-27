@@ -757,14 +757,14 @@
         function addProduct($ProductName, $QtyOnHand, $MaxOrderQty, $GoalStock, $ProductDescription, $ProductCategories)
         {
            $db = getDBConnection();
-           $query = 'INSERT INTO product (NAME, QTYONHAND, MAXORDERQTY, GOALSTOCK, DESCRIPTION)
-                                            VALUES (:NAME, :QTYONHAND, :MAXORDERQTY, :GOALSTOCK, :DESCRIPTION)';
+           $query = 'INSERT INTO product (NAME, QTYONHAND, MAXORDERQTY, GOALSTOCK, PRODUCTDESCRIPTION)
+                                            VALUES (:NAME, :QTYONHAND, :MAXORDERQTY, :GOALSTOCK, :PRODUCTDESCRIPTION)';
            $statement = $db->prepare($query);
            $statement->bindValue(':NAME', $ProductName);
            $statement->bindValue(':QTYONHAND', $QtyOnHand);
            $statement->bindValue(':MAXORDERQTY', $MaxOrderQty);
            $statement->bindValue(':GOALSTOCK', $GoalStock);
-           $statement->bindValue(':DESCRIPTION', $ProductDescription);
+           $statement->bindValue(':PRODUCTDESCRIPTION', $ProductDescription);
            $success = $statement->execute();
            $statement->closeCursor();
            $ProductID = $db->lastInsertId();
@@ -782,14 +782,14 @@
         function updateProduct($ProductID, $ProductName, $QtyOnHand, $MaxOrderQty, $GoalStock, $ProductDescription, $ProductCategories)
         {
             $db = getDBConnection();
-           $query = 'UPDATE product SET NAME = :NAME, QTYONHAND = :QTYONHAND, MAXORDERQTY = :MAXORDERQTY, GOALSTOCK = :GOALSTOCK, DESCRIPTION = :DESCRIPTION WHERE PRODUCTID = :PRODUCTID';
+           $query = 'UPDATE product SET NAME = :NAME, QTYONHAND = :QTYONHAND, MAXORDERQTY = :MAXORDERQTY, GOALSTOCK = :GOALSTOCK, PRODUCTDESCRIPTION = :PRODUCTDESCRIPTION WHERE PRODUCTID = :PRODUCTID';
            $statement = $db->prepare($query);
            $statement->bindValue(':PRODUCTID', $ProductID);
            $statement->bindValue(':NAME', $ProductName);
            $statement->bindValue(':QTYONHAND', $QtyOnHand);
            $statement->bindValue(':MAXORDERQTY', $MaxOrderQty);
            $statement->bindValue(':GOALSTOCK', $GoalStock);
-           $statement->bindValue(':DESCRIPTION', $ProductDescription);
+           $statement->bindValue(':PRODUCTDESCRIPTION', $ProductDescription);
            $success = $statement->execute();
            $statement->closeCursor();
            if($success)
@@ -962,6 +962,29 @@
             {
                 logSQLError($statement->errorInfo());
             }
+        }
+
+        function getCategoryHeader($CategoryID)
+        {
+            $AllProductsCategoriesArray = [];
+            $AllProductsCategories = '';
+            foreach($CategoryID as $SingleCategoryID)
+            {
+                $db = getDBConnection();
+                $query = "SELECT CATEGORYDESCRIPTION from category where CATEGORYID = :CATEGORYID";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':CATEGORYID', $SingleCategoryID);
+                $statement->execute();
+                $results = $statement->fetch();
+                $statement->closeCursor();
+                array_push($AllProductsCategoriesArray, $results[0]);
+            }
+            foreach($AllProductsCategoriesArray as $SingleCategory)
+            {
+                $AllProductsCategories = $AllProductsCategories  . $SingleCategory . ',' . ' ';
+            }
+             return substr($AllProductsCategories, 0, 45)."...";
+            //return $AllProductsCategories;
         }
 
 

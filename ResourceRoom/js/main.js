@@ -32,3 +32,4 @@ function adjustSingleStock(ProductID) {
         document.location="../controller/controller.php?action=processSingleStockAdjust&Type=single&IncomingAmt=" + encodeURIComponent(IncomingAmt) + "&ProductID=" + encodeURIComponent(ProductID);
 }
 
+
