@@ -28,18 +28,6 @@
         case 'adminShoppingList':
             shopperPage();
             break;
-//         case 'applyFilter':
-//
-//             break;
-//         case 'displaySelectedCategory':
-//
-//             break;
-//         case 'getProductCategories':
-//             getProductCategories();
-//             break;
-//         case 'getProductInfo':
-//             getProductInfo();
-//             break;
         case 'processStockAdjust':
             processStockAdjust();
             break;
@@ -248,9 +236,12 @@
     function showAdminOrders(){
         $USERID = getUserID();
         $AllOrders = getAdminOrders($USERID);
-        $SubmittedOrders = $AllOrders[0];
-        $ReadyOrders = $AllOrders[1];
-        $CompletedOrders = $AllOrders[2];
+        if($AllOrders != null)
+        {
+            $SubmittedOrders = $AllOrders[0];
+            $ReadyOrders = $AllOrders[1];
+            $CompletedOrders = $AllOrders[2];
+        }
         include '../view/adminOrders.php';
     }
 

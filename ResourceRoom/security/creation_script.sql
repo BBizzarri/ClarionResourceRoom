@@ -167,7 +167,6 @@ INSERT INTO functions (Name,Description) VALUES ('SecurityLogin', 'Provide Usern
 INSERT INTO functions (Name,Description) VALUES ('SecurityLogOut', 'Exit the application.');
 INSERT INTO functions (Name,Description) VALUES ('SecurityProcessLogin', 'Try to authorize a user login.');
 INSERT INTO functions (Name,Description) VALUES ('SecurityHome', 'Default security page with login button.');
-INSERT INTO functions (Name,Description) VALUES ('Home', 'Default home page with guest access and login button.');
 INSERT INTO functions (Name,Description) VALUES ('adminInventory', 'Inventory page to view inventory');
 INSERT INTO functions (Name,Description) VALUES ('adminOrders', 'orders page for admins to fill orders that are submitted');
 INSERT INTO functions (Name,Description) VALUES ('adminSecurity', 'security page for the admins to change security settings');
@@ -176,15 +175,10 @@ INSERT INTO functions (Name,Description) VALUES ('adminShoppingList', 'Shopping 
 INSERT INTO functions (Name,Description) VALUES ('shopperCart', 'Where shoppers can view what items they have in their cart and submit their order');
 INSERT INTO functions (Name,Description) VALUES ('shopperHome', 'where shoppers can select items that they would like to purchase');
 INSERT INTO functions (Name,Description) VALUES ('shopperOrders', 'where shoppers can view their current past and pending orders');
-INSERT INTO functions (Name,Description) VALUES ('displaySelectedCategory', 'Allows the admin to select different categories to only display certain ones in the admin inventory.');
 INSERT INTO functions (Name,Description) VALUES ('addEditProduct','Creates a new product or edits a product info if product already exists'),
                                                 ('adminChangeOrderStatus','Changes the status of an order'),
                                                 ('adminFillOrder','Lets the user fill an order'),
-                                                ('applyFilter','Allows for use of filters on inventory page'),
-                                                ('displaySelectedCategory','REPEAT!!  REPLACE WHEN ANOTHER FUNCTION IS ADDED!!!!!'),
-                                                ('getProductInfo','Returns Products Infromation'),
-                                                ('processBulkStockAdjust','Adjust QtyOnHand for multiple products on inventory page'),
-                                                ('processSingleStockAdjust','Adjust QtyOnHand for a single product on inventory page'),
+                                                ('processStockAdjust','Adjust QtyOnHand for a single product or multiple products on inventory page'),
                                                 ('shopperAdjustQTYInCart','Adjust QtyRequested for users in cart table'),
                                                 ('processAddToCart','Adds product to an users cart in cart table'),
                                                 ('shopperRemoveFromCart','Removes a product from an users cart in cart table'),
@@ -218,16 +212,18 @@ INSERT INTO userroles (UserID,RoleID) VALUES (3,3);
 INSERT INTO userroles (UserID,RoleID) VALUES (4,4);
 INSERT INTO userroles (UserID,RoleID) VALUES (5,5);
 
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,1);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,2);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,3);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,4);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,5);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,6);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,7);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,8);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,9);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,10);
+-- Should admin have these functions??
+-- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,1);
+-- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,2);
+-- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,3);
+-- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,4);
+-- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,5);
+-- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,6);
+-- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,7);
+-- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,8);
+-- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,9);
+-- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,10);
+
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,11);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,12);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,13);
@@ -238,33 +234,28 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,22);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,23);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,24);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,25);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,29);
 
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,20),
-                                                     (1,30),
+INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,30),
                                                      (1,31),
-                                                     (1,33),
-                                                     (1,34),
-                                                     (1,35),
                                                      (1,19),
                                                      (1,16),
                                                      (1,17),
-                                                     (1,36),
                                                      (1,26),
                                                      (1,27),
                                                      (1,28),
-                                                     (1,37),
-                                                     (1,38),
-                                                     (1,39);
+                                                     (1,20),
+                                                     (1,32),
+                                                     (1,33),
+                                                     (1,34),
+                                                     (1,35);
 
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,20),
+INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,25),
                                                      (2,26),
                                                      (2,27),
-                                                     (2,28),
-                                                     (2,36),
-                                                     (2,37),
-                                                     (2,38),
-                                                     (2,39);
+                                                     (2,32),
+                                                     (2,33),
+                                                     (2,34),
+                                                     (2,35);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (3,1),
                                                      (3,2),
@@ -284,22 +275,16 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (3,1),
                                                      (3,16),
                                                      (3,17),
                                                      (3,18),
-                                                     (3,19),
-                                                     (3,20);
+                                                     (3,19);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,20),
-                                                     (4,21),
-                                                     (4,25),
-                                                     (4,29),
-                                                     (4,30),
-                                                     (4,31),
-                                                     (4,33),
-                                                     (4,34),
-                                                     (4,35);
+                                                     (4,24),
+                                                     (4,28),
+                                                     (4,31);
 
-
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (5,20),
-                                                     (5,22);
+INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (5,21),
+                                                     (5,29),
+                                                     (5,30),
 
 INSERT INTO `category` (`CategoryID`, `CategoryDescription`) VALUES
 (1, 'Hygiene & Personal Care Items'),
