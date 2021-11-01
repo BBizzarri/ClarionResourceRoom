@@ -578,6 +578,7 @@
        if($success)
        {
 
+
            return $statement->rowCount();
        }
        else
