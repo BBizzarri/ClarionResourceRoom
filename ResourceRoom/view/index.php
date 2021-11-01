@@ -69,34 +69,36 @@
                                             </div>
                                         <?php endif ; ?>
                                     </div>
-                                    <?php if ($cart->inCart($product->getProductID())) : ?>
-                                        <div class="card-footer">
-                                            <h5>PRODUCT IN CART</h5>
-                                        </div>
-                                    <?php elseif($product->getProductQTYAvailable() > 0) :?>
-                                        <div class="card-footer">
-                                            <form id="card-form" action="../controller/controller.php?action=processAddToCart&ProductID=<?php echo $product->getProductID()?>" method="post" enctype="multipart/form-data">
-                                                <div class="form-group row" id="shopperAddToCartButton">
-                                                    <label class="col-4"for="quantity_<?php echo htmlspecialchars($product->getProductID())?>">QTY:</label>
-                                                    <input class="col-6" type="number" id="quantity_<?php echo htmlspecialchars($product->getProductID())?>" name="QTYRequested" min="1" max="<?php echo htmlspecialchars($product->getProductOrderLimit())?>">
-                                                </div>
-                                                <div class="form-group row flex-column">
-                                                    <input type="submit" class="btn btn-primary" value="Add To Cart">
-                                                </div>
-                                            </form>
-                                            <script>
-                                                document.getElementById("quantity_<?php echo htmlspecialchars($product->getProductID())?>").defaultValue = "1"
-                                            </script>
-                                        </div>
-                                    <?php elseif($product->getProductGoalStock() > 0) : ?>
-                                        <div class="card-footer">
-                                            <h5>WILL BE RESTOCKED</h5>
-                                        </div>
-                                    <?php else : ?>
-                                        <div class="card-footer">
-                                            <h5>Unstocked Product</h5>
-                                        </div>
-                                    <?php endif;?>
+                                    <?php if(userIsAuthorized("shopperOrders")) { ?>
+                                        <?php if ($cart->inCart($product->getProductID())) : ?>
+                                            <div class="card-footer">
+                                                <h5>PRODUCT IN CART</h5>
+                                            </div>
+                                        <?php elseif($product->getProductQTYAvailable() > 0) :?>
+                                            <div class="card-footer">
+                                                <form id="card-form" action="../controller/controller.php?action=processAddToCart&ProductID=<?php echo $product->getProductID()?>" method="post" enctype="multipart/form-data">
+                                                    <div class="form-group row" id="shopperAddToCartButton">
+                                                        <label class="col-4"for="quantity_<?php echo htmlspecialchars($product->getProductID())?>">QTY:</label>
+                                                        <input class="col-6" type="number" id="quantity_<?php echo htmlspecialchars($product->getProductID())?>" name="QTYRequested" min="1" max="<?php echo htmlspecialchars($product->getProductOrderLimit())?>">
+                                                    </div>
+                                                    <div class="form-group row flex-column">
+                                                        <input type="submit" class="btn btn-primary" value="Add To Cart">
+                                                    </div>
+                                                </form>
+                                                <script>
+                                                    document.getElementById("quantity_<?php echo htmlspecialchars($product->getProductID())?>").defaultValue = "1"
+                                                </script>
+                                            </div>
+                                        <?php elseif($product->getProductGoalStock() > 0) : ?>
+                                            <div class="card-footer">
+                                                <h5>WILL BE RESTOCKED</h5>
+                                            </div>
+                                        <?php else : ?>
+                                            <div class="card-footer">
+                                                <h5>Unstocked Product</h5>
+                                            </div>
+                                        <?php endif;?>
+                                    <?php } ?>
                                 </div>
                             </div>
                                 <?php
