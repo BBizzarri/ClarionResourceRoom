@@ -235,13 +235,7 @@
 
     function showAdminOrders(){
         $USERID = getUserID();
-        $AllOrders = getAdminOrders($USERID);
-        if($AllOrders != null)
-        {
-            $SubmittedOrders = $AllOrders[0];
-            $ReadyOrders = $AllOrders[1];
-            $CompletedOrders = $AllOrders[2];
-        }
+        $AllOrders = getAdminOrders();
         include '../view/adminOrders.php';
     }
 

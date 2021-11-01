@@ -315,14 +315,13 @@
         }
     }
 
-    function getAdminOrders($USERID){
+    function getAdminOrders(){
             try{
                 $db = getDBConnection();
                 $query = "SELECT orders.ORDERID, orders.*, orderdetails.QTYREQUESTED, orderdetails.QTYFILLED, productview.*, concat(users.FirstName, ' ', users.LastName) as USERSNAME FROM orders inner join orderdetails on orders.ORDERID = orderdetails.ORDERID
                                                       inner join productview on orderdetails.PRODUCTID = productview.PRODUCTID
-                                                      inner join users on orders.USERID = users.UserID WHERE orders.USERID = :USERID";
+                                                      inner join users on orders.USERID = users.UserID";
                 $statement = $db->prepare($query);
-                $statement->bindValue(":USERID", $USERID);
                 $statement->execute();
                 $result = $statement->fetchAll( PDO::FETCH_GROUP| PDO::FETCH_ASSOC);
                 $statement->closeCursor();
@@ -543,7 +542,10 @@
     }
 
     function getUserID(){
-        return $_SESSION["UserID"];
+        if(isset($_SESSION["UserID"]))
+        {
+            return $_SESSION["UserID"];
+        }
     }
 
     function removeFromCart($PRODUCTID)

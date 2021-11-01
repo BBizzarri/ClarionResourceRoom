@@ -275,7 +275,23 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (3,1),
                                                      (3,16),
                                                      (3,17),
                                                      (3,18),
-                                                     (3,19);
+                                                     (3,19),
+                                                     (3,20),
+                                                     (3,21),
+                                                     (3,22),
+                                                     (3,23),
+                                                     (3,24),
+                                                     (3,25),
+                                                     (3,26),
+                                                     (3,27),
+                                                     (3,28),
+                                                     (3,29),
+                                                     (3,30),
+                                                     (3,31),
+                                                     (3,32),
+                                                     (3,33),
+                                                     (3,34),
+                                                     (3,35);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,20),
                                                      (4,24),
@@ -285,6 +301,10 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,20),
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (5,21),
                                                      (5,29),
                                                      (5,30);
+
+INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (6,16),
+                                                     (6,17),
+                                                     (6,26);
 
 INSERT INTO `category` (`CategoryID`, `CategoryDescription`) VALUES
 (1, 'Hygiene & Personal Care Items'),

@@ -46,3 +46,8 @@ hr {width: 50px; color: #97824A}
     max-width: 50%;
     width: auto !important;
 }
+
+.logout-link
+{
+    color: black;
+}
