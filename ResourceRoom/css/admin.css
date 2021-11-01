@@ -179,3 +179,14 @@ category-background {
   flex-basis: 100px;
   height: 500px;
   margin: 5px;
+}
+
+.admin-order-container {
+    display: flex;
+}
+
+.admin-orders-column {
+  flex-basis: 100px;
+  height: 500px;
+  margin: 5px;
+}
