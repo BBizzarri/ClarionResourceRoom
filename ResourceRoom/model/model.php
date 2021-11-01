@@ -3,6 +3,7 @@
     include_once 'cart.php';
     include_once 'category.php';
     include_once 'order.php';
+    include_once 'user.php';
 
     function getDBConnection() {
             $dsn = 'mysql:host=localhost;dbname=resourceroom';
@@ -33,14 +34,89 @@
         $query = 'INSERT INTO errorlog (UserID, UserName, ErrorMessage)
                 VALUES (:UserID, :UserName, :ErrorMessage)';
         $statement = $db->prepare($query);
-
         $statement->bindValue(':UserName', $username);
         $statement->bindValue(':UserID', $userID);
         $statement->bindValue(':ErrorMessage', $errorMessage);
-
         $success = $statement->execute();
         $statement->closeCursor();
         include '../view/errorPage.php';
+    }
+
+
+
+    function processSignIn($user){
+        try{
+            $db = getDBConnection();
+            $query = 'SELECT * FROM users inner join userroles on users.UserID = userroles.UserID where users.UserID = :sUnderScore';
+            $statement = $db->prepare($query);
+            $statement->bindValue(':sUnderScore', $user->getsUnderScore());
+            $statement->execute();
+            $result = $statement->fetchAll();
+            $statement->closeCursor();
+            if(empty($result)){
+                try{
+                    $db = getDBConnection();
+                    $query = 'INSERT INTO users (UserID, FirstName, LastName, UserName, Password, Email)
+                    VALUES (:sUnderScore, :FirstName, :LastName,:sUnderScore,:Password,:Email)';
+                    $statement = $db->prepare($query);
+                    $statement->bindValue(':sUnderScore', $user->getsUnderScore());
+                    $statement->bindValue(':FirstName', $user->getFirstName());
+                    $statement->bindValue(':LastName', $user->getLastName());
+                    $statement->bindValue(':Password', '');
+                    $statement->bindValue(':Email', $user->getEmail());
+                    $success = $statement->execute();
+                    $statement->closeCursor();
+                    if($success)
+                    {
+                        try{
+                            $db = getDBConnection();
+                            $query = 'INSERT INTO userroles (UserID, RoleId)
+                    VALUES (:sUnderScore, :RoleID)';
+                            $statement = $db->prepare($query);
+                            $statement->bindValue(':sUnderScore', $user->getsUnderScore());
+                            $statement->bindValue(':RoleID', 2);
+                            $success = $statement->execute();
+                            $statement->closeCursor();
+                            if($success)
+                            {
+                                include '../view/index.php';
+                            }
+                            else
+                            {
+                                logSQLError($statement->errorInfo());
+                            }
+                            return "no user";
+                        }catch (PDOException $e){
+                            $errorMessage = $e->getMessage();
+                            include '../view/errorPage.php';
+                            die;
+                        }
+                    }
+                    else
+                    {
+                        logSQLError($statement->errorInfo());
+                    }
+                    return "no user";
+                }catch (PDOException $e){
+                    $errorMessage = $e->getMessage();
+                    include '../view/errorPage.php';
+                    die;
+                }
+            }
+            else{
+                if($result[0]['RoleID'] == 2){
+                    header( 'Location:../controller/controller.php?action=shopperHome');
+                }else if ($result[0]['RoleID'] == 1){
+                    header( 'Location:../controller/controller.php?action=adminOrders');
+                } else{
+                    header( 'Location:../controller/controller.php?action=shopperHome');
+                }
+            }
+        }  catch (PDOException $e) {
+            $errorMessage = $e->getMessage();
+            include '../view/errorPage.php';
+            die;
+        }
     }
 
     function AdjustCart($PRODUCTID, $QTYREQUESTED)

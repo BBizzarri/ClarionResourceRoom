@@ -284,7 +284,7 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,20),
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (5,21),
                                                      (5,29),
-                                                     (5,30),
+                                                     (5,30);
 
 INSERT INTO `category` (`CategoryID`, `CategoryDescription`) VALUES
 (1, 'Hygiene & Personal Care Items'),

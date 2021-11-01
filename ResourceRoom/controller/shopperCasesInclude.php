@@ -37,7 +37,7 @@
         $listType = filter_input(INPUT_GET, 'ListType');
         $CategoryArray = getAllCategories();
         if($listType =='GeneralSearch'){
-            $info = getProducts([0],'',$IncludeInactiveItems = false ,$HideUnstockedItems = false,$ShoppingList = false,$_GET['Criteria']);
+            $info = getProducts([],'',$IncludeInactiveItems = false ,$HideUnstockedItems = false,$ShoppingList = false,$_GET['Criteria']);
             $ProductArray = $info[0];
             $CurrentCategory = "Search: " . $_GET['Criteria'];
         }else if (isset($_GET['CATEGORYID'])) {
@@ -54,7 +54,7 @@
         $CategoryHeader = $CurrentCategory;
             if ($ProductArray == false)
             {
-                $errorMessage = 'That category was not found';
+                $errorMessage = 'No items relevent to: ' . $_GET['Criteria'];
                 include '../view/errorPage.php';
             }
                else
