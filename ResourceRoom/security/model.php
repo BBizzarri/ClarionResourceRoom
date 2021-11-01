@@ -8,7 +8,7 @@
     }
 
     function userIsAuthorized($function) {
-        $authorized = true;
+        $authorized = false;
         if (guestAccess($function)) {
             $authorized = true;                   // all Users have access even if not logged in. 
         } else if(!isset($_SESSION["UserID"])) {  // If no current user and don't have access as a guest
