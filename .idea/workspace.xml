@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Filter work">
+    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Updating CSS and code cleanup">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/css/admin.css" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/css/admin.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/js/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/model/model.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/model/order.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/order.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminShoppingList.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminShoppingList.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/footerInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/footerInclude.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +71,9 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\ClarionResourceRoom\ResourceRoom\productImages" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\ClarionResourceRoom\ResourceRoom\Images" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -227,7 +239,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635189890346</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="updated how category header gets set">
+      <created>1635366965520</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1635366965520</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -266,6 +285,8 @@
     <MESSAGE value="Filter work" />
     <MESSAGE value="Finished Filtering" />
     <MESSAGE value="admin Inventory page touch up" />
-    <option name="LAST_COMMIT_MESSAGE" value="admin Inventory page touch up" />
+    <MESSAGE value="updated how category header gets set" />
+    <MESSAGE value="Updating CSS and code cleanup" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updating CSS and code cleanup" />
   </component>
 </project>

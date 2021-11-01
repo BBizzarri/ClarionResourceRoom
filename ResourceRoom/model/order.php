@@ -11,9 +11,10 @@ class order
     public $DateCompleted;
     public $Comment;
     public $OrderDetails;
+    public $UsersName;
 
     //Constructor
-    public function __construct($OrderID, $UserID, $Status, $DateOrdered, $DateFilled, $DateCompleted, $Comment, $OrderDetails)
+    public function __construct($OrderID, $UserID, $Status, $DateOrdered, $DateFilled, $DateCompleted, $Comment, $OrderDetails, $UsersName)
     {
         $this->OrderID = $OrderID;
         $this->UserID = $UserID;
@@ -23,6 +24,7 @@ class order
         $this->DateCompleted = $DateCompleted;
         $this->Comment = $Comment;
         $this->OrderDetails = $OrderDetails;
+        $this->UsersName = $UsersName;
     }
 
     //Destructor
@@ -65,7 +67,9 @@ class order
     function getOrderSize(){
         return sizeof($this->OrderDetails);
     }
-
+    function getUsersName(){
+        return $this->UsersName;
+    }
 
 
 
