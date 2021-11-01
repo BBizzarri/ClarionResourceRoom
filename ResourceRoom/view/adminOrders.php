@@ -4,20 +4,21 @@
 ?>
     <html>
     <body>
-    <section>
-        <div class="container-fluid">
+    <section class="clarion-blue">
+        <div class="container-fluid clarion-white">
             <div class="row">
                 <div class="col-lg-4">
                     <h3 class="text-center">PENDING ORDERS</h3>
                     <table class="table table-condensed" style="border-collapse:collapse;">
                         <thead>
                         <tr>
-                            <th>STATUS</th>
+                            <!--<th>STATUS</th>-->
+                            <th>Name</th>
                             <th>DATE ORDERED</th>
-                            <th>DATE FILLED</th>
-                            <th>DATE COMPLETED</th>
+                            <!--<th>DATE FILLED</th>
+                            <th>DATE COMPLETED</th>-->
                             <th>NUMBER OF ITEMS</th>
-                            <th>COMMENT</th>
+                            <!--<th>COMMENT</th>-->
                         </tr>
                         </thead>
                         <tbody>
@@ -27,12 +28,13 @@
                             {
                                 ?>
                                 <tr data-toggle="modal" data-target="#orderDetails_<?php echo $order->getOrderID()?>">
-                                    <td><?php echo htmlspecialchars($order->getOrderStatus())?></td>
+                                    <td><?php echo htmlspecialchars($order->getUsersName())?></td>
+                                    <!--<td><?php echo htmlspecialchars($order->getOrderStatus())?></td>-->
                                     <td><?php echo htmlspecialchars($order->getOrderDateOrdered())?></td>
-                                    <td><?php echo htmlspecialchars($order->getOrderDateFilled())?></td>
-                                    <td><?php echo htmlspecialchars($order->getOrderDateCompleted())?></td>
+                                    <!--<td><?php echo htmlspecialchars($order->getOrderDateFilled())?></td>
+                                    <td><?php echo htmlspecialchars($order->getOrderDateCompleted())?></td>-->
                                     <td><?php echo htmlspecialchars($order->getOrderSize())?></td>
-                                    <td><?php echo htmlspecialchars($order->getOrderComment())?></td>
+                                    <!--<td><?php echo htmlspecialchars($order->getOrderComment())?></td>-->
                                 </tr>
 
                             <?php } }?>
@@ -44,12 +46,13 @@
                     <table class="table table-condensed" style="border-collapse:collapse;">
                         <thead>
                         <tr>
-                            <th>STATUS</th>
-                            <th>DATE ORDERED</th>
+                            <th>Name</th>
+                            <!--<th>STATUS</th>-->
+                            <!--<th>DATE ORDERED</th>-->
                             <th>DATE FILLED</th>
-                            <th>DATE COMPLETED</th>
+                            <!--<th>DATE COMPLETED</th>-->
                             <th>NUMBER OF ITEMS</th>
-                            <th>COMMENT</th>
+                            <!--<th>COMMENT</th>-->
                         </tr>
                         </thead>
                         <tbody>
@@ -59,12 +62,13 @@
                             {
                                 ?>
                                 <tr data-toggle="modal" data-target="#orderDetails_<?php echo $order->getOrderID()?>">
-                                    <td><?php echo htmlspecialchars($order->getOrderStatus())?></td>
-                                    <td><?php echo htmlspecialchars($order->getOrderDateOrdered())?></td>
+                                    <td><?php echo htmlspecialchars($order->getUsersName())?></td>
+                                    <!--<td><?php echo htmlspecialchars($order->getOrderStatus())?></td>-->
+                                    <!--<td><?php echo htmlspecialchars($order->getOrderDateOrdered())?></td>-->
                                     <td><?php echo htmlspecialchars($order->getOrderDateFilled())?></td>
-                                    <td><?php echo htmlspecialchars($order->getOrderDateCompleted())?></td>
+                                    <!--<td><?php echo htmlspecialchars($order->getOrderDateCompleted())?></td>-->
                                     <td><?php echo htmlspecialchars($order->getOrderSize())?></td>
-                                    <td><?php echo htmlspecialchars($order->getOrderComment())?></td>
+                                    <!--<td><?php echo htmlspecialchars($order->getOrderComment())?></td>-->
                                 </tr>
                             <?php } }?>
                         </tbody>
@@ -72,15 +76,16 @@
                 </div>
                 <div class="col-lg-4">
                     <h3 class="text-center">COMPLETED ORDERS</h3>
-                    <table class="table table-condensed" style="border-collapse:collapse;">
+                    <table class="table table-condensed clarion-white" style="border-collapse:collapse;">
                         <thead>
                         <tr>
-                            <th>STATUS</th>
-                            <th>DATE ORDERED</th>
-                            <th>DATE FILLED</th>
+                            <th>Name</th>
+                            <!--<th>STATUS</th>-->
+                            <!--<th>DATE ORDERED</th>
+                            <th>DATE FILLED</th>-->
                             <th>DATE COMPLETED</th>
                             <th>NUMBER OF ITEMS</th>
-                            <th>COMMENT</th>
+                            <!--<th>COMMENT</th>-->
                         </tr>
                         </thead>
                         <tbody>
@@ -90,12 +95,13 @@
                             {
                                 ?>
                                 <tr data-toggle="modal" data-target="#orderDetails_<?php echo $order->getOrderID()?>">
-                                    <td><?php echo htmlspecialchars($order->getOrderStatus())?></td>
-                                    <td><?php echo htmlspecialchars($order->getOrderDateOrdered())?></td>
-                                    <td><?php echo htmlspecialchars($order->getOrderDateFilled())?></td>
+                                    <td><?php echo htmlspecialchars($order->getUsersName())?></td>
+                                    <!--<td><?php echo htmlspecialchars($order->getOrderStatus())?></td>-->
+                                    <!--<td><?php echo htmlspecialchars($order->getOrderDateOrdered())?></td>
+                                    <td><?php echo htmlspecialchars($order->getOrderDateFilled())?></td>-->
                                     <td><?php echo htmlspecialchars($order->getOrderDateCompleted())?></td>
                                     <td><?php echo htmlspecialchars($order->getOrderSize())?></td>
-                                    <td><?php echo htmlspecialchars($order->getOrderComment())?></td>
+                                    <!--<td><?php echo htmlspecialchars($order->getOrderComment())?></td>-->
                                 </tr>
                             <?php } }?>
                         </tbody>
@@ -109,9 +115,9 @@
             <!-- Individual order Modal -->
             <div class="modal fade" id="orderDetails_<?php echo $order->getOrderID()?>" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable orderModals">
-                    <div class="modal-content">
+                    <div class="modal-content clarion-blue clarion-white">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel_<?php echo $order->getOrderID()?>"><?php echo htmlspecialchars($order->getOrderStatus())?></h5>
+                            <h5 class="modal-title" id="staticBackdropLabel_<?php echo $order->getOrderID()?>"><?php echo htmlspecialchars($order->getOrderStatus()) . ':' . ' ' . htmlspecialchars($order->getUsersName())?></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -139,7 +145,7 @@
                                     ?>
                                     <tr>
                                         <td><?php echo htmlspecialchars($orderDetail->getProduct()->getProductName())?></td>
-                                        <td><?php echo htmlspecialchars($orderDetail->getProduct()->getProductDescription())?></td>
+                                        <td><?php if($orderDetail->getProduct()->getProductDescription() != '') {echo htmlspecialchars($orderDetail->getProduct()->getProductDescription());}?></td>
                                         <td><?php echo htmlspecialchars($orderDetail->getQTYRequested())?></td>
                                     <?php if($order->getOrderStatus() == "SUBMITTED"): ?>
                                         <td><input type="number" name="<?php echo $orderDetail->getProductID()?>" value="<?php echo htmlspecialchars($orderDetail->getQTYRequested())?>" required/></td>

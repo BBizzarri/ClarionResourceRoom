@@ -31,7 +31,7 @@
                     <input type="checkbox" id="inactiveItems" name="inactiveItems" <?php if(isset($_POST['inactiveItems'])) echo "checked='checked'"; ?> />
                 </div>
                 <div class="sidebar-elements">
-                    <label for="shoppingList" title="Only show items that need to be restocked (qty on hand is less than the goal stock)">Show Shopping List</label>
+                    <label for="shoppingList" title="Only show items that need to be restocked (qty on hand is less than the goal stock)">Shopping List Only</label>
                     <input type="checkbox" id="shoppingList" name="shoppingList" <?php if(isset($_POST['shoppingList'])) echo "checked='checked'"; ?> />
                 </div>
                 <div class="filter-buttons">
@@ -60,7 +60,7 @@
                     <div class=" clarion-white table-heading table-heading-category">
                         <label><?php echo $CategoryHeader ?></label>
                     </div>
-                    <form id="adjustBulkForm" action="../controller/controller.php?action=processSingleStockAdjust&Type=bulk" method="post" enctype="multipart/form-data">
+                    <form id="adjustBulkForm" action="../controller/controller.php?action=processStockAdjust&Type=bulk" method="post" enctype="multipart/form-data">
                         <div class="table-heading table-heading-buttons">
                             <input class="btn my-2 my-sm-0" id="addNewItemButton" type="button" data-toggle="modal" data-target="#addProductModal" value="Add New Item"/>
                             <input class="btn my-2 my-sm-0" type="button" value="Adjust All" data-toggle="modal" data-target="#adjustBulkConfirmModal"/>
@@ -224,6 +224,9 @@
     </section>
 </body>
 </html>
+<?php
+    require '../view/footerInclude.php';
+?>
 <script>
     $(function(){
         $( "#productModal" ).on('show', function(){
