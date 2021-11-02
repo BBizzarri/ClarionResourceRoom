@@ -39,7 +39,7 @@
         if($listType =='GeneralSearch'){
             $info = getProducts([],'',$IncludeInactiveItems = false ,$HideUnstockedItems = false,$ShoppingList = false,$_GET['Criteria']);
             $ProductArray = $info[0];
-            $CurrentCategory = "Search: " . $_GET['Criteria'];
+            $CurrentCategory = "Related To: " . $_GET['Criteria'];
         }else if (isset($_GET['CATEGORYID'])) {
             $shopperCategoryID = $_GET['CATEGORYID'];
             $CurrentCategory = $_GET['DESCRIPTION'];

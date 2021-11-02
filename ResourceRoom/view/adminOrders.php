@@ -8,7 +8,7 @@
         <div class="container-fluid clarion-white">
             <div class="row">
                 <div class="col-lg-4">
-                    <h3 class="text-center">PENDING ORDERS</h3>
+                    <h3 class="text-center">SUBMITTED ORDERS</h3>
                     <table class="table table-condensed" style="border-collapse:collapse;">
                         <thead>
                         <tr>
@@ -135,7 +135,7 @@
                                 <tr>
                                     <th>Product Name</th>
                                     <th>Description</th>
-                                    <th>Quantity Request</th>
+                                    <th>Quantity Requested</th>
                                     <th>Quantity Filled</th>
                                 </tr>
                                 </thead>
@@ -148,12 +148,22 @@
                                         <td><?php if($orderDetail->getProduct()->getProductDescription() != '') {echo htmlspecialchars($orderDetail->getProduct()->getProductDescription());}?></td>
                                         <td><?php echo htmlspecialchars($orderDetail->getQTYRequested())?></td>
                                     <?php if($order->getOrderStatus() == "SUBMITTED"): ?>
-                                        <td><input type="number" name="<?php echo $orderDetail->getProductID()?>" value="<?php echo htmlspecialchars($orderDetail->getQTYRequested())?>" required/></td>
+                                        <td><input type="number" min="0" name="<?php echo $orderDetail->getProductID()?>" value="<?php echo htmlspecialchars($orderDetail->getQTYRequested())?>" required/></td>
                                     <?php else:?>
                                         <td><?php echo htmlspecialchars($orderDetail->getQTYFilled())?></td>
                                     <?php endif; ?>
                                     </tr>
                                 <?php   } ?>
+                                <?php if($order->getOrderComment() != " "): ?>
+                                    <tr>
+                                        <td>
+                                            <h5>Comments:</h5>
+                                        </td>
+                                        <td colspan="3">
+                                            <p><?php echo htmlspecialchars($order->getOrderComment())?></p>
+                                        </td>
+                                    </tr>
+                                <?php endif; ?>
                                 </tbody>
                             </table>
                         </div>
@@ -163,7 +173,6 @@
                             <?php elseif ($order->getOrderStatus() == "READY FOR PICKUP"):?>
                                 <button type="submit" class="btn btn-success">Order Picked Up</button>
                             <?php elseif ($order->getOrderStatus() == "COMPLETED"):?>
-                                <button type="submit" class="btn btn-success">IDK</button>
                             <?php endif; ?>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
