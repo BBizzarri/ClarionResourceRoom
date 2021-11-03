@@ -74,7 +74,7 @@
                     <li><a style="color: black;" href="#">Account Settings</a></li>
                     <li>
                         <?php
-                                echo "<a class='nav-link logout-link' href='../security/index.php?action=SecurityLogOut&RequestedPage=" . urlencode($_SERVER['REQUEST_URI'])  .  "'> Log Out </a>";
+                                echo "<a class='nav-link color-black' href='../security/index.php?action=SecurityLogOut&RequestedPage=" . urlencode($_SERVER['REQUEST_URI'])  .  "'> Log Out </a>";
                         ?>
                     </li>
                   </ul>

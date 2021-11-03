@@ -62,7 +62,7 @@ CREATE TABLE orders
 );
 
 CREATE TABLE product
-(   PRODUCTID               INT,
+(   PRODUCTID               INT AUTO_INCREMENT,
     NAME                    VARCHAR(50),
     PRODUCTDESCRIPTION             VARCHAR(255),
     QTYONHAND               INT,
