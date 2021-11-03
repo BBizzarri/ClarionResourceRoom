@@ -71,7 +71,7 @@
               <?php if(loggedIn()) { ?>
                   <button class="btn dropdown-toggle" type="button" data-toggle="dropdown"><img src="../Images/person-icon.png" alt="person" height="40px" width="40px"/></button>
                   <ul class="dropdown-menu">
-                    <li><a style="color: black;" href="#">Account Settings</a></li>
+                    <li><a style="color: black;" href="../controller/controller.php?action=accountSettings">Account Settings</a></li>
                     <li>
                         <?php
                                 echo "<a class='nav-link color-black' href='../security/index.php?action=SecurityLogOut&RequestedPage=" . urlencode($_SERVER['REQUEST_URI'])  .  "'> Log Out </a>";

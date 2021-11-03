@@ -23,6 +23,7 @@
 
     <script src="../js/main.js"></script>
 
+    <link rel="shortcut icon" href="../Images/clarionlogo.png" type="image/x-icon">
 
 </head>
 <body>

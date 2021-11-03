@@ -83,7 +83,7 @@ CREATE TABLE orderdetails
 );
 
 CREATE TABLE category
-(   CATEGORYID              INT,
+(   CATEGORYID              INT AUTO_INCREMENT,
     CATEGORYDESCRIPTION     VARCHAR(50),
     CONSTRAINT CATEGORY_PK PRIMARY KEY (CATEGORYID)
 );
@@ -182,7 +182,9 @@ INSERT INTO functions (Name,Description) VALUES ('addEditProduct','Creates a new
                                                 ('shopperAdjustQTYInCart','Adjust QtyRequested for users in cart table'),
                                                 ('processAddToCart','Adds product to an users cart in cart table'),
                                                 ('shopperRemoveFromCart','Removes a product from an users cart in cart table'),
-                                                ('shopperSubmitOrder','Creates an order for users based off of users cart');
+                                                ('shopperSubmitOrder','Creates an order for users based off of users cart'),
+                                                ('accountSettings','Allows User to view their account settings'),
+                                                ('addEditCategory','Allows User to add, edit or delete a category');
 
 
 
@@ -234,6 +236,7 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,22);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,23);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,24);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,25);
+INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,29);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,30),
                                                      (1,31),
@@ -247,7 +250,9 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,30),
                                                      (1,32),
                                                      (1,33),
                                                      (1,34),
-                                                     (1,35);
+                                                     (1,35),
+                                                     (1,36),
+                                                     (1,37);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,25),
                                                      (2,26),
@@ -255,7 +260,8 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,25),
                                                      (2,32),
                                                      (2,33),
                                                      (2,34),
-                                                     (2,35);
+                                                     (2,35),
+                                                     (2,36);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (3,1),
                                                      (3,2),
@@ -291,16 +297,20 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (3,1),
                                                      (3,32),
                                                      (3,33),
                                                      (3,34),
-                                                     (3,35);
+                                                     (3,35),
+                                                     (3,36),
+                                                     (3,37);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,20),
                                                      (4,24),
                                                      (4,28),
-                                                     (4,31);
+                                                     (4,31),
+                                                     (4,36);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (5,21),
                                                      (5,29),
-                                                     (5,30);
+                                                     (5,30),
+                                                     (5,36);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (6,16),
                                                      (6,17),

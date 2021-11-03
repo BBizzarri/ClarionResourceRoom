@@ -4,8 +4,14 @@
     // The purpose is to separate the shopper actions from the back-end inventory actions to help version control.
 
     switch ($action) {
+        case 'accountSettings':
+            showAccountSettings();
+            break;
         case 'adminChangeOrderStatus':
             adminChangeOrderStatus();
+            break;
+        case 'addEditCategory':
+            addEditCategory();
             break;
         case 'addEditProduct':
             addEditProduct();
@@ -31,6 +37,34 @@
         case 'processStockAdjust':
             processStockAdjust();
             break;
+    }
+
+    function addEditCategory()
+    {
+        $CategoryMode = $_GET['categoryMode'];
+        $CategoryName = $_POST['CatName'];
+        $errorMessage = '';
+        if(empty($CategoryName))
+        {
+            $errorMessage .= "\\n* Category name is required.";
+        }
+        if($errorMessage == "")
+        {
+            if($CategoryMode == 'Add')
+            {
+                $CategoryID = addCategory($CategoryName);
+            }
+            else
+            {
+               $CategoryID = $_POST['CategoryID'];
+               $rowsAffected = updateCategory($CategoryID, $CategoryName);
+            }
+            header("Location: {$_SERVER['HTTP_REFERER']}");
+        }
+        else
+        {
+            include '../view/errorPage.php';
+        }
     }
 
     function addEditProduct()
@@ -231,6 +265,11 @@
         $ShoppingList = false;
         $info = getProducts([1,7,9],10,$IncludeInactiveItems,$HideUnstockedItems,$ShoppingList,"");
         include '../view/adminShoppingList.php';
+    }
+
+    function showAccountSettings() {
+        $CategoryArray = getAllCategories();
+        include '../view/accountSettings.php';
     }
 
     function showAdminOrders(){
