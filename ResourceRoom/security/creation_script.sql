@@ -11,7 +11,7 @@ GRANT ALL PRIVILEGES ON resourceroom.* TO 'cis411'@'localhost';
 
 CREATE TABLE functions ( FunctionID INT NOT NULL AUTO_INCREMENT,
                          Name VARCHAR(64) NOT NULL,
-                         Description TEXT,     
+                         Description TEXT,
                          PRIMARY KEY (FunctionID) );
 
 CREATE TABLE roles ( RoleID INT NOT NULL AUTO_INCREMENT,
@@ -19,51 +19,52 @@ CREATE TABLE roles ( RoleID INT NOT NULL AUTO_INCREMENT,
                      Description TEXT,
                      PRIMARY KEY (RoleID) );
 
-CREATE TABLE users ( UserID INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE users ( sUnderscore VARCHAR(50),
                      FirstName VARCHAR(32) NOT NULL,
                      LastName VARCHAR(32) NOT NULL,
                      UserName VARCHAR(32) NOT NULL,
                      Password VARCHAR(40) NOT NULL,
                      Email VARCHAR(32) NOT NULL,
-                     PRIMARY KEY (UserID) );
+                     PRIMARY KEY (sUnderscore) );
 
 CREATE TABLE rolefunctions ( RoleID INT NOT NULL,
                              FunctionID INT NOT NULL,
-                            PRIMARY KEY (FunctionID, RoleID),
+                             PRIMARY KEY (FunctionID, RoleID),
                              FOREIGN KEY (RoleID) REFERENCES roles(RoleID) ON DELETE CASCADE,
                              FOREIGN KEY (FunctionID) REFERENCES functions(FunctionID) ON DELETE CASCADE );
 
-CREATE TABLE userroles ( UserID INT NOT NULL,
+CREATE TABLE userroles ( sUnderscore VARCHAR(50),
                          RoleID INT NOT NULL,
-                         PRIMARY KEY (UserID, RoleID),
-                         FOREIGN KEY (UserID) REFERENCES users(UserID) ON DELETE CASCADE,
+                         PRIMARY KEY (sUnderscore, RoleID),
+                         FOREIGN KEY (sUnderscore) REFERENCES users(sUnderscore) ON DELETE CASCADE,
                          FOREIGN KEY (RoleID) REFERENCES roles(RoleID) ON DELETE CASCADE);
-                         
-CREATE TABLE errorlog (
-        LogID     INT NOT NULL AUTO_INCREMENT,
-        TimeInserted     TIMESTAMP NOT NULL,
-        UserID     INT NOT NULL,
-        UserName     VARCHAR(32) NOT NULL,
-        ErrorMessage     VARCHAR(1024) NOT NULL,
-        PRIMARY KEY (LogID));
 
-CREATE TABLE ORDERS
-(   ORDERID                 INT AUTO_INCREMENT UNIQUE,
-    USERID                  INT,
-    ORDERDATE               DATE,
+CREATE TABLE errorlog (
+                          LogID     INT NOT NULL AUTO_INCREMENT,
+                          TimeInserted     TIMESTAMP NOT NULL,
+                          UserID     INT NOT NULL,
+                          UserName     VARCHAR(32) NOT NULL,
+                          ErrorMessage     VARCHAR(1024) NOT NULL,
+                          PRIMARY KEY (LogID));
+
+CREATE TABLE orders
+(   ORDERID                 INT AUTO_INCREMENT,
+    sUnderscore             VARCHAR(50),
     STATUS                  VARCHAR(30),
+    DATEORDERED             DATE,
     DATEFILLED              DATE,
-    COMMENT                 TEXT,
+    DATECOMPLETED           DATE,
+    COMMENT                 VARCHAR(255),
     CONSTRAINT ORDERS_PK PRIMARY KEY (ORDERID),
-    CONSTRAINT USERID_FK FOREIGN KEY (USERID) REFERENCES USERS (USERID)
-    /*CONSTRAINT STATUS_CK CHECK
-            (STATUS IN ('Completed', 'Ready for Pickup', 'Submitted')) */
+    CONSTRAINT USERID_FK FOREIGN KEY (sUnderscore) REFERENCES users (sUnderscore)
+    -- CONSTRAINT STATUS_CK CHECK
+    -- (STATUS IN ('Completed', 'Ready for Pickup', 'Submitted')) */
 );
 
-CREATE TABLE PRODUCT
-(   PRODUCTID               INT AUTO_INCREMENT UNIQUE NOT NULL,
+CREATE TABLE product
+(   PRODUCTID               INT AUTO_INCREMENT,
     NAME                    VARCHAR(50),
-    DESCRIPTION             TEXT,
+    PRODUCTDESCRIPTION      VARCHAR(255),
     QTYONHAND               INT,
     MAXORDERQTY             INT,
     GOALSTOCK               INT,
@@ -71,66 +72,83 @@ CREATE TABLE PRODUCT
 );
 
 /*INTERSECTION TABLE BETWEEN ORDERS, PRODUCT*/
-CREATE TABLE ORDERDETAILS
+CREATE TABLE orderdetails
 (   ORDERID                 INT,
     PRODUCTID               INT,
     QTYREQUESTED            INT,
     QTYFILLED               INT,
     CONSTRAINT ORDER_DETAILS_PK PRIMARY KEY (ORDERID, PRODUCTID),
-    CONSTRAINT ORDERID_FK FOREIGN KEY (ORDERID) REFERENCES ORDERS (ORDERID),
-    CONSTRAINT PRODUCTID_FK FOREIGN KEY (PRODUCTID) REFERENCES PRODUCT (PRODUCTID)
+    CONSTRAINT ORDERID_FK FOREIGN KEY (ORDERID) REFERENCES orders (ORDERID),
+    CONSTRAINT PRODUCTID_FK FOREIGN KEY (PRODUCTID) REFERENCES product (PRODUCTID)
 );
 
-CREATE TABLE CATEGORY
-(   CATEGORYID              INT AUTO_INCREMENT UNIQUE NOT NULL,
-    DESCRIPTION             VARCHAR(50),
+CREATE TABLE category
+(   CATEGORYID              INT AUTO_INCREMENT,
+    CATEGORYDESCRIPTION     VARCHAR(50),
     CONSTRAINT CATEGORY_PK PRIMARY KEY (CATEGORYID)
 );
 
 /*INTERSECTION TABLE BETWEEN PRODUCT AND CATEGORY
 DETERMINES WHICH PRODUCTS BELONG TO WHICH CATEGORIES*/
-CREATE TABLE PRODUCTCATEGORIES
+CREATE TABLE productcategories
 (   PRODUCTID               INT,
     CATEGORYID              INT,
     CONSTRAINT PRODUCT_CATEGORY_PK PRIMARY KEY (CATEGORYID, PRODUCTID),
-    CONSTRAINT CATEGORYS_ID_FK FOREIGN KEY (CATEGORYID) REFERENCES CATEGORY (CATEGORYID),
-    CONSTRAINT PRODUCTS_ID_FK FOREIGN KEY (PRODUCTID) REFERENCES PRODUCT (PRODUCTID)
+    CONSTRAINT CATEGORYS_ID_FK FOREIGN KEY (CATEGORYID) REFERENCES category (CATEGORYID),
+    CONSTRAINT PRODUCTS_ID_FK FOREIGN KEY (PRODUCTID) REFERENCES product (PRODUCTID)
 );
 
-CREATE TABLE CART
+CREATE TABLE cart
 (
-    USERID                  INT,
+    sUnderscore             VARCHAR(50),
     PRODUCTID               INT,
     QTYREQUESTED            INT,
-    MOSTRECENTDATE          DATE,
-    CONSTRAINT CART_PK PRIMARY KEY (USERID, PRODUCTID),
-    CONSTRAINT USER_ID_FK FOREIGN KEY (USERID) REFERENCES USERS (USERID),
-    CONSTRAINT PRODUCT_ID_FK FOREIGN KEY (PRODUCTID) REFERENCES PRODUCT (PRODUCTID)
+    CONSTRAINT CART_PK PRIMARY KEY (sUnderscore, PRODUCTID),
+    CONSTRAINT USER_ID_FK FOREIGN KEY (sUnderscore) REFERENCES users (sUnderscore),
+    CONSTRAINT PRODUCT_ID_FK FOREIGN KEY (PRODUCTID) REFERENCES product (PRODUCTID)
 );
 
 
-CREATE TABLE SETTING
+CREATE TABLE setting
 (   SETTINGID               INT,
-    EmailAddresses          TEXT,
-    OrderReceivedText       TEXT,
-    OrderFilledText         TEXT,
+    EmailOrderReceived      VARCHAR(300),
+    EmailOrderFilled        VARCHAR(300),
+    OrderReceivedText       VARCHAR(500),
+    OrderFilledText         VARCHAR(500),
+    FooterText              VARCHAR(200),
     PhotoDir                TEXT,
     CONSTRAINT SETTING_PK PRIMARY KEY (SETTINGID)
 );
 
 
--- Creates a View that generates the OnOrder amount for each product that is in a 'Submitted' order
-CREATE VIEW ONORDERVIEW AS
-    (SELECT OD.PRODUCTID, IFNULL(SUM(QTYREQUESTED),0) AS ONORDER
-        FROM ORDERDETAILS OD INNER JOIN ORDERS O ON OD.ORDERID = O.ORDERID AND O.STATUS = 'SUBMITTED'
-        GROUP BY OD.PRODUCTID);
+-- Creates a View that generates the OnOrder amount for each product that is in a ''Submitted'' order
+CREATE VIEW onorderview AS
+(SELECT OD.PRODUCTID, IFNULL(SUM(QTYREQUESTED),0) AS QTYONORDER
+FROM orderdetails OD INNER JOIN orders O ON OD.ORDERID = O.ORDERID AND O.STATUS = 'SUBMITTED'
+GROUP BY OD.PRODUCTID);
 
--- Create a Product View that includes QtyAvailable and OnOrder (Amount of product in orders that are requested but not filled)
-CREATE VIEW PRODUCTVEIW AS
-    (SELECT PRODUCT.PRODUCTID, PRODUCT.NAME, PRODUCT.DESCRIPTION, PRODUCT.QTYONHAND, PRODUCT.MAXORDERQTY, PRODUCT.GOALSTOCK,
-            IFNULL(ONORDER,0) AS ONORDER, IFNULL(PRODUCT.QTYONHAND - ONORDER, 0) AS QTYAVAILABLE
-            FROM PRODUCT LEFT OUTER JOIN ONORDERVIEW ON product.PRODUCTID = onorderview.PRODUCTID );
+-- Create a Qty Available View, which includes product id and qty available
+CREATE VIEW qtyavailableview AS
+(SELECT product.PRODUCTID, IFNULL(product.QTYONHAND - QTYONORDER, product.QTYONHAND) AS QTYAVAILABLE
+FROM product LEFT OUTER JOIN onorderview ON product.PRODUCTID = onorderview.PRODUCTID);
 
+-- Create a Product View that includes QtyAvailable, OrderLimit, and OnOrder (Amount of product in orders that are requested but not filled)
+CREATE VIEW productview AS
+(SELECT product.PRODUCTID, product.NAME, product.PRODUCTDESCRIPTION, IF(product.QTYONHAND<0, 0, product.QTYONHAND) AS QTYONHAND, product.MAXORDERQTY,
+        (CASE product.MAXORDERQTY
+             WHEN 0 THEN QTYAVAILABLE
+             ELSE IF(product.MAXORDERQTY<QTYAVAILABLE, product.MAXORDERQTY, IF(QTYAVAILABLE<0, 0, QTYAVAILABLE))
+            END
+            ) AS ORDERLIMIT,
+        product.GOALSTOCK, IFNULL(QTYONORDER,0) AS QTYONORDER, QTYAVAILABLE
+FROM product LEFT OUTER JOIN onorderview ON product.PRODUCTID = onorderview.PRODUCTID
+             JOIN qtyavailableview ON product.PRODUCTID = qtyavailableview.PRODUCTID);
+
+-- Create a Cart View, which has the number of products in each users cart
+-- QtyItemsInCart = number of unique product ids for each user
+CREATE VIEW cartview AS
+(SELECT C.sUnderscore, COUNT(DISTINCT C.PRODUCTID) AS QYTITEMSINCART
+FROM cart C GROUP BY C.sUnderscore);
 
 INSERT INTO functions (Name,Description) VALUES ('SecurityManageUsers','Allows for reading users and interface to add, change, and delete.');
 INSERT INTO functions (Name,Description) VALUES ('SecurityUserAdd','Allows for adding of users by enabling link on manage form.');
@@ -151,7 +169,6 @@ INSERT INTO functions (Name,Description) VALUES ('SecurityLogin', 'Provide Usern
 INSERT INTO functions (Name,Description) VALUES ('SecurityLogOut', 'Exit the application.');
 INSERT INTO functions (Name,Description) VALUES ('SecurityProcessLogin', 'Try to authorize a user login.');
 INSERT INTO functions (Name,Description) VALUES ('SecurityHome', 'Default security page with login button.');
-INSERT INTO functions (Name,Description) VALUES ('Home', 'Default home page with guest access and login button.');
 INSERT INTO functions (Name,Description) VALUES ('adminInventory', 'Inventory page to view inventory');
 INSERT INTO functions (Name,Description) VALUES ('adminOrders', 'orders page for admins to fill orders that are submitted');
 INSERT INTO functions (Name,Description) VALUES ('adminSecurity', 'security page for the admins to change security settings');
@@ -160,30 +177,60 @@ INSERT INTO functions (Name,Description) VALUES ('adminShoppingList', 'Shopping 
 INSERT INTO functions (Name,Description) VALUES ('shopperCart', 'Where shoppers can view what items they have in their cart and submit their order');
 INSERT INTO functions (Name,Description) VALUES ('shopperHome', 'where shoppers can select items that they would like to purchase');
 INSERT INTO functions (Name,Description) VALUES ('shopperOrders', 'where shoppers can view their current past and pending orders');
+INSERT INTO functions (Name,Description) VALUES ('addEditProduct','Creates a new product or edits a product info if product already exists'),
+                                                ('adminChangeOrderStatus','Changes the status of an order'),
+                                                ('adminFillOrder','Lets the user fill an order'),
+                                                ('processStockAdjust','Adjust QtyOnHand for a single product or multiple products on inventory page'),
+                                                ('shopperAdjustQTYInCart','Adjust QtyRequested for users in cart table'),
+                                                ('processAddToCart','Adds product to an users cart in cart table'),
+                                                ('shopperRemoveFromCart','Removes a product from an users cart in cart table'),
+                                                ('shopperSubmitOrder','Creates an order for users based off of users cart'),
+                                                ('accountSettings','Allows User to view their account settings'),
+                                                ('addEditCategory','Allows User to add, edit or delete a category');
 
 
 
-INSERT INTO roles (Name,Description) VALUES ('admin','Full privileges.');
-INSERT INTO roles (Name,Description) VALUES ('updater','Update/Read privileges.');
-INSERT INTO roles (Name,Description) VALUES ('reader','Read-only privileges.');
-INSERT INTO roles (Name,Description) VALUES ('guest','Features available to all visitors without logging in.');
+INSERT INTO roles (Name,Description) VALUES  ('Admin','Full privileges.'),
+                                             ('Student', 'Shopping, cart, and own orders'),
+                                             ('Developer','Security'),
+                                             ('Inventory Management','View and edit inventory.  Add/Edit/Delete Products.'),
+                                             ('Order Fulfillment','View and fill orders.'),
+                                             ('Guest', 'Guest');
 
-INSERT INTO users (FirstName,LastName,UserName,Password,Email) VALUES ('Jon','ODonnell','admin',SHA1('admin'),'jodonnell@clarion.edu');
-INSERT INTO users (FirstName,LastName,UserName,Password,Email) VALUES ('Bill','Updater','bill',SHA1('bill'),'bill@localhost');
-INSERT INTO users (FirstName,LastName,UserName,Password,Email) VALUES ('Joe','Reader','joe',SHA1('joe'),'joe@localhost');
-INSERT INTO users (FirstName,LastName,UserName,Password,Email) VALUES ('guest','guest','guest',SHA1('guest'),'guest@localhost');
-INSERT INTO users (FirstName,LastName,UserName,Password,Email) VALUES ('cart','cart','cart',SHA1('cart'),'cart@localhost');
+INSERT INTO users (sUnderscore, FirstName,LastName,UserName,Password,Email) VALUES ('s_admin','TestAdmin','TestAdmin','admin',SHA1('admin'),'admin@clarion.edu'),
+                                                                                   ('s_student','TestStudent','TestStudent', 'student', SHA1('student'), 'teststudent@clarion.edu'),
+                                                                                   ('s_developer','TestDeveloper','TestDeveloper', 'developer', SHA1('developer'), 'testdeveloper@clarion.edu'),
+                                                                                   ('s_inventory','TestInventory', 'TestInventory', 'inventory', SHA1('inventory'), 'testinventory@clarion.edu'),
+                                                                                   ('s_order','TestOrder', 'TestOrder', 'order', SHA1('order'), 'testorder@clarion.edu');
 
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,1);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,2);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,3);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,4);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,5);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,6);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,7);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,8);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,9);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,10);
+INSERT INTO userroles (sUnderscore,RoleID) VALUES ('s_admin',1);
+INSERT INTO userroles (sUnderscore,RoleID) VALUES ('s_student',2);
+INSERT INTO userroles (sUnderscore,RoleID) VALUES ('s_developer',3);
+INSERT INTO userroles (sUnderscore,RoleID) VALUES ('s_inventory',4);
+INSERT INTO userroles (sUnderscore,RoleID) VALUES ('s_order',5);
+
+# INSERT INTO userroles (sUnderscore,RoleID) VALUES ('s_ajrobinso1', 3),  -- Austin as Developer
+#                                                   ('s_csgildea', 3),    -- Chris as Developer
+#                                                   ('s_bmbizzarri', 3),  -- Brady as Developer
+#                                                   ('s_gmbennett', 3),   -- Gina as Developer
+#                                                   (),  -- Shane as Developer
+#                                                   (),  -- Devin as Developer
+#                                                   ();  -- Brady as Developer
+
+
+-- Should admin have these functions??
+-- Honestly, idk.  These were in the original script, so I just left them
+-- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,1);
+-- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,2);
+-- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,3);
+-- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,4);
+-- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,5);
+-- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,6);
+-- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,7);
+-- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,8);
+-- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,9);
+-- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,10);
+
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,11);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,12);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,13);
@@ -194,39 +241,87 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,22);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,23);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,24);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,25);
+INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,29);
 
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,1);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,6);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,7);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,8);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,9);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,10);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,11);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,12);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,13);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,14);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,15);
+INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,30),
+                                                     (1,31),
+                                                     (1,19),
+                                                     (1,16),
+                                                     (1,17),
+                                                     (1,26),
+                                                     (1,27),
+                                                     (1,28),
+                                                     (1,20),
+                                                     (1,32),
+                                                     (1,33),
+                                                     (1,34),
+                                                     (1,35),
+                                                     (1,36),
+                                                     (1,37);
 
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (3,1);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (3,6);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (3,11);
+INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,25),
+                                                     (2,26),
+                                                     (2,27),
+                                                     (2,32),
+                                                     (2,33),
+                                                     (2,34),
+                                                     (2,35),
+                                                     (2,36);
 
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,11);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,16);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,17);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,18);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,19);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,20);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,26);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,27);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,28);
+INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (3,1),
+                                                     (3,2),
+                                                     (3,3),
+                                                     (3,4),
+                                                     (3,5),
+                                                     (3,6),
+                                                     (3,7),
+                                                     (3,8),
+                                                     (3,9),
+                                                     (3,10),
+                                                     (3,11),
+                                                     (3,12),
+                                                     (3,13),
+                                                     (3,14),
+                                                     (3,15),
+                                                     (3,16),
+                                                     (3,17),
+                                                     (3,18),
+                                                     (3,19),
+                                                     (3,20),
+                                                     (3,21),
+                                                     (3,22),
+                                                     (3,23),
+                                                     (3,24),
+                                                     (3,25),
+                                                     (3,26),
+                                                     (3,27),
+                                                     (3,28),
+                                                     (3,29),
+                                                     (3,30),
+                                                     (3,31),
+                                                     (3,32),
+                                                     (3,33),
+                                                     (3,34),
+                                                     (3,35),
+                                                     (3,36),
+                                                     (3,37);
 
-INSERT INTO userroles (UserID,RoleID) VALUES (1,1);
-INSERT INTO userroles (UserID,RoleID) VALUES (2,2);
-INSERT INTO userroles (UserID,RoleID) VALUES (3,3);
-INSERT INTO userroles (UserID,RoleID) VALUES (4,4);
+INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,20),
+                                                     (4,24),
+                                                     (4,28),
+                                                     (4,31),
+                                                     (4,36);
 
-INSERT INTO `category` (`CategoryID`, `Description`) VALUES
+INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (5,21),
+                                                     (5,29),
+                                                     (5,30),
+                                                     (5,36);
+
+INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (6,16),
+                                                     (6,17),
+                                                     (6,26);
+
+INSERT INTO `category` (`CategoryID`, `CategoryDescription`) VALUES
 (1, 'Hygiene & Personal Care Items'),
 (2, 'Household Supplies'),
 (3, 'Linens'),
@@ -248,7 +343,7 @@ INSERT INTO `category` (`CategoryID`, `Description`) VALUES
 (19, 'Clothing Items');
 COMMIT;
 
-INSERT INTO `product` (`ProductID`, `Name`, `Description`, `QtyOnHand`, `MaxOrderQty`, `GoalStock`) VALUES
+INSERT INTO `product` (`ProductID`, `Name`, `ProductDescription`, `QtyOnHand`, `MaxOrderQty`, `GoalStock`) VALUES
 (1, 'Strawberry Shampoo', '', 1, 0, 0),
 (2, 'Ocean Breeze Shampoo', '', 4, 0, 5),
 (3, 'Ocean Breeze Conditioner', '', 5, 0, 5),
@@ -918,7 +1013,7 @@ INSERT INTO `productcategories` (`ProductID`, `CategoryID`) VALUES
 (51, 18);
 COMMIT;
 
-INSERT INTO `PRODUCT` (`ProductID`, `Name`, `Description`, `QtyOnHand`, `MaxOrderQty`, `GoalStock`) VALUES
+INSERT INTO `product` (`ProductID`, `Name`, `ProductDescription`, `QtyOnHand`, `MaxOrderQty`, `GoalStock`) VALUES
 (1000, 'Blanket', 'Dark blue, fleece.  Approximately 50x50 inches', 1, 1, 0),  -- GoalStock = 0 (Temp item)
 (1001, 'Clear American Sparkling Water, Wild Cherry', '1 bottle, 33.8 fl oz', 10, 5, 5),
 (1002, 'Basmati Rice', '1 bag, 32 oz', 2, 1, 5),  -- QtyOnHand < GoalStock (On shopping List)
@@ -929,22 +1024,22 @@ INSERT INTO `PRODUCT` (`ProductID`, `Name`, `Description`, `QtyOnHand`, `MaxOrde
 (1007, 'Flour', '1 bag, .5 lb', 8, 1, 3),
 (1008, 'Curtains', 'Barbie Pink, Room darkening, 63"', 1, 1, 0), -- GoalStock = 0 (Temp item)
 (1009, 'Vienna Sausages', '1 can, 6 oz', 10, 15, 6),
-(1010, 'Ruler', '12 inch Ruler', 20, 3, 5),
-(1011, 'Black Tank Top', 'Womens Tank Tops, size Small, Medium, and Xtra Large Available.
+ (1010, 'Ruler', '12 inch Ruler', 20, 3, 5),
+ (1011, 'Black Tank Top', 'Womens Tank Tops, size Small, Medium, and Xtra Large Available.
 Please put size in comment box before ordering', 30, 5, 0), -- GoalStock = 0 (Temp item)
-(1012, 'Composition Notebooks', '1 Black, regular ruled notebook', 0, 5, 19),  -- QtyOnHand = 0, out of stock
-(1013, 'Canned Alfredo Pasta Sauce', '1 can, 24 oz', 0, 3, 10), -- QtyOnHand = 0, out of stock
-(1014, 'iPhone 10 case', 'blue with stars design, Otterbox', 0, 1, 0), -- inactive item
-(1015, 'Thinx Period Proof Underwear', 'black, size Medium, brief style', 1, 1, 0),  -- GoalStock = 0 (Temp item)
-(1016, 'Creamy Italian Wedding Soup', '12 oz can', 5, 8, 0),
-(1017, 'Suave 3-1 Shampoo, Body and Face Wash', '16 fl oz bottle, scent: ThunderBird Axe Attack', 3, 10, 15); -- QtyOnHand < GoalStock (On shopping List)
+ (1012, 'Composition Notebooks', '1 Black, regular ruled notebook', 0, 5, 19),  -- QtyOnHand = 0, out of stock
+ (1013, 'Canned Alfredo Pasta Sauce', '1 can, 24 oz', 0, 3, 10), -- QtyOnHand = 0, out of stock
+ (1014, 'iPhone 10 case', 'blue with stars design, Otterbox', 0, 1, 0), -- inactive item
+ (1015, 'Thinx Period Proof Underwear', 'black, size Medium, brief style', 1, 1, 0),  -- GoalStock = 0 (Temp item)
+ (1016, 'Creamy Italian Wedding Soup', '12 oz can', 5, 8, 0),
+ (1017, 'Suave 3-1 Shampoo, Body and Face Wash', '16 fl oz bottle, scent: ThunderBird Axe Attack', 3, 10, 15); -- QtyOnHand < GoalStock (On shopping List)
 COMMIT;
 
-INSERT INTO `ORDERS` (`ORDERID`, `USERID`, `ORDERDATE`, `STATUS`, `DATEFILLED`, `COMMENT`) VALUES
-(1, 1, '2021-08-29', 'COMPLETED', '2021-09-01', 'I am allergice to Nuts'),
-(2, 2, '2021-09-16', 'READY FOR PICKUP', '2021-09-17', ' '),
-(3, 1, '2021-09-18', 'SUBMITTED', '', 'I live off campus'),
-(4, 3, '2021-09-19', 'SUBMITTED', '', 'Size Xtra Large For the Tank Top');
+INSERT INTO `orders` (`ORDERID`, `sUnderscore`, `STATUS`, `DATEORDERED`, `DATEFILLED`, `DATECOMPLETED`, `COMMENT`) VALUES
+(1, 's_student', 'COMPLETED', '2021-08-29', '2021-09-01', '2021-09-05', 'I am allergice to Nuts'),
+(2, 's_student', 'READY FOR PICKUP', '2021-09-16', '2021-09-17', '', ' '),
+(3, 's_student', 'SUBMITTED', '2021-09-18',  '', '', 'I live off campus'),
+(4, 's_student', 'SUBMITTED', '2021-09-19', '', '', 'Size Xtra Large For the Tank Top');
 COMMIT;
 
 INSERT INTO `productcategories` (`ProductID`, `CategoryID`) VALUES
@@ -972,7 +1067,7 @@ INSERT INTO `productcategories` (`ProductID`, `CategoryID`) VALUES
 (1017, 17);   -- Suave in Face
 COMMIT;
 
-INSERT INTO `ORDERDETAILS` (`ORDERID`, `PRODUCTID`, `QTYREQUESTED`, `QTYFILLED`) VALUES
+INSERT INTO `orderdetails` (`ORDERID`, `PRODUCTID`, `QTYREQUESTED`, `QTYFILLED`) VALUES
 -- Order 1, 5 different items, all items filled as requested, Order Complete
 (1, 1002, 1, 1),
 (1, 1003, 2, 2),
@@ -1009,19 +1104,18 @@ INSERT INTO `ORDERDETAILS` (`ORDERID`, `PRODUCTID`, `QTYREQUESTED`, `QTYFILLED`)
 (4, 1011, 4, 0);
 COMMIT;
 
-INSERT INTO `CART` (`USERID`, `PRODUCTID`, `QTYREQUESTED`, `MOSTRECENTDATE`) VALUES
-(5, 1001, 6, 20210901),      -- QtyRequested > MaxOrderQty, can't be ordered as in cart
-(5, 1002, 1, 20210901),      -- No issues
-(5, 1003, 2, '2021-09-01'),  -- No issues
-(5, 1006, 1, 20200101),      -- Date is from 2020
-(5, 1009, 10, 20210907),     -- QtyRequested > QtyAvailable, can't be ordered as in cart
-(5, 1012, 4, 20210825);      -- QtyAvailable = 0, Item is out of stock
+INSERT INTO `cart` (`sUnderscore`, `PRODUCTID`, `QTYREQUESTED`) VALUES
+('s_student', 1001, 6),      -- QtyRequested > MaxOrderQty, can't be ordered as in cart
+('s_student', 1002, 1),      -- No issues
+('s_student', 1003, 2),      -- No issues
+('s_student', 1006, 1),
+('s_student', 1009, 10),     -- QtyRequested > QtyAvailable, can't be ordered as in cart
+('s_student', 1012, 4);      -- QtyAvailable = 0, Item is out of stock
 COMMIT;
 
-INSERT INTO `SETTING` (SettingID, EmailAddresses, OrderReceivedText, OrderFilledText, PhotoDir) VALUES
-(1, 'mlkarg@clarion.edu, resourceroom@clarion.edu, admin@clarion.edu',
+INSERT INTO `setting` (SettingID, EmailOrderReceived, EmailOrderFilled, OrderReceivedText, OrderFilledText, FooterText, PhotoDir) VALUES
+(1, 'mlkarg@clarion.edu, resourceroom@clarion.edu, admin@clarion.edu', 'mlkarg@clarion.edu, resourceroom@clarion.edu',
  'Hello!  We have received your order and will fill it as soon as we are able.  Once the order has been filled, another email will be sent to confirm pick up details.',
  'Hello!  Your order has been filled and can be picket up in Ralston Hall, Monday through Friday from 8am to 4pm.  In the entry way is a table.
- Your order will be in a reusable shopping bag on the table. Please bring your order number to ensure you pick up the correct order.','');
-
-
+ Your order will be in a reusable shopping bag on the table. Please bring your order number to ensure you pick up the correct order.',
+ 'Clarion Resource Room is located at Gemmell Room 112','');
