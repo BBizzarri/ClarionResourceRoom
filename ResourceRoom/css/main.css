@@ -57,3 +57,12 @@ hr {width: 50px; color: #97824A}
     background-color: #cccccc !important;
 }
 
+.account-settings-label{
+    width: 200px;
+    font-size: 25px;
+}
+
+.account-settings-heading {
+    font-size: 35px;
+}
+

@@ -141,6 +141,25 @@
         }
     }
 
+    function addCategory($CategoryName)
+    {
+       $db = getDBConnection();
+       $query = 'INSERT INTO category (CATEGORYDESCRIPTION)
+                                        VALUES (:CATEGORYDESCRIPTION)';
+       $statement = $db->prepare($query);
+       $statement->bindValue(':CATEGORYDESCRIPTION', $CategoryName);
+       $success = $statement->execute();
+       $statement->closeCursor();
+       if($success)
+       {
+           return $db->lastInsertId();;
+       }
+       else
+       {
+           logSQLError($statement->errorInfo());
+       }
+    }
+
     function addProduct($ProductName, $QtyOnHand, $MaxOrderQty, $GoalStock, $ProductDescription, $ProductCategories)
     {
        $db = getDBConnection();
@@ -605,9 +624,28 @@
         }
     }
 
+    function updateCategory($CategoryID, $CategoryName)
+    {
+       $db = getDBConnection();
+       $query = 'UPDATE category SET CATEGORYDESCRIPTION = :CATEGORYDESCRIPTION WHERE CATEGORYID = :CATEGORYID';
+       $statement = $db->prepare($query);
+       $statement->bindValue(':CATEGORYID', $CategoryID);
+       $statement->bindValue(':CATEGORYDESCRIPTION', $CategoryName);
+       $success = $statement->execute();
+       $statement->closeCursor();
+       if($success)
+       {
+           return $statement->rowCount();
+       }
+       else
+       {
+           logSQLError($statement->errorInfo());
+       }
+    }
+
     function updateProduct($ProductID, $ProductName, $QtyOnHand, $MaxOrderQty, $GoalStock, $ProductDescription, $ProductCategories)
     {
-        $db = getDBConnection();
+       $db = getDBConnection();
        $query = 'UPDATE product SET NAME = :NAME, QTYONHAND = :QTYONHAND, MAXORDERQTY = :MAXORDERQTY, GOALSTOCK = :GOALSTOCK, PRODUCTDESCRIPTION = :PRODUCTDESCRIPTION WHERE PRODUCTID = :PRODUCTID';
        $statement = $db->prepare($query);
        $statement->bindValue(':PRODUCTID', $ProductID);
