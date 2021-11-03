@@ -19,7 +19,7 @@
                         <label for="qtyLessThan" title="Only show items with a quantity less than">Quantity Less Than:</label>
                     </div>
                     <div class="incoming-textbox-div">
-                        <input class="incoming-textbox" type="number" id="QtyLessThan" name="QtyLessThan" value="<?php echo $_POST['QtyLessThan']?>"/>
+                        <input class="incoming-textbox" type="number" min="1" id="QtyLessThan" name="QtyLessThan" value="<?php echo $_POST['QtyLessThan']?>"/>
                     </div>
                 </div>
                 <div class="sidebar-elements">
@@ -152,9 +152,9 @@
                                                 <?php } ?>
                                             </select>
                                         </h4>
-                                        <h4 class="product-info-spacing">QTY On Hand: <input type="number" name="QtyOnHand" value="<?php echo htmlspecialchars($product->getProductQTYOnHand())?>" required/></h4>
-                                        <h4 class="product-info-spacing">Max Order QTY: <input type="number" name="MaxOrderQty" value="<?php echo htmlspecialchars($product->getProductMaxOrderQty())?>"/></h4>
-                                        <h4 class="product-info-spacing">Goal Stock: <input type="number" name="GoalStock" value="<?php echo htmlspecialchars($product->getProductGoalStock())?>" required/></h4>
+                                        <h4 class="product-info-spacing">QTY On Hand: <input type="number" min="0" name="QtyOnHand" value="<?php echo htmlspecialchars($product->getProductQTYOnHand())?>" required/></h4>
+                                        <h4 class="product-info-spacing">Max Order QTY: <input type="number" min="0" name="MaxOrderQty" value="<?php echo htmlspecialchars($product->getProductMaxOrderQty())?>"/></h4>
+                                        <h4 class="product-info-spacing">Goal Stock: <input type="number" min="0" name="GoalStock" value="<?php echo htmlspecialchars($product->getProductGoalStock())?>" required/></h4>
                                         <h4>Description:</h4><textarea name="ProductDescription" rows="4" cols="50"><?php echo htmlspecialchars($product->getProductDescription())?></textarea>
                                     </div>
                                     <div class="item">
