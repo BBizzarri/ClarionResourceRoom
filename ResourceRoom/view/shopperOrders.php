@@ -5,9 +5,9 @@
 <html>
 <body>
     <section>
-        <table class="table table-condensed" style="border-collapse:collapse;">
+        <table class="table table-condensed clarion-blue" style="border-collapse:collapse;">
             <thead>
-            <tr>
+            <tr class="clarion-white">
                 <th>STATUS</th>
                 <th>DATE ORDERED</th>
                 <th>DATE FILLED</th>
@@ -20,7 +20,7 @@
             <?php foreach($orders as $order)
             {
             ?>
-                    <tr data-toggle="collapse" data-target="#orderDetails_<?php echo $order->getOrderID()?>" class="accordion-toggle">
+                    <tr data-toggle="collapse" data-target="#orderDetails_<?php echo $order->getOrderID()?>" class="accordion-toggle clarion-white">
                         <td><?php echo htmlspecialchars($order->getOrderStatus())?></td>
                         <td><?php echo htmlspecialchars($order->getOrderDateOrdered())?></td>
                         <td><?php echo htmlspecialchars($order->getOrderDateFilled())?></td>
@@ -28,11 +28,11 @@
                         <td><?php echo htmlspecialchars($order->getOrderSize())?></td>
                         <td><?php echo htmlspecialchars($order->getOrderComment())?></td>
                     </tr>
-                    <tr >
+                    <tr class="color-black">
                         <td colspan="6" class="hiddenRow">
                                 <div class="accordian-body collapse" id="orderDetails_<?php echo $order->getOrderID()?>">
-                                    <div class="table-responsive">
-                                        <table class="table table-orderDetails">
+                                    <div class="table-responsive clarion-blue">
+                                        <table class="color-grey table table-orderDetails">
                                             <thead>
                                             <tr>
                                                 <th>Product Name</th>

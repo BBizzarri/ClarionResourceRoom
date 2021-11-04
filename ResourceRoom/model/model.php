@@ -141,6 +141,25 @@
         }
     }
 
+    function addCategory($CategoryName)
+    {
+       $db = getDBConnection();
+       $query = 'INSERT INTO category (CATEGORYDESCRIPTION)
+                                        VALUES (:CATEGORYDESCRIPTION)';
+       $statement = $db->prepare($query);
+       $statement->bindValue(':CATEGORYDESCRIPTION', $CategoryName);
+       $success = $statement->execute();
+       $statement->closeCursor();
+       if($success)
+       {
+           return $db->lastInsertId();;
+       }
+       else
+       {
+           logSQLError($statement->errorInfo());
+       }
+    }
+
     function addProduct($ProductName, $QtyOnHand, $MaxOrderQty, $GoalStock, $ProductDescription, $ProductCategories)
     {
        $db = getDBConnection();
@@ -154,11 +173,10 @@
        $statement->bindValue(':PRODUCTDESCRIPTION', $ProductDescription);
        $success = $statement->execute();
        $statement->closeCursor();
-       $ProductID = $db->lastInsertId();
+       addProductCategories($ProductCategories, $db->lastInsertId());
        if($success)
        {
-           addProductCategories($ProductCategories, $ProductID);
-           return $ProductID;
+           return $db->lastInsertId();;
        }
        else
        {
@@ -168,8 +186,6 @@
 
     function addProductCategories($ProductCategories, $ProductID) {
         $db = getDBConnection();
-        console_log($ProductCategories);
-        console_log($ProductID);
         clearCategories($ProductID);
         foreach($ProductCategories as $IndividualCategory)
         {
@@ -413,7 +429,6 @@
             $statement->closeCursor();
             array_push($AllProductsCategoriesArray, $results[0]);
         }
-        console_log(end($AllProductsCategoriesArray));
         foreach($AllProductsCategoriesArray as $SingleCategory)
         {
             if(end($AllProductsCategoriesArray) == $SingleCategory)
@@ -457,11 +472,11 @@
                     $queryText .= " and productview.QTYONHAND > 0";
                 }
             }
-            if($SearchTerm != ""){
-                $queryText .=" and productview.NAME LIKE :SearchTerm OR productview.PRODUCTDESCRIPTION LIKE :SearchTerm";
-            }
             if($QTYLessThan != ""){
                 $queryText .= " and productview.QTYONHAND < :QTYLessThan";
+            }
+            if($SearchTerm != ""){
+                $queryText .=" and (productview.NAME LIKE :SearchTerm OR productview.PRODUCTDESCRIPTION LIKE :SearchTerm)";
             }
             $queryText .= " order by productview.NAME";
             $query = $queryText;
@@ -609,9 +624,28 @@
         }
     }
 
+    function updateCategory($CategoryID, $CategoryName)
+    {
+       $db = getDBConnection();
+       $query = 'UPDATE category SET CATEGORYDESCRIPTION = :CATEGORYDESCRIPTION WHERE CATEGORYID = :CATEGORYID';
+       $statement = $db->prepare($query);
+       $statement->bindValue(':CATEGORYID', $CategoryID);
+       $statement->bindValue(':CATEGORYDESCRIPTION', $CategoryName);
+       $success = $statement->execute();
+       $statement->closeCursor();
+       if($success)
+       {
+           return $statement->rowCount();
+       }
+       else
+       {
+           logSQLError($statement->errorInfo());
+       }
+    }
+
     function updateProduct($ProductID, $ProductName, $QtyOnHand, $MaxOrderQty, $GoalStock, $ProductDescription, $ProductCategories)
     {
-        $db = getDBConnection();
+       $db = getDBConnection();
        $query = 'UPDATE product SET NAME = :NAME, QTYONHAND = :QTYONHAND, MAXORDERQTY = :MAXORDERQTY, GOALSTOCK = :GOALSTOCK, PRODUCTDESCRIPTION = :PRODUCTDESCRIPTION WHERE PRODUCTID = :PRODUCTID';
        $statement = $db->prepare($query);
        $statement->bindValue(':PRODUCTID', $ProductID);
