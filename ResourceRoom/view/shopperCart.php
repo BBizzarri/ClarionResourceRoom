@@ -72,11 +72,11 @@
             </div>
         </div>
 
-        <!-- Modal -->
-        <div class="modal fade" id="cartModal" role="dialog">
-            <div class="modal-dialog modal-lg">-->
 
-                <!-- Modal content-->
+        <div class="modal fade" id="cartModal" role="dialog">
+            <div class="modal-dialog modal-lg">
+
+
                 <div class="modal-content clarion-blue clarion-white">
                     <div class="modal-header" style="border-bottom: 1px solid #97824A;">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -87,7 +87,7 @@
                                     <thead>
                                     <tr>
                                         <th>Product</th>
-                                        <th>Quantity Request</th>
+                                        <th>Quantity Requested</th>
                                         <th>Quantity Available</th>
                                     </tr>
                                     </thead>
@@ -130,11 +130,12 @@
                                     <label for="cartComment">Special Order Instructions</label>
                                     <textarea class="form-control" rows="5" id="cartComment" name="cartComment"></textarea>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group row">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                                 <?php if(!$cartError and $cart->getNumberOfItemsInCart() > 0): ?>
-                                <input type="submit" class="btn btn-primary" value="Submit Order">
+                                <input type="submit" class="btn btn-primary" style="margin-right: 25px" value="Submit Order">
                                 <?php endif ; ?>
+                                    <h5>An order confirmation email will be sent.</h5>
                                 </div>
                             </form>
                         </div>
