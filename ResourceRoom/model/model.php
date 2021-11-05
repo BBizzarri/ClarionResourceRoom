@@ -528,7 +528,7 @@
             $db = getDBConnection();
             $query = "SELECT orders.ORDERID, orders.*, orderdetails.QTYREQUESTED, orderdetails.QTYFILLED, productview.*, concat(users.FirstName, ' ', users.LastName) as USERSNAME FROM orders inner join orderdetails on orders.ORDERID = orderdetails.ORDERID
                                                  inner join productview on orderdetails.PRODUCTID = productview.PRODUCTID
-                                                 inner join users on orders.USERID = users.UserID WHERE orders.USERID = :USERID";
+                                                 inner join users on orders.USERID = users.UserID WHERE orders.USERID = :USERID ORDER BY orders.DATEORDERED DESC";
             $statement = $db->prepare($query);
             $statement->bindValue(":USERID", $USERID);
             $statement->execute();

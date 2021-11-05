@@ -179,7 +179,7 @@
                                         }
                                         ?>
                                         >
-                                            <p><?php echo htmlspecialchars($order->getOrderComment())?></p>
+                                            <p style="text-align: left"><?php echo htmlspecialchars($order->getOrderComment())?></p>
                                         </td>
                                     </tr>
                                 <?php endif; ?>

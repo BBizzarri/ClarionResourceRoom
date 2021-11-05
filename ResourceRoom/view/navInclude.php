@@ -16,7 +16,7 @@
 
                         <?php if(userIsAuthorized("shopperCart")) { ?>
                             <li class="nav-item">
-                                <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text" href="../controller/controller.php?action=shopperCart">Cart (<?php if(isset($cart)){ echo($cart->getNumberOfItemsInCart());} else { echo("0");} ?>)</a>
+                                <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text" href="../controller/controller.php?action=shopperCart">Cart (<?php if(isset($_SESSION['itemsInCart'])){ echo($_SESSION['itemsInCart']);} else { echo("0");} ?>)</a>
                             </li>
                         <?php } ?>
 
@@ -62,7 +62,7 @@
                     </ul>
             <?php if(userIsAuthorized("shopperHome")) { ?>
                 <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="text" id="Criteria" placeholder="Search" aria-label="Search">4
+                    <input class="form-control mr-sm-2" type="text" id="Criteria" placeholder="Search" aria-label="Search">
                     <input class="btn my-2 my-sm-0" id="searchButton" type="button" value="Search" onclick="generalSearch();"/>
                 </form>
             <?php } ?>

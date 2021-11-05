@@ -36,7 +36,7 @@
                                              <?php else :?>
                                                 src="../productImages/ImageNotAvailable.jpg"
                                              <?php endif ;?>
-                                                class="card-img-top" alt="...">
+                                                class="card-img-top productImg" alt="...">
                                     </div>
                                     <div class="card-body">
                                         <h4 class="card-title"><?php echo htmlspecialchars($product->getProductName())?></h4>

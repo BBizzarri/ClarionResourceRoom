@@ -61,6 +61,7 @@
                {
                    $USERID = getUserID();
                    $cart = getCart($USERID);
+                   $_SESSION['itemsInCart'] = $cart->getNumberOfItemsInCart();
                    include '../view/index.php';
                }
     }
@@ -68,6 +69,7 @@
     {
         $USERID = getUserID();
         $cart = getCart($USERID);
+        $_SESSION['itemsInCart'] = $cart->getNumberOfItemsInCart();
         include '../view/shopperCart.php';
     }
 
@@ -123,11 +125,15 @@
     function processSubmitOrder(){
         $USERID = getUserID();
         $invalidRequests = validateCart($USERID);
-        $COMMENT = $_POST["cartComment"];
+        if(isset($_POST["cartComment"])){
+            $COMMENT = $_POST["cartComment"];
+        } else{
+            $COMMENT = "";
+        }
         if(sizeof($invalidRequests) == 0){
             submitOrder($USERID,getCart($USERID),$COMMENT);
         }
-        header("Location: {$_SERVER['HTTP_REFERER']}");
+        displayShopperOrders();
     }
 
     function validateCart($USERID){

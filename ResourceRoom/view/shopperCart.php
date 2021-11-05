@@ -10,15 +10,13 @@
                 <div class="col-12">
                         <div class="container-fluid">
                             <div class="row">
-                                <div class="text-left clarion-white" style="margin-left: 25px">
-                                    <div style="margin-block: 15px">
+                                <div class="text-left clarion-white col-auto">
                                         <h2>Your Shopping Cart</h2>
-                                    </div>
                                 </div>
-                                <div class="text-right clarion-white" style="margin-left: 650px">
-                                    <div style="margin-block: 15px">
-                                        <h3>Total Items in cart: <?php echo($cart->getNumberOfItemsInCart()) ?><?php ?></h3>
-                                    </div>
+                            </div>
+                            <div class = "row">
+                                <div class="text-right clarion-white col-auto">
+                                        <h3>Items in cart: <?php echo($cart->getNumberOfItemsInCart()) ?><?php ?></h3>
                                 </div>
                             </div>
                             <div class="row">
@@ -34,17 +32,21 @@
                                                 <?php else :?>
                                                     src="../productImages/ImageNotAvailable.jpg"
                                                 <?php endif ;?>
-                                                        class="card-img-top" alt="...">
+                                                        class="card-img-top productImg" alt="...">
                                             </div>
                                             <div class="card-body">
                                                 <h4 class="card-title"><?php echo htmlspecialchars($product->getProductName()) ?></h4>
                                             </div>
                                             <div class="card-footer d-flex flex-column">
                                                 <form id="card-form" action="../controller/controller.php?action=shopperAdjustQTYInCart&ProductID=<?php echo htmlspecialchars($product->getProductID())?>" method="post" enctype="multipart/form-data">
-                                                    <div class="form-group flex-row" id="shopperRemoveFromCartButton">
-                                                        <label>QTY:</label>
-                                                        <input type="number" id="quantity_<?php echo htmlspecialchars($product->getProductID())?>" name="QTYRequested" min="1" max="<?php echo htmlspecialchars($product->getProductQTYOnHand())?>">
-                                                        <input type="submit" class="btn btn-primary" value="Change Quantity">
+                                                    <div class="form-group row flex-column" id="shopperRemoveFromCartButton">
+                                                        <div class="container">
+                                                            <div class = "row">
+                                                                <label class= "col-auto" for="quantity_<?php echo htmlspecialchars($product->getProductID())?>">QTY:</label>
+                                                                <input class= "col-auto" type="number" id="quantity_<?php echo htmlspecialchars($product->getProductID())?>" name="QTYRequested" min="1" max="<?php echo htmlspecialchars($product->getProductQTYOnHand())?>">
+                                                                <input type="submit" class="btn btn-primary col-auto" value="Change Quantity">
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </form>
                                                 <form id="card-form" action="../controller/controller.php?action=shopperRemoveFromCart&ProductID=<?php echo htmlspecialchars($product->getProductID())?>" method="post" enctype="multipart/form-data">
