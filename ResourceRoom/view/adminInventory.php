@@ -1,9 +1,6 @@
 <?php
     $title = " Admin Inventory Page";
     require '../view/headerInclude.php';
-        echo '<pre>';
-        print_r($_SESSION);
-        echo  '</pre>';
 ?>
 <html>
 <body>

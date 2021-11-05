@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/shopperCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/shopperCasesInclude.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/navInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/navInclude.php" afterDir="false" />
+    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Bug Fixes">
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,7 +22,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Staging" />
+        <entry key="$PROJECT_DIR$" value="bbizzarri-resource-room" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -85,9 +82,7 @@
       <workItem from="1635164274358" duration="1163000" />
       <workItem from="1635167323295" duration="15201000" />
       <workItem from="1635982897080" duration="2343000" />
-      <workItem from="1636103101359" duration="1531000" />
-      <workItem from="1636112298067" duration="3870000" />
-      <workItem from="1636116226856" duration="2976000" />
+      <workItem from="1636103101359" duration="1502000" />
     </task>
     <task id="LOCAL-00001" summary="fixing merge conflict">
       <created>1631803451977</created>
@@ -250,28 +245,7 @@
       <option name="project" value="LOCAL" />
       <updated>1635985138491</updated>
     </task>
-    <task id="LOCAL-00024" summary="Bug fixes">
-      <created>1636104637040</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1636104637040</updated>
-    </task>
-    <task id="LOCAL-00025" summary="Even more bug fixes">
-      <created>1636115932083</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1636115932083</updated>
-    </task>
-    <task id="LOCAL-00026" summary="Even more bug fixes">
-      <created>1636117589056</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1636117589056</updated>
-    </task>
-    <option name="localTasksCounter" value="27" />
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -313,7 +287,6 @@
     <MESSAGE value="updated how category header gets set" />
     <MESSAGE value="Updating CSS and code cleanup" />
     <MESSAGE value="Bug fixes" />
-    <MESSAGE value="Even more bug fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Even more bug fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bug fixes" />
   </component>
 </project>
