@@ -334,8 +334,8 @@
         }
         else if(isset($_POST['CategoryList']))
         {
-            $CategoryList = $_POST['CategoryList'];
-            $CategoryHeader = getCategoryHeader($CategoryList);
+            $CategoryID = $_POST['CategoryList'];
+            $CategoryHeader = getCategoryHeader($CategoryID);
         }
         else if(!is_null($_SESSION['CategoryID']))
         {
