@@ -95,15 +95,15 @@
         {
             $errorMessage .= "\\n* Product name is required.";
         }
-        if(empty($QtyOnHand) || !is_numeric($QtyOnHand))
+        if(!is_numeric($QtyOnHand))
         {
             $errorMessage .= "\\n* Qty on hand is required and must be numeric.";
         }
-        if(empty($MaxOrderQty) || $MaxOrderQty < 0)
+        if($MaxOrderQty < 0)
         {
             $errorMessage .= "\\n* Max order quantity is required and must be greater than or equal to 0.";
         }
-        if(empty($GoalStock) || $GoalStock < 0)
+        if($GoalStock < 0)
         {
             $errorMessage .= "\\n* Goal stock is required and must be greater than or equal to 0.";
         }
@@ -334,8 +334,8 @@
         }
         else if(isset($_POST['CategoryList']))
         {
-            $CategoryList = $_POST['CategoryList'];
-            $CategoryHeader = getCategoryHeader($CategoryList);
+            $CategoryID = $_POST['CategoryList'];
+            $CategoryHeader = getCategoryHeader($CategoryID);
         }
         else if(!is_null($_SESSION['CategoryID']))
         {

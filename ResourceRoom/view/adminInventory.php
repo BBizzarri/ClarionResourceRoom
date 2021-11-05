@@ -35,8 +35,8 @@
                             <input type="checkbox" id="shoppingList" name="shoppingList" <?php if($_SESSION['ShoppingList']) echo "checked='checked'"; ?> />
                         </div>
                         <div class="filter-buttons">
-                            <a href="../controller/controller.php?action=adminInventory&ClearFilters=true" class="btn btn-primary filter-button" role="button">Clear</a>
-                            <input class="filter-button" type="submit" value="Apply"/>
+                            <a href="../controller/controller.php?action=adminInventory&ClearFilters=true" class="btn btn-secondary filter-button" role="button">Clear</a>
+                            <input class="btn btn-secondary filter-button" type="submit" value="Apply"/>
                         </div>
 
                         <hr class="sidebar-seperator">
