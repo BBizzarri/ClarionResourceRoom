@@ -171,8 +171,6 @@
                                             alt="..." data-toggle="modal" data-target="#productModal_<?php echo $product->getProductID()?>">
                                         </div>
                                     </div>
-
-
                                 </div>
                                 <div class="modal-footer" style="border-top: 1px solid #97824A;">
                                   <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

@@ -36,8 +36,19 @@
                                             <thead>
                                             <tr>
                                                 <th>Product Name</th>
-                                                <th>Description</th>
-                                                <th>Quantity Request</th>
+                                                    <?php
+                                                        $orderDescriptionFlag = False;
+                                                        foreach($order->getOrderDetails() as $orderDetail)
+                                                        {
+                                                            if($orderDetail->getProduct()->getProductDescription() != ""){
+                                                                $orderDescriptionFlag = True;
+                                                            }
+                                                        }
+                                                    ?>
+                                                    <?php if($orderDescriptionFlag):?>
+                                                        <th>Description</th>
+                                                    <?php endif;?>
+                                                <th>Quantity Requested</th>
                                                 <th>Quantity Filled</th>
                                             </tr>
                                             </thead>
@@ -46,7 +57,9 @@
                                                 ?>
                                                 <tr>
                                                     <td><?php echo htmlspecialchars($orderDetail->getProduct()->getProductName())?></td>
-                                                    <td><?php echo htmlspecialchars($orderDetail->getProduct()->getProductDescription())?></td>
+                                                    <?php if($orderDescriptionFlag):?>
+                                                        <td><?php echo htmlspecialchars($orderDetail->getProduct()->getProductDescription())?></td>
+                                                    <?php endif;?>
                                                     <td><?php echo htmlspecialchars($orderDetail->getQTYRequested())?></td>
                                                     <td><?php echo htmlspecialchars($orderDetail->getQTYFilled())?></td>
                                                 </tr>

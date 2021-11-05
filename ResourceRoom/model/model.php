@@ -263,7 +263,7 @@
             $statement->closeCursor();
             if($success)
             {
-
+                $_SESSION['itemsInCart'] = 0;
                 return $statement->rowCount();
             }
             else

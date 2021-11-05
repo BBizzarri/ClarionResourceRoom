@@ -3,13 +3,58 @@
   <component name="ChangeListManager">
     <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/shopperCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/shopperCasesInclude.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/css/main.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/model/model.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/navInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/navInclude.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/174.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/175.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/176.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/177.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/182.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/183.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/184.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/185.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/187.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/190.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/191.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/192.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/194.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/195.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/200.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/201.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/206.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/207.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/209.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/210.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/211.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/213.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/214.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/216.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/218.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/219.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/226.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/259.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/261.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/264.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/298.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/productImages/298.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/300.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/productImages/300.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/45.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/56.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/57.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/59.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/63.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/64.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/65.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/66.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/67.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/68.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/69.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/70.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/71.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/72.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/73.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/76.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/view/shopperCart.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/shopperCart.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/shopperOrders.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/shopperOrders.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +135,8 @@
       <workItem from="1635167323295" duration="15201000" />
       <workItem from="1635982897080" duration="2343000" />
       <workItem from="1636103101359" duration="1531000" />
-      <workItem from="1636112298067" duration="3575000" />
+      <workItem from="1636112298067" duration="3870000" />
+      <workItem from="1636116226856" duration="1333000" />
     </task>
     <task id="LOCAL-00001" summary="fixing merge conflict">
       <created>1631803451977</created>
@@ -260,7 +306,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636104637040</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Even more bug fixes">
+      <created>1636115932083</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1636115932083</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -302,6 +355,7 @@
     <MESSAGE value="updated how category header gets set" />
     <MESSAGE value="Updating CSS and code cleanup" />
     <MESSAGE value="Bug fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Bug fixes" />
+    <MESSAGE value="Even more bug fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Even more bug fixes" />
   </component>
 </project>

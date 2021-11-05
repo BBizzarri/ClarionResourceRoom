@@ -90,7 +90,9 @@
                                     <tr>
                                         <th>Product</th>
                                         <th>Quantity Requested</th>
+                                        <?php if(userIsAuthorized("adminInventory")):?>
                                         <th>Quantity Available</th>
+                                        <?php endif; ?>
                                     </tr>
                                     </thead>
                                         <?php
@@ -108,7 +110,9 @@
                                             <tr>
                                                 <td><?php echo htmlspecialchars($product->getProductName())?></td>
                                                 <td><?php echo htmlspecialchars($cartItem->getQTYRequested())?></td>
-                                                <td><?php echo htmlspecialchars($product->getProductQTYAvailable())?></td>
+                                                <?php if(userIsAuthorized("adminInventory")):?>
+                                                    <td><?php echo htmlspecialchars($product->getProductQTYAvailable())?></td>
+                                                <?php endif; ?>
                                             </tr>
 
                                 <?php
