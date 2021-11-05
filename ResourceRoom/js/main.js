@@ -1,15 +1,3 @@
-function generalSearch(){
-    var criteria = '';
-    criteria = $(`#Criteria`).val();
-    document.location="../controller/controller.php?action=shopperHome&ListType=GeneralSearch&Criteria=" + encodeURIComponent(criteria);
-}
-
-function generalSearchAdmin(){
-    var criteria = '';
-    criteria = $(`#AdminCriteria`).val();
-    document.location="../controller/controller.php?action=adminInventory&ListType=GeneralSearch&Criteria=" + encodeURIComponent(criteria);
-}
-
 function clearFilters(){
      document.getElementById("QtyLessThan").value = "";
      let inactiveItemsCheckbox = document.getElementById('inactiveItems');
@@ -20,7 +8,6 @@ function clearFilters(){
 }
 
 $('.my-select').selectpicker();
-
 
 function adjustSingleStock(ProductID) {
         let IncomingAmt = document.getElementById('incomingAmt_' + ProductID).value

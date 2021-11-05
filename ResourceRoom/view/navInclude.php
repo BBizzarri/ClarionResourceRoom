@@ -61,9 +61,9 @@
                         <?php } ?>
                     </ul>
             <?php if(userIsAuthorized("shopperHome")) { ?>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="text" id="Criteria" placeholder="Search" aria-label="Search">
-                    <input class="btn my-2 my-sm-0" id="searchButton" type="button" value="Search" onclick="generalSearch();"/>
+                <form id = "navSearchForm" class="form-inline my-2 my-lg-0" action="../controller/controller.php?action=shopperHome&ListType=GeneralSearch" method="post" enctype="multipart/form-data">
+                    <input class="form-control mr-sm-2" type="text" id="searchCriteria" name="searchCriteria" placeholder="Search" aria-label="Search">
+                    <input class="btn my-2 my-sm-0" id="searchButton" type="submit" value="Search"/>
                 </form>
             <?php } ?>
             <div class="dropdown account-dropdown">
