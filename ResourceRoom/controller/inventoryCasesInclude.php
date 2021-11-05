@@ -342,6 +342,10 @@
             $CategoryID = $_SESSION['CategoryID'];
             $CategoryHeader = getCategoryHeader($_SESSION['CategoryID']);
         }
+        else{
+            $CategoryID = [];
+            $CategoryHeader = 'All';
+        }
         if(isset($_POST['QtyLessThan']))
         {
             $QtyLessThan = $_POST['QtyLessThan'];
