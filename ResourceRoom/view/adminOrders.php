@@ -134,7 +134,17 @@
                                 <thead>
                                 <tr>
                                     <th>Product Name</th>
-                                    <th>Description</th>
+                                    <?php
+                                        $orderDescriptionFlag = False;
+                                        foreach($order->getOrderDetails() as $orderDetail){
+                                            if($orderDetail->getProduct()->getProductDescription() != ""){
+                                                $orderDescriptionFlag = True;
+                                            }
+                                        }
+                                    ?>
+                                    <?php if($orderDescriptionFlag): ?>
+                                        <th>Description</th>
+                                    <?php endif; ?>
                                     <th>Quantity Requested</th>
                                     <th>Quantity Filled</th>
                                 </tr>
@@ -145,7 +155,9 @@
                                     ?>
                                     <tr>
                                         <td><?php echo htmlspecialchars($orderDetail->getProduct()->getProductName())?></td>
-                                        <td><?php if($orderDetail->getProduct()->getProductDescription() != '') {echo htmlspecialchars($orderDetail->getProduct()->getProductDescription());}?></td>
+                                        <?php if($orderDescriptionFlag): ?>
+                                            <td><?php echo htmlspecialchars($orderDetail->getProduct()->getProductDescription());?></td>
+                                        <?php endif; ?>
                                         <td><?php echo htmlspecialchars($orderDetail->getQTYRequested())?></td>
                                     <?php if($order->getOrderStatus() == "SUBMITTED"): ?>
                                         <td><input type="number" min="0" name="<?php echo $orderDetail->getProductID()?>" value="<?php echo htmlspecialchars($orderDetail->getQTYRequested())?>" required/></td>
@@ -154,12 +166,19 @@
                                     <?php endif; ?>
                                     </tr>
                                 <?php   } ?>
-                                <?php if($order->getOrderComment() != " "): ?>
+                                <?php if($order->getOrderComment() != ""): ?>
                                     <tr>
                                         <td>
                                             <h5>Comments:</h5>
                                         </td>
-                                        <td colspan="3">
+                                        <td
+                                        <?php if($orderDescriptionFlag){
+                                            echo 'colspan="3"';
+                                        }else{
+                                            echo 'colspan="2"';
+                                        }
+                                        ?>
+                                        >
                                             <p><?php echo htmlspecialchars($order->getOrderComment())?></p>
                                         </td>
                                     </tr>
