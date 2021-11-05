@@ -239,10 +239,6 @@
 
     function processStockAdjust()
     {
-                echo '<pre>';
-                print_r($_SESSION);
-                echo  '</pre>';
-
         if($_GET['Type'] == 'bulk')
         {
             $IncomingAmtArray = $_POST;
