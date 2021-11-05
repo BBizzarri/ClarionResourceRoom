@@ -16,7 +16,7 @@ function clearFilters(){
      inactiveItemsCheckbox.checked = false;
      let stockedItemsCheckbox = document.getElementById('stockedItems');
      stockedItemsCheckbox.checked = false;
-     document.location="../controller/controller.php?action=adminInventory&Display=All";
+     document.location="../controller/controller.php?action=adminInventory&CategoryMode=true";
 }
 
 $('.my-select').selectpicker();

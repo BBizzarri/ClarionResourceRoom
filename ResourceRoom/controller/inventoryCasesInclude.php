@@ -99,14 +99,14 @@
         {
             $errorMessage .= "\\n* Qty on hand is required and must be numeric.";
         }
-//         if(empty($MaxOrderQty) || !is_numeric($MaxOrderQty))
-//         {
-//             $errorMessage .= "\\n* Max order quantity is required and must be numeric.";
-//         }
-//         if(empty($GoalStock) || !is_numeric($GoalStock))
-//         {
-//             $errorMessage .= "\\n* Goal stock is required and must be numeric.";
-//         }
+        if(empty($MaxOrderQty) || $MaxOrderQty < 0)
+        {
+            $errorMessage .= "\\n* Max order quantity is required and must be greater than or equal to 0.";
+        }
+        if(empty($GoalStock) || $GoalStock < 0)
+        {
+            $errorMessage .= "\\n* Goal stock is required and must be greater than or equal to 0.";
+        }
         if($errorMessage == "")
         {
             if($ProductMode == 'Add')
@@ -239,6 +239,10 @@
 
     function processStockAdjust()
     {
+                echo '<pre>';
+                print_r($_SESSION);
+                echo  '</pre>';
+
         if($_GET['Type'] == 'bulk')
         {
             $IncomingAmtArray = $_POST;
@@ -256,7 +260,8 @@
             $ProductID = $_GET['ProductID'];
             $rowsAffected = updateQTY($ProductID, $IncomingAmt);
         }
-        header("Location: {$_SERVER['HTTP_REFERER']}");
+//         header("Location: {$_SERVER['HTTP_REFERER']}");
+        showInventory();
     }
 
     function shopperPage(){
@@ -280,24 +285,74 @@
 
     function showInventory()
     {
-        $CategoryArray = getAllCategories();
-        $InactiveItems = isset($_POST['inactiveItems']);
-        $StockedItems = isset($_POST['stockedItems']);
-        $ShoppingList = isset($_POST['shoppingList']);
-        if(isset($_POST['CategoryList']))
+        if(isset($_GET['ClearFilters']))
         {
-            $CategoryList = $_POST['CategoryList'];
-            $CategoryID = $CategoryList;
-            $CategoryHeader = getCategoryHeader($CategoryID);
+            $_SESSION['CategoryID'] = [];
+            $_SESSION['QtyLessThan'] = null;
+            $_SESSION['InactiveItems'] = null;
+            $_SESSION['StockedItems'] = null;
+            $_SESSION['ShoppingList'] = null;
+            $_SESSION['SearchTerm'] = null;
+            $CategoryMode = true;
+        }
+        if(isset($_GET['CategoryMode']))
+        {
+            $CategoryMode = true;
         }
         else
+        {
+            $CategoryMode = false;
+        }
+        $CategoryArray = getAllCategories();
+        if(isset($_POST['inactiveItems']))
+        {
+            $InactiveItems = $_POST['inactiveItems'];
+
+        }
+        else
+        {
+            $InactiveItems = $_SESSION['InactiveItems'];
+        }
+        if(isset($_POST['stockedItems']))
+        {
+            $StockedItems = $_POST['stockedItems'];
+
+        }
+        else
+        {
+            $StockedItems = $_SESSION['StockedItems'];
+        }
+        if(isset($_POST['shoppingList']))
+        {
+            $ShoppingList = $_POST['shoppingList'];
+
+        }
+        else
+        {
+            $ShoppingList = $_SESSION['ShoppingList'];
+        }
+        if($CategoryMode)
         {
             $CategoryID = [];
             $CategoryHeader = 'All';
         }
+        else if(isset($_POST['CategoryList']))
+        {
+            $CategoryList = $_POST['CategoryList'];
+            $CategoryHeader = getCategoryHeader($CategoryList);
+        }
+        else if(!is_null($_SESSION['CategoryID']))
+        {
+            $CategoryID = $_SESSION['CategoryID'];
+            $CategoryHeader = getCategoryHeader($_SESSION['CategoryID']);
+        }
         if(isset($_POST['QtyLessThan']))
         {
             $QtyLessThan = $_POST['QtyLessThan'];
+        }
+        else if(!is_null($_SESSION['QtyLessThan']))
+        {
+            $QtyLessThan = $_SESSION['QtyLessThan'];
         }
         else
         {
@@ -307,12 +362,22 @@
         {
             $SearchTerm = $_POST['adminSearchCriteria'];
         }
+        else if(!is_null($_SESSION['SearchTerm']))
+        {
+            $SearchTerm = $_SESSION['SearchTerm'];
+        }
         else
         {
             $SearchTerm = '';
         }
         $info = getProducts($CategoryID,$QtyLessThan,$InactiveItems,$StockedItems,$ShoppingList,$SearchTerm);
         $ProductArray = $info[0];
+        $_SESSION['CategoryID'] = $CategoryID;
+        $_SESSION['QtyLessThan'] = $QtyLessThan;
+        $_SESSION['InactiveItems'] = $InactiveItems;
+        $_SESSION['StockedItems'] = $StockedItems;
+        $_SESSION['ShoppingList'] = $ShoppingList;
+        $_SESSION['SearchTerm'] = $SearchTerm;
         include '../view/adminInventory.php';
     }
 ?>
