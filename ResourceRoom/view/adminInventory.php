@@ -7,7 +7,7 @@
     <section class="clarion-blue">
         <div class="container-fluid">
             <div class ="row">
-                <div class="col-lg-2 hidden-xs sidebar">
+                <div class="col-auto sidebar">
                    <form id="filterForm" action="../controller/controller.php?action=adminInventory" method="post" enctype="multipart/form-data">
                         <div class="sidebar-elements">
                               <div class="sidebar-search-div">
@@ -56,7 +56,7 @@
                         </div>
                 </div>
                   </form>
-                      <div class="col-lg-10 col-xs-12">
+                      <div class="col-auto">
                         <div class="container-fluid">
                             <!--<div class=" clarion-white table-heading table-heading-category">-->
 
