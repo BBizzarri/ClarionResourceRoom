@@ -186,7 +186,8 @@ INSERT INTO functions (Name,Description) VALUES ('addEditProduct','Creates a new
                                                 ('shopperRemoveFromCart','Removes a product from an users cart in cart table'),
                                                 ('shopperSubmitOrder','Creates an order for users based off of users cart'),
                                                 ('accountSettings','Allows User to view their account settings'),
-                                                ('addEditCategory','Allows User to add, edit or delete a category');
+                                                ('addEditCategory','Allows User to add, edit or delete a category'),
+                                                ('updateEmailAnnouncementSettings','Allows user to update email and announcement settings');
 
 
 
@@ -254,7 +255,8 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,30),
                                                      (1,34),
                                                      (1,35),
                                                      (1,36),
-                                                     (1,37);
+                                                     (1,37),
+                                                     (1,38);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,25),
                                                      (2,26),
@@ -301,7 +303,8 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (3,1),
                                                      (3,34),
                                                      (3,35),
                                                      (3,36),
-                                                     (3,37);
+                                                     (3,37),
+                                                     (3,38);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,20),
                                                      (4,24),
