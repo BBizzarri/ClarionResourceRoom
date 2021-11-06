@@ -58,7 +58,6 @@ hr {width: 50px; color: #97824A}
 }
 
 .account-settings-label{
-    width: 200px;
     font-size: 25px;
 }
 
@@ -66,7 +65,23 @@ hr {width: 50px; color: #97824A}
     font-size: 35px;
 }
 
+.margin-bottom {
+    margin-bottom: 30px;
+}
+
+.account-settings-card {
+    margin-top: 30px;
+}
+
+.account-settings-card-body {
+    padding-left:20px;
+}
+
 .productImg{
     border: 2px solid #555;
+}
+
+.vertical-align {
+    vertical-align: middle;
 }
 

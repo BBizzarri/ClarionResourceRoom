@@ -44,17 +44,18 @@
         $CategoryMode = $_GET['categoryMode'];
         $CategoryName = $_POST['CatName'];
         $errorMessage = '';
-        if(empty($CategoryName))
+        if($CategoryName == '')
         {
-            $errorMessage .= "\\n* Category name is required.";
+             $errorMessage .= "\\n* A Category name is required.";
         }
         if($errorMessage == "")
         {
             if($CategoryMode == 'Add')
             {
+
                 $CategoryID = addCategory($CategoryName);
             }
-            else
+            else if($CategoryMode == 'edit')
             {
                $CategoryID = $_POST['CategoryID'];
                $rowsAffected = updateCategory($CategoryID, $CategoryName);

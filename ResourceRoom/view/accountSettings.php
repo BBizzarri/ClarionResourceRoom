@@ -4,34 +4,74 @@
 ?>
 <html>
 <body>
-    <section class="clarion-blue clarion-white">
-        <label class="account-settings-heading">My Account</label>
-        <div>
-            <label class="account-settings-label">Name:</label>
-            <label class="account-settings-label">Brady Bizzarri</label>
-        </div>
-        <div>
-            <label class="account-settings-label">Phone Number:</label>
-            <label class="account-settings-label">814-553-4715</label>
-        </div>
-        <div>
-            <label class="account-settings-label">Email:</label>
-            <label class="account-settings-label">b.m.bizzarri@eagle.clarion.edu</label>
-        </div>
-        <?php if(userIsAuthorized("addEditCategory")) { ?>
-            <label class="account-settings-heading">Category Settings</label>
-                <div>
-                    <select name="categoriesEdit" size="<?php echo count($CategoryArray)?>">
-                        <?php foreach ($CategoryArray as $category) { ?>
-                            <option id="<?php echo htmlspecialchars($category->getCategoryID()) ?>" ondblclick="openEditModal(<?php echo htmlspecialchars($category->getCategoryID()) ?>)" value="<?php echo htmlspecialchars($category->getCategoryID()) ?>"><?php echo htmlspecialchars($category->getCategoryDescription()) ?></option>
-                        <?php } ?>
-                    </select>
-                    <input type="button" value="Add Category" data-toggle="modal" data-target="#add_categoryModal">
-                    <input type="button" value="Delete Category">
-                </div>
-            <label class="account-settings-heading">Email Settings</label>
-        <?php } ?>
+    <section class="clarion-blue">.
+         <div class="container-fluid">
+                    <div class ="row">
+                        <div class="col-12">
+                            <div class="container-fluid">
+                                  <div class="card account-settings-card">
+                                    <div class="card-body clarion-blue">
+                                      <h4 id="accountSettings" class="card-title clarion-white">My Account</h4>
+                                    </div>
+                                    <div class="account-settings-card-body account-settings-card">
+                                      <label class="account-settings-label">Name:</label>
+                                      <label class="account-settings-label">Brady Bizzarri</label>
+                                    </div>
+                                    <div class="account-settings-card-body">
+                                      <label class="account-settings-label">Phone Number:</label>
+                                      <label class="account-settings-label">814-553-4715</label>
+                                    </div>
+                                    <div class="account-settings-card-body">
+                                      <label class="account-settings-label">Email:</label>
+                                      <label class="account-settings-label">b.m.bizzarri@eagle.clarion.edu</label>
+                                    </div>
+                                  </div>
+                                <?php if(userIsAuthorized("addEditCategory")) { ?>
+                                    <div class="card account-settings-card">
+                                        <div class="card-body clarion-blue">
+                                            <label id="categorySettings" class="account-settings-heading clarion-white">Category Settings</label>
+                                        </div>
+                                        <div class="account-settings-card-body account-settings-card">
+                                            <ul class="a">
+                                                <?php foreach ($CategoryArray as $category) { ?>
+                                                    <li><a class="color-black" id="<?php echo htmlspecialchars($category->getCategoryID()) ?>" href="#" data-toggle="modal" data-target="#edit_categoryModal_<?php echo htmlspecialchars($category->getCategoryID()) ?>" value="<?php echo htmlspecialchars($category->getCategoryID()) ?>"><?php echo htmlspecialchars($category->getCategoryDescription()) ?></a></li>
+                                                <?php } ?>
+                                            </ul>
+                                            <input type="button" value="Add Category" data-toggle="modal" data-target="#add_categoryModal">
+                                        </div>
+                                    </div>
+                                    <div class="card account-settings-card">
+                                        <div class="card-body clarion-blue">
+                                            <label id="emailSettings" class="account-settings-heading clarion-white">Email Settings</label>
+                                        </div>
+                                        <div class="account-settings-card account-settings-card-body">
+                                            <label for="w3review">Announcement that will appear in footer:</label>
+                                            <textarea class="vertical-align" id="w3review" name="w3review" rows="4" cols="50"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="card account-settings-card margin-bottom">
+                                        <div class="card-body clarion-blue">
+                                            <label id="announcementSettings" class="account-settings-heading clarion-white">Announcement Settings</label>
+                                        </div>
+                                        <div class="account-settings-card account-settings-card-body">
+                                            <label for="w3review">Announcement that will appear in footer:</label>
+                                            <textarea class="vertical-align" id="w3review" name="w3review" rows="4" cols="50"></textarea>
+                                        </div>
+                                          <br><br>
+                                          <!--<input type="submit" value="Submit">-->
+                                    </div>
+
+                                <?php } ?>
+                            </div>
+                        </div>
+         </div>
     </section>
+
+
+
+
+
+
 
 
 
