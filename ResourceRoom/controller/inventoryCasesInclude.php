@@ -37,6 +37,9 @@
         case 'processStockAdjust':
             processStockAdjust();
             break;
+        case 'updateEmailAnnouncementSettings':
+            updateEmailAnnouncementSettings();
+            break;
     }
 
     function addEditCategory()
@@ -44,17 +47,18 @@
         $CategoryMode = $_GET['categoryMode'];
         $CategoryName = $_POST['CatName'];
         $errorMessage = '';
-        if(empty($CategoryName))
+        if($CategoryName == '')
         {
-            $errorMessage .= "\\n* Category name is required.";
+             $errorMessage .= "\\n* A Category name is required.";
         }
         if($errorMessage == "")
         {
             if($CategoryMode == 'Add')
             {
+
                 $CategoryID = addCategory($CategoryName);
             }
-            else
+            else if($CategoryMode == 'edit')
             {
                $CategoryID = $_POST['CategoryID'];
                $rowsAffected = updateCategory($CategoryID, $CategoryName);
@@ -270,6 +274,8 @@
 
     function showAccountSettings() {
         $CategoryArray = getAllCategories();
+        $SettingsInfo = getAllSettingsInfo();
+        console_log($SettingsInfo);
         include '../view/accountSettings.php';
     }
 
@@ -312,7 +318,6 @@
         if(isset($_POST['stockedItems']))
         {
             $StockedItems = $_POST['stockedItems'];
-
         }
         else
         {
@@ -379,5 +384,16 @@
         $_SESSION['ShoppingList'] = $ShoppingList;
         $_SESSION['SearchTerm'] = $SearchTerm;
         include '../view/adminInventory.php';
+    }
+
+    function updateEmailAnnouncementSettings()
+    {
+        $ReceiversPlaced = $_POST['ReceiversPlaced'];
+        $ReceiversFilled = $_POST['ReceiversFilled'];
+        $EmailTextPlaced = $_POST['EmailTextPlaced'];
+        $EmailTextFilled = $_POST['EmailTextFilled'];
+        $FooterAnnouncement = $_POST['Announcement'];
+        $SettingAffected = UpdateSettings($ReceiversPlaced, $ReceiversFilled, $EmailTextPlaced, $EmailTextFilled, $FooterAnnouncement);
+        header("Location: {$_SERVER['HTTP_REFERER']}");
     }
 ?>
