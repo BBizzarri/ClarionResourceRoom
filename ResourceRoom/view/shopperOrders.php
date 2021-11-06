@@ -22,11 +22,11 @@
             ?>
                     <tr data-toggle="collapse" data-target="#orderDetails_<?php echo $order->getOrderID()?>" class="accordion-toggle clarion-white">
                         <td><?php echo htmlspecialchars($order->getOrderStatus())?></td>
-                        <td><?php echo htmlspecialchars($order->getOrderDateOrdered())?></td>
-                        <td><?php echo htmlspecialchars($order->getOrderDateFilled())?></td>
-                        <td><?php echo htmlspecialchars($order->getOrderDateCompleted())?></td>
+                        <td><?php $dateOrdered = new DateTime(htmlspecialchars($order->getOrderDateOrdered())); echo $dateOrdered->format('m/d/Y');?></td>
+                        <td><?php if($order->getOrderDateFilled() != '0000-00-00'){ $dateOrderFilled = new DateTime(htmlspecialchars($order->getOrderDateFilled())); echo $dateOrderFilled->format('m/d/Y');}?></td>
+                        <td><?php if($order->getOrderDateCompleted() != '0000-00-00'){ $dateOrderCompleted = new DateTime(htmlspecialchars($order->getOrderDateCompleted())); echo $dateOrderCompleted->format('m/d/Y');}?></td>
                         <td><?php echo htmlspecialchars($order->getOrderSize())?></td>
-                        <td><?php echo htmlspecialchars($order->getOrderComment())?></td>
+                        <td style="text-align: left;"><?php echo htmlspecialchars($order->getOrderComment())?></td>
                     </tr>
                     <tr class="color-black">
                         <td colspan="6" class="hiddenRow">

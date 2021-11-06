@@ -95,7 +95,7 @@
                         <table class="clarion-white">
                         <tr>
                             <th>Product</th>
-                            <th>On Hand <?php if(isset($_POST['QtyLessThan']) && $_POST['QtyLessThan'] != ''){ echo '<' . ' ' . $_POST['QtyLessThan'];}?></th>
+                            <th>On Hand <?php if($_SESSION['QtyLessThan'] != null){ echo '<' . ' ' . $_SESSION['QtyLessThan'];}?></th>
                             <th>Goal Stock</th>
                             <th>Incoming</th>
                           </tr>

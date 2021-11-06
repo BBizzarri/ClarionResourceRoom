@@ -37,6 +37,9 @@
         case 'processStockAdjust':
             processStockAdjust();
             break;
+        case 'updateEmailAnnouncementSettings':
+            updateEmailAnnouncementSettings();
+            break;
     }
 
     function addEditCategory()
@@ -271,6 +274,8 @@
 
     function showAccountSettings() {
         $CategoryArray = getAllCategories();
+        $SettingsInfo = getAllSettingsInfo();
+        console_log($SettingsInfo);
         include '../view/accountSettings.php';
     }
 
@@ -313,7 +318,6 @@
         if(isset($_POST['stockedItems']))
         {
             $StockedItems = $_POST['stockedItems'];
-
         }
         else
         {
@@ -380,5 +384,16 @@
         $_SESSION['ShoppingList'] = $ShoppingList;
         $_SESSION['SearchTerm'] = $SearchTerm;
         include '../view/adminInventory.php';
+    }
+
+    function updateEmailAnnouncementSettings()
+    {
+        $ReceiversPlaced = $_POST['ReceiversPlaced'];
+        $ReceiversFilled = $_POST['ReceiversFilled'];
+        $EmailTextPlaced = $_POST['EmailTextPlaced'];
+        $EmailTextFilled = $_POST['EmailTextFilled'];
+        $FooterAnnouncement = $_POST['Announcement'];
+        $SettingAffected = UpdateSettings($ReceiversPlaced, $ReceiversFilled, $EmailTextPlaced, $EmailTextFilled, $FooterAnnouncement);
+        header("Location: {$_SERVER['HTTP_REFERER']}");
     }
 ?>

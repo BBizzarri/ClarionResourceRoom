@@ -384,6 +384,17 @@
             }
     }
 
+    function getAllSettingsInfo()
+    {
+        $db = getDBConnection();
+        $query = "SELECT * from setting";
+        $statement = $db->prepare($query);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+        return $result;
+    }
+
     function getCart($USERID)
     {
         try{
@@ -480,6 +491,7 @@
             }
             $queryText .= " order by productview.NAME";
             $query = $queryText;
+            console_log($query);
             $db = getDBConnection();
             $statement = $db->prepare($query);
             if($QTYLessThan != ""){
@@ -697,7 +709,29 @@
        {
            logSQLError($statement->errorInfo());
        }
-    }
+   }
+
+   function UpdateSettings($ReceiversPlaced, $ReceiversFilled, $EmailTextPlaced, $EmailTextFilled, $FooterAnnouncement)
+   {
+       $db = getDBConnection();
+       $query = 'UPDATE setting SET EmailOrderReceived = :EmailOrderReceived, EmailOrderFilled = :EmailOrderFilled, OrderReceivedText = :OrderReceivedText, OrderFilledText = :OrderFilledText, FooterText = :FooterText WHERE SETTINGID = 1';
+       $statement = $db->prepare($query);
+       $statement->bindValue(':EmailOrderReceived', $ReceiversPlaced);
+       $statement->bindValue(':EmailOrderFilled', $ReceiversFilled);
+       $statement->bindValue(':OrderReceivedText', $EmailTextPlaced);
+       $statement->bindValue(':OrderFilledText', $EmailTextFilled);
+       $statement->bindValue(':FooterText', $FooterAnnouncement);
+       $success = $statement->execute();
+       $statement->closeCursor();
+       if($success)
+       {
+           return $statement->rowCount();
+       }
+       else
+       {
+           logSQLError($statement->errorInfo());
+       }
+   }
 
     function console_log( $data ){
       echo '<script>';
