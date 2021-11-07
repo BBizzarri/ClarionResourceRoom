@@ -42,8 +42,8 @@
                                         <h4 class="card-title"><?php echo htmlspecialchars($product->getProductName())?></h4>
                                         <?php if($product->getProductDescription() != ""): ?>
                                             <div>
-                                                <button type="button" class="btn btn-light" data-toggle="modal" data-target="#modal_<?php echo $product->getProductID()?>">
-                                                    Description
+                                                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modal_<?php echo $product->getProductID()?>">
+                                                    Description...
                                                 </button>
                                             </div>
                                             <!-- Modal -->

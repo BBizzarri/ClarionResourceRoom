@@ -85,10 +85,6 @@
             $ProductID = $_POST['ProductID'];
             $ProductCategories = $_POST['CategoriesEdit'];
         }
-        else
-        {
-
-        }
         $QtyOnHand = $_POST['QtyOnHand'];
         $MaxOrderQty = $_POST['MaxOrderQty'];
         $GoalStock = $_POST['GoalStock'];
@@ -287,6 +283,9 @@
 
     function showInventory()
     {
+        echo '<pre>';
+        print_r($_POST);
+        echo  '</pre>';
         if(isset($_GET['ClearFilters']))
         {
             $_SESSION['CategoryID'] = [];
