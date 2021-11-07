@@ -38,10 +38,11 @@
         $SettingsInfo = getAllSettingsInfo();
         $listType = filter_input(INPUT_GET, 'ListType');
         $CategoryArray = getAllCategories();
+
         if($listType =='GeneralSearch' && isset($_POST['searchCriteria'])){
-            $info = getProducts([],'',$IncludeInactiveItems = false,$HideUnstockedItems = false,$ShoppingList = false,$_POST['searchCriteria']);
+            $info = getProducts([],'',$IncludeInactiveItems = false,$HideUnstockedItems = false,$ShoppingList = false,htmlspecialchars($_POST['searchCriteria']));
             $ProductArray = $info[0];
-            $CurrentCategory = "Related To: " . $_POST['searchCriteria'];
+            $CurrentCategory = "Related To: " . htmlspecialchars($_POST['searchCriteria']);
         }else if (isset($_GET['CATEGORYID'])) {
             $shopperCategoryID = $_GET['CATEGORYID'];
             $CurrentCategory = getCategoryHeader([$shopperCategoryID]);
@@ -56,7 +57,7 @@
         $CategoryHeader = $CurrentCategory;
             if ($ProductArray == false)
             {
-                $errorMessage = 'No items relevent to: ' . $_POST['searchCriteria'];
+                $errorMessage = 'No items relevent to: ' . htmlspecialchars($_POST['searchCriteria']);
                 include '../view/errorPage.php';
             }
                else

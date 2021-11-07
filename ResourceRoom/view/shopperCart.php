@@ -104,7 +104,7 @@
                                         foreach ($cart->getProductsInCart() as $cartItem)
                                         {
                                         $product = $cartItem->getProductObject();
-                                        if($cartError == FALSE and ($cartItem->getQTYRequested() <=$product->getProductQTYAvailable())){
+                                        if($cartError == FALSE and ($cartItem->getQTYRequested() <= $product->getProductQTYAvailable() and $cartItem->getQTYRequested()>0)){
                                             $cartError = FALSE;
                                         }
                                         else{
