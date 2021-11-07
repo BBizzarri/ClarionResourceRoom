@@ -27,7 +27,7 @@
 
 </head>
 <body>
-<div class="container-fluid">
+<div class="h-100">
     <header class="center">
         <h1>Resource Room</h1>
     </header>
