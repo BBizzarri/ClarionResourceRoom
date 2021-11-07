@@ -172,7 +172,7 @@
                                             <img <?php if(file_exists("../productImages/{$product->getProductID()}.jpg")):?>
                                                     src="../productImages/<?php echo($product->getProductID())?>.jpg"
                                                  <?php else :?>
-                                                    src="https://dummyimage.com/256x256/000/fff.jpg"
+                                                    src="../productImages/ImageNotAvailable.jpg"
                                                  <?php endif ;?>
                                             alt="..." data-toggle="modal" data-target="#productModal_<?php echo $product->getProductID()?>">
                                         </div>

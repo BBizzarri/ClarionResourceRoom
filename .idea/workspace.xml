@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
+    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Bug fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/shopperCart.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/shopperCart.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -275,7 +276,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636302590167</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="Bug fixes">
+      <created>1636303239752</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1636303239752</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -316,10 +324,10 @@
     <MESSAGE value="admin Inventory page touch up" />
     <MESSAGE value="updated how category header gets set" />
     <MESSAGE value="Updating CSS and code cleanup" />
-    <MESSAGE value="Bug fixes" />
     <MESSAGE value="Taking print_r out" />
     <MESSAGE value="Bug Fixes" />
     <MESSAGE value="Pictures" />
-    <option name="LAST_COMMIT_MESSAGE" value="Pictures" />
+    <MESSAGE value="Bug fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bug fixes" />
   </component>
 </project>
