@@ -10,19 +10,19 @@
                     <ul id="navigation" class="navbar-nav mr-auto">
                         <?php if(userIsAuthorized("shopperHome")) { ?>
                             <li class="nav-item">
-                                <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'shopperHome')){ echo active;}?>" href="../controller/controller.php?action=shopperHome">Resource Room</a>
+                                <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'shopperHome')){ echo 'active';}?>" href="../controller/controller.php?action=shopperHome">Resource Room</a>
                             </li>
                         <?php } ?>
 
                         <?php if(userIsAuthorized("shopperCart")) { ?>
                             <li class="nav-item">
-                                <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'shopperCart')){ echo active;}?>" href="../controller/controller.php?action=shopperCart">Cart (<?php if(isset($_SESSION['itemsInCart'])){ echo($_SESSION['itemsInCart']);} else { echo("0");} ?>)</a>
+                                <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'shopperCart')){ echo 'active';}?>" href="../controller/controller.php?action=shopperCart">Cart (<?php if(isset($_SESSION['itemsInCart'])){ echo($_SESSION['itemsInCart']);} else { echo("0");} ?>)</a>
                             </li>
                         <?php } ?>
 
                         <?php if(userIsAuthorized("shopperOrders")) { ?>
                             <li class="nav-item">
-                                <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'shopperOrders') || strpos($_SERVER['REQUEST_URI'], 'shopperSubmitOrder')){ echo active;}?>" href="../controller/controller.php?action=shopperOrders">Orders</a>
+                                <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'shopperOrders') || strpos($_SERVER['REQUEST_URI'], 'shopperSubmitOrder')){ echo 'active';}?>" href="../controller/controller.php?action=shopperOrders">Orders</a>
                             </li>
                         <?php } ?>
 
@@ -32,31 +32,31 @@
 
                         <?php if(userIsAuthorized("adminOrders")) { ?>
                             <li class="nav-item">
-                                <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'adminOrders')){ echo active;}?>" href="../controller/controller.php?action=adminOrders">Orders<span class="sr-only">(current)</span></a>
+                                <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'adminOrders')){ echo 'active';}?>" href="../controller/controller.php?action=adminOrders">Orders<span class="sr-only">(current)</span></a>
                             </li>
                         <?php } ?>
 
                         <?php if(userIsAuthorized("adminInventory")) { ?>
                             <li class="nav-item">
-                                <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'adminInventory')){ echo active;}?>" href="../controller/controller.php?action=adminInventory&CategoryMode=true">Inventory<span class="sr-only"></span></a>
+                                <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'adminInventory')){ echo 'active';}?>" href="../controller/controller.php?action=adminInventory&CategoryMode=true">Inventory<span class="sr-only"></span></a>
                             </li>
                         <?php } ?>
 
                         <?php if(userIsAuthorized("adminReports")) { ?>
                             <li class="nav-item">
-                                <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'adminReports')){ echo active;}?>" href="../controller/controller.php?action=adminReports">Reports<span class="sr-only"></span></a>
+                                <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'adminReports')){ echo 'active';}?>" href="../controller/controller.php?action=adminReports">Reports<span class="sr-only"></span></a>
                             </li>
                         <?php } ?>
 
                         <?php if(userIsAuthorized("adminShoppingList")) { ?>
                             <li class="nav-item">
-                                <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'adminShoppingList')){ echo active;}?>" href="../controller/controller.php?action=adminShoppingList">Shopping List<span class="sr-only"></span></a>
+                                <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'adminShoppingList')){ echo 'active';}?>" href="../controller/controller.php?action=adminShoppingList">Shopping List<span class="sr-only"></span></a>
                             </li>
                         <?php } ?>
 
                         <?php if(userIsAuthorized("adminSecurity")) { ?>
                             <li class="nav-item">
-                                <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'adminSecurity')){ echo active;}?>" href="../controller/controller.php?action=adminSecurity">Security<span class="sr-only"></span></a>
+                                <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'adminSecurity')){ echo 'active';}?>" href="../controller/controller.php?action=adminSecurity">Security<span class="sr-only"></span></a>
                             </li>
                         <?php } ?>
                             <!--<li class="nav-item">
