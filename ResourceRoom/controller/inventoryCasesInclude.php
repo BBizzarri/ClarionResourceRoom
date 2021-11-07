@@ -34,6 +34,9 @@
         case 'adminShoppingList':
             shopperPage();
             break;
+        case 'mobileAdd':
+            mobileAdd();
+            break;
         case 'processStockAdjust':
             processStockAdjust();
             break;
@@ -237,6 +240,12 @@
         header("Location: {$_SERVER['HTTP_REFERER']}");
     }
 
+    function mobileAdd()
+    {
+        $CategoryArray = getAllCategories();
+        include '../view/addNewItemMobile.php';
+    }
+
     function processStockAdjust()
     {
         if($_GET['Type'] == 'bulk')
@@ -276,6 +285,7 @@
     }
 
     function showAdminOrders(){
+        $SettingsInfo = getAllSettingsInfo();
         $USERID = getUserID();
         $AllOrders = getAdminOrders();
         include '../view/adminOrders.php';
@@ -283,6 +293,7 @@
 
     function showInventory()
     {
+        $SettingsInfo = getAllSettingsInfo();
         if(isset($_GET['ClearFilters']))
         {
             $_SESSION['CategoryID'] = [];
@@ -304,8 +315,8 @@
         $CategoryArray = getAllCategories();
         if(isset($_POST['inactiveItems']))
         {
+            console_log($_POST['inactiveItems']);
             $InactiveItems = $_POST['inactiveItems'];
-
         }
         else if(isset($_SESSION['InactiveItems']))
         {

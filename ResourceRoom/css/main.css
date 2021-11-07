@@ -86,3 +86,7 @@ hr {width: 50px; color: #97824A}
     vertical-align: middle;
 }
 
+ul#navigation .active {
+  font-weight: bold;
+}
+

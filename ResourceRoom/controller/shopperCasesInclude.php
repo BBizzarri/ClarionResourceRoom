@@ -27,6 +27,7 @@
     }
 
     function displayShopperOrders(){
+        $SettingsInfo = getAllSettingsInfo();
         $USERID = getUserID();
         $orders = getOrderIDsByUSERID($USERID);
         include '../view/shopperOrders.php';
@@ -34,6 +35,7 @@
 
     function displayProducts()
     {
+        $SettingsInfo = getAllSettingsInfo();
         $listType = filter_input(INPUT_GET, 'ListType');
         $CategoryArray = getAllCategories();
         if($listType =='GeneralSearch'){
@@ -67,6 +69,7 @@
     }
     function displayCart()
     {
+        $SettingsInfo = getAllSettingsInfo();
         $USERID = getUserID();
         $cart = getCart($USERID);
         $_SESSION['itemsInCart'] = $cart->getNumberOfItemsInCart();
@@ -75,6 +78,7 @@
 
     function processAddToCart()
     {
+        $SettingsInfo = getAllSettingsInfo();
         $PRODUCTID = $_GET['ProductID'];
         $QTYREQUESTED = $_POST['QTYRequested'];
         //Validations
@@ -91,6 +95,7 @@
     }
 
     function processAdjustQTYInCart(){
+        $SettingsInfo = getAllSettingsInfo();
         $PRODUCTID = $_GET['ProductID'];
         $QTYREQUESTED = $_POST['QTYRequested'];
         //Validations
@@ -108,6 +113,7 @@
 
     function processRemoveFromCart()
     {
+        $SettingsInfo = getAllSettingsInfo();
         $PRODUCTID = $_GET['ProductID'];
         //Validations
         $errors = "";
@@ -123,6 +129,7 @@
     }
 
     function processSubmitOrder(){
+        $SettingsInfo = getAllSettingsInfo();
         $USERID = getUserID();
         $invalidRequests = validateCart($USERID);
         if(isset($_POST["cartComment"])){
