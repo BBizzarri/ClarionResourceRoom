@@ -38,8 +38,8 @@
         $SettingsInfo = getAllSettingsInfo();
         $listType = filter_input(INPUT_GET, 'ListType');
         $CategoryArray = getAllCategories();
-        if($listType =='GeneralSearch'){
-            $info = getProducts([],'',$IncludeInactiveItems = false,$HideUnstockedItems = true,$ShoppingList = True,$_POST['searchCriteria']);
+        if($listType =='GeneralSearch' && isset($_POST['searchCriteria'])){
+            $info = getProducts([],'',$IncludeInactiveItems = false,$HideUnstockedItems = true,$ShoppingList = false,$_POST['searchCriteria']);
             $ProductArray = $info[0];
             $CurrentCategory = "Related To: " . $_POST['searchCriteria'];
         }else if (isset($_GET['CATEGORYID'])) {
