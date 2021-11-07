@@ -4,7 +4,7 @@
 ?>
 <html>
 <body>
-    <section>
+    <section class="clarion-blue">
         <table class="table table-condensed clarion-blue" style="border-collapse:collapse;">
             <thead>
             <tr class="clarion-white">
