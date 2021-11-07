@@ -66,8 +66,14 @@ table {
      font-size: 16px;
 }
 
-.apply-button {
-    margin-left: 125px;
+.filter-button {
+    margin: 0 auto;
+}
+
+.filter-buttons {
+    width: 500px;
+    margin: 0 auto;
+    padding-left: 85px;
 }
 
 .container table {
@@ -75,13 +81,12 @@ table {
 }
 
 .table-heading {
-    width: 100px;
     float: left;
     margin: 10px;
 }
 
 .table-heading-category {
-    font-size: 20px;
+    font-size: 1.75rem;
     padding-left: 200px;
 
 }
@@ -123,4 +128,65 @@ category-background {
 
 .date-selection {
     margin-left: 275px;
+}
+
+.product-info-left {
+    margin-left: 30px;
+}
+
+.product-info-right {
+    padding-left: 30px;
+}
+
+.product-info-spacing {
+    padding-bottom: 20px;
+}
+
+.sidebar-search-div {
+    display: block;
+    text-align: center;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    padding-top: 20px;
+}
+
+.sidebar-search-form {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    padding-top: 20px;
+}
+
+.category-selected {
+    background-color: grey;
+}
+
+.category-list
+{
+    overflow-y: hidden;
+    outline-color: white;
+    border:none;
+}
+
+.add-edit-container {
+    display: flex;
+}
+
+.item {
+  flex-basis: 100px;
+  height: 500px;
+  margin: 5px;
+}
+
+.admin-order-container {
+    display: flex;
+}
+
+.admin-orders-column {
+  flex-basis: 100px;
+  height: 500px;
+  margin: 5px;
 }
