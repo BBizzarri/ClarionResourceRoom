@@ -39,18 +39,18 @@
         $listType = filter_input(INPUT_GET, 'ListType');
         $CategoryArray = getAllCategories();
         if($listType =='GeneralSearch'){
-            $info = getProducts([],'',$IncludeInactiveItems = false ,$HideUnstockedItems = false,$ShoppingList = false,$_POST['searchCriteria']);
+            $info = getProducts([],'',$IncludeInactiveItems = false,$HideUnstockedItems = true,$ShoppingList = True,$_POST['searchCriteria']);
             $ProductArray = $info[0];
             $CurrentCategory = "Related To: " . $_POST['searchCriteria'];
         }else if (isset($_GET['CATEGORYID'])) {
             $shopperCategoryID = $_GET['CATEGORYID'];
             $CurrentCategory = $_GET['DESCRIPTION'];
-            $info = getProducts([$shopperCategoryID],'',$IncludeInactiveItems = false ,$HideUnstockedItems = false,$ShoppingList = false,'');
+            $info = getProducts([$shopperCategoryID],'',$IncludeInactiveItems = false ,$HideUnstockedItems = true,$ShoppingList = false,'');
             $ProductArray = $info[0];
         }else{
             $CurrentCategory = $CategoryArray[0]->getCategoryDescription();
             $shopperCategoryID = $CategoryArray[0]->getCategoryID();
-            $info = getProducts([$shopperCategoryID],'',$IncludeInactiveItems = false ,$HideUnstockedItems = false,$ShoppingList = false,'');
+            $info = getProducts([$shopperCategoryID],'',$IncludeInactiveItems = false, $HideUnstockedItems = true,$ShoppingList = false,'');
             $ProductArray = $info[0];
         }
         $CategoryHeader = $CurrentCategory;

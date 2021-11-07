@@ -97,7 +97,7 @@
                         <table class="clarion-white">
                         <tr>
                             <th>Product</th>
-                            <th>On Hand <?php if($_SESSION['QtyLessThan'] != null){ echo '<' . ' ' . $_SESSION['QtyLessThan'];}?></th>
+                            <th>Available <?php if($_SESSION['QtyLessThan'] != null){ echo '<' . ' ' . $_SESSION['QtyLessThan'];}?></th>
                             <th>Goal Stock</th>
                             <th>Incoming</th>
                           </tr>

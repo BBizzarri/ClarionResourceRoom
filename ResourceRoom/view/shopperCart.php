@@ -64,10 +64,15 @@
                                 }
                                 ?>
                             </div>
-                            <div class="row" style="float: right">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cartModal">
-                                    Submit Order
-                                </button>
+                            <div class="row">
+                                <div class ='col-10'>
+
+                                </div>
+                                <div class = 'col-2'>
+                                    <button style = "float: right" type="button" class="btn btn-primary" data-toggle="modal" data-target="#cartModal">
+                                        Submit Order
+                                    </button>
+                                </div>
                             </div>
                         </div>
                 </div>

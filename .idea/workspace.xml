@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Bug fixes">
+    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/shopperCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/shopperCasesInclude.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/model/model.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/model.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/navInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/navInclude.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/view/shopperCart.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/shopperCart.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -283,7 +287,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636303239752</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Bug fixes">
+      <created>1636304372477</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1636304372477</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

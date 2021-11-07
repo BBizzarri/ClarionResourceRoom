@@ -336,7 +336,7 @@
                 $db = getDBConnection();
                 $query = "SELECT orders.ORDERID, orders.*, orderdetails.QTYREQUESTED, orderdetails.QTYFILLED, productview.*, concat(users.FirstName, ' ', users.LastName) as USERSNAME FROM orders inner join orderdetails on orders.ORDERID = orderdetails.ORDERID
                                                       inner join productview on orderdetails.PRODUCTID = productview.PRODUCTID
-                                                      inner join users on orders.USERID = users.UserID";
+                                                      inner join users on orders.USERID = users.UserID ORDER BY orders.DATEORDERED DESC";
                 $statement = $db->prepare($query);
                 $statement->execute();
                 $result = $statement->fetchAll( PDO::FETCH_GROUP| PDO::FETCH_ASSOC);
@@ -470,21 +470,22 @@
                 $IncludeInactiveItems = false;
             }
             if($HideUnstockedItems){
-                $queryText .= " WHERE productview.GOALSTOCK > 0";
+                $queryText .= " WHERE productview.GOALSTOCK > 0 or productview.QTYAVAILABLE > 0";
             }else{
                 $queryText .= " WHERE productview.GOALSTOCK > -1";
             }
             if($IncludeInactiveItems){
-                $queryText .= " and productview.QTYONHAND > -1";
+                $queryText .= " and productview.QTYAVAILABLE > -1";
             }else{
                 if($ShoppingList){
-                    $queryText .= " and productview.QTYONHAND < productview.GOALSTOCK";
+                    $queryText .= " and productview.QTYAVAILABLE < productview.GOALSTOCK";
                 }else{
-                    $queryText .= " and productview.QTYONHAND > 0";
+                    $queryText .= " and productview.QTYAVAILABLE > 0";
+
                 }
             }
             if($QTYLessThan != ""){
-                $queryText .= " and productview.QTYONHAND < :QTYLessThan";
+                $queryText .= " and productview.QTYAVAILABLE < :QTYLessThan";
             }
             if($SearchTerm != ""){
                 $queryText .=" and (productview.NAME LIKE :SearchTerm OR productview.PRODUCTDESCRIPTION LIKE :SearchTerm)";
