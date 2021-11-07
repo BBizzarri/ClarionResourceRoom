@@ -24,6 +24,10 @@ body{
     background-color: #003366;
 }
 
+section {
+    min-height: 75vh;
+}
+
 .clarion-white {
     color: white;
 }
