@@ -26,10 +26,10 @@
             showAdminOrders();
             break;
         case 'adminReports':
-            include '../view/adminReports.php';
+            adminReports();
             break;
         case 'adminSecurity':
-            include '../security/index.php';
+            adminSecurity();
             break;
         case 'adminShoppingList':
             shopperPage();
@@ -238,6 +238,18 @@
         fillOrderDetails($order);
         fillOrder($order);
         header("Location: {$_SERVER['HTTP_REFERER']}");
+    }
+
+    function adminReports()
+    {
+        $SettingsInfo = getAllSettingsInfo();
+        include '../view/adminReports.php';
+    }
+
+    function adminSecurity()
+    {
+        $SettingsInfo = getAllSettingsInfo();
+        include '../security/index.php';
     }
 
     function mobileAdd()
