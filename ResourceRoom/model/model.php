@@ -470,7 +470,7 @@
                 $IncludeInactiveItems = false;
             }
             if($HideUnstockedItems){
-                $queryText .= " WHERE (productview.GOALSTOCK > 0 or productview.QTYAVAILABLE > 0)";
+                $queryText .= " WHERE productview.GOALSTOCK > 0";
             }else{
                 $queryText .= " WHERE productview.GOALSTOCK > -1";
             }

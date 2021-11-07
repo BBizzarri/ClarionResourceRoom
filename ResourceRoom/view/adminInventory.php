@@ -19,7 +19,7 @@
                                 <label for="qtyLessThan" title="Only show items with a quantity less than">Quantity Less Than:</label>
                             </div>
                             <div class="incoming-textbox-div">
-                                <input class="incoming-textbox" type="number" min="1" id="QtyLessThan" name="QtyLessThan" value="<?php echo $_SESSION['QtyLessThan']?>"/>
+                                <input class="incoming-textbox" type="number" min="0" id="QtyLessThan" name="QtyLessThan" value="<?php echo $_SESSION['QtyLessThan']?>"/>
                             </div>
                         </div>
                         <div class="sidebar-elements">
