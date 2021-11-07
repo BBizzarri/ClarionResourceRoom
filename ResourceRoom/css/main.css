@@ -5,6 +5,7 @@ header, nav, section, footer {
 .center {
     text-align: center;
 }
+
 .clearable {
     clear: both;
 }

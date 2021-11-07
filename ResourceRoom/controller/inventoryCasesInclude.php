@@ -88,10 +88,6 @@
             $ProductID = $_POST['ProductID'];
             $ProductCategories = $_POST['CategoriesEdit'];
         }
-        else
-        {
-
-        }
         $QtyOnHand = $_POST['QtyOnHand'];
         $MaxOrderQty = $_POST['MaxOrderQty'];
         $GoalStock = $_POST['GoalStock'];
@@ -322,26 +318,38 @@
             console_log($_POST['inactiveItems']);
             $InactiveItems = $_POST['inactiveItems'];
         }
-        else
+        else if(isset($_SESSION['InactiveItems']))
         {
             $InactiveItems = $_SESSION['InactiveItems'];
+        }
+        else
+        {
+            $InactiveItems = 0;
         }
         if(isset($_POST['stockedItems']))
         {
             $StockedItems = $_POST['stockedItems'];
         }
-        else
+        else if(isset($_SESSION['StockedItems']))
         {
             $StockedItems = $_SESSION['StockedItems'];
+        }
+        else
+        {
+            $StockedItems = 0;
         }
         if(isset($_POST['shoppingList']))
         {
             $ShoppingList = $_POST['shoppingList'];
 
         }
-        else
+        else if(isset($_SESSION['ShoppingList']))
         {
             $ShoppingList = $_SESSION['ShoppingList'];
+        }
+        else
+        {
+            $ShoppingList = 0;
         }
         if($CategoryMode)
         {
@@ -353,7 +361,7 @@
             $CategoryID = $_POST['CategoryList'];
             $CategoryHeader = getCategoryHeader($CategoryID);
         }
-        else if(!is_null($_SESSION['CategoryID']))
+        else if(isset($_SESSION['CategoryID']))
         {
             $CategoryID = $_SESSION['CategoryID'];
             $CategoryHeader = getCategoryHeader($_SESSION['CategoryID']);
@@ -366,7 +374,7 @@
         {
             $QtyLessThan = $_POST['QtyLessThan'];
         }
-        else if(!is_null($_SESSION['QtyLessThan']))
+        else if(isset($_SESSION['QtyLessThan']))
         {
             $QtyLessThan = $_SESSION['QtyLessThan'];
         }
@@ -378,7 +386,7 @@
         {
             $SearchTerm = $_POST['adminSearchCriteria'];
         }
-        else if(!is_null($_SESSION['SearchTerm']))
+        else if(isset($_SESSION['SearchTerm']))
         {
             $SearchTerm = $_SESSION['SearchTerm'];
         }

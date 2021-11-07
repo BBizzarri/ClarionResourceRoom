@@ -24,14 +24,17 @@
                         </div>
                         <div class="sidebar-elements">
                             <label for="stockedItems" title="Only show items with a goal stock that is greater than 0">Show Stocked Items Only</label>
+                            <input type="hidden" value = '0' name = 'stockedItems'>
                             <input type="checkbox" id="stockedItems" name="stockedItems" <?php if($_SESSION['StockedItems']) echo "checked='checked'"; ?> />
                         </div>
                         <div class="sidebar-elements">
                             <label for="inactiveItems" title="Only show items with a qty on hand equal to 0 and a goal stock equal to 0">Include Inactive Items</label>
+                            <input type="hidden" value = '0' name = 'inactiveItems'>
                             <input type="checkbox" id="inactiveItems" name="inactiveItems" <?php if($_SESSION['InactiveItems']) echo "checked='checked'"; ?> />
                         </div>
                         <div class="sidebar-elements">
                             <label for="shoppingList" title="Only show items that need to be restocked (qty on hand is less than the goal stock)">Shopping List Only</label>
+                            <input type="hidden" value = '0' name = 'shoppingList'>
                             <input type="checkbox" id="shoppingList" name="shoppingList" <?php if($_SESSION['ShoppingList']) echo "checked='checked'"; ?> />
                         </div>
                         <div class="filter-buttons">
@@ -67,7 +70,6 @@
                                     <input class="btn my-2 my-sm-0" id="addNewItemButton" type="button" data-toggle="modal" data-target="#addProductModal" value="Add New Item"/>
                                     <input class="btn my-2 my-sm-0" type="button" value="Adjust All" data-toggle="modal" data-target="#adjustBulkConfirmModal"/>
                                 <!--</div>-->
-
                                   <!-- Adjust Bulk Confirm Modal -->
                                             <div class="modal fade" id="adjustBulkConfirmModal" role="dialog">
                                               <div class="modal-dialog modal-lg">-->
@@ -170,7 +172,7 @@
                                             <img <?php if(file_exists("../productImages/{$product->getProductID()}.jpg")):?>
                                                     src="../productImages/<?php echo($product->getProductID())?>.jpg"
                                                  <?php else :?>
-                                                    src="https://dummyimage.com/256x256/000/fff.jpg"
+                                                    src="../productImages/ImageNotAvailable.jpg"
                                                  <?php endif ;?>
                                             alt="..." data-toggle="modal" data-target="#productModal_<?php echo $product->getProductID()?>">
                                         </div>

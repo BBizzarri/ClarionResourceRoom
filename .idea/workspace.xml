@@ -1,164 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Updated creation script">
+    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Bug fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/shopperCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/shopperCasesInclude.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/css/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/10.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/102.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/103.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/104.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/105.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/106.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/107.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/11.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/110.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/111.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/112.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/116.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/117.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/12.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/120.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/121.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/124.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/129.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/13.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/130.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/131.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/132.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/138.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/139.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/14.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/141.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/142.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/143.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/146.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/147.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/148.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/149.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/15.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/151.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/152.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/155.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/156.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/157.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/159.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/16.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/160.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/162.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/164.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/165.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/167.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/168.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/169.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/17.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/170.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/173.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/18.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/19.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/20.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/21.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/22.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/227.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/228.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/229.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/23.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/230.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/231.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/232.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/234.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/235.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/236.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/237.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/238.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/24.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/241.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/245.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/25.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/251.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/252.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/254.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/255.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/256.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/258.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/26.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/265.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/266.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/267.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/27.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/270.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/271.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/272.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/273.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/274.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/277.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/279.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/28.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/280.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/281.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/282.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/284.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/285.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/286.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/29.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/290.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/293.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/295.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/297.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/298.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/30.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/300.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/31.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/32.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/33.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/34.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/35.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/36.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/38.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/39.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/4.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/40.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/41.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/42.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/44.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/46.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/47.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/5.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/50.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/51.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/52.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/53.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/54.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/55.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/6.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/7.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/77.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/78.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/79.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/8.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/80.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/81.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/85.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/86.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/87.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/88.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/9.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/91.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/93.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/94.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/95.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/96.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/97.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/98.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/99.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/productImages/ImageNotAvailable.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/security/creation_script.sql" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/security/creation_script.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/navInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/navInclude.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/shopperCart.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/shopperCart.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -219,7 +65,6 @@
       <recent name="C:\xampp\htdocs\ClarionResourceRoom\ResourceRoom\productImages" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\ClarionResourceRoom\ResourceRoom\productImages" />
       <recent name="C:\xampp\htdocs\ClarionResourceRoom\ResourceRoom\Images" />
     </key>
   </component>
@@ -417,21 +262,28 @@
       <option name="project" value="LOCAL" />
       <updated>1636125488675</updated>
     </task>
-    <task id="LOCAL-00026" summary="Settings page updates">
-      <created>1636219037219</created>
+    <task id="LOCAL-00026" summary="Bug Fixes">
+      <created>1636302302919</created>
       <option name="number" value="00026" />
       <option name="presentableId" value="LOCAL-00026" />
       <option name="project" value="LOCAL" />
-      <updated>1636219037219</updated>
+      <updated>1636302302919</updated>
     </task>
-    <task id="LOCAL-00027" summary="Updated creation script">
-      <created>1636242832167</created>
+    <task id="LOCAL-00027" summary="Pictures">
+      <created>1636302590167</created>
       <option name="number" value="00027" />
       <option name="presentableId" value="LOCAL-00027" />
       <option name="project" value="LOCAL" />
-      <updated>1636242832167</updated>
+      <updated>1636302590167</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="Bug fixes">
+      <created>1636303239752</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1636303239752</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -472,11 +324,10 @@
     <MESSAGE value="admin Inventory page touch up" />
     <MESSAGE value="updated how category header gets set" />
     <MESSAGE value="Updating CSS and code cleanup" />
-    <MESSAGE value="Bug fixes" />
     <MESSAGE value="Taking print_r out" />
     <MESSAGE value="Bug Fixes" />
-    <MESSAGE value="Settings page updates" />
-    <MESSAGE value="Updated creation script" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated creation script" />
+    <MESSAGE value="Pictures" />
+    <MESSAGE value="Bug fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bug fixes" />
   </component>
 </project>

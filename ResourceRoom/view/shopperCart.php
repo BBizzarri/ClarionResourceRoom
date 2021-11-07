@@ -43,7 +43,7 @@
                                                         <div class="container">
                                                             <div class = "row">
                                                                 <label class= "col-auto" for="quantity_<?php echo htmlspecialchars($product->getProductID())?>">QTY:</label>
-                                                                <input class= "col-auto" type="number" id="quantity_<?php echo htmlspecialchars($product->getProductID())?>" name="QTYRequested" min="1" max="<?php echo htmlspecialchars($product->getProductQTYOnHand())?>">
+                                                                <input class= "col-auto" type="number" id="quantity_<?php echo htmlspecialchars($product->getProductID())?>" name="QTYRequested" min="1" max="<?php echo htmlspecialchars($product->getProductQTYAvailable())?>">
                                                                 <input type="submit" class="btn btn-primary col-auto" value="Change Quantity">
                                                             </div>
                                                         </div>
@@ -114,7 +114,6 @@
                                                     <td><?php echo htmlspecialchars($product->getProductQTYAvailable())?></td>
                                                 <?php endif; ?>
                                             </tr>
-
                                 <?php
                             }
                             ?>
