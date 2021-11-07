@@ -44,12 +44,12 @@
             $CurrentCategory = "Related To: " . $_POST['searchCriteria'];
         }else if (isset($_GET['CATEGORYID'])) {
             $shopperCategoryID = $_GET['CATEGORYID'];
-            $CurrentCategory = $_GET['DESCRIPTION'];
+            $CurrentCategory = getCategoryHeader([$shopperCategoryID]);
             $info = getProducts([$shopperCategoryID],'',$IncludeInactiveItems = false ,$HideUnstockedItems = true,$ShoppingList = false,'');
             $ProductArray = $info[0];
         }else{
-            $CurrentCategory = $CategoryArray[0]->getCategoryDescription();
             $shopperCategoryID = $CategoryArray[0]->getCategoryID();
+            $CurrentCategory = getCategoryHeader([$shopperCategoryID]);
             $info = getProducts([$shopperCategoryID],'',$IncludeInactiveItems = false, $HideUnstockedItems = true,$ShoppingList = false,'');
             $ProductArray = $info[0];
         }
