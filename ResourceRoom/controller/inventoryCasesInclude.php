@@ -396,11 +396,11 @@
         }
         if(isset($_POST['adminSearchCriteria']))
         {
-            $SearchTerm = $_POST['adminSearchCriteria'];
+            $SearchTerm = htmlspecialchars($_POST['adminSearchCriteria']);
         }
         else if(isset($_SESSION['SearchTerm']))
         {
-            $SearchTerm = $_SESSION['SearchTerm'];
+            $SearchTerm = htmlspecialchars($_SESSION['SearchTerm']);
         }
         else
         {
