@@ -115,6 +115,8 @@ CREATE TABLE setting
     EmailOrderFilled        VARCHAR(300),
     OrderReceivedText       VARCHAR(500),
     OrderFilledText         VARCHAR(500),
+    OrderReceivedSubj       VARCHAR(100),
+    OrderFilledSubj         VARCHAR(100),
     FooterText              VARCHAR(200),
     PhotoDir                TEXT,
     CONSTRAINT SETTING_PK PRIMARY KEY (SETTINGID)
@@ -1138,9 +1140,10 @@ INSERT INTO `cart` (`USERID`, `PRODUCTID`, `QTYREQUESTED`) VALUES
 (6, 1012, 4);      -- QtyAvailable = 0, Item is out of stock
 COMMIT;
 
-INSERT INTO `setting` (SettingID, EmailOrderReceived, EmailOrderFilled, OrderReceivedText, OrderFilledText, FooterText, PhotoDir) VALUES
+INSERT INTO `setting` (SettingID, EmailOrderReceived, EmailOrderFilled, OrderReceivedText, OrderFilledText, OrderReceivedSubj, OrderFilledSubj, FooterText, PhotoDir) VALUES
 (1, 'mlkarg@clarion.edu, resourceroom@clarion.edu, admin@clarion.edu', 'mlkarg@clarion.edu, resourceroom@clarion.edu',
  'Hello!  We have received your order and will fill it as soon as we are able.  Once the order has been filled, another email will be sent to confirm pick up details.',
  'Hello!  Your order has been filled and can be picked up in Ralston Hall, Monday through Friday from 8am to 4pm.  In the entry way is a table.
  Your order will be in a reusable shopping bag on the table. Please bring your order number to ensure you pick up the correct order.',
+ 'Your Order Has Been Received!', 'Your Order is Ready For Pickup',
  'The last day to order from the resource room will be on Friday, November 19th','');
