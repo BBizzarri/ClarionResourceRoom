@@ -61,15 +61,14 @@
                   </form>
                       <div class="col-auto">
                         <div class="container-fluid">
-                            <!--<div class=" clarion-white table-heading table-heading-category">-->
-
-                            <!--</div>-->
                             <form id="adjustBulkForm" action="../controller/controller.php?action=processStockAdjust&Type=bulk" method="post" enctype="multipart/form-data">
-                                <!--<div class="table-heading table-heading-buttons">-->
+                                <div class="table-heading">
                                     <h3 class="clarion-white"><?php echo $CategoryHeader ?></h3>
+                                </div>
+                                <div class="table-heading table-heading-buttons">
                                     <input class="btn my-2 my-sm-0" id="addNewItemButton" type="button" data-toggle="modal" data-target="#addProductModal" value="Add New Item"/>
                                     <input class="btn my-2 my-sm-0" type="button" value="Adjust All" data-toggle="modal" data-target="#adjustBulkConfirmModal"/>
-                                <!--</div>-->
+                                </div>
                                   <!-- Adjust Bulk Confirm Modal -->
                                             <div class="modal fade" id="adjustBulkConfirmModal" role="dialog">
                                               <div class="modal-dialog modal-lg">-->
@@ -94,6 +93,8 @@
                                                       </div>
                                               </div>
                                             </div>
+                        </div>
+                        <div class="container-fluid">
                         <table class="clarion-white">
                         <tr>
                             <th>Product</th>

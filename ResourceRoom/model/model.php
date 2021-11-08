@@ -576,6 +576,20 @@
         }
     }
 
+    function getReport()
+    {
+        $db = getDBConnection();
+        $query = "select users.UserID, users.FirstName, users.LastName, users.UserName, users.Password, users.Email, COUNT(orders.ORDERID) as TotalOrders
+                    from users
+                    inner join orders on users.UserID = orders.USERID
+                    group by users.UserID";
+        $statement = $db->prepare($query);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+        return $result;
+    }
+
     function removeFromCart($PRODUCTID)
     {
         $USERID = getUserID();
