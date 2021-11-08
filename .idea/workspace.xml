@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Fixing more of Brady's mistakes">
+      <change afterPath="$PROJECT_DIR$/ResourceRoom/lib/Mobile_Detect.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/security/creation_script.sql" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/security/creation_script.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -311,7 +311,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636338417160</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="reports page">
+      <created>1636341512394</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1636341512394</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -334,7 +341,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Updating Main Branch" />
     <MESSAGE value="Finished UI For admin inventory page" />
     <MESSAGE value="database connection admin inventory page" />
     <MESSAGE value="Admin reports UI" />
@@ -359,6 +365,7 @@
     <MESSAGE value="css updates" />
     <MESSAGE value="Fixing more of Brady's mistakes" />
     <MESSAGE value="attempt 1 at mobile add" />
-    <option name="LAST_COMMIT_MESSAGE" value="attempt 1 at mobile add" />
+    <MESSAGE value="reports page" />
+    <option name="LAST_COMMIT_MESSAGE" value="reports page" />
   </component>
 </project>
