@@ -43,22 +43,35 @@
                                     <form id="updateEmailAnnouncementSettings" action="../controller/controller.php?action=updateEmailAnnouncementSettings" method="post" enctype="multipart/form-data" >
                                         <div class="card account-settings-card">
                                             <div class="card-body clarion-blue">
-                                                <label id="emailSettings" class="account-settings-heading clarion-white">Email Settings</label>
+                                                <label id="emailSettings" class="account-settings-heading clarion-white">Placed Order Email Settings</label>
                                             </div>
                                             <div class="account-settings-card account-settings-card-body">
-                                                <label for="ReceiversPlaced">receivers of order placed emails:</label>
+                                                <label for="ReceiversPlaced">CC:</label>
                                                 <textarea class="vertical-align" id="ReceiversPlaced" name="ReceiversPlaced" rows="4" cols="50"><?php echo $SettingsInfo['EmailOrderReceived'];?></textarea>
                                             </div>
                                             <div class="account-settings-card account-settings-card-body">
-                                                <label for="ReceiversFilled">receivers of order filled emails:</label>
+                                                <label for="ReceiversFilled">Subject</label>
                                                 <textarea class="vertical-align" id="ReceiversFilled" name="ReceiversFilled" rows="4" cols="50"><?php echo $SettingsInfo['EmailOrderFilled'];?></textarea>
                                             </div>
                                             <div class="account-settings-card account-settings-card-body">
-                                                <label for="EmailTextPlaced">Email text for order placed:</label>
+                                                <label for="EmailTextPlaced">Message Body:</label>
+                                                <textarea class="vertical-align" id="EmailTextPlaced" name="EmailTextPlaced" rows="4" cols="50"><?php echo $SettingsInfo['OrderReceivedText'];?></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="card account-settings-card">
+                                            <div class="card-body clarion-blue">
+                                                <label id="emailSettings" class="account-settings-heading clarion-white">Filled Order Email Settings</label>
+                                            </div>
+                                            <div class="account-settings-card account-settings-card-body">
+                                                <label for="ReceiversFilled">CC:</label>
+                                                <textarea class="vertical-align" id="ReceiversFilled" name="ReceiversFilled" rows="4" cols="50"><?php echo $SettingsInfo['EmailOrderFilled'];?></textarea>
+                                            </div>
+                                            <div class="account-settings-card account-settings-card-body">
+                                                <label for="EmailTextPlaced">Subject:</label>
                                                 <textarea class="vertical-align" id="EmailTextPlaced" name="EmailTextPlaced" rows="4" cols="50"><?php echo $SettingsInfo['OrderReceivedText'];?></textarea>
                                             </div>
                                             <div class="account-settings-card account-settings-card-body margin-bottom">
-                                                <label for="EmailTextFilled">Email text for order for ready for pickup:</label>
+                                                <label for="EmailTextFilled">Message Body:</label>
                                                 <textarea class="vertical-align" id="EmailTextFilled" name="EmailTextFilled" rows="4" cols="50"><?php echo $SettingsInfo['OrderFilledText'];?></textarea>
                                             </div>
                                         </div>
