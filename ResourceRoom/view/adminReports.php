@@ -36,7 +36,6 @@
                                             <th>First Name</th>
                                             <th>Last Name</th>
                                             <th>Username</th>
-                                            <th>Password</th>
                                             <th>Email</th>
                                             <th>Total Orders</th>
                                           </tr>
@@ -46,7 +45,6 @@
                                                 <td class="text-left"><?php echo $ReportRow['FirstName'] ?></td>
                                                 <td class="text-left"><?php echo $ReportRow['LastName'] ?></td>
                                                 <td class="text-left"><?php echo $ReportRow['UserName'] ?></td>
-                                                <td class="text-left"><?php echo $ReportRow['Password'] ?></td>
                                                 <td class="text-left"><?php echo $ReportRow['Email'] ?></td>
                                                 <td class="text-left"><?php echo $ReportRow['TotalOrders'] ?></td>
                                               </tr>
