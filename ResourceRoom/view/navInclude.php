@@ -1,4 +1,6 @@
  <?php
+        require_once '../lib/Mobile_Detect.php';
+        $detect = new Mobile_Detect;
         if(!loggedIn() || loggedIn()) {
     ?>        
         <nav class="clarion-gold navbar navbar-expand-md sticky-top">
@@ -59,9 +61,11 @@
                                 <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'adminSecurity')){ echo 'active';}?>" href="../controller/controller.php?action=adminSecurity">Security<span class="sr-only"></span></a>
                             </li>
                         <?php } ?>
-                            <!--<li class="nav-item">
+                        <?php if($detect->isMobile()){ ?>
+                            <li class="nav-item">
                                 <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'mobileAdd')){ echo 'active';}?>" href="../controller/controller.php?action=mobileAdd">Mobile Add<span class="sr-only"></span></a>
-                            </li>-->
+                            </li>
+                        <?php } ?>
                     </ul>
             <?php if(userIsAuthorized("shopperHome")) { ?>
                 <form id = "navSearchForm" class="form-inline my-2 my-lg-0" action="../controller/controller.php?action=shopperHome&ListType=GeneralSearch" method="post" enctype="multipart/form-data">
