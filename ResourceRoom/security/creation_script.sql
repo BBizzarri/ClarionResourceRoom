@@ -231,7 +231,7 @@ INSERT INTO userroles (UserID,RoleID) VALUES (5,5);
 -- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,9);
 -- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,10);
 
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,11);
+INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,1);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,12);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,13);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,14);
