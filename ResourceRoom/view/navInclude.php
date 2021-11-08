@@ -51,9 +51,9 @@
                         <?php } ?>
 
                         <?php if(userIsAuthorized("adminShoppingList")) { ?>
-                            <li class="nav-item">
+                            <!--<li class="nav-item">
                                 <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'adminShoppingList')){ echo 'active';}?>" href="../controller/controller.php?action=adminShoppingList">Shopping List<span class="sr-only"></span></a>
-                            </li>
+                            </li>-->
                         <?php } ?>
 
                         <?php if(userIsAuthorized("adminSecurity")) { ?>

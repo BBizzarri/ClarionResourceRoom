@@ -240,7 +240,6 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,21);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,22);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,23);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,24);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,25);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,29);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,30),
@@ -248,14 +247,8 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,30),
                                                      (1,19),
                                                      (1,16),
                                                      (1,17),
-                                                     (1,26),
-                                                     (1,27),
                                                      (1,28),
                                                      (1,20),
-                                                     (1,32),
-                                                     (1,33),
-                                                     (1,34),
-                                                     (1,35),
                                                      (1,36),
                                                      (1,37),
                                                      (1,38),
