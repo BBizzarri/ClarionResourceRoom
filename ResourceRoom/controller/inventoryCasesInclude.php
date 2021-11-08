@@ -243,6 +243,7 @@
     function adminReports()
     {
         $SettingsInfo = getAllSettingsInfo();
+
         include '../view/adminReports.php';
     }
 
