@@ -207,17 +207,31 @@ INSERT INTO roles (Name,Description) VALUES  ('Admin','Full privileges.'),
 
 
 
-INSERT INTO users (FirstName,LastName,UserName,Password,Email) VALUES ('TestAdmin','TestAdmin','admin',SHA1('admin'),'admin@clarion.edu'),
-                                                                      ('TestStudent','TestStudent', 'student', SHA1('student'), 'teststudent@clarion.edu'),
-                                                                      ('TestDeveloper', 'TestDeveloper', 'developer', SHA1('developer'), 'testdeveloper@clarion.edu'),
-                                                                      ('TestInventory', 'TestInventory', 'inventory', SHA1('inventory'), 'testinventory@clarion.edu'),
-                                                                      ('TestOrder', 'TestOrder', 'order', SHA1('order'), 'testorder@clarion.edu');
+INSERT INTO users (FirstName,LastName,UserName,Password,Email) VALUES ('Test','Admin','admin',SHA1('admin'),'admin@clarion.edu'),
+                                                                      ('Test','Student', 'student', SHA1('student'), 'teststudent@clarion.edu'),
+                                                                      ('Test', 'Developer', 'developer', SHA1('developer'), 'testdeveloper@clarion.edu'),
+                                                                      ('Test', 'Inventory', 'inventory', SHA1('inventory'), 'testinventory@clarion.edu'),
+                                                                      ('Test', 'Order', 'order', SHA1('order'), 'testorder@clarion.edu'),
+                                                                      ('Gina', 'Bennett', 's_gmbennett', SHA1('s_gmbennett'), 'g.m.bennett@eagle.clarion.edu'),
+                                                                      ('Austin', 'Robinson', 's_ajrobinso1', SHA1('s_ajrobinso1'), 'a.j.robinson1@eagle.clarion.edu'),
+                                                                      ('Meredith', 'Karg', 'mlkarg', SHA1('mlkarg'), 'mlkarg@clarion.edu'),
+                                                                      ('Tom', 'Crissman', 'tcrissman', SHA1('tcrissman'), 'tcrissman@clarion.edu'),
+                                                                      ('Sara', 'Custer', 's_skcuster', SHA1('s_skcuster'), 's.k.custer@eagle.clarion.edu'),
+                                                                      ('Natalie', 'LaCoe', 's_nalacoe', SHA1('s_nalacoe'), 'n.a.lacoe@eagle.clarion.edu'),
+                                                                      ('Samuel', 'Smith', 's_srsmith', SHA1('s_srsmith'), 's.r.smith@eagle.clarion.edu');
 
 INSERT INTO userroles (UserID,RoleID) VALUES (1,1);
 INSERT INTO userroles (UserID,RoleID) VALUES (2,2);
 INSERT INTO userroles (UserID,RoleID) VALUES (3,3);
 INSERT INTO userroles (UserID,RoleID) VALUES (4,4);
 INSERT INTO userroles (UserID,RoleID) VALUES (5,5);
+INSERT INTO userroles (UserID,RoleID) VALUES (6,2),  -- Gina as Student
+                                             (7,2),  -- Austin as Student
+                                             (8,1),  -- Meredith as Admin
+                                             (9,1),  -- Tom as Admin
+                                             (10,2), -- Sara as Student
+                                             (11,2), -- Nat as Student
+                                             (12,2); -- Sam as Student
 
 -- Should admin have these functions??
 -- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,1);
@@ -1032,10 +1046,13 @@ Please put size in comment box before ordering', 30, 5, 0), -- GoalStock = 0 (Te
 COMMIT;
 
 INSERT INTO `orders` (`ORDERID`, `USERID`, `STATUS`, `DATEORDERED`, `DATEFILLED`, `DATECOMPLETED`, `COMMENT`) VALUES
-(1, 1, 'COMPLETED', '2021-08-29', '2021-09-01', '2021-09-05', 'I am allergice to Nuts'),
-(2, 2, 'READY FOR PICKUP', '2021-09-16', '2021-09-17', '', ' '),
-(3, 1, 'SUBMITTED', '2021-09-18',  '', '', 'I live off campus'),
-(4, 3, 'SUBMITTED', '2021-09-19', '', '', 'Size Xtra Large For the Tank Top');
+(1, 10, 'COMPLETED', '2021-08-29', '2021-09-01', '2021-09-05', 'I am allergic to Nuts'),
+(2, 10, 'READY FOR PICKUP', '2021-11-01', '2021-11-08', '', ' '),
+(3, 12, 'COMPLETED', '2021-10-18',  '2021-10-20', '2021-10-21', 'I live off campus'),
+(4, 11, 'COMPLETED', '2021-9-12', '2021-9-13', '2021-9-16', 'Size Xtra Large For the Tank Top'),
+(5, 6, 'READY FOR PICKUP', '2021-11-05', '2021-11-10', '', ''),
+(6, 6, 'COMPLETED', '2021-09-13', '2021-09-15', '2021-09-15', 'I have dairy allergies'),
+(7, 6, 'COMPLETED', '2021-10-01', '2021-10-01', '2021-10-03', '');
 COMMIT;
 
 INSERT INTO `productcategories` (`ProductID`, `CategoryID`) VALUES
@@ -1097,16 +1114,28 @@ INSERT INTO `orderdetails` (`ORDERID`, `PRODUCTID`, `QTYREQUESTED`, `QTYFILLED`)
 (4, 1007, 1, 0),
 (4, 1009, 2, 0),
 (4, 1010, 1, 0),
-(4, 1011, 4, 0);
+(4, 1011, 4, 0),
+(5, 22, 1, 1),
+(5, 1000, 1, 1),
+(5, 200, 3, 3),
+(5, 36, 2, 2),
+(5, 1002, 1, 1),
+(6, 193, 2, 2),
+(6, 194, 2, 1),
+(6, 3, 1, 1),
+(6, 1001, 4, 4),
+(6, 1002, 2, 1),
+(7, 128, 3, 3),
+(7, 86, 4, 2),
+(7, 87, 2, 2);
 COMMIT;
 
 INSERT INTO `cart` (`USERID`, `PRODUCTID`, `QTYREQUESTED`) VALUES
-(5, 1001, 6),      -- QtyRequested > MaxOrderQty, can't be ordered as in cart
-(5, 1002, 1),      -- No issues
-(5, 1003, 2),      -- No issues
-(5, 1006, 1),      -- Date is from 2020
-(5, 1009, 10),     -- QtyRequested > QtyAvailable, can't be ordered as in cart
-(5, 1012, 4);      -- QtyAvailable = 0, Item is out of stock
+(6, 64, 1),
+(6, 299, 1),      -- No issues
+(6, 1003, 2),
+(6, 96, 1),
+(6, 1012, 4);      -- QtyAvailable = 0, Item is out of stock
 COMMIT;
 
 INSERT INTO `setting` (SettingID, EmailOrderReceived, EmailOrderFilled, OrderReceivedText, OrderFilledText, FooterText, PhotoDir) VALUES
