@@ -148,7 +148,9 @@
         $cc = $SettingsInfo['EmailOrderReceived'];
         $subject = $SettingsInfo['OrderReceivedSubj'];
         $body = $SettingsInfo['OrderReceivedText'];
-        mail($to,$cc,$subject,$body,$headers);
+        $cc = $SettingsInfo['EmailOrderReceived'];
+        $headers[] = 'Cc:' .$cc;
+        mail($to,$subject,$body,implode("\r\n", $headers));
 
     }
 
