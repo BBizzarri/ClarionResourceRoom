@@ -47,13 +47,13 @@
                                             </div>
                                             <div class="account-settings-card account-settings-card-body">
                                                 <label for="ReceiversPlaced">CC:</label>
-                                                <textarea class="vertical-align" id="ReceiversPlaced" name="ReceiversPlaced" rows="4" cols="50"><?php echo $SettingsInfo['EmailOrderReceived'];?></textarea>
+                                                <input class="vertical-align" id="ReceiversPlaced"  type="text" name="ReceiversPlaced" value="<?php echo $SettingsInfo['EmailOrderReceived'];?>"/>
                                             </div>
                                             <div class="account-settings-card account-settings-card-body">
-                                                <label for="ReceiversFilled">Subject</label>
-                                                <textarea class="vertical-align" id="ReceiversFilled" name="ReceiversFilled" rows="4" cols="50"><?php echo $SettingsInfo['EmailOrderFilled'];?></textarea>
+                                                <label for="ReceivedSubject">Subject</label>
+                                                <input class="vertical-align" id="ReceivedSubject" name="ReceivedSubject" value="<?php echo $SettingsInfo['OrderReceivedSubj'];?>"/>
                                             </div>
-                                            <div class="account-settings-card account-settings-card-body">
+                                            <div class="account-settings-card account-settings-card-body margin-bottom">
                                                 <label for="EmailTextPlaced">Message Body:</label>
                                                 <textarea class="vertical-align" id="EmailTextPlaced" name="EmailTextPlaced" rows="4" cols="50"><?php echo $SettingsInfo['OrderReceivedText'];?></textarea>
                                             </div>
@@ -64,11 +64,11 @@
                                             </div>
                                             <div class="account-settings-card account-settings-card-body">
                                                 <label for="ReceiversFilled">CC:</label>
-                                                <textarea class="vertical-align" id="ReceiversFilled" name="ReceiversFilled" rows="4" cols="50"><?php echo $SettingsInfo['EmailOrderFilled'];?></textarea>
+                                                <input class="vertical-align" id="ReceiversFilled" name="ReceiversFilled" value="<?php echo $SettingsInfo['EmailOrderFilled'];?>">
                                             </div>
                                             <div class="account-settings-card account-settings-card-body">
                                                 <label for="EmailTextPlaced">Subject:</label>
-                                                <textarea class="vertical-align" id="EmailTextPlaced" name="EmailTextPlaced" rows="4" cols="50"><?php echo $SettingsInfo['OrderReceivedText'];?></textarea>
+                                                <input class="vertical-align" id="FilledSubject" name="FilledSubject" value="<?php echo $SettingsInfo['OrderFilledSubj'];?>">
                                             </div>
                                             <div class="account-settings-card account-settings-card-body margin-bottom">
                                                 <label for="EmailTextFilled">Message Body:</label>
