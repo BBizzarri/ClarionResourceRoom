@@ -569,6 +569,20 @@
         }
     }
 
+    function getUserEmail($userID)
+    {
+        $db = getDBConnection();
+        $query = "select Email
+                    from users
+                    where USERID = :USERID";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':USERID', $userID);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+        return $result;
+    }
+
     function getUserID(){
         if(isset($_SESSION["UserID"]))
         {
