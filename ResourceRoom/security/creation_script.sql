@@ -220,7 +220,8 @@ INSERT INTO users (FirstName,LastName,UserName,Password,Email) VALUES ('Test','A
                                                                       ('Tom', 'Crissman', 'tcrissman', SHA1('tcrissman'), 'tcrissman@clarion.edu'),
                                                                       ('Sara', 'Custer', 's_skcuster', SHA1('s_skcuster'), 's.k.custer@eagle.clarion.edu'),
                                                                       ('Natalie', 'LaCoe', 's_nalacoe', SHA1('s_nalacoe'), 'n.a.lacoe@eagle.clarion.edu'),
-                                                                      ('Samuel', 'Smith', 's_srsmith', SHA1('s_srsmith'), 's.r.smith@eagle.clarion.edu');
+                                                                      ('Samuel', 'Smith', 's_srsmith', SHA1('s_srsmith'), 's.r.smith@eagle.clarion.edu'),
+                                                                      ('Brady', 'Bizzarri', 's_bmbizzarri', SHA1('s_bmbizzarri'), 'b.m.bizzarri@eagle.clarion.edu');
 
 INSERT INTO userroles (UserID,RoleID) VALUES (1,1);
 INSERT INTO userroles (UserID,RoleID) VALUES (2,2);
@@ -235,7 +236,9 @@ INSERT INTO userroles (UserID,RoleID) VALUES (6,2),  -- Gina as Student
                                              (10,4), -- Sara as Inventory Management
                                              (11,4), -- Nat as Order Fulfillment
                                              (11,2), -- Nat as Student
-                                             (12,2); -- Sam as Student
+                                             (12,2), -- Sam as Student
+                                             (13,3); -- Brady as developer
+
 
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,1);
