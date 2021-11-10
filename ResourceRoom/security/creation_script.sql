@@ -764,7 +764,7 @@ INSERT INTO `productcategories` (`ProductID`, `CategoryID`) VALUES
 (83, 3),
 (84, 3),
 (85, 3),
-(86, 3),
+(86, 4),
 (87, 4),
 (88, 4),
 (89, 4),
