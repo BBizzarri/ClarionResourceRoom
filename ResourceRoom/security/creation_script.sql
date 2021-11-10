@@ -7,6 +7,7 @@ USE resourceroom;
 -- CREATE USER cis411 IDENTIFIED BY 'cis411';
 GRANT USAGE ON *.* TO cis411@localhost IDENTIFIED BY 'cis411';
 GRANT ALL PRIVILEGES ON resourceroom.* TO 'cis411'@'localhost';
+
 -- --------------------------------------------------------
 
 CREATE TABLE functions ( FunctionID INT NOT NULL AUTO_INCREMENT,
