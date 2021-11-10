@@ -1,14 +1,5 @@
 <?php
-    $title = " Admin Shopping List Page";
-    require '../view/headerInclude.php';
-?>
-<html>
-<body>
-    <section class="clarion-blue">
-        <h1>Under Construction</h1>
-    </section>
-</body>
-</html>
-<?php
-    require '../view/footerInclude.php';
+    echo '<pre>';
+    print_r($_SESSION);
+    echo  '</pre>';
 ?>

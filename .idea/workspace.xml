@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="integrating databeans">
+    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Fixing more of Brady's mistakes">
+      <change afterPath="$PROJECT_DIR$/ResourceRoom/lib/Mobile_Detect.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/shopperCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/shopperCasesInclude.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/model/model.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/index.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +23,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Staging" />
+        <entry key="$PROJECT_DIR$" value="bbizzarri-resource-room" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -53,7 +49,24 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/ResourceRoom/productImages" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\ClarionResourceRoom\ResourceRoom\productImages" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\ClarionResourceRoom\ResourceRoom\lib" />
+      <recent name="C:\xampp\htdocs\ClarionResourceRoom\ResourceRoom\Images" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -63,11 +76,16 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1631803416568</updated>
-      <workItem from="1632945992602" duration="224000" />
-      <workItem from="1633029717961" duration="1646000" />
-      <workItem from="1633149685889" duration="2904000" />
-      <workItem from="1633205579373" duration="4453000" />
-      <workItem from="1633477898949" duration="39000" />
+      <workItem from="1632945793651" duration="1343000" />
+      <workItem from="1633524002236" duration="8974000" />
+      <workItem from="1634844093872" duration="9053000" />
+      <workItem from="1635026490795" duration="13494000" />
+      <workItem from="1635145946772" duration="576000" />
+      <workItem from="1635164274358" duration="1163000" />
+      <workItem from="1635167323295" duration="15201000" />
+      <workItem from="1635982897080" duration="2343000" />
+      <workItem from="1636103101359" duration="1502000" />
+      <workItem from="1636125133039" duration="74000" />
     </task>
     <task id="LOCAL-00001" summary="fixing merge conflict">
       <created>1631803451977</created>
@@ -195,63 +213,112 @@
       <option name="project" value="LOCAL" />
       <updated>1632940042329</updated>
     </task>
-    <task id="LOCAL-00019" summary="Adding functional sidebar to shopping page">
-      <created>1632945724175</created>
+    <task id="LOCAL-00019" summary="Filter work">
+      <created>1634041974567</created>
       <option name="number" value="00019" />
       <option name="presentableId" value="LOCAL-00019" />
       <option name="project" value="LOCAL" />
-      <updated>1632945724175</updated>
+      <updated>1634041974568</updated>
     </task>
-    <task id="LOCAL-00020" summary="Fixed creationscript, switched to use productview table">
-      <created>1633034037339</created>
+    <task id="LOCAL-00020" summary="Finished Filtering">
+      <created>1634240702120</created>
       <option name="number" value="00020" />
       <option name="presentableId" value="LOCAL-00020" />
       <option name="project" value="LOCAL" />
-      <updated>1633034037339</updated>
+      <updated>1634240702120</updated>
     </task>
-    <task id="LOCAL-00021" summary="Fixed creationscript, switched to use productview table v2">
-      <created>1633034128010</created>
+    <task id="LOCAL-00021" summary="admin Inventory page touch up">
+      <created>1635189890345</created>
       <option name="number" value="00021" />
       <option name="presentableId" value="LOCAL-00021" />
       <option name="project" value="LOCAL" />
-      <updated>1633034128010</updated>
+      <updated>1635189890346</updated>
     </task>
-    <task id="LOCAL-00022" summary="Add to cart and displaying card based on signed in user">
-      <created>1633038128883</created>
+    <task id="LOCAL-00022" summary="updated how category header gets set">
+      <created>1635366965520</created>
       <option name="number" value="00022" />
       <option name="presentableId" value="LOCAL-00022" />
       <option name="project" value="LOCAL" />
-      <updated>1633038128883</updated>
+      <updated>1635366965520</updated>
     </task>
-    <task id="LOCAL-00023" summary="Add to cart and displaying card based on signed in user">
-      <created>1633038231629</created>
+    <task id="LOCAL-00023" summary="Bug fixes">
+      <created>1635985138491</created>
       <option name="number" value="00023" />
       <option name="presentableId" value="LOCAL-00023" />
       <option name="project" value="LOCAL" />
-      <updated>1633038231629</updated>
+      <updated>1635985138491</updated>
     </task>
-    <task id="LOCAL-00024" summary="Add and remove items from cart as signed in user">
-      <created>1633041663041</created>
+    <task id="LOCAL-00024" summary="Taking print_r out">
+      <created>1636124910844</created>
       <option name="number" value="00024" />
       <option name="presentableId" value="LOCAL-00024" />
       <option name="project" value="LOCAL" />
-      <updated>1633041663041</updated>
+      <updated>1636124910844</updated>
     </task>
-    <task id="LOCAL-00025" summary="Converted project to use php classes.">
-      <created>1633209990498</created>
+    <task id="LOCAL-00025" summary="Bug Fixes">
+      <created>1636125488675</created>
       <option name="number" value="00025" />
       <option name="presentableId" value="LOCAL-00025" />
       <option name="project" value="LOCAL" />
-      <updated>1633209990498</updated>
+      <updated>1636125488675</updated>
     </task>
-    <task id="LOCAL-00026" summary="integrating databeans">
-      <created>1633538560745</created>
+    <task id="LOCAL-00026" summary="Bug Fixes">
+      <created>1636302302919</created>
       <option name="number" value="00026" />
       <option name="presentableId" value="LOCAL-00026" />
       <option name="project" value="LOCAL" />
-      <updated>1633538560746</updated>
+      <updated>1636302302919</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Pictures">
+      <created>1636302590167</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1636302590167</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Bug fixes">
+      <created>1636303239752</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1636303239752</updated>
+    </task>
+    <task id="LOCAL-00029" summary="making everyone elses work">
+      <created>1636305001909</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1636305001909</updated>
+    </task>
+    <task id="LOCAL-00030" summary="css updates">
+      <created>1636310215968</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1636310215968</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Fixing more of Brady's mistakes">
+      <created>1636315051402</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1636315051402</updated>
+    </task>
+    <task id="LOCAL-00032" summary="attempt 1 at mobile add">
+      <created>1636338417160</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1636338417160</updated>
+    </task>
+    <task id="LOCAL-00033" summary="reports page">
+      <created>1636341512394</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1636341512394</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -274,8 +341,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixing merge conflict" />
-    <MESSAGE value="Updating Main Branch" />
     <MESSAGE value="Finished UI For admin inventory page" />
     <MESSAGE value="database connection admin inventory page" />
     <MESSAGE value="Admin reports UI" />
@@ -287,13 +352,20 @@
     <MESSAGE value="adding functionality to the admin inventory page" />
     <MESSAGE value="adding idea" />
     <MESSAGE value="Fixing table text color and updating creation script" />
-    <MESSAGE value="Adding functional sidebar to shopping page" />
-    <MESSAGE value="Fixed creationscript, switched to use productview table" />
-    <MESSAGE value="Fixed creationscript, switched to use productview table v2" />
-    <MESSAGE value="Add to cart and displaying card based on signed in user" />
-    <MESSAGE value="Add and remove items from cart as signed in user" />
-    <MESSAGE value="Converted project to use php classes." />
-    <MESSAGE value="integrating databeans" />
-    <option name="LAST_COMMIT_MESSAGE" value="integrating databeans" />
+    <MESSAGE value="Filter work" />
+    <MESSAGE value="Finished Filtering" />
+    <MESSAGE value="admin Inventory page touch up" />
+    <MESSAGE value="updated how category header gets set" />
+    <MESSAGE value="Updating CSS and code cleanup" />
+    <MESSAGE value="Taking print_r out" />
+    <MESSAGE value="Bug Fixes" />
+    <MESSAGE value="Pictures" />
+    <MESSAGE value="Bug fixes" />
+    <MESSAGE value="making everyone elses work" />
+    <MESSAGE value="css updates" />
+    <MESSAGE value="Fixing more of Brady's mistakes" />
+    <MESSAGE value="attempt 1 at mobile add" />
+    <MESSAGE value="reports page" />
+    <option name="LAST_COMMIT_MESSAGE" value="reports page" />
   </component>
 </project>

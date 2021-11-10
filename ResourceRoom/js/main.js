@@ -1,18 +1,20 @@
-function generalSearch(){
-    var criteria = '';
-    criteria = $(`#Criteria`).val();
-    document.location="../controller/controller.php?action=shopperHome&ListType=GeneralSearch&Criteria=" + encodeURIComponent(criteria);
+function clearFilters(){
+     document.getElementById("QtyLessThan").value = "";
+     let inactiveItemsCheckbox = document.getElementById('inactiveItems');
+     inactiveItemsCheckbox.checked = false;
+     let stockedItemsCheckbox = document.getElementById('stockedItems');
+     stockedItemsCheckbox.checked = false;
+     document.location="../controller/controller.php?action=adminInventory&CategoryMode=true";
 }
 
-function generalSearchAdmin(){
-    var criteria = '';
-    criteria = $(`#Criteria`).val();
-    document.location="../controller/controller.php?action=adminInventory&ListType=GeneralSearch&Criteria=" + encodeURIComponent(criteria);
-}
+$('.my-select').selectpicker();
 
-function adjustAll(){
-    var textBoxes = document.querySelectorAll('[id^=number]');
-
-//    var ProductRow = "<?php echo $ProductRow['PRODUCTID']; ?>";
-//    document.location="../Controller/Controller.php?action=processBulkStockAdjust&PRODUCTID=" + ProductRow;
+function adjustSingleStock(ProductID) {
+        let IncomingAmt = document.getElementById('incomingAmt_' + ProductID).value
+        document.location="../controller/controller.php?action=processStockAdjust&Type=single&IncomingAmt=" + encodeURIComponent(IncomingAmt) + "&ProductID=" + encodeURIComponent(ProductID);
 }
+function openEditModal($CategoryID) {
+            $('#edit_categoryModal_' + $CategoryID).modal('toggle');
+        }
+
+

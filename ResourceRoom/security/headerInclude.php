@@ -12,9 +12,4 @@
 		<?php } 
 			if (userIsAuthorized("SecurityManageRoles")) {  ?>
 				<a href="../security/index.php?action=SecurityManageRoles">Manage Roles</a> &nbsp;
-		<?php }
-			if (loggedIn()) {  ?>
-				<a href="../security/index.php?action=SecurityLogOut">Log Out</a>
-		<?php } else { 
-				echo "<a href=\"../security/index.php?action=SecurityLogin&RequestedPage=" . urlencode($_SERVER['REQUEST_URI']) . "\">Log In</a>";
-		} ?>
+		<?php } ?>

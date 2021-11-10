@@ -30,7 +30,18 @@ class cart
         return $this->ProductsInCart;
     }
 
+    function inCart($productID){
+        foreach($this->ProductsInCart as $product){
+            if($product->getProductObject()->getProductID() == $productID){
+                return TRUE;
+            }
+        }
+        return FALSE;
+    }
 
+    function getNumberOfItemsInCart(){
+        return sizeof($this->ProductsInCart);
+    }
     function toString()
     {
         print_r($this);

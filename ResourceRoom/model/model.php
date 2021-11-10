@@ -2,6 +2,8 @@
     include_once 'product.php';
     include_once 'cart.php';
     include_once 'category.php';
+    include_once 'order.php';
+    include_once 'user.php';
 
     function getDBConnection() {
             $dsn = 'mysql:host=localhost;dbname=resourceroom';
@@ -32,30 +34,200 @@
         $query = 'INSERT INTO errorlog (UserID, UserName, ErrorMessage)
                 VALUES (:UserID, :UserName, :ErrorMessage)';
         $statement = $db->prepare($query);
-
         $statement->bindValue(':UserName', $username);
         $statement->bindValue(':UserID', $userID);
         $statement->bindValue(':ErrorMessage', $errorMessage);
-
         $success = $statement->execute();
-        $statement->closeCursor();            
+        $statement->closeCursor();
         include '../view/errorPage.php';
     }
 
-    function getAllCategories() {
+
+
+    function AdjustCart($PRODUCTID, $QTYREQUESTED)
+    {
+        $USERID = getUserID();
+        $db = getDBConnection();
+        $query = "update cart set QTYREQUESTED = :QTYREQUESTED where PRODUCTID = :PRODUCTID and USERID = :USERID";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':USERID', $USERID);
+        $statement->bindValue(':PRODUCTID', $PRODUCTID);
+        $statement->bindValue(':QTYREQUESTED', $QTYREQUESTED);
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success)
+        {
+
+            return $statement->rowCount();
+        }
+        else
+        {
+            logSQLError($statement->errorInfo());
+        }
+    }
+
+    function addCategory($CategoryName)
+    {
+       $db = getDBConnection();
+       $query = 'INSERT INTO category (CATEGORYDESCRIPTION)
+                                        VALUES (:CATEGORYDESCRIPTION)';
+       $statement = $db->prepare($query);
+       $statement->bindValue(':CATEGORYDESCRIPTION', $CategoryName);
+       $success = $statement->execute();
+       $statement->closeCursor();
+       if($success)
+       {
+           return $db->lastInsertId();;
+       }
+       else
+       {
+           logSQLError($statement->errorInfo());
+       }
+    }
+
+    function addProduct($ProductName, $QtyOnHand, $MaxOrderQty, $GoalStock, $ProductDescription, $ProductCategories)
+    {
+       $db = getDBConnection();
+       $query = 'INSERT INTO product (NAME, QTYONHAND, MAXORDERQTY, GOALSTOCK, PRODUCTDESCRIPTION)
+                                        VALUES (:NAME, :QTYONHAND, :MAXORDERQTY, :GOALSTOCK, :PRODUCTDESCRIPTION)';
+       $statement = $db->prepare($query);
+       $statement->bindValue(':NAME', $ProductName);
+       $statement->bindValue(':QTYONHAND', $QtyOnHand);
+       $statement->bindValue(':MAXORDERQTY', $MaxOrderQty);
+       $statement->bindValue(':GOALSTOCK', $GoalStock);
+       $statement->bindValue(':PRODUCTDESCRIPTION', $ProductDescription);
+       $success = $statement->execute();
+       $statement->closeCursor();
+       addProductCategories($ProductCategories, $db->lastInsertId());
+       if($success)
+       {
+           return $db->lastInsertId();;
+       }
+       else
+       {
+           logSQLError($statement->errorInfo());
+       }
+    }
+
+    function addProductCategories($ProductCategories, $ProductID) {
+        $db = getDBConnection();
+        clearCategories($ProductID);
+        foreach($ProductCategories as $IndividualCategory)
+        {
+           $query = 'INSERT INTO productcategories (PRODUCTID, CATEGORYID)
+                                            VALUES (:PRODUCTID, :CATEGORYID)';
+           $statement = $db->prepare($query);
+           $statement->bindValue(':PRODUCTID', $ProductID);
+           $statement->bindValue(':CATEGORYID', $IndividualCategory);
+           $success = $statement->execute();
+           $statement->closeCursor();
+
+           if($success)
+           {
+               //savePriceImageFile($db->lastInsertId());
+           }
+           else
+           {
+               logSQLError($statement->errorInfo());
+           }
+        }
+    }
+
+    function addToCart($PRODUCTID, $QTYREQUESTED)
+    {
+        $USERID = getUserID();
+        $db = getDBConnection();
+        $query = 'INSERT INTO cart (UserID, PRODUCTID, QTYREQUESTED)
+            VALUES (:USERID, :PRODUCTID, :QTYREQUESTED)';
+        $statement = $db->prepare($query);
+        $statement->bindValue(':USERID', $USERID);
+        $statement->bindValue(':PRODUCTID', $PRODUCTID);
+        $statement->bindValue(':QTYREQUESTED', $QTYREQUESTED);
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success)
+        {
+
+            return $statement->rowCount();
+        }
+        else
+        {
+            logSQLError($statement->errorInfo());
+        }
+    }
+
+    function changeOrderStatus($orderID,$newStatus){
+            if($newStatus == "READY FOR PICKUP"){
+                $DATECOLUM = "DATEFILLED";
+            }else {
+                $DATECOLUM = "DATECOMPLETED";
+            }
+            try {
+                $db = getDBConnection();
+                $query = "update orders set STATUS = :newStatus, $DATECOLUM = :DATE where ORDERID = :ORDERID";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':ORDERID', $orderID);
+                $statement->bindValue(':newStatus', $newStatus);
+                $statement->bindValue(':DATE', date("Y-m-d"));
+                $statement->execute();
+                $results = $statement->fetchAll();
+                $statement->closeCursor();
+            } catch (PDOException $e) {
+                $errorMessage = $e->getMessage();
+                include '../view/errorPage.php';
+                die;
+            }
+    }
+
+    function clearCart($USERID){
+            $db = getDBConnection();
+            $query = 'DELETE FROM cart WHERE (USERID = :USERID)';
+            $statement = $db->prepare($query);
+            $statement->bindValue(':USERID', $USERID);
+            $success = $statement->execute();
+            $statement->closeCursor();
+            if($success)
+            {
+                $_SESSION['itemsInCart'] = 0;
+                return $statement->rowCount();
+            }
+            else
+            {
+                logSQLError($statement->errorInfo());
+            }
+    }
+
+    function clearCategories($ProductID)
+    {
+       $db = getDBConnection();
+       $query = 'DELETE FROM productcategories WHERE PRODUCTID = :PRODUCTID';
+       $statement = $db->prepare($query);
+       $statement->bindValue(':PRODUCTID', $ProductID);
+       $success = $statement->execute();
+       $statement->closeCursor();
+
+       if($success)
+       {
+           //savePriceImageFile($db->lastInsertId());
+       }
+       else
+       {
+           logSQLError($statement->errorInfo());
+       }
+    }
+
+    function fillOrder($order){
         try {
             $db = getDBConnection();
-            $query = "select * from category order by DESCRIPTION";
-            $statement = $db->prepare($query);
-            $statement->execute();
-            $results = $statement->fetchAll();
-            $statement->closeCursor();
-            $categories = array();
-            foreach($results as $CategoryRow)
-            {
-                array_push($categories,new category($CategoryRow['CATEGORYID'],$CategoryRow['DESCRIPTION']));
+            foreach($order->getOrderDetails() as $orderDetail){
+                $query = "update product set QTYONHAND = QTYONHAND - :QTYFILLED where PRODUCTID = :PRODUCTID";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':PRODUCTID', $orderDetail->getProduct()->getProductID());
+                $statement->bindValue(':QTYFILLED', $orderDetail->getQTYFilled());
+                $statement->execute();
+                $results = $statement->fetchAll();
+                $statement->closeCursor();
             }
-            return $categories;           // Assoc Array of Rows
         } catch (PDOException $e) {
             $errorMessage = $e->getMessage();
             include '../view/errorPage.php';
@@ -63,79 +235,346 @@
         }
     }
 
-        function getAllProducts() {
+
+    function fillOrderDetails($order){
+        try {
+            $db = getDBConnection();
+            foreach($order->getOrderDetails() as $orderDetail){
+                $query = "update orderdetails set QTYFILLED = :QTYFILLED where ORDERID = :ORDERID and PRODUCTID = :PRODUCTID";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':ORDERID', $order->getOrderID());
+                $statement->bindValue(':PRODUCTID', $orderDetail->getProduct()->getProductID());
+                $statement->bindValue(':QTYFILLED', $orderDetail->getQTYFilled());
+                $statement->execute();
+                $results = $statement->fetchAll();
+                $statement->closeCursor();
+            }
+        } catch (PDOException $e) {
+            $errorMessage = $e->getMessage();
+            include '../view/errorPage.php';
+            die;
+        }
+    }
+
+    function getAdminOrders(){
+            try{
+                $db = getDBConnection();
+                $query = "SELECT orders.ORDERID, orders.*, orderdetails.QTYREQUESTED, orderdetails.QTYFILLED, productview.*, concat(users.FirstName, ' ', users.LastName) as USERSNAME FROM orders inner join orderdetails on orders.ORDERID = orderdetails.ORDERID
+                                                      inner join productview on orderdetails.PRODUCTID = productview.PRODUCTID
+                                                      inner join users on orders.USERID = users.UserID ORDER BY orders.DATEORDERED DESC";
+                $statement = $db->prepare($query);
+                $statement->execute();
+                $result = $statement->fetchAll( PDO::FETCH_GROUP| PDO::FETCH_ASSOC);
+                $statement->closeCursor();
+                $AllOrders = array();
+                foreach($result as $order) {
+                    $orderDetails = array();
+                    foreach($order as $orderItem){
+                        array_push($orderDetails, new orderDetail($orderItem['ORDERID'],
+                            new product($orderItem['PRODUCTID'],$orderItem['NAME'],$orderItem['PRODUCTDESCRIPTION'],$orderItem['QTYONHAND'],
+                                $orderItem['MAXORDERQTY'],$orderItem['ORDERLIMIT'],$orderItem['GOALSTOCK'],$orderItem['QTYONORDER'],$orderItem['QTYAVAILABLE']),
+                            $orderItem['QTYREQUESTED'],$orderItem['QTYFILLED']));
+
+                    }
+                    array_push($AllOrders, new order($order[0]['ORDERID'],$order[0]['USERID'],$order[0]['STATUS'],$order[0]['DATEORDERED'],$order[0]['DATEFILLED'],$order[0]['DATECOMPLETED'],$order[0]['COMMENT'],$orderDetails, $order[0]['USERSNAME']));
+                }
+                return $AllOrders;
+            }
+            catch (Exception $ex)
+            {
+                $errorMessage = $ex->getMessage();
+                include '../view/errorPage.php';
+                die;
+            }
+    }
+
+    function getAllCategories() {
             try {
                 $db = getDBConnection();
-                $query = "select * from productview order by NAME";
+                $query = "select * from category order by CATEGORYDESCRIPTION";
                 $statement = $db->prepare($query);
                 $statement->execute();
                 $results = $statement->fetchAll();
                 $statement->closeCursor();
-                $products = array();
-                foreach($results as $ProductRow)
+                $categories = array();
+                foreach($results as $CategoryRow)
                 {
-                    array_push($products,new product($ProductRow['PRODUCTID'],$ProductRow['NAME'],$ProductRow['DESCRIPTION'],$ProductRow['QTYONHAND'],
-                        $ProductRow['MAXORDERQTY'],$ProductRow['GOALSTOCK'],$ProductRow['ONORDER'],$ProductRow['QTYAVAILABLE']));
+                    array_push($categories,new category($CategoryRow['CATEGORYID'],$CategoryRow['CATEGORYDESCRIPTION']));
                 }
-                return $products;
+                return $categories;           // Assoc Array of Rows
             } catch (PDOException $e) {
                 $errorMessage = $e->getMessage();
                 include '../view/errorPage.php';
                 die;
             }
-        }
-        function getCart($USERID)
-        {
-            try{
-                $db = getDBConnection();
-                $query = "select *
-                          from productview
-                          inner join cart on productview.PRODUCTID = cart.PRODUCTID
-                          where cart.USERID = :USERID";
-                $statement = $db->prepare($query);
-                $statement->bindValue(":USERID", $USERID);
-                $statement->execute();
-                $result = $statement->fetchAll();
-                $statement->closeCursor();
-                $products = array();
-                foreach($result as $CartRow)
-                {
-                    array_push($products,new cartItem(new product($CartRow['PRODUCTID'],$CartRow['NAME'],$CartRow['DESCRIPTION'],$CartRow['QTYONHAND'],
-                        $CartRow['MAXORDERQTY'],$CartRow['GOALSTOCK'],$CartRow['ONORDER'],$CartRow['QTYAVAILABLE']),$CartRow['QTYREQUESTED'],$CartRow['MOSTRECENTDATE']));
-                }
-                return new cart($USERID, $products);
-            }
-            catch (Exception $ex)
-            {
-                $errorMessage = $e->getMessage();
-                include '../view/errorPage.php';
-                die;
-            }
-        }
+    }
 
+    function getAllSettingsInfo()
+    {
+        $db = getDBConnection();
+        $query = "SELECT * from setting";
+        $statement = $db->prepare($query);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+        return $result;
+    }
 
-        function addToCart($PRODUCTID, $QTYREQUESTED)
-        {
-            $USERID = getUserID();
+    function getCart($USERID)
+    {
+        try{
             $db = getDBConnection();
-            $query = 'INSERT INTO cart (UserID, PRODUCTID, QTYREQUESTED)
-                VALUES (:USERID, :PRODUCTID, :QTYREQUESTED)';
+            $query = "select *
+                      from productview
+                      inner join cart on productview.PRODUCTID = cart.PRODUCTID
+                      where cart.USERID = :USERID";
             $statement = $db->prepare($query);
-            $statement->bindValue(':USERID', $USERID);
-            $statement->bindValue(':PRODUCTID', $PRODUCTID);
-            $statement->bindValue(':QTYREQUESTED', $QTYREQUESTED);
-            $success = $statement->execute();
+            $statement->bindValue(":USERID", $USERID);
+            $statement->execute();
+            $result = $statement->fetchAll();
             $statement->closeCursor();
-            if($success)
+            $products = array();
+            foreach($result as $CartRow)
             {
+                array_push($products,new cartItem(new product($CartRow['PRODUCTID'],$CartRow['NAME'],$CartRow['PRODUCTDESCRIPTION'],$CartRow['QTYONHAND'],
+                    $CartRow['MAXORDERQTY'],$CartRow['ORDERLIMIT'],$CartRow['GOALSTOCK'],$CartRow['QTYONORDER'],$CartRow['QTYAVAILABLE']),$CartRow['QTYREQUESTED']));
+            }
+            return new cart($USERID, $products);
+        }
+        catch (Exception $ex)
+        {
+            $errorMessage = $ex->getMessage();
+            include '../view/errorPage.php';
+            die;
+        }
+    }
 
-                return $statement->rowCount();
+    function getCategoryHeader($CategoryID)
+    {
+
+        $AllProductsCategoriesArray = [];
+        $AllProductsCategories = '';
+        foreach($CategoryID as $SingleCategoryID)
+        {
+            $db = getDBConnection();
+            $query = "SELECT CATEGORYDESCRIPTION from category where CATEGORYID = :CATEGORYID";
+            $statement = $db->prepare($query);
+            $statement->bindValue(':CATEGORYID', $SingleCategoryID);
+            $statement->execute();
+            $results = $statement->fetch();
+            $statement->closeCursor();
+            array_push($AllProductsCategoriesArray, $results[0]);
+        }
+        foreach($AllProductsCategoriesArray as $SingleCategory)
+        {
+            if(end($AllProductsCategoriesArray) == $SingleCategory)
+            {
+                $AllProductsCategories = $AllProductsCategories  . $SingleCategory;
             }
             else
             {
-                logSQLError($statement->errorInfo());
+                $AllProductsCategories = $AllProductsCategories  . $SingleCategory . ',' . ' ';
             }
         }
+         if(strlen($AllProductsCategories) >= 45)
+         {
+            return substr($AllProductsCategories, 0, 45)."...";
+         }
+         else
+         {
+            return $AllProductsCategories;
+         }
+    }
+
+    function getProducts($CategoryID,$QTYLessThan,$IncludeInactiveItems,$HideUnstockedItems,$ShoppingList,$SearchTerm){
+        try{
+            $queryText = "SELECT productview.PRODUCTID,productview.*,productcategories.CATEGORYID,category.CATEGORYDESCRIPTION FROM productview inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
+                            inner join category on productcategories.CATEGORYID = category.CATEGORYID";
+            if($ShoppingList){
+                $HideUnstockedItems = true;
+                $IncludeInactiveItems = false;
+            }
+            if($HideUnstockedItems){
+                $queryText .= " WHERE productview.GOALSTOCK > 0";
+            }else{
+                $queryText .= " WHERE productview.GOALSTOCK > -1";
+            }
+            if($IncludeInactiveItems){
+                $queryText .= " and productview.QTYAVAILABLE > -1";
+            }else{
+                if($ShoppingList){
+                    $queryText .= " and productview.QTYAVAILABLE < productview.GOALSTOCK";
+                }else{
+                    $queryText .= " and productview.QTYAVAILABLE > 0";
+
+                }
+            }
+            if($QTYLessThan != ""){
+                $queryText .= " and productview.QTYAVAILABLE < :QTYLessThan";
+            }
+            if($SearchTerm != ""){
+                $queryText .=" and (productview.NAME LIKE :SearchTerm OR productview.PRODUCTDESCRIPTION LIKE :SearchTerm)";
+            }
+            $queryText .= " order by productview.NAME";
+            $query = $queryText;
+            console_log($query);
+            $db = getDBConnection();
+            $statement = $db->prepare($query);
+            if($QTYLessThan != ""){
+                $statement->bindValue(':QTYLessThan', $QTYLessThan);;
+            }
+            if($SearchTerm != ""){
+                $statement->bindValue(':SearchTerm', "%$SearchTerm%");
+            }
+            $statement->execute();
+            $result = $statement->fetchAll( PDO::FETCH_GROUP | PDO::FETCH_ASSOC);
+            $statement->closeCursor();
+            $AllProducts = array();
+            foreach($result as $products) {
+                $categoryInfo = array();
+                foreach($products as $product){
+                    array_push($categoryInfo,new category($product["CATEGORYID"],$product["CATEGORYDESCRIPTION"]));
+                }
+                if($CategoryID != []) {
+                    $isCategory = FALSE;
+                    foreach ($categoryInfo as $category) {
+                        if (in_array($category->getCategoryID(),$CategoryID)) {
+                            $isCategory = True;
+                        }
+                    }
+                    if ($isCategory) {
+                        array_push($AllProducts, new product($products[0]['PRODUCTID'], $products[0]['NAME'], $products[0]['PRODUCTDESCRIPTION'], $products[0]['QTYONHAND'],
+                            $products[0]['MAXORDERQTY'], $products[0]['ORDERLIMIT'], $products[0]['GOALSTOCK'], $products[0]['QTYONORDER'], $products[0]['QTYAVAILABLE'], $categoryInfo));
+                    }
+                } else{
+                    array_push($AllProducts, new product($products[0]['PRODUCTID'], $products[0]['NAME'], $products[0]['PRODUCTDESCRIPTION'], $products[0]['QTYONHAND'],
+                        $products[0]['MAXORDERQTY'], $products[0]['ORDERLIMIT'], $products[0]['GOALSTOCK'], $products[0]['QTYONORDER'], $products[0]['QTYAVAILABLE'], $categoryInfo));
+                }
+            }
+            return [$AllProducts,$CategoryID,$QTYLessThan,$IncludeInactiveItems,$HideUnstockedItems,$ShoppingList,$SearchTerm];
+        }
+        catch (Exception $ex)
+        {
+            $errorMessage = $ex->getMessage();
+            include '../view/errorPage.php';
+            die;
+        }
+    }
+
+    function getOrderIDsByUSERID($USERID){
+        try{
+            $db = getDBConnection();
+            $query = "SELECT orders.ORDERID, orders.*, orderdetails.QTYREQUESTED, orderdetails.QTYFILLED, productview.*, concat(users.FirstName, ' ', users.LastName) as USERSNAME FROM orders inner join orderdetails on orders.ORDERID = orderdetails.ORDERID
+                                                 inner join productview on orderdetails.PRODUCTID = productview.PRODUCTID
+                                                 inner join users on orders.USERID = users.UserID WHERE orders.USERID = :USERID ORDER BY orders.DATEORDERED DESC";
+            $statement = $db->prepare($query);
+            $statement->bindValue(":USERID", $USERID);
+            $statement->execute();
+            $result = $statement->fetchAll( PDO::FETCH_GROUP| PDO::FETCH_ASSOC);
+            $statement->closeCursor();
+            $AllOrders = array();
+            foreach($result as $order) {
+                $orderDetails = array();
+                foreach($order as $orderItem){
+                    array_push($orderDetails, new orderDetail($orderItem['ORDERID'],
+                        new product($orderItem['PRODUCTID'],$orderItem['NAME'],$orderItem['PRODUCTDESCRIPTION'],$orderItem['QTYONHAND'],
+                            $orderItem['MAXORDERQTY'],$orderItem['ORDERLIMIT'],$orderItem['GOALSTOCK'],$orderItem['QTYONORDER'],$orderItem['QTYAVAILABLE']),
+                        $orderItem['QTYREQUESTED'],$orderItem['QTYFILLED']));
+
+                }
+                array_push($AllOrders, new order($order[0]['ORDERID'],$order[0]['USERID'],$order[0]['STATUS'],$order[0]['DATEORDERED'],$order[0]['DATEFILLED'],$order[0]['DATECOMPLETED'],$order[0]['COMMENT'],$orderDetails, $order[0]['USERSNAME']));
+            }
+            return $AllOrders;
+        }
+        catch (Exception $ex)
+        {
+            $errorMessage = $ex->getMessage();
+            include '../view/errorPage.php';
+            die;
+        }
+    }
+
+    function getUserID(){
+        if(isset($_SESSION["UserID"]))
+        {
+            return $_SESSION["UserID"];
+        }
+    }
+
+    function processSignIn($user){
+        try{
+            $db = getDBConnection();
+            $query = 'SELECT * FROM users inner join userroles on users.UserID = userroles.UserID where users.UserID = :sUnderScore';
+            $statement = $db->prepare($query);
+            $statement->bindValue(':sUnderScore', $user->getsUnderScore());
+            $statement->execute();
+            $result = $statement->fetchAll();
+            $statement->closeCursor();
+            if(empty($result)){
+                try{
+                    $db = getDBConnection();
+                    $query = 'INSERT INTO users (UserID, FirstName, LastName, UserName, Password, Email)
+                        VALUES (:sUnderScore, :FirstName, :LastName,:sUnderScore,:Password,:Email)';
+                    $statement = $db->prepare($query);
+                    $statement->bindValue(':sUnderScore', $user->getsUnderScore());
+                    $statement->bindValue(':FirstName', $user->getFirstName());
+                    $statement->bindValue(':LastName', $user->getLastName());
+                    $statement->bindValue(':Password', '');
+                    $statement->bindValue(':Email', $user->getEmail());
+                    $success = $statement->execute();
+                    $statement->closeCursor();
+                    if($success)
+                    {
+                        try{
+                            $db = getDBConnection();
+                            $query = 'INSERT INTO userroles (UserID, RoleId)
+                        VALUES (:sUnderScore, :RoleID)';
+                            $statement = $db->prepare($query);
+                            $statement->bindValue(':sUnderScore', $user->getsUnderScore());
+                            $statement->bindValue(':RoleID', 2);
+                            $success = $statement->execute();
+                            $statement->closeCursor();
+                            if($success)
+                            {
+                                include '../view/index.php';
+                            }
+                            else
+                            {
+                                logSQLError($statement->errorInfo());
+                            }
+                            return "no user";
+                        }catch (PDOException $e){
+                            $errorMessage = $e->getMessage();
+                            include '../view/errorPage.php';
+                            die;
+                        }
+                    }
+                    else
+                    {
+                        logSQLError($statement->errorInfo());
+                    }
+                    return "no user";
+                }catch (PDOException $e){
+                    $errorMessage = $e->getMessage();
+                    include '../view/errorPage.php';
+                    die;
+                }
+            }
+            else{
+                if($result[0]['RoleID'] == 2){
+                    header( 'Location:../controller/controller.php?action=shopperHome');
+                }else if ($result[0]['RoleID'] == 1){
+                    header( 'Location:../controller/controller.php?action=adminOrders');
+                } else{
+                    header( 'Location:../controller/controller.php?action=shopperHome');
+                }
+            }
+        }  catch (PDOException $e) {
+            $errorMessage = $e->getMessage();
+            include '../view/errorPage.php';
+            die;
+        }
+    }
 
     function removeFromCart($PRODUCTID)
     {
@@ -158,190 +597,146 @@
         }
     }
 
-        function getFilteredProducts($QTYONHAND) {
-            try {
-                $db = getDBConnection();
-                $query = $query = "select *
-                                   from productview
-                                   where QTYONHAND < :QTYONHAND
-                                   order by NAME";
-                $statement = $db->prepare($query);
-                $statement->bindValue(":QTYONHAND", $QTYONHAND);
-                $statement->execute();
-                $results = $statement->fetchAll();
-                $statement->closeCursor();
-                return $results;           // Assoc Array of Rows
-                console_log($results);
-            } catch (PDOException $e) {
-                $errorMessage = $e->getMessage();
-                include '../view/errorPage.php';
-                die;
-            }
-        }
-
-        function getCategory($CATEGORYID)
+    function submitOrder($USERID,$CART,$COMMENT){
+        $db = getDBConnection();
+        $query = 'INSERT INTO orders (UserID, STATUS, DATEORDERED, COMMENT)
+            VALUES (:USERID, :STATUS, :DATEORDERED,:COMMENT)';
+        $statement = $db->prepare($query);
+        $statement->bindValue(':USERID', $USERID);
+        $statement->bindValue(':STATUS', 'SUBMITTED');
+        $statement->bindValue(':DATEORDERED', date("Y-m-d"));
+        $statement->bindValue(':COMMENT', $COMMENT);
+        $success = $statement->execute();
+        $statement->closeCursor();
+        if($success)
         {
-            try{
-                $db = getDBConnection();
-                $query = "select *
-                          from productview
-                          inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
-                          where productcategories.CATEGORYID = :CATEGORYID ";
+            $ORDERID = $db -> lastInsertId();
+            foreach($CART->getProductsInCart() as $cartItem){
+                $query = 'INSERT INTO orderdetails (ORDERID, PRODUCTID, QTYREQUESTED, QTYFILLED)
+                VALUES (:ORDERID, :PRODUCTID, :QTYREQUESTED,:QTYFILLED)';
                 $statement = $db->prepare($query);
-                $statement->bindValue(":CATEGORYID", $CATEGORYID);
-                $statement->execute();
-                $result = $statement->fetchAll();
+                $statement->bindValue(':ORDERID', $ORDERID);
+                $statement->bindValue(':PRODUCTID',$cartItem->getProductObject()->getProductID());
+                $statement->bindValue(':QTYREQUESTED', $cartItem->getQTYRequested());
+                $statement->bindValue(':QTYFILLED', '0');
+                $success = $statement->execute();
                 $statement->closeCursor();
-                $products = array();
-                foreach($result as $ProductRow)
-                {
-                    array_push($products,new product($ProductRow['PRODUCTID'],$ProductRow['NAME'],$ProductRow['DESCRIPTION'],$ProductRow['QTYONHAND'],
-                        $ProductRow['MAXORDERQTY'],$ProductRow['GOALSTOCK'],$ProductRow['ONORDER'],$ProductRow['QTYAVAILABLE']));
-                }
-                return $products;
             }
-            catch (Exception $ex)
-            {
-                $errorMessage = $e->getMessage();
-                include '../view/errorPage.php';
-                die;
-            }
-        }
-
-        function getFilteredCategory($CATEGORYID, $QTYONHAND)
-                {
-                    try{
-                        $db = getDBConnection();
-                        $query = "select *
-                                  from productview
-                                  inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
-                                  where productcategories.CATEGORYID = :CATEGORYID AND QTYONHAND < :QTYONHAND";
-                        $statement = $db->prepare($query);
-                        $statement->bindValue(":CATEGORYID", $CATEGORYID);
-                        $statement->bindValue(":QTYONHAND", $QTYONHAND);
-                        $statement->execute();
-                        $result = $statement->fetchAll();
-                        $statement->closeCursor();
-                        return $result;
-                    }
-                    catch (Exception $ex)
-                    {
-                        $errorMessage = $e->getMessage();
-                        include '../view/errorPage.php';
-                        die;
-                    }
-                }
-
-        function getFilterResults($QTYLESSTHAN) {
-            try{
-                $db = getDBConnection();
-                $query = "select *
-                          from productview
-                          where QTYONHAND < :QTYLESSTHAN ";
-                $statement = $db->prepare($query);
-                $statement->bindValue(":QTYLESSTHAN", $QTYLESSTHAN);
-                $statement->execute();
-                $result = $statement->fetchAll();
-                $statement->closeCursor();
-                return $result;
-            }
-            catch (Exception $ex)
-            {
-                $errorMessage = $e->getMessage();
-                include '../view/errorPage.php';
-                die;
-            }
-        }
-
-        function updateQTY($PRODUCTID, $QTYONHAND, $INCOMINGAMT)
-       {
-            $chars = preg_split('//', $INCOMINGAMT, -1, PREG_SPLIT_NO_EMPTY);
-           if($chars[0] === '-')
-           {
-                $QTYONHAND = $QTYONHAND - $chars[1];
-           }
-           else
-           {
-                $QTYONHAND = $QTYONHAND + $INCOMINGAMT;
-           }
-           $db = getDBConnection();
-           $query = "update productview set QTYONHAND = :QTYONHAND where PRODUCTID = :PRODUCTID";
-           $statement = $db->prepare($query);
-           $statement->bindValue(':PRODUCTID', $PRODUCTID);
-           $statement->bindValue(':QTYONHAND', $QTYONHAND);
-           $success = $statement->execute();
-           $statement->closeCursor();
-           if($success)
-           {
-
-               return $statement->rowCount();
-           }
-           else
-           {
-               logSQLError($statement->errorInfo());
-           }
-       }
-
-        function updateProduct($product)
-        {
-            $db = getDBConnection();
-            $query = "update productview set NAME = :NAME, DESCRIPTION = :DESCRIPTION, QTYONHAND = :QTYONHAND,
-                       MAXORDERQTY = :MAXORDERQTY, GOALSTOCK = :GOALSTOCK where PRODUCTID = :PRODUCTID";
-            $statement = $db->prepare($query);
-            $statement->bindValue(':PRODUCTID', $product->getProductID());
-            $statement->bindValue(':NAME', $product->getProductName());
-            $statement->bindValue(':DESCRIPTION', $product->getProductDescription());
-            $statement->bindValue(':QTYONHAND', $product->getProductQTYOnhand());
-            $statement->bindValue(':MAXORDERQTY', $product->getProductMaxOrderQty());
-            $statement->bindValue(':GOALSTOCK', $product->getProductGoalStock());
-            $success = $statement->execute();
-            $statement->closeCursor();
-            if($success)
-            {
-
+            if($success){
+                clearCart($USERID);
                 return $statement->rowCount();
             }
-            else
-            {
+            else {
                 logSQLError($statement->errorInfo());
             }
+
         }
-
-        function console_log( $data ){
-          echo '<script>';
-          echo 'console.log('. json_encode( $data ) .')';
-          echo '</script>';
+        else
+        {
+            logSQLError($statement->errorInfo());
         }
+    }
 
-        function getUserID(){
-            return $_SESSION["UserID"];
-}
+    function updateCategory($CategoryID, $CategoryName)
+    {
+       $db = getDBConnection();
+       $query = 'UPDATE category SET CATEGORYDESCRIPTION = :CATEGORYDESCRIPTION WHERE CATEGORYID = :CATEGORYID';
+       $statement = $db->prepare($query);
+       $statement->bindValue(':CATEGORYID', $CategoryID);
+       $statement->bindValue(':CATEGORYDESCRIPTION', $CategoryName);
+       $success = $statement->execute();
+       $statement->closeCursor();
+       if($success)
+       {
+           return $statement->rowCount();
+       }
+       else
+       {
+           logSQLError($statement->errorInfo());
+       }
+    }
 
-        function getByGeneralSearch($criteria) {
-                try {
-                    $db = getDBConnection();
-                    $query = 'SELECT *
-                                    FROM productview
-                                    WHERE NAME LIKE :criteria OR
-                                    DESCRIPTION LIKE :criteria
-                                    ORDER BY NAME';
-                    $statement = $db->prepare($query);
-                    $statement->bindValue(':criteria', "%$criteria%");
-                    $statement->execute();
-                    $results = $statement->fetchAll();
-                    $statement->closeCursor();
-                    $products = array();
-                    foreach($results as $ProductRow)
-                    {
-                        array_push($products,new product($ProductRow['PRODUCTID'],$ProductRow['NAME'],$ProductRow['DESCRIPTION'],$ProductRow['QTYONHAND'],
-                            $ProductRow['MAXORDERQTY'],$ProductRow['GOALSTOCK'],$ProductRow['ONORDER'],$ProductRow['QTYAVAILABLE']));
-                    }
-                    return $products;
-                } catch (PDOException $e) {
-                    $errorMessage = $e->getMessage();
-                    include '../view/errorPage.php';
-                    die;
-                }
-            }
+    function updateProduct($ProductID, $ProductName, $QtyOnHand, $MaxOrderQty, $GoalStock, $ProductDescription, $ProductCategories)
+    {
+       $db = getDBConnection();
+       $query = 'UPDATE product SET NAME = :NAME, QTYONHAND = :QTYONHAND, MAXORDERQTY = :MAXORDERQTY, GOALSTOCK = :GOALSTOCK, PRODUCTDESCRIPTION = :PRODUCTDESCRIPTION WHERE PRODUCTID = :PRODUCTID';
+       $statement = $db->prepare($query);
+       $statement->bindValue(':PRODUCTID', $ProductID);
+       $statement->bindValue(':NAME', $ProductName);
+       $statement->bindValue(':QTYONHAND', $QtyOnHand);
+       $statement->bindValue(':MAXORDERQTY', $MaxOrderQty);
+       $statement->bindValue(':GOALSTOCK', $GoalStock);
+       $statement->bindValue(':PRODUCTDESCRIPTION', $ProductDescription);
+       $success = $statement->execute();
+       $statement->closeCursor();
+       if($success)
+       {
+           addProductCategories($ProductCategories, $ProductID);
+           return $statement->rowCount();
+       }
+       else
+       {
+           logSQLError($statement->errorInfo());
+       }
+    }
 
+    function updateQTY($ProductID, $IncomingAmt)
+   {
+       $db = getDBConnection();
+       if(substr($IncomingAmt, -strlen($IncomingAmt), 1) == '-')
+       {
+            $Operation = '-';
+            $IncomingAmtSep = explode('-', $IncomingAmt);
+            $IncomingAmt = $IncomingAmtSep[1];
+            $query = "update product set QTYONHAND = QTYONHAND - :QTYONHAND where PRODUCTID = :PRODUCTID";
+       }
+       else
+       {
+            $Operation = '+';
+            $query = "update product set QTYONHAND = QTYONHAND + :QTYONHAND where PRODUCTID = :PRODUCTID";
+       }
+       $statement = $db->prepare($query);
+       $statement->bindValue(':PRODUCTID', $ProductID);
+       $statement->bindValue(':QTYONHAND', $IncomingAmt);
+       $success = $statement->execute();
+       $statement->closeCursor();
+       if($success)
+       {
+
+
+           return $statement->rowCount();
+       }
+       else
+       {
+           logSQLError($statement->errorInfo());
+       }
+   }
+
+   function UpdateSettings($ReceiversPlaced, $ReceiversFilled, $EmailTextPlaced, $EmailTextFilled, $FooterAnnouncement)
+   {
+       $db = getDBConnection();
+       $query = 'UPDATE setting SET EmailOrderReceived = :EmailOrderReceived, EmailOrderFilled = :EmailOrderFilled, OrderReceivedText = :OrderReceivedText, OrderFilledText = :OrderFilledText, FooterText = :FooterText WHERE SETTINGID = 1';
+       $statement = $db->prepare($query);
+       $statement->bindValue(':EmailOrderReceived', $ReceiversPlaced);
+       $statement->bindValue(':EmailOrderFilled', $ReceiversFilled);
+       $statement->bindValue(':OrderReceivedText', $EmailTextPlaced);
+       $statement->bindValue(':OrderFilledText', $EmailTextFilled);
+       $statement->bindValue(':FooterText', $FooterAnnouncement);
+       $success = $statement->execute();
+       $statement->closeCursor();
+       if($success)
+       {
+           return $statement->rowCount();
+       }
+       else
+       {
+           logSQLError($statement->errorInfo());
+       }
+   }
+
+    function console_log( $data ){
+      echo '<script>';
+      echo 'console.log('. json_encode( $data ) .')';
+      echo '</script>';
+    }
 ?>

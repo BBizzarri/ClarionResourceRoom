@@ -1,9 +1,11 @@
 header, nav, section, footer {
     border-style: solid;
 }
+
 .center {
     text-align: center;
 }
+
 .clearable {
     clear: both;
 }
@@ -11,13 +13,19 @@ header, nav, section, footer {
 .account-dropdown {
     padding-left: 10px;
 }
-
+body{
+    min-height: 100vh;
+}
 .clarion-gold {
     background-color: #97824A;
 }
 
 .clarion-blue {
     background-color: #003366;
+}
+
+section {
+    min-height: 75vh;
 }
 
 .clarion-white {
@@ -36,3 +44,55 @@ header, nav, section, footer {
   height: 50px;
 }
 hr {width: 50px; color: #97824A}
+
+.hiddenRow {
+    padding: 0 !important;
+}
+
+.orderModals{
+    max-width: 50%;
+    width: auto !important;
+}
+
+.color-black
+{
+    color: black;
+}
+
+.color-grey
+{
+    background-color: #cccccc !important;
+}
+
+.account-settings-label{
+    font-size: 25px;
+}
+
+.account-settings-heading {
+    font-size: 35px;
+}
+
+.margin-bottom {
+    margin-bottom: 30px;
+}
+
+.account-settings-card {
+    margin-top: 30px;
+}
+
+.account-settings-card-body {
+    padding-left:20px;
+}
+
+.productImg{
+    border: 2px solid #555;
+}
+
+.vertical-align {
+    vertical-align: middle;
+}
+
+ul#navigation .active {
+  font-weight: bold;
+}
+

@@ -7,20 +7,24 @@ class product
     public $Description;
     public $QtyOnHand;
     public $MaxOrderQty;
+    public $OrderLimit;
     public $GoalStock;
     public $OnOrder;
-    public $Available;
+    public $QTYAvailable;
+    public $CategoryInfo;
 
     //Constructor
-    function __construct($ProductID, $Name, $Description, $QtyOnHand, $MaxOrderQty, $GoalStock, $OnOrder, $Available) {
+    function __construct($ProductID, $Name, $Description, $QtyOnHand, $MaxOrderQty,$OrderLimit, $GoalStock, $OnOrder, $QTYAvailable,$CategoryInfo=[]) {
         $this->ProductID = $ProductID;
         $this->Name = $Name;
         $this->Description = $Description;
         $this->QtyOnHand = $QtyOnHand;
         $this->MaxOrderQty = $MaxOrderQty;
+        $this->OrderLimit = $OrderLimit;
         $this->GoalStock = $GoalStock;
         $this->OnOrder = $OnOrder;
-        $this->Available = $Available;
+        $this->QTYAvailable = $QTYAvailable;
+        $this->CategoryInfo = $CategoryInfo;
     }
     //Destructor
     function __destruct() {
@@ -41,36 +45,44 @@ class product
     function  getProductMaxOrderQty(){
         return $this->MaxOrderQty;
     }
+    function getProductOrderLimit(){
+        return $this->OrderLimit;
+    }
     function getProductGoalStock(){
         return $this->GoalStock;
     }
     function getProductOnOrder(){
         return $this->OnOrder;
     }
-    function getProductAvailable(){
-        return $this->Available;
+    function getProductQTYAvailable(){
+        return $this->QTYAvailable;
+    }
+    function getProductCategories(){
+        return $this->CategoryInfo;
     }
     function setProductName($productName) {
-        $this->ProductName = $productName;
+        $this->Name = $productName;
     }
     function setProductDescription($productDescription) {
-        $this->ProductDescription = $productDescription;
+        $this->Description = $productDescription;
     }
     function setProductQtyOnHand($productQtyOnHand) {
-        $this->ProductQtyOnHand = $productQtyOnHand;
+        $this->QtyOnHand = $productQtyOnHand;
     }
+
     function setProductMaxOrderQty($productMaxOrderQty) {
-        $this->ProductMaxOrderQty = $productMaxOrderQty;
+        $this->MaxOrderQty = $productMaxOrderQty;
     }
     function setProductGoalStock($productGoalStock) {
-        $this->ProductGoalStock = $productGoalStock;
+        $this->GoalStock = $productGoalStock;
     }
     function setProductOnOrder($productOnOrder) {
-        $this->ProductOnOrder = $productOnOrder;
+        $this->OnOrder = $productOnOrder;
     }
     function setProductAvailable($productAvailable) {
-        $this->ProductAvailable = $productAvailable;
+        $this->QTYAvailable = $productAvailable;
     }
+
 
     function toString(){
         print_r($this);
