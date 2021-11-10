@@ -237,12 +237,10 @@
         changeOrderStatus($orderID,$newStatus);
         fillOrderDetails($order);
         fillOrder($order);
-
         $SettingsInfo = getAllSettingsInfo();
         $USERID = getUserID();
-        $UsersEmail = getUserEmail($USERID);
-        $to = $UsersEmail['Email'];
-        $cc = $SettingsInfo['EmailOrderFilled'];
+        $OrderedByEmail = getEmailToOrder($orderID);
+        $to = $OrderedByEmail['Email'];
         $subject = $SettingsInfo['OrderFilledSubj'];
         $body = $SettingsInfo['OrderFilledText'];
         $cc = $SettingsInfo['EmailOrderFilled'];
