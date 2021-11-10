@@ -482,6 +482,7 @@
                 }else{
                     $queryText .= " and (productview.QTYAVAILABLE > 0 or productview.GOALSTOCK > 0)";
 
+
                 }
             }
             if($QTYLessThan != ""){

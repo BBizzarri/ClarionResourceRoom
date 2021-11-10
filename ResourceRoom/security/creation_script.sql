@@ -1173,6 +1173,7 @@ INSERT INTO `cart` (`USERID`, `PRODUCTID`, `QTYREQUESTED`) VALUES
 (6, 1012, 4);      -- QtyAvailable = 0, Item is out of stock
 COMMIT;
 
+
 INSERT INTO `setting` (SettingID, EmailOrderReceived, EmailOrderFilled, OrderReceivedText, OrderFilledText, OrderReceivedSubj, OrderFilledSubj, FooterText, PhotoDir) VALUES
 (1, 'resourceroom@clarion.edu, admin@clarion.edu', 'resourceroom@clarion.edu',
  'Hello!  We have received your order and will fill it as soon as we are able.  Once the order has been filled, another email will be sent to confirm pick up details.',
