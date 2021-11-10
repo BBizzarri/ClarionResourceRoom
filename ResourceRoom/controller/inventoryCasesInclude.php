@@ -245,7 +245,9 @@
         $cc = $SettingsInfo['EmailOrderFilled'];
         $subject = $SettingsInfo['OrderFilledSubj'];
         $body = $SettingsInfo['OrderFilledText'];
-        mail($to,$cc,$subject,$body);
+        $cc = $SettingsInfo['EmailOrderFilled'];
+        $headers[] = 'Cc:' .$cc;
+        mail($to,$subject,$body,implode("\r\n", $headers));
         header("Location: {$_SERVER['HTTP_REFERER']}");
     }
 
