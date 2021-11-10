@@ -461,6 +461,20 @@
          }
     }
 
+    function getEmailToOrder($orderID)
+    {
+        $db = getDBConnection();
+        $query = "select users.Email
+                 from users
+                 inner join orders on users.UserID = orders.USERID
+                 where orders.ORDERID = :ORDERID";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':ORDERID', $orderID);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+        return $result;
+    }
     function getProducts($CategoryID,$QTYLessThan,$IncludeInactiveItems,$HideUnstockedItems,$ShoppingList,$SearchTerm){
         try{
             $queryText = "SELECT productview.PRODUCTID,productview.*,productcategories.CATEGORYID,category.CATEGORYDESCRIPTION FROM productview inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
