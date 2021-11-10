@@ -480,7 +480,7 @@
                 if($ShoppingList){
                     $queryText .= " and productview.QTYAVAILABLE < productview.GOALSTOCK";
                 }else{
-                    $queryText .= " and productview.QTYAVAILABLE > 0";
+                    $queryText .= " and (productview.QTYAVAILABLE > 0 or productview.GOALSTOCK > 0)";
 
                 }
             }
