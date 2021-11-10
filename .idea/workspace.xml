@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="getting email to work right!">
+    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Fixing date of competed orders">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/security/creation_script.sql" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/security/creation_script.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/view/shopperOrders.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/shopperOrders.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -341,7 +340,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636495905969</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Fixing date of competed orders">
+      <created>1636572195065</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1636572195065</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -364,7 +370,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Hooking data up attempt" />
     <MESSAGE value="Reports Page UI" />
     <MESSAGE value="Fixing styling issues" />
     <MESSAGE value="Sidebar updates" />
@@ -389,6 +394,7 @@
     <MESSAGE value="updated admin permissions &#10;adding new images" />
     <MESSAGE value="integrating email" />
     <MESSAGE value="getting email to work right!" />
-    <option name="LAST_COMMIT_MESSAGE" value="getting email to work right!" />
+    <MESSAGE value="Fixing date of competed orders" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixing date of competed orders" />
   </component>
 </project>
