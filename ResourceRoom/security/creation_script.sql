@@ -19,7 +19,7 @@ CREATE TABLE roles ( RoleID INT NOT NULL AUTO_INCREMENT,
                      Description TEXT,
                      PRIMARY KEY (RoleID) );
 
-CREATE TABLE users ( UserID INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE users ( UserID VARCHAR(20) NOT NULL,
                      FirstName VARCHAR(32) NOT NULL,
                      LastName VARCHAR(32) NOT NULL,
                      UserName VARCHAR(32) NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE rolefunctions ( RoleID INT NOT NULL,
                              FOREIGN KEY (RoleID) REFERENCES roles(RoleID) ON DELETE CASCADE,
                              FOREIGN KEY (FunctionID) REFERENCES functions(FunctionID) ON DELETE CASCADE );
 
-CREATE TABLE userroles ( UserID INT NOT NULL,
+CREATE TABLE userroles ( UserID VARCHAR(20) NOT NULL,
                          RoleID INT NOT NULL,
                          PRIMARY KEY (UserID, RoleID),
                          FOREIGN KEY (UserID) REFERENCES users(UserID) ON DELETE CASCADE,
@@ -42,14 +42,14 @@ CREATE TABLE userroles ( UserID INT NOT NULL,
 CREATE TABLE errorlog (
                           LogID     INT NOT NULL AUTO_INCREMENT,
                           TimeInserted     TIMESTAMP NOT NULL,
-                          UserID     INT NOT NULL,
+                          UserID     VARCHAR(20) NOT NULL,
                           UserName     VARCHAR(32) NOT NULL,
                           ErrorMessage     VARCHAR(1024) NOT NULL,
                           PRIMARY KEY (LogID));
 
 CREATE TABLE orders
 (   ORDERID                 INT AUTO_INCREMENT,
-    USERID                  INT,
+    USERID                  VARCHAR(20),
     STATUS                  VARCHAR(30),
     DATEORDERED             DATE,
     DATEFILLED              DATE,
@@ -100,7 +100,7 @@ CREATE TABLE productcategories
 
 CREATE TABLE cart
 (
-    USERID                  INT,
+    USERID                  VARCHAR(20),
     PRODUCTID               INT,
     QTYREQUESTED            INT,
     CONSTRAINT CART_PK PRIMARY KEY (USERID, PRODUCTID),
@@ -189,7 +189,8 @@ INSERT INTO functions (Name,Description) VALUES ('addEditProduct','Creates a new
                                                 ('addEditCategory','Allows User to add, edit or delete a category'),
                                                 ('updateEmailAnnouncementSettings','Allows user to update email and announcement settings'),
                                                 ('mobileAdd','Allows user to add items from their phone');
-
+INSERT INTO functions (Name,Description) VALUES ('ProcessLogin', 'Process SSO Login');
+INSERT INTO functions (Name,Description) VALUES ('SecurityChangeUserLevel', 'Change authorization level');
 
 
 
@@ -200,24 +201,18 @@ INSERT INTO roles (Name,Description) VALUES  ('Admin','Full privileges.'),
                                              ('Order Fulfillment','View and fill orders.'),
                                              ('Guest', 'Guest');
 
--- INSERT INTO roles (Name,Description) VALUES ('updater','Update/Read privileges.');
--- INSERT INTO roles (Name,Description) VALUES ('reader','Read-only privileges.');
--- INSERT INTO roles (Name,Description) VALUES ('guest','Features available to all visitors without logging in.');
 
+INSERT INTO users (UserID,FirstName,LastName,UserName,Password,Email) VALUES ('s_admin','TestAdmin','TestAdmin','admin',SHA1('admin'),'admin@clarion.edu'),
+                                                                      ('s_student','TestStudent','TestStudent', 'student', SHA1('student'), 'teststudent@clarion.edu'),
+                                                                      ('s_developer','TestDeveloper', 'TestDeveloper', 'developer', SHA1('developer'), 'testdeveloper@clarion.edu'),
+                                                                      ('s_inventory','TestInventory', 'TestInventory', 'inventory', SHA1('inventory'), 'testinventory@clarion.edu'),
+                                                                      ('s_order','TestOrder', 'TestOrder', 'order', SHA1('order'), 'testorder@clarion.edu');
 
-
-
-INSERT INTO users (FirstName,LastName,UserName,Password,Email) VALUES ('TestAdmin','TestAdmin','admin',SHA1('admin'),'admin@clarion.edu'),
-                                                                      ('TestStudent','TestStudent', 'student', SHA1('student'), 'teststudent@clarion.edu'),
-                                                                      ('TestDeveloper', 'TestDeveloper', 'developer', SHA1('developer'), 'testdeveloper@clarion.edu'),
-                                                                      ('TestInventory', 'TestInventory', 'inventory', SHA1('inventory'), 'testinventory@clarion.edu'),
-                                                                      ('TestOrder', 'TestOrder', 'order', SHA1('order'), 'testorder@clarion.edu');
-
-INSERT INTO userroles (UserID,RoleID) VALUES (1,1);
-INSERT INTO userroles (UserID,RoleID) VALUES (2,2);
-INSERT INTO userroles (UserID,RoleID) VALUES (3,3);
-INSERT INTO userroles (UserID,RoleID) VALUES (4,4);
-INSERT INTO userroles (UserID,RoleID) VALUES (5,5);
+INSERT INTO userroles (UserID,RoleID) VALUES ('s_admin',1);
+INSERT INTO userroles (UserID,RoleID) VALUES ('s_student',2);
+INSERT INTO userroles (UserID,RoleID) VALUES ('s_developer',3);
+INSERT INTO userroles (UserID,RoleID) VALUES ('s_inventory',4);
+INSERT INTO userroles (UserID,RoleID) VALUES ('s_order',5);
 
 -- Should admin have these functions??
 -- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,1);
@@ -308,7 +303,9 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (3,1),
                                                      (3,36),
                                                      (3,37),
                                                      (3,38),
-                                                     (3,39);
+                                                     (3,39),
+                                                     (3,40),
+                                                     (3,41);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,20),
                                                      (4,24),
@@ -1039,10 +1036,10 @@ Please put size in comment box before ordering', 30, 5, 0), -- GoalStock = 0 (Te
 COMMIT;
 
 INSERT INTO `orders` (`ORDERID`, `USERID`, `STATUS`, `DATEORDERED`, `DATEFILLED`, `DATECOMPLETED`, `COMMENT`) VALUES
-(1, 1, 'COMPLETED', '2021-08-29', '2021-09-01', '2021-09-05', 'I am allergice to Nuts'),
-(2, 2, 'READY FOR PICKUP', '2021-09-16', '2021-09-17', '', ' '),
-(3, 1, 'SUBMITTED', '2021-09-18',  '', '', 'I live off campus'),
-(4, 3, 'SUBMITTED', '2021-09-19', '', '', 'Size Xtra Large For the Tank Top');
+(1, 's_admin', 'COMPLETED', '2021-08-29', '2021-09-01', '2021-09-05', 'I am allergice to Nuts'),
+(2, 's_student', 'READY FOR PICKUP', '2021-09-16', '2021-09-17', '', ' '),
+(3, 's_admin', 'SUBMITTED', '2021-09-18',  '', '', 'I live off campus'),
+(4, 's_inventory', 'SUBMITTED', '2021-09-19', '', '', 'Size Xtra Large For the Tank Top');
 COMMIT;
 
 INSERT INTO `productcategories` (`ProductID`, `CategoryID`) VALUES
@@ -1108,12 +1105,12 @@ INSERT INTO `orderdetails` (`ORDERID`, `PRODUCTID`, `QTYREQUESTED`, `QTYFILLED`)
 COMMIT;
 
 INSERT INTO `cart` (`USERID`, `PRODUCTID`, `QTYREQUESTED`) VALUES
-(5, 1001, 6),      -- QtyRequested > MaxOrderQty, can't be ordered as in cart
-(5, 1002, 1),      -- No issues
-(5, 1003, 2),      -- No issues
-(5, 1006, 1),      -- Date is from 2020
-(5, 1009, 10),     -- QtyRequested > QtyAvailable, can't be ordered as in cart
-(5, 1012, 4);      -- QtyAvailable = 0, Item is out of stock
+('s_order', 1001, 6),      -- QtyRequested > MaxOrderQty, can't be ordered as in cart
+('s_order', 1002, 1),      -- No issues
+('s_order', 1003, 2),      -- No issues
+('s_order', 1006, 1),      -- Date is from 2020
+('s_order', 1009, 10),     -- QtyRequested > QtyAvailable, can't be ordered as in cart
+('s_order', 1012, 4);      -- QtyAvailable = 0, Item is out of stock
 COMMIT;
 
 INSERT INTO `setting` (SettingID, EmailOrderReceived, EmailOrderFilled, OrderReceivedText, OrderFilledText, FooterText, PhotoDir) VALUES

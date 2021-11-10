@@ -66,6 +66,11 @@
                                 <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'mobileAdd')){ echo 'active';}?>" href="../controller/controller.php?action=mobileAdd">Mobile Add<span class="sr-only"></span></a>
                             </li>
                         <?php } ?>
+                        <?php if(userIsAuthorized("SecurityChangeUserLevel")) { ?>
+                            <li class="nav-item">
+                                <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'SecurityChangeUserLevel')){ echo 'active';}?>" href="../security/index.php?action=SecurityChangeUserLevel">Change User Level<span class="sr-only"></span></a>
+                            </li>
+                        <?php } ?>
                     </ul>
             <?php if(userIsAuthorized("shopperHome")) { ?>
                 <form id = "navSearchForm" class="form-inline my-2 my-lg-0" action="../controller/controller.php?action=shopperHome&ListType=GeneralSearch" method="post" enctype="multipart/form-data">
