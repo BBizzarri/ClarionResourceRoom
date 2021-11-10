@@ -23,8 +23,8 @@
                     <tr data-toggle="collapse" data-target="#orderDetails_<?php echo $order->getOrderID()?>" class="accordion-toggle clarion-white">
                         <td><?php echo htmlspecialchars($order->getOrderStatus())?></td>
                         <td><?php $dateOrdered = new DateTime(htmlspecialchars($order->getOrderDateOrdered())); echo $dateOrdered->format('m/d/Y');?></td>
-                        <td><?php if($order->getOrderDateFilled()){ $dateOrderFilled = new DateTime(htmlspecialchars($order->getOrderDateFilled())); echo $dateOrderFilled->format('m/d/Y');}?></td>
-                        <td><?php if($order->getOrderDateCompleted()){ $dateOrderCompleted = new DateTime(htmlspecialchars($order->getOrderDateCompleted())); echo $dateOrderCompleted->format('m/d/Y');}?></td>
+                        <td><?php if($order->getOrderDateFilled() $order->getOrderDateFilled() != '0000-00-00'){ $dateOrderFilled = new DateTime(htmlspecialchars($order->getOrderDateFilled())); echo $dateOrderFilled->format('m/d/Y');}?></td>
+                        <td><?php if($order->getOrderDateCompleted() && $order->getOrderDateCompleted() != '0000-00-00' ){ $dateOrderCompleted = new DateTime(htmlspecialchars($order->getOrderDateCompleted())); echo $dateOrderCompleted->format('m/d/Y');}?></td>
                         <td><?php echo htmlspecialchars($order->getOrderSize())?></td>
                         <td style="text-align: left;"><?php echo htmlspecialchars($order->getOrderComment())?></td>
                     </tr>
