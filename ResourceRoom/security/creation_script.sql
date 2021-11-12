@@ -1175,10 +1175,10 @@ INSERT INTO `setting` (SettingID, EmailOrderReceived, EmailOrderFilled, EmailOrd
                        OrderFilledText, OrderReminderText, OrderCancelledText, OrderReceivedSubj, OrderFilledSubj, OrderReminderSubj,
                        OrderCancelledSubj, FooterText, PhotoDir) VALUES
      (1,
-     'A.J.Robinson1@eagle.clarion.edu, B.J.Lindermuth@eagle.clarion.edu',
-     'A.J.Robinson1@eagle.clarion.edu, B.J.Lindermuth@eagle.clarion.edu',
-     'A.J.Robinson1@eagle.clarion.edu, B.J.Lindermuth@eagle.clarion.edu, g.m.bennett@eagle.clarion.edu',
-     'A.J.Robinson1@eagle.clarion.edu, B.J.Lindermuth@eagle.clarion.edu, g.m.bennett@eagle.clarion.edu',
+     'A.J.Robinson1@eagle.clarion.edu, B.J.Lindermuth@eagle.clarion.edu, D.Kaltenbaugh@eagle.clarion.edu',
+     'A.J.Robinson1@eagle.clarion.edu, B.J.Lindermuth@eagle.clarion.edu, D.Kaltenbaugh@eagle.clarion.edu',
+     'A.J.Robinson1@eagle.clarion.edu, B.J.Lindermuth@eagle.clarion.edu, D.Kaltenbaugh@eagle.clarion.edu, g.m.bennett@eagle.clarion.edu',
+     'A.J.Robinson1@eagle.clarion.edu, B.J.Lindermuth@eagle.clarion.edu, D.Kaltenbaugh@eagle.clarion.edu, g.m.bennett@eagle.clarion.edu',
      'Hello!  We have received your order and it will be filled as soon as possible.  You will receive another email when it is ready for pickup.  Thank you!',
      'Hello!  Your order has been filled and is ready for pick up at the Gemmell Info Desk.
      Info desk hours are Monday-Friday 9AM -10PM and Noon-10PM on Saturday and Sunday. Please bring a photo ID with you when picking up your order.  Thank you!',
