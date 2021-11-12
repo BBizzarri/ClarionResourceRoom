@@ -7,22 +7,35 @@
     <section id="main" class="clarion-blue">
         <div class="container-fluid">
             <div class ="row">
-                <div class="col-2 sidebar">
-                    <div class="sidebar-elements w-100">
-                        <h3 class="sidebar-heading">Categories</h3>
-                        <ul class="nav flex-column">
-                            <?php foreach ($CategoryArray as $category) {
+                <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2">
+                    <nav class="navbar-fixed-left navbar-expand-md navbar-light bg-light flex-column col-12 w-100 sidebar">
+                        <div class ="container-fluid">
+                            <div class ="row">
+                                <div class = "col-6">
+                                    <a class="navbar-brand">Categories</a>
+                                </div>
+                                <div class = "col-6 text-right">
+                                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#categorySideBar" aria-controls="categorySideBar" aria-expanded="false" aria-label="Toggle navigation">
+                                        <span class="navbar-toggler-icon"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="collapse navbar-collapse" id="categorySideBar">
+                            <ul class="nav col-12">
+                                <?php foreach ($CategoryArray as $category) {
+                                    ?>
+                                    <li class="nav-item col-12">
+                                        <a class="category nav-link " href="../controller/controller.php?action=shopperHome&CATEGORYID=<?php echo $category->getCategoryID()?>&DESCRIPTION=<?php echo htmlspecialchars($category->getCategoryDescription())?>&Display=<?php echo 'category' ?>"><?php echo htmlspecialchars($category->getCategoryDescription()) ?></a>
+                                    </li>
+                                    <?php
+                                }
                                 ?>
-                                <li class="nav-item">
-                                    <a class="category nav-link " href="../controller/controller.php?action=shopperHome&CATEGORYID=<?php echo $category->getCategoryID()?>&DESCRIPTION=<?php echo htmlspecialchars($category->getCategoryDescription())?>&Display=<?php echo 'category' ?>"><?php echo htmlspecialchars($category->getCategoryDescription()) ?></a>
-                                </li>
-                                <?php
-                            }
-                            ?>
-                        </ul>
-                    </div>
+                            </ul>
+                        </div>
+                    </nav>
                 </div>
-                <div class="col-10">
+                <div class="col-sm-12 col-md-8 col-lg-9 col-xl-10">
                     <div class="container-fluid">
                         <h3 class="category-heading"><?php echo htmlspecialchars($CategoryHeader)?></h3>
                         <div class="row">
@@ -42,8 +55,8 @@
                                         <h4 class="card-title"><?php echo htmlspecialchars($product->getProductName())?></h4>
                                         <?php if($product->getProductDescription() != ""): ?>
                                             <div>
-                                                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modal_<?php echo $product->getProductID()?>">
-                                                    Description...
+                                                <button type="button" class="btn btn-secondary col-12" data-toggle="modal" data-target="#modal_<?php echo $product->getProductID()?>">
+                                                    <span class="col-12" style="font-size:smaller;">Description...</span>
                                                 </button>
                                             </div>
                                             <!-- Modal -->
