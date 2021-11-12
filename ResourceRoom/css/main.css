@@ -96,3 +96,7 @@ ul#navigation .active {
   font-weight: bold;
 }
 
+.settings-inputs
+{
+    width: 600px;
+}

@@ -386,6 +386,20 @@
          }
     }
 
+    function getEmailToOrder($orderID)
+    {
+        $db = getDBConnection();
+        $query = "select users.Email
+                 from users
+                 inner join orders on users.UserID = orders.USERID
+                 where orders.ORDERID = :ORDERID";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':ORDERID', $orderID);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+        return $result;
+    }
     function getProducts($CategoryID,$QTYLessThan,$IncludeInactiveItems,$HideUnstockedItems,$ShoppingList,$SearchTerm){
         try{
             $queryText = "SELECT productview.PRODUCTID,productview.*,productcategories.CATEGORYID,category.CATEGORYDESCRIPTION FROM productview inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
@@ -494,11 +508,39 @@
         }
     }
 
+    function getUserEmail($userID)
+    {
+        $db = getDBConnection();
+        $query = "select Email
+                    from users
+                    where USERID = :USERID";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':USERID', $userID);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+        return $result;
+    }
+
     function getUserID(){
         if(isset($_SESSION["UserID"]))
         {
             return $_SESSION["UserID"];
         }
+    }
+
+    function getReport()
+    {
+        $db = getDBConnection();
+        $query = "select users.UserID, users.FirstName, users.LastName, users.UserName, users.Email, COUNT(orders.ORDERID) as TotalOrders
+                    from users
+                    inner join orders on users.UserID = orders.USERID
+                    group by users.UserID";
+        $statement = $db->prepare($query);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+        return $result;
     }
 
     function removeFromCart($PRODUCTID)

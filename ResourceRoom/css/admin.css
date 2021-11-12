@@ -73,7 +73,7 @@ table {
 .filter-buttons {
     width: 500px;
     margin: 0 auto;
-    padding-left: 85px;
+    padding-left: 65px;
 }
 
 .container table {
@@ -113,6 +113,7 @@ category-background {
     margin-right: auto;
     border-width: 3px;
     border-color: #003366;
+    width: 100%;
 }
 
 .sidebar-heading {
@@ -190,3 +191,4 @@ category-background {
   height: 500px;
   margin: 5px;
 }
+

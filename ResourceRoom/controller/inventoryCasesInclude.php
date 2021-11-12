@@ -237,12 +237,22 @@
         changeOrderStatus($orderID,$newStatus);
         fillOrderDetails($order);
         fillOrder($order);
+        $SettingsInfo = getAllSettingsInfo();
+        $USERID = getUserID();
+        $OrderedByEmail = getEmailToOrder($orderID);
+        $to = $OrderedByEmail['Email'];
+        $subject = $SettingsInfo['OrderFilledSubj'];
+        $body = $SettingsInfo['OrderFilledText'];
+        $cc = $SettingsInfo['EmailOrderFilled'];
+        $headers[] = 'Cc:' .$cc;
+        mail($to,$subject,$body,implode("\r\n", $headers));
         header("Location: {$_SERVER['HTTP_REFERER']}");
     }
 
     function adminReports()
     {
         $SettingsInfo = getAllSettingsInfo();
+        $SelectedReport = getReport();
         include '../view/adminReports.php';
     }
 

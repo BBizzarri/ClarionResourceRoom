@@ -131,6 +131,7 @@
     function processSubmitOrder(){
         $SettingsInfo = getAllSettingsInfo();
         $USERID = getUserID();
+        $UsersEmail = getUserEmail($USERID);
         $invalidRequests = validateCart($USERID);
         if(isset($_POST["cartComment"])){
             $COMMENT = $_POST["cartComment"];
@@ -141,6 +142,15 @@
             submitOrder($USERID,getCart($USERID),$COMMENT);
         }
         displayShopperOrders();
+
+        $to = $UsersEmail['Email'];
+        $cc = $SettingsInfo['EmailOrderReceived'];
+        $subject = $SettingsInfo['OrderReceivedSubj'];
+        $body = $SettingsInfo['OrderReceivedText'];
+        $cc = $SettingsInfo['EmailOrderReceived'];
+        $headers[] = 'Cc:' .$cc;
+        mail($to,$subject,$body,implode("\r\n", $headers));
+
     }
 
     function validateCart($USERID){
