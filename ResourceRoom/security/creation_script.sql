@@ -217,35 +217,25 @@ INSERT INTO userroles (UserID,RoleID) VALUES ('s_developer',3);
 INSERT INTO userroles (UserID,RoleID) VALUES ('s_inventory',4);
 INSERT INTO userroles (UserID,RoleID) VALUES ('s_order',5);
 
-INSERT INTO users (FirstName,LastName,UserName,Password,Email) VALUES ('Test','Admin','admin',SHA1('admin'),'admin@clarion.edu'),
-                                                                      ('Test','Student', 'student', SHA1('student'), 'teststudent@clarion.edu'),
-                                                                      ('Test', 'Developer', 'developer', SHA1('developer'), 'testdeveloper@clarion.edu'),
-                                                                      ('Test', 'Inventory', 'inventory', SHA1('inventory'), 'testinventory@clarion.edu'),
-                                                                      ('Test', 'Order', 'order', SHA1('order'), 'testorder@clarion.edu'),
-                                                                      ('Gina', 'Bennett', 's_gmbennett', SHA1('s_gmbennett'), 'g.m.bennett@eagle.clarion.edu'),
-                                                                      ('Austin', 'Robinson', 's_ajrobinso1', SHA1('s_ajrobinso1'), 'a.j.robinson1@eagle.clarion.edu'),
-                                                                      ('Meredith', 'Karg', 'mlkarg', SHA1('mlkarg'), 'mlkarg@clarion.edu'),
-                                                                      ('Tom', 'Crissman', 'tcrissman', SHA1('tcrissman'), 'tcrissman@clarion.edu'),
-                                                                      ('Sara', 'Custer', 's_skcuster', SHA1('s_skcuster'), 's.k.custer@eagle.clarion.edu'),
-                                                                      ('Natalie', 'LaCoe', 's_nalacoe', SHA1('s_nalacoe'), 'n.a.lacoe@eagle.clarion.edu'),
-                                                                      ('Samuel', 'Smith', 's_srsmith', SHA1('s_srsmith'), 's.r.smith@eagle.clarion.edu'),
-                                                                      ('Brady', 'Bizzarri', 's_bmbizzarri', SHA1('s_bmbizzarri'), 'b.m.bizzarri@eagle.clarion.edu');
+INSERT INTO users (UserID,FirstName,LastName,UserName,Password,Email) VALUES ('s_gmbennett','Gina', 'Bennett', 's_gmbennett', SHA1('s_gmbennett'), 'g.m.bennett@eagle.clarion.edu'),
+                                                                      ('s_ajrobinso1','Austin', 'Robinson', 's_ajrobinso1', SHA1('s_ajrobinso1'), 'a.j.robinson1@eagle.clarion.edu'),
+                                                                      ('mlkarg','Meredith', 'Karg', 'mlkarg', SHA1('mlkarg'), 'mlkarg@clarion.edu'),
+                                                                      ('tcrissman','Tom', 'Crissman', 'tcrissman', SHA1('tcrissman'), 'tcrissman@clarion.edu'),
+                                                                      ('s_skcuster','Sara', 'Custer', 's_skcuster', SHA1('s_skcuster'), 's.k.custer@eagle.clarion.edu'),
+                                                                      ('s_nalacoe','Natalie', 'LaCoe', 's_nalacoe', SHA1('s_nalacoe'), 'n.a.lacoe@eagle.clarion.edu'),
+                                                                      ('s_srsmith','Samuel', 'Smith', 's_srsmith', SHA1('s_srsmith'), 's.r.smith@eagle.clarion.edu'),
+                                                                      ('s_bmbizzarri','Brady', 'Bizzarri', 's_bmbizzarri', SHA1('s_bmbizzarri'), 'b.m.bizzarri@eagle.clarion.edu');
 
-INSERT INTO userroles (UserID,RoleID) VALUES (1,1);
-INSERT INTO userroles (UserID,RoleID) VALUES (2,2);
-INSERT INTO userroles (UserID,RoleID) VALUES (3,3);
-INSERT INTO userroles (UserID,RoleID) VALUES (4,4);
-INSERT INTO userroles (UserID,RoleID) VALUES (5,5);
-INSERT INTO userroles (UserID,RoleID) VALUES (6,2),  -- Gina as Student
-                                             (7,2),  -- Austin as Student
-                                             (8,1),  -- Meredith as Admin
-                                             (9,1),  -- Tom as Admin
-                                             (10,2), -- Sara as Student
-                                             (10,4), -- Sara as Inventory Management
-                                             (11,4), -- Nat as Order Fulfillment
-                                             (11,2), -- Nat as Student
-                                             (12,2), -- Sam as Student
-                                             (13,1); -- Brady as developer
+INSERT INTO userroles (UserID,RoleID) VALUES ('s_gmbennett',2),  -- Gina as Student
+                                             ('s_ajrobinso1',2),  -- Austin as Student
+                                             ('mlkarg',1),  -- Meredith as Admin
+                                             ('tcrissman',1),  -- Tom as Admin
+                                             ('s_skcuster',2), -- Sara as Student
+                                             ('s_skcuster',4), -- Sara as Inventory Management
+                                             ('s_nalacoe',4), -- Nat as Order Fulfillment
+                                             ('s_nalacoe',2), -- Nat as Student
+                                             ('s_srsmith',2), -- Sam as Student
+                                             ('s_bmbizzarri',1); -- Brady as developer
 
 
 
@@ -1120,56 +1110,6 @@ INSERT INTO `productcategories` (`ProductID`, `CategoryID`) VALUES
 (1017, 15),   -- Suave in Hair Care
 (1017, 16),   -- Suave in Body
 (1017, 17);   -- Suave in Face
-COMMIT;
-
-INSERT INTO `orderdetails` (`ORDERID`, `PRODUCTID`, `QTYREQUESTED`, `QTYFILLED`) VALUES
--- Order 1, 5 different items, all items filled as requested, Order Complete
-(1, 1002, 1, 1),
-(1, 1003, 2, 2),
-(1, 1005, 2, 2),
-(1, 1009, 3, 3),
-(1, 1010, 1, 1),
-(1, 1012, 1, 1),
--- Order 2, 8 different items, 2 items not filled as requested, Ready for Pickup
-(2, 1000, 1, 1),
-(2, 1001, 3, 3),
-(2, 1003, 1, 1),
-(2, 1005, 2, 2),
-(2, 1006, 2, 1),  -- Only received 1 bag of sugar
-(2, 1007, 1, 1),
-(2, 1009, 2, 2),
-(2, 1012, 4, 0),  -- Received no notebooks
--- Order 3, 6 different items, Submitted (Not Filled) so QtyFilled = 0 for all items
-(3, 1000, 1, 0),
-(3, 1004, 1, 0),
-(3, 1005, 2, 0),
-(3, 1010, 3, 0),
-(3, 1016, 8, 0),  -- QtyRequested > Qty Available
-(3, 1017, 7, 0),  -- QtyRequested > Qty Available
--- Order 4, 10 different items, Submitted (Not Filled) so QtyFilled = 0 for all items
-(4, 1001, 4, 0),
-(4, 1002, 1, 0),
-(4, 1003, 2, 0),
-(4, 1004, 1, 0), -- QtyAvailable < QtyRequested, Will not receive a coat
-(4, 1005, 2, 0),
-(4, 1006, 1, 0),
-(4, 1007, 1, 0),
-(4, 1009, 2, 0),
-(4, 1010, 1, 0),
-(4, 1011, 4, 0),
-(5, 22, 1, 1),
-(5, 1000, 1, 1),
-(5, 200, 3, 3),
-(5, 36, 2, 2),
-(5, 1002, 1, 1),
-(6, 193, 2, 2),
-(6, 194, 2, 1),
-(6, 3, 1, 1),
-(6, 1001, 4, 4),
-(6, 1002, 2, 1),
-(7, 128, 3, 3),
-(7, 86, 4, 2),
-(7, 87, 2, 2);
 COMMIT;
 
 INSERT INTO `cart` (`USERID`, `PRODUCTID`, `QTYREQUESTED`) VALUES
