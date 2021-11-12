@@ -114,10 +114,16 @@ CREATE TABLE setting
 (   SETTINGID               INT,
     EmailOrderReceived      VARCHAR(300),
     EmailOrderFilled        VARCHAR(300),
+    EmailOrderReminder      VARCHAR(300),
+    EmailOrderCancelled     VARCHAR(300),
     OrderReceivedText       VARCHAR(500),
     OrderFilledText         VARCHAR(500),
+    OrderReminderText       VARCHAR(500),
+    OrderCancelledText      VARCHAR(500),
     OrderReceivedSubj       VARCHAR(100),
     OrderFilledSubj         VARCHAR(100),
+    OrderReminderSubj       VARCHAR(100),
+    OrderCancelledSubj      VARCHAR(100),
     FooterText              VARCHAR(200),
     PhotoDir                TEXT,
     CONSTRAINT SETTING_PK PRIMARY KEY (SETTINGID)
@@ -1059,73 +1065,125 @@ INSERT INTO `productcategories` (`ProductID`, `CategoryID`) VALUES
 COMMIT;
 
 INSERT INTO `product` (`ProductID`, `Name`, `ProductDescription`, `QtyOnHand`, `MaxOrderQty`, `GoalStock`) VALUES
-(1000, 'Blanket', 'Dark blue, fleece.  Approximately 50x50 inches', 1, 1, 0),  -- GoalStock = 0 (Temp item)
-(1001, 'Clear American Sparkling Water, Wild Cherry', '1 bottle, 33.8 fl oz', 10, 5, 5),
-(1002, 'Basmati Rice', '1 bag, 32 oz', 2, 1, 5),  -- QtyOnHand < GoalStock (On shopping List)
-(1003, 'Gluten Free Angel Hair Pasta', '1 box, 1lb', 4, 2, 10), -- QtyOnHand < GoalStock (On shopping List)
-(1004, 'Coat', 'Forever 21 Faux Fur Lined Womens Coat, size Xtra Large', 1, 1, 0), -- GoalStock = 0 (Temp item)
-(1005, 'Canned Dragon Fruit', '1 can, 12 oz', 9, 3, 5),
-(1006, 'Sugar', '1 bag, .5 lb', 6, 2, 8), -- QtyOnHand < GoalStock (On shopping List)
-(1007, 'Flour', '1 bag, .5 lb', 8, 1, 3),
-(1008, 'Curtains', 'Barbie Pink, Room darkening, 63"', 1, 1, 0), -- GoalStock = 0 (Temp item)
-(1009, 'Vienna Sausages', '1 can, 6 oz', 10, 15, 6),
-(1010, 'Ruler', '12 inch Ruler', 20, 3, 5),
-(1011, 'Black Tank Top', 'Womens Tank Tops, size Small, Medium, and Xtra Large Available.
-Please put size in comment box before ordering', 30, 5, 0), -- GoalStock = 0 (Temp item)
-(1012, 'Composition Notebooks', '1 Black, regular ruled notebook', 0, 5, 19),  -- QtyOnHand = 0, out of stock
-(1013, 'Canned Alfredo Pasta Sauce', '1 can, 24 oz', 0, 3, 10), -- QtyOnHand = 0, out of stock
-(1014, 'iPhone 10 case', 'blue with stars design, Otterbox', 0, 1, 0), -- inactive item
-(1015, 'Thinx Period Proof Underwear', 'black, size Medium, brief style', 1, 1, 0),  -- GoalStock = 0 (Temp item)
-(1016, 'Creamy Italian Wedding Soup', '12 oz can', 5, 8, 0),
-(1017, 'Suave 3-1 Shampoo, Body and Face Wash', '16 fl oz bottle, scent: ThunderBird Axe Attack', 3, 10, 15); -- QtyOnHand < GoalStock (On shopping List)
+    (1000, 'Blanket', 'Dark blue, fleece.  Approximately 50x50 inches', 1, 1, 0),  -- GoalStock = 0 (Temp item)
+    (1001, 'Clear American Sparkling Water, Wild Cherry', '1 bottle, 33.8 fl oz', 10, 5, 5),
+    (1002, 'Basmati Rice', '1 bag, 32 oz', 2, 1, 5),  -- QtyOnHand < GoalStock (On shopping List)
+    (1003, 'Gluten Free Angel Hair Pasta', '1 box, 1lb', 4, 2, 10), -- QtyOnHand < GoalStock (On shopping List)
+    (1004, 'Coat', 'Forever 21 Faux Fur Lined Womens Coat, size Xtra Large', 1, 1, 0), -- GoalStock = 0 (Temp item)
+    (1005, 'Canned Dragon Fruit', '1 can, 12 oz', 9, 3, 5),
+    (1006, 'Sugar', '1 bag, .5 lb', 6, 2, 8), -- QtyOnHand < GoalStock (On shopping List)
+    (1007, 'Flour', '1 bag, .5 lb', 8, 1, 3),
+    (1008, 'Curtains', 'Barbie Pink, Room darkening, 63"', 1, 1, 0), -- GoalStock = 0 (Temp item)
+    (1009, 'Vienna Sausages', '1 can, 6 oz', 10, 15, 6),
+    (1010, 'Ruler', '12 inch Ruler', 20, 3, 5),
+    (1011, 'Black Tank Top', 'Womens Tank Tops, size Small, Medium, and Xtra Large Available.
+    Please put size in comment box before ordering', 30, 5, 0), -- GoalStock = 0 (Temp item)
+    (1012, 'Composition Notebooks', '1 Black, regular ruled notebook', 0, 5, 19),  -- QtyOnHand = 0, out of stock
+    (1013, 'Canned Alfredo Pasta Sauce', '1 can, 24 oz', 0, 3, 10), -- QtyOnHand = 0, out of stock
+    (1014, 'iPhone 10 case', 'blue with stars design, Otterbox', 0, 1, 0), -- inactive item
+    (1015, 'Thinx Period Proof Underwear', 'black, size Medium, brief style', 1, 1, 0),  -- GoalStock = 0 (Temp item)
+    (1016, 'Creamy Italian Wedding Soup', '12 oz can', 5, 8, 0),
+    (1017, 'Suave 3-1 Shampoo, Body and Face Wash', '16 fl oz bottle, scent: ThunderBird Axe Attack', 3, 10, 15); -- QtyOnHand < GoalStock (On shopping List)
 COMMIT;
 
 INSERT INTO `orders` (`ORDERID`, `USERID`, `STATUS`, `DATEORDERED`, `DATEFILLED`, `DATECOMPLETED`, `COMMENT`) VALUES
-(1, 's_admin', 'COMPLETED', '2021-08-29', '2021-09-01', '2021-09-05', 'I am allergice to Nuts'),
-(2, 's_student', 'READY FOR PICKUP', '2021-09-16', '2021-09-17', '', ' '),
-(3, 's_admin', 'SUBMITTED', '2021-09-18',  '', '', 'I live off campus'),
-(4, 's_inventory', 'SUBMITTED', '2021-09-19', '', '', 'Size Xtra Large For the Tank Top');
+    (1, 's_gmbennett', 'COMPLETED', '2021-08-29', '2021-09-01', '2021-09-05', 'I am allergic to Nuts'),
+    (2, 's_ajrobinso1', 'READY FOR PICKUP', '2021-09-16', '2021-09-17', '', ' '),
+    (3, 's_gmbennett', 'SUBMITTED', '2021-09-18',  '', '', 'I live off campus'),
+    (4, 's_ajrobinso1', 'SUBMITTED', '2021-09-19', '', '', 'Size Xtra Large For the Tank Top');
 COMMIT;
 
 INSERT INTO `productcategories` (`ProductID`, `CategoryID`) VALUES
-(1000, 3),    -- Blanket in linens
-(1001, 5),    -- Water in Beverages
-(1002, 7),    -- Rice in Pasta & Rice
-(1003, 7),    -- Pasta in Pasta & Rice
-(1004, 19),   -- Coat in Clothing
-(1005, 10),   -- Dragon fruit in Fruit
-(1005, 11),   -- Dragon fruit in Snacks
-(1006, 14),   -- Sugar in Baking
-(1007, 14),   -- Flour in Baking
-(1008, 3),    -- Curtains in Linens
-(1009, 12),   -- Canned Sausage under Canned Meats
-(1010, 2),    -- Ruler in Household Supplies
-(1011, 19),   -- Tank Top in Clothing
-(1012, 2),    -- Notebook in Household Supplies
-(1013, 7),    -- Alfredo Sauce in Pasta & Rice
-(1014, 2),    -- Phone Case in Household Supplies
-(1015, 18),   -- Underwear in Feminine Hygiene Products
-(1015, 19),   -- Underwear in Clothing
-(1016, 9),    -- Italian Wedding in Soup
-(1017, 15),   -- Suave in Hair Care
-(1017, 16),   -- Suave in Body
-(1017, 17);   -- Suave in Face
+    (1000, 3),    -- Blanket in linens
+    (1001, 5),    -- Water in Beverages
+    (1002, 7),    -- Rice in Pasta & Rice
+    (1003, 7),    -- Pasta in Pasta & Rice
+    (1004, 19),   -- Coat in Clothing
+    (1005, 10),   -- Dragon fruit in Fruit
+    (1005, 11),   -- Dragon fruit in Snacks
+    (1006, 14),   -- Sugar in Baking
+    (1007, 14),   -- Flour in Baking
+    (1008, 3),    -- Curtains in Linens
+    (1009, 12),   -- Canned Sausage under Canned Meats
+    (1010, 2),    -- Ruler in Household Supplies
+    (1011, 19),   -- Tank Top in Clothing
+    (1012, 2),    -- Notebook in Household Supplies
+    (1013, 7),    -- Alfredo Sauce in Pasta & Rice
+    (1014, 2),    -- Phone Case in Household Supplies
+    (1015, 18),   -- Underwear in Feminine Hygiene Products
+    (1015, 19),   -- Underwear in Clothing
+    (1016, 9),    -- Italian Wedding in Soup
+    (1017, 15),   -- Suave in Hair Care
+    (1017, 16),   -- Suave in Body
+    (1017, 17);   -- Suave in Face
+COMMIT;
+
+INSERT INTO `orderdetails` (`ORDERID`, `PRODUCTID`, `QTYREQUESTED`, `QTYFILLED`) VALUES
+    -- Order 1, 5 different items, all items filled as requested, Order Complete
+    (1, 1002, 1, 1),
+    (1, 1003, 2, 2),
+    (1, 1005, 2, 2),
+    (1, 1009, 3, 3),
+    (1, 1010, 1, 1),
+    (1, 1012, 1, 1),
+    -- Order 2, 8 different items, 2 items not filled as requested, Ready for Pickup
+    (2, 1000, 1, 1),
+    (2, 1001, 3, 3),
+    (2, 1003, 1, 1),
+    (2, 1005, 2, 2),
+    (2, 1006, 2, 1),  -- Only received 1 bag of sugar
+    (2, 1007, 1, 1),
+    (2, 1009, 2, 2),
+    (2, 1012, 4, 0),  -- Received no notebooks
+    -- Order 3, 6 different items, Submitted (Not Filled) so QtyFilled = 0 for all items
+    (3, 1000, 1, 0),
+    (3, 1004, 1, 0),
+    (3, 1005, 2, 0),
+    (3, 1010, 3, 0),
+    (3, 1016, 8, 0),  -- QtyRequested > Qty Available
+    (3, 1017, 7, 0),  -- QtyRequested > Qty Available
+    -- Order 4, 10 different items, Submitted (Not Filled) so QtyFilled = 0 for all items
+    (4, 1001, 4, 0),
+    (4, 1002, 1, 0),
+    (4, 1003, 2, 0),
+    (4, 1004, 1, 0), -- QtyAvailable < QtyRequested, Will not receive a coat
+    (4, 1005, 2, 0),
+    (4, 1006, 1, 0),
+    (4, 1007, 1, 0),
+    (4, 1009, 2, 0),
+    (4, 1010, 1, 0),
+    (4, 1011, 4, 0);
+
+INSERT INTO `cart` (`USERID`, `PRODUCTID`, `QTYREQUESTED`) VALUES
+    ('s_order', 1001, 6),      -- QtyRequested > MaxOrderQty, can't be ordered as in cart
+    ('s_order', 1002, 1),      -- No issues
+    ('s_order', 1003, 2),      -- No issues
+    ('s_order', 1006, 1),      -- Date is from 2020
+    ('s_order', 1009, 10),     -- QtyRequested > QtyAvailable, can't be ordered as in cart
+    ('s_order', 1012, 4);      -- QtyAvailable = 0, Item is out of stock
 COMMIT;
 
 INSERT INTO `cart` (`USERID`, `PRODUCTID`, `QTYREQUESTED`) VALUES
-('s_order', 1001, 6),      -- QtyRequested > MaxOrderQty, can't be ordered as in cart
-('s_order', 1002, 1),      -- No issues
-('s_order', 1003, 2),      -- No issues
-('s_order', 1006, 1),      -- Date is from 2020
-('s_order', 1009, 10),     -- QtyRequested > QtyAvailable, can't be ordered as in cart
-('s_order', 1012, 4);      -- QtyAvailable = 0, Item is out of stock
+    ('s_gmbennett', 1001, 6),      -- QtyRequested > MaxOrderQty, can't be ordered as in cart
+    ('s_gmbennett', 1002, 1),      -- No issues
+    ('s_gmbennett', 1003, 2),      -- No issues
+    ('s_gmbennett', 1009, 10),     -- QtyRequested > QtyAvailable, can't be ordered as in cart
+    ('s_gmbennett', 1012, 4);      -- QtyAvailable = 0, Item is out of stock
 COMMIT;
 
-
-INSERT INTO `setting` (SettingID, EmailOrderReceived, EmailOrderFilled, OrderReceivedText, OrderFilledText, OrderReceivedSubj, OrderFilledSubj, FooterText, PhotoDir) VALUES
-(1, 'mlkarg@clarion.edu, tcrissman@clarion.edu', 'mlkarg@clarion.edu, tcrissman@clarion.edu',
- 'Hello!  We have received your order and will fill it as soon as we are able.  Once the order has been filled, another email will be sent to confirm pick up details.',
- 'Hello!  Your order has been filled and can be picked up in Ralston Hall, Monday through Friday from 8am to 4pm.  In the entry way is a table.
- Your order will be in a reusable shopping bag on the table. Please bring your order number to ensure you pick up the correct order.',
- 'Your Order Has Been Received!', 'Your Order is Ready For Pickup',
- 'The last day to order from the resource room will be on Friday, November 19th','');
+INSERT INTO `setting` (SettingID, EmailOrderReceived, EmailOrderFilled, EmailOrderReminder, EmailOrderCancelled, OrderReceivedText,
+                       OrderFilledText, OrderReminderText, OrderCancelledText, OrderReceivedSubj, OrderFilledSubj, OrderReminderSubj,
+                       OrderCancelledSubj, FooterText, PhotoDir) VALUES
+     (1,
+     'A.J.Robinson1@eagle.clarion.edu, B.J.Lindermuth@eagle.clarion.edu, D.Kaltenbaugh@eagle.clarion.edu',
+     'A.J.Robinson1@eagle.clarion.edu, B.J.Lindermuth@eagle.clarion.edu, D.Kaltenbaugh@eagle.clarion.edu',
+     'A.J.Robinson1@eagle.clarion.edu, B.J.Lindermuth@eagle.clarion.edu, D.Kaltenbaugh@eagle.clarion.edu, g.m.bennett@eagle.clarion.edu',
+     'A.J.Robinson1@eagle.clarion.edu, B.J.Lindermuth@eagle.clarion.edu, D.Kaltenbaugh@eagle.clarion.edu, g.m.bennett@eagle.clarion.edu',
+     'Hello!  We have received your order and it will be filled as soon as possible.  You will receive another email when it is ready for pickup.  Thank you!',
+     'Hello!  Your order has been filled and is ready for pick up at the Gemmell Info Desk.
+     Info desk hours are Monday-Friday 9AM -10PM and Noon-10PM on Saturday and Sunday. Please bring a photo ID with you when picking up your order.  Thank you!',
+     'Hello!  Reminder that your order is ready to be picked up!  Please pick it up at your earliest convenience at the Gemmell info desk.
+     Info desk hours are Monday-Friday 9AM -10PM and Noon-10PM on Saturday and Sunday. Please bring a photo ID with you when picking up your order.  Thank you!',
+     'Hello!  Your order has been cancelled.  To place another order, visit: Clarion.edu/hungry',
+     'Your Order Has Been Received!', 'Your Order is Ready For Pickup', 'Reminder: Your Order is Ready For Pickup','Your Order has been Cancelled',
+     'The last day to order from the resource room will be on Friday, November 19th','');
