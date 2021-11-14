@@ -10,19 +10,35 @@
     } else {
         $action = "SecurityHome";	// Default action that guest is authorized to use.
     }
-
-    if ($action != 'SecurityLogin' && $action != 'SecurityProcessLogin' && !userIsAuthorized($action)) {
+    if ($action != 'SecurityLogin' && $action != 'ProcessLogin' && $action != 'SecurityProcessLogin' && !userIsAuthorized($action)) {
+        echo 'First If';
         if(!loggedIn()) {
-            header("Location:../security/index.php?action=SecurityLogin&RequestedPage=" . urlencode($_SERVER['REQUEST_URI']));
+            print_r('not logged in');
+            print_r($_SESSION);
+            #header("Location:../security/index.php?action=SecurityLogin&RequestedPage=" . urlencode($_SERVER['REQUEST_URI']));
+            header("Location: https://vcisprod.clarion.edu/~s_ajrobinso1/php-saml-2.19.1/demo1");
         } else {
             include('../security/not_authorized.html');
         }
     } else {
         switch ($action) {
+            case 'ProcessLogin':
+                ProcessSSOLogin();
+                break;
             case 'SecurityLogin':
                 if (!isset($_SERVER['HTTPS'])) {
-                    $url = 'https://' . $_SERVER['HTTP_HOST'] . 
-                                                      $_SERVER['REQUEST_URI'];
+                    $url = 'https://' . $_SERVER['HTTP_HOST'] .
+                        $_SERVER['REQUEST_URI'];
+                    header("Location: " . $url);
+                    exit();
+                }
+                include('login_form.php');
+                header("Location: https://vcisprod.clarion.edu/~s_ajrobinso1/php-saml-2.19.1/demo1");
+                break;
+            case 'SecurityChangeUserLevel':
+                if (!isset($_SERVER['HTTPS'])) {
+                    $url = 'https://' . $_SERVER['HTTP_HOST'] .
+                        $_SERVER['REQUEST_URI'];
                     header("Location: " . $url);
                     exit();
                 }
@@ -85,6 +101,19 @@
             default:
                 include('../security/control_panel_form.php');               // default action
         }
+    }
+
+    function ProcessSSOLogin(){
+        print_r("POST");
+        echo '<pre>';
+        print_r($_POST);
+        echo  '</pre>';
+        $sUnderScore = $_POST['sUnderScore'];
+        $firstName = $_POST['firstName'];
+        $lastname = $_POST['lastName'];
+        $email = $_POST['email'];
+        $user = new user($sUnderScore,$firstName,$lastname,$email);
+        processSignIn($user);
     }
 
     function ProcessLogin(){
@@ -317,7 +346,6 @@
             displayError($errors);
         }
     }
-
 ?>
 
 

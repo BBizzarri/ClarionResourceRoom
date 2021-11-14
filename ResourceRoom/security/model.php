@@ -7,6 +7,82 @@
         return $db;
     }
 
+    function processSignIn($user){
+        try{
+            $db = getDBConnection();
+            $query = 'SELECT * FROM users inner join userroles on users.UserID = userroles.UserID where users.UserID = :sUnderScore';
+            $statement = $db->prepare($query);
+            $statement->bindValue(':sUnderScore', $user->getsUnderScore());
+            $statement->execute();
+            $result = $statement->fetchAll();
+            $statement->closeCursor();
+            if(empty($result)){
+                try{
+                    $db = getDBConnection();
+                    $query = 'INSERT INTO users (UserID, FirstName, LastName, UserName, Password, Email)
+                            VALUES (:sUnderScore, :FirstName, :LastName,:sUnderScore,:Password,:Email)';
+                    $statement = $db->prepare($query);
+                    $statement->bindValue(':sUnderScore', $user->getsUnderScore());
+                    $statement->bindValue(':FirstName', $user->getFirstName());
+                    $statement->bindValue(':LastName', $user->getLastName());
+                    $statement->bindValue(':Password', '');
+                    $statement->bindValue(':Email', $user->getEmail());
+                    $success = $statement->execute();
+                    $statement->closeCursor();
+                    if($success)
+                    {
+                        try{
+                            $db = getDBConnection();
+                            $query = 'INSERT INTO userroles (UserID, RoleID)
+                            VALUES (:sUnderScore, :RoleID)';
+                            $statement = $db->prepare($query);
+                            $statement->bindValue(':sUnderScore', $user->getsUnderScore() );
+                            $statement->bindValue(':RoleID', '2');
+                            $success = $statement->execute();
+                            $statement->closeCursor();
+                            if($success)
+                            {
+                                header( 'Location:../controller/controller.php?action=shopperHome');
+                            }
+                            else
+                            {
+                                logSQLError($statement->errorInfo());
+                            }
+                            return "no user";
+                        }catch (PDOException $e){
+                            $errorMessage = $e->getMessage();
+                            include '../view/errorPage.php';
+                            die;
+                        }
+                    }
+                    else
+                    {
+                        logSQLError($statement->errorInfo());
+                    }
+                    return "no user";
+                }catch (PDOException $e){
+                    $errorMessage = $e->getMessage();
+                    include '../view/errorPage.php';
+                    die;
+                }
+            }
+            else{
+                print_r($result);
+                $user = new user($result[0]['UserID'],$result[0]['FirstName'],$result[0]['LastName'],$result[0]['Email']);
+                $_SESSION['UserID'] = $user->getsUnderScore();
+                if(userIsAuthorized('shopperHome')){
+                    header( 'Location:../controller/controller.php?action=shopperHome');
+                }
+                else if (userIsAuthorized('adminOrders')){
+                    header( 'Location:../controller/controller.php?action=adminOrders');
+                }
+            }
+        }  catch (PDOException $e) {
+            $errorMessage = $e->getMessage();
+            include '../view/errorPage.php';
+            die;
+        }
+}
     function userIsAuthorized($function) {
         $authorized = false;
         if (guestAccess($function)) {
@@ -15,7 +91,6 @@
                 $authorized = false;
         } else {                  
             $userID = $_SESSION["UserID"];       // Get current userid from session variable to check access.
-
             try {
                 $db = connectToMySQL();
                 $query = "select functions.Name

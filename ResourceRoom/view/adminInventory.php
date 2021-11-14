@@ -1,6 +1,7 @@
 <?php
     $title = " Admin Inventory Page";
     require '../view/headerInclude.php';
+
 ?>
 <html>
 <body>

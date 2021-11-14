@@ -25,7 +25,6 @@
             processSubmitOrder();
             break;
     }
-
     function displayShopperOrders(){
         $SettingsInfo = getAllSettingsInfo();
         $USERID = getUserID();

@@ -3,11 +3,10 @@
         $detect = new Mobile_Detect;
         if(!loggedIn() || loggedIn()) {
     ?>        
-        <nav class="clarion-gold navbar navbar-expand-md sticky-top">
+        <nav class="clarion-gold navbar navbar-expand-md navbar-light sticky-top">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul id="navigation" class="navbar-nav mr-auto">
                         <?php if(userIsAuthorized("shopperHome")) { ?>
@@ -64,6 +63,11 @@
                         <?php if($detect->isMobile()){ ?>
                             <li class="nav-item">
                                 <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'mobileAdd')){ echo 'active';}?>" href="../controller/controller.php?action=mobileAdd">Mobile Add<span class="sr-only"></span></a>
+                            </li>
+                        <?php } ?>
+                        <?php if(userIsAuthorized("SecurityChangeUserLevel")) { ?>
+                            <li class="nav-item">
+                                <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'SecurityChangeUserLevel')){ echo 'active';}?>" href="../security/index.php?action=SecurityChangeUserLevel">Change User Level<span class="sr-only"></span></a>
                             </li>
                         <?php } ?>
                     </ul>

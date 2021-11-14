@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="email fixes">
+    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/accountSettings.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/accountSettings.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/navInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/navInclude.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/shopperOrders.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/shopperOrders.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,6 +89,7 @@
       <workItem from="1635982897080" duration="2343000" />
       <workItem from="1636103101359" duration="1502000" />
       <workItem from="1636125133039" duration="74000" />
+      <workItem from="1636751923214" duration="5027000" />
     </task>
     <task id="LOCAL-00001" summary="fixing merge conflict">
       <created>1631803451977</created>
@@ -348,7 +350,21 @@
       <option name="project" value="LOCAL" />
       <updated>1636572195065</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="SSO Stuff">
+      <created>1636680521738</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1636680521738</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Creation script fix">
+      <created>1636681330391</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1636681330391</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -371,8 +387,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Reports Page UI" />
-    <MESSAGE value="Fixing styling issues" />
     <MESSAGE value="Sidebar updates" />
     <MESSAGE value="updating creation script" />
     <MESSAGE value="adding functionality to the admin inventory page" />
@@ -396,6 +410,8 @@
     <MESSAGE value="integrating email" />
     <MESSAGE value="getting email to work right!" />
     <MESSAGE value="Fixing date of competed orders" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixing date of competed orders" />
+    <MESSAGE value="SSO Stuff" />
+    <MESSAGE value="Creation script fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="Creation script fix" />
   </component>
 </project>
