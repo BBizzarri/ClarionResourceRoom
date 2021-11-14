@@ -75,6 +75,23 @@
                                                 <textarea class="vertical-align" id="EmailTextFilled" name="EmailTextFilled" rows="4" cols="50"><?php echo $SettingsInfo['OrderFilledText'];?></textarea>
                                             </div>
                                         </div>
+                                        <div class="card account-settings-card">
+                                            <div class="card-body clarion-blue">
+                                                <label id="emailSettings" class="account-settings-heading clarion-white">Re-Notify Email Settings</label>
+                                            </div>
+                                            <div class="account-settings-card account-settings-card-body">
+                                                <label for="Re-Notify">CC:</label>
+                                                <input class="vertical-align settings-inputs" id="Re-Notify" name="Re-Notify" value="CC Re-Notify Emails">
+                                            </div>
+                                            <div class="account-settings-card account-settings-card-body">
+                                                <label for="Re-NotifySubj">Subject:</label>
+                                                <input class="vertical-align settings-inputs" id="Re-NotifySubj" name="Re-NotifySubj" value="Reminder you have a order that needs picked up">
+                                            </div>
+                                            <div class="account-settings-card account-settings-card-body margin-bottom">
+                                                <label for="Re-NotifyText">Message Body:</label>
+                                                <textarea class="vertical-align" id="Re-NotifyText" name="Re-NotifyText" rows="4" cols="50">Re-Notify Text will be here</textarea>
+                                            </div>
+                                        </div>
                                         <div class="card account-settings-card margin-bottom">
                                             <div class="card-body clarion-blue">
                                                 <label id="announcementSettings" class="account-settings-heading clarion-white">Announcement Settings</label>

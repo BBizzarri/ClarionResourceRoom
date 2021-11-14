@@ -235,6 +235,7 @@
             $newStatus = "ERROR";
         }
         changeOrderStatus($orderID,$newStatus);
+        console_log($order);
         fillOrderDetails($order);
         fillOrder($order);
         $SettingsInfo = getAllSettingsInfo();
@@ -242,10 +243,27 @@
         $OrderedByEmail = getEmailToOrder($orderID);
         $to = $OrderedByEmail['Email'];
         $subject = $SettingsInfo['OrderFilledSubj'];
-        $body = $SettingsInfo['OrderFilledText'];
+        $message = "<html><body>" . 'my name is Brady' . "<table border=2>
+                   						  <tr>
+                   							<th>Company</th>
+                   							<th>Contact</th>
+                   							<th>Country</th>
+                   						  </tr>
+                   						  <tr>
+                   							<td>Alfreds Futterkiste</td>
+                   							<td>Maria Anders</td>
+                   							<td>Germany</td>
+                   						  </tr>
+                   						  <tr>
+                   							<td>Centro comercial Moctezuma</td>
+                   							<td>Francisco Chang</td>
+                   							<td>Mexico</td>
+                   						  </tr>
+                   						</table>" . "</body></html>";
+
         $cc = $SettingsInfo['EmailOrderFilled'];
         $headers[] = 'Cc:' .$cc;
-        mail($to,$subject,$body,implode("\r\n", $headers));
+        mail($to,$subject,$message,implode("\r\n", $headers));
         header("Location: {$_SERVER['HTTP_REFERER']}");
     }
 
@@ -302,7 +320,6 @@
     function showAccountSettings() {
         $CategoryArray = getAllCategories();
         $SettingsInfo = getAllSettingsInfo();
-        console_log($SettingsInfo);
         include '../view/accountSettings.php';
     }
 
