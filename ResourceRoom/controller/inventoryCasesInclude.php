@@ -55,6 +55,13 @@
     {
         $OrderID = $_POST['ORDERID'];
         deleteOrder($OrderID);
+        $OrderedByEmail = getEmailToOrder($OrderID);
+        $to = $OrderedByEmail['Email'];
+        $subject = $SettingsInfo['OrderCancelledSubj'];
+        $message = $SettingsInfo['OrderCancelledText'];
+        $cc = $SettingsInfo['EmailOrderCancelled'];
+        $headers[] = 'Cc:' .$cc;
+        mail($to,$subject,$message,implode("\r\n", $headers));
         header("Location: {$_SERVER['HTTP_REFERER']}");
     }
     function addEditCategory()
@@ -254,23 +261,7 @@
         $OrderedByEmail = getEmailToOrder($orderID);
         $to = $OrderedByEmail['Email'];
         $subject = $SettingsInfo['OrderFilledSubj'];
-        $message = "<html><body>" . 'my name is Brady' . "<table border=2>
-                   						  <tr>
-                   							<th>Company</th>
-                   							<th>Contact</th>
-                   							<th>Country</th>
-                   						  </tr>
-                   						  <tr>
-                   							<td>Alfreds Futterkiste</td>
-                   							<td>Maria Anders</td>
-                   							<td>Germany</td>
-                   						  </tr>
-                   						  <tr>
-                   							<td>Centro comercial Moctezuma</td>
-                   							<td>Francisco Chang</td>
-                   							<td>Mexico</td>
-                   						  </tr>
-                   						</table>" . "</body></html>";
+        $message = $SettingsInfo['OrderFilledText'];
 
         $cc = $SettingsInfo['EmailOrderFilled'];
         $headers[] = 'Cc:' .$cc;
@@ -344,6 +335,8 @@
     }
 
     function showAccountSettings() {
+        $USERID = getUserID();
+        $UserInfo = getUserInfo($USERID);
         $CategoryArray = getAllCategories();
         $SettingsInfo = getAllSettingsInfo();
         include '../view/accountSettings.php';
