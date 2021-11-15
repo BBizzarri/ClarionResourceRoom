@@ -40,6 +40,9 @@
         case 'processStockAdjust':
             processStockAdjust();
             break;
+        case 'reNotifyEmail':
+            reNotifyEmail();
+            break;
         case 'updateEmailAnnouncementSettings':
             updateEmailAnnouncementSettings();
             break;
@@ -235,7 +238,6 @@
             $newStatus = "ERROR";
         }
         changeOrderStatus($orderID,$newStatus);
-        console_log($order);
         fillOrderDetails($order);
         fillOrder($order);
         $SettingsInfo = getAllSettingsInfo();
@@ -307,6 +309,21 @@
         }
 //         header("Location: {$_SERVER['HTTP_REFERER']}");
         showInventory();
+    }
+
+    function reNotifyEmail()
+    {
+        $orderID = $_GET['orderID'];
+        $SettingsInfo = getAllSettingsInfo();
+        $USERID = getUserID();
+        $OrderedByEmail = getEmailToOrder($orderID);
+        $to = $OrderedByEmail['Email'];
+        $subject = $SettingsInfo['OrderReminderSubj'];
+        $message = $SettingsInfo['OrderReminderText'];
+        $cc = $SettingsInfo['EmailOrderReminder'];
+        $headers[] = 'Cc:' .$cc;
+        mail($to,$subject,$message,implode("\r\n", $headers));
+        header("Location: {$_SERVER['HTTP_REFERER']}");
     }
 
     function shopperPage(){

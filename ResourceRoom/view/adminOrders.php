@@ -190,6 +190,7 @@
                             <?php if($order->getOrderStatus() == "SUBMITTED"): ?>
                                 <button type="submit" class="btn btn-success">Fill Order</button>
                             <?php elseif ($order->getOrderStatus() == "READY FOR PICKUP"):?>
+                                <button type="button" class="btn btn-warning" onclick="reNotify(<?php echo $order->getOrderID();?>);">Re-Notify</button>
                                 <button type="submit" class="btn btn-success">Order Picked Up</button>
                             <?php elseif ($order->getOrderStatus() == "COMPLETED"):?>
                             <?php endif; ?>

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
+    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Re-notify Email Work">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/navInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/navInclude.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/shopperOrders.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/shopperOrders.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/js/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/security/creation_script.sql" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/security/creation_script.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/accountSettings.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/accountSettings.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
