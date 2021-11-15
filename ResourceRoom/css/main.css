@@ -43,6 +43,11 @@ section {
   border-left: 6px solid #003366;
   height: 50px;
 }
+
+.hl{
+    border-bottom: 6px solid #003366;
+}
+
 hr {width: 50px; color: #97824A}
 
 .hiddenRow {
