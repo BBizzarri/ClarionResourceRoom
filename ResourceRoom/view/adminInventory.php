@@ -112,7 +112,12 @@
                                                           <a class="clarion-white" href="#" data-toggle="modal" data-target="#editProductModal_<?php echo $product->getProductID()?>"><?php echo htmlspecialchars($product->getProductName())?></a>
                                                       </td>
                                                       <td class="text-right">
-                                                         <?php echo $product->getProductQTYAvailable() ?>
+                                                          <?php if($product->getProductQTYAvailable() != $product->getProductQtyOnHand())
+                                                          {
+                                                              echo '(' . $product->getProductQtyOnHand() . ')  |  ';
+                                                          }
+                                                          echo $product->getProductQTYAvailable();
+                                                          ?>
                                                       </td>
                                                       <td class="text-right">
                                                           <?php echo $product->getProductGoalStock() ?>

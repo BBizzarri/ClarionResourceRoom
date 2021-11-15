@@ -34,6 +34,9 @@
         case 'adminShoppingList':
             shopperPage();
             break;
+        case 'deleteOrder':
+            adminDeleteOrder();
+            break;
         case 'mobileAdd':
             mobileAdd();
             break;
@@ -45,6 +48,12 @@
             break;
     }
 
+    function adminDeleteOrder()
+    {
+        $OrderID = $_POST['ORDERID'];
+        deleteOrder($OrderID);
+        header("Location: {$_SERVER['HTTP_REFERER']}");
+    }
     function addEditCategory()
     {
         $CategoryMode = $_GET['categoryMode'];

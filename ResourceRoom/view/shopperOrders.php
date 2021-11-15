@@ -65,6 +65,19 @@
                                                         <td><?php echo htmlspecialchars($orderDetail->getQTYFilled())?></td>
                                                     </tr>
                                                 <?php   } ?>
+                                                <?php if($order->getOrderStatus() != "COMPLETED"):?>
+                                                <tr>
+                                                    <td colspan="0">
+                                                        <form action="../controller/controller.php?action=deleteOrder" method="post" enctype="multipart/form-data">
+                                                            <div class="form-group row">
+                                                                <input type='hidden' name='ORDERID' value='<?php echo $order->getOrderID()?>'/>
+                                                                <input type="submit" class="btn btn-danger" style="margin-right: 25px" value="Delete Order">
+                                                            </div>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                                <?php else:?>
+                                                <?php endif; ?>
                                             </table>
                                         </div>
                                 </div>
