@@ -28,7 +28,8 @@
                         <?php } ?>
 
                         <?php if(userIsAuthorized("shopperOrders") && userIsAuthorized("adminInventory")) { ?>
-                            <div class="vl"></div>
+                            <div class="vl d-none d-md-block "></div>
+                            <div class="hl"></div>
                         <?php } ?>
 
                         <?php if(userIsAuthorized("adminOrders")) { ?>
@@ -73,12 +74,11 @@
                     </ul>
             <?php if(userIsAuthorized("shopperHome")) { ?>
                 <form id = "navSearchForm" class="form-inline my-2 my-lg-0" action="../controller/controller.php?action=shopperHome&ListType=GeneralSearch" method="post" enctype="multipart/form-data">
-                    <input class="form-control mr-sm-2" type="text" id="searchCriteria" name="searchCriteria" placeholder="Search" aria-label="Search">
+                    <input class="form-control" type="text" id="searchCriteria" name="searchCriteria" placeholder="Search" aria-label="Search">
                     <input class="btn my-2 my-sm-0" id="searchButton" type="submit" value="Search"/>
                 </form>
             <?php } ?>
             <div class="dropdown account-dropdown">
-
               <?php if(loggedIn()) { ?>
                   <button class="btn dropdown-toggle" type="button" data-toggle="dropdown"><img src="../Images/person-icon.png" alt="person" height="40px" width="40px"/></button>
                   <ul class="dropdown-menu">

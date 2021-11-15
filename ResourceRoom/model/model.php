@@ -508,6 +508,39 @@
         }
     }
 
+    function getOrder($OrderID){
+        try{
+            $db = getDBConnection();
+            $query = "SELECT orders.ORDERID, orders.*, orderdetails.QTYREQUESTED, orderdetails.QTYFILLED, productview.*, concat(users.FirstName, ' ', users.LastName) as USERSNAME FROM orders inner join orderdetails on orders.ORDERID = orderdetails.ORDERID
+                                                     inner join productview on orderdetails.PRODUCTID = productview.PRODUCTID
+                                                     inner join users on orders.USERID = users.UserID WHERE orders.ORDERID = :ORDERID ORDER BY orders.DATEORDERED DESC";
+            $statement = $db->prepare($query);
+            $statement->bindValue(":ORDERID", $OrderID);
+            $statement->execute();
+            $result = $statement->fetchAll( PDO::FETCH_GROUP| PDO::FETCH_ASSOC);
+            $statement->closeCursor();
+            $AllOrders = array();
+            foreach($result as $order) {
+                $orderDetails = array();
+                foreach($order as $orderItem){
+                    array_push($orderDetails, new orderDetail($orderItem['ORDERID'],
+                        new product($orderItem['PRODUCTID'],$orderItem['NAME'],$orderItem['PRODUCTDESCRIPTION'],$orderItem['QTYONHAND'],
+                            $orderItem['MAXORDERQTY'],$orderItem['ORDERLIMIT'],$orderItem['GOALSTOCK'],$orderItem['QTYONORDER'],$orderItem['QTYAVAILABLE']),
+                        $orderItem['QTYREQUESTED'],$orderItem['QTYFILLED']));
+
+                }
+                array_push($AllOrders, new order($order[0]['ORDERID'],$order[0]['USERID'],$order[0]['STATUS'],$order[0]['DATEORDERED'],$order[0]['DATEFILLED'],$order[0]['DATECOMPLETED'],$order[0]['COMMENT'],$orderDetails, $order[0]['USERSNAME']));
+            }
+            return $AllOrders;
+        }
+        catch (Exception $ex)
+        {
+            $errorMessage = $ex->getMessage();
+            include '../view/errorPage.php';
+            die;
+        }
+    }
+
     function getUserEmail($userID)
     {
         $db = getDBConnection();
@@ -603,6 +636,77 @@
             logSQLError($statement->errorInfo());
         }
     }
+
+    function deleteOrder($OrderID){
+        $AllOrders = getOrder($OrderID);
+        $order = $AllOrders[0];
+        if($order->getOrderStatus() == 'SUBMITTED')
+        {
+            $db = getDBConnection();
+            $query = 'DELETE FROM orderdetails WHERE (ORDERID = :ORDERID)';
+            $statement = $db->prepare($query);
+            $statement->bindValue(':ORDERID', $order->getOrderID());
+            $success = $statement->execute();
+            $statement->closeCursor();
+            if($success)
+            {
+                $db = getDBConnection();
+                $query = 'DELETE FROM orders WHERE (ORDERID = :ORDERID)';
+                $statement = $db->prepare($query);
+                $statement->bindValue(':ORDERID', $order->getOrderID());
+                $success = $statement->execute();
+                $statement->closeCursor();
+                if($success)
+                {
+                    return $statement->rowCount();
+                }
+                else
+                {
+                    logSQLError($statement->errorInfo());
+                }
+            }
+            else
+            {
+                logSQLError($statement->errorInfo());
+            }
+
+        }
+        else if($order->getOrderStatus() == 'READY FOR PICKUP')
+        {
+            foreach ($order->getOrderDetails() as $orderDetail)
+            {
+                 $rowCount = updateQTY($orderDetail->getProductID(),$orderDetail->getQTYFilled());
+            }
+            $db = getDBConnection();
+            $query = 'DELETE FROM orderdetails WHERE (ORDERID = :ORDERID)';
+            $statement = $db->prepare($query);
+            $statement->bindValue(':ORDERID', $order->getOrderID());
+            $success = $statement->execute();
+            $statement->closeCursor();
+            if($success)
+            {
+                $db = getDBConnection();
+                $query = 'DELETE FROM orders WHERE (ORDERID = :ORDERID)';
+                $statement = $db->prepare($query);
+                $statement->bindValue(':ORDERID', $order->getOrderID());
+                $success = $statement->execute();
+                $statement->closeCursor();
+                if($success)
+                {
+                    return $statement->rowCount();
+                }
+                else
+                {
+                    logSQLError($statement->errorInfo());
+                }
+            }
+            else
+            {
+                logSQLError($statement->errorInfo());
+            }
+        }
+    }
+
 
     function updateCategory($CategoryID, $CategoryName)
     {

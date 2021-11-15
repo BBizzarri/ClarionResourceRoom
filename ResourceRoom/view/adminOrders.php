@@ -189,14 +189,24 @@
                         <div class="modal-footer">
                             <?php if($order->getOrderStatus() == "SUBMITTED"): ?>
                                 <button type="submit" class="btn btn-success">Fill Order</button>
+                                </form>
+                                <form action="../controller/controller.php?action=deleteOrder" method="post" enctype="multipart/form-data">
+                                    <input type='hidden' name='ORDERID' value='<?php echo $order->getOrderID()?>'/>
+                                    <input type="submit" class="btn btn-danger" style="margin-right: 25px" value="Delete Order">
+                                </form>
                             <?php elseif ($order->getOrderStatus() == "READY FOR PICKUP"):?>
                                 <button type="button" class="btn btn-warning" onclick="reNotify(<?php echo $order->getOrderID();?>);">Re-Notify</button>
                                 <button type="submit" class="btn btn-success">Order Picked Up</button>
+                                </form>
+                                <form action="../controller/controller.php?action=deleteOrder" method="post" enctype="multipart/form-data">
+                                    <input type='hidden' name='ORDERID' value='<?php echo $order->getOrderID()?>'/>
+                                    <input type="submit" class="btn btn-danger" style="margin-right: 25px" value="Delete Order">
+                                </form>
                             <?php elseif ($order->getOrderStatus() == "COMPLETED"):?>
+                                </form>
                             <?php endif; ?>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
-                        </form>
                     </div>
                 </div>
             </div>

@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Re-notify Email Work">
+    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/security/creation_script.sql" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/security/creation_script.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/accountSettings.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/accountSettings.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/navInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/navInclude.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +88,8 @@
       <workItem from="1635982897080" duration="2343000" />
       <workItem from="1636103101359" duration="1502000" />
       <workItem from="1636125133039" duration="74000" />
-      <workItem from="1636751923214" duration="5027000" />
+      <workItem from="1636751923214" duration="5474000" />
+      <workItem from="1636957544856" duration="6709000" />
     </task>
     <task id="LOCAL-00001" summary="fixing merge conflict">
       <created>1631803451977</created>
@@ -366,7 +364,21 @@
       <option name="project" value="LOCAL" />
       <updated>1636681330391</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="Mobile UI fixes">
+      <created>1636757029828</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1636757029828</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Cancel / Delete orders, admin inventory">
+      <created>1636962399485</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1636962399485</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -389,8 +401,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Sidebar updates" />
-    <MESSAGE value="updating creation script" />
     <MESSAGE value="adding functionality to the admin inventory page" />
     <MESSAGE value="adding idea" />
     <MESSAGE value="Fixing table text color and updating creation script" />
@@ -414,6 +424,8 @@
     <MESSAGE value="Fixing date of competed orders" />
     <MESSAGE value="SSO Stuff" />
     <MESSAGE value="Creation script fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="Creation script fix" />
+    <MESSAGE value="Mobile UI fixes" />
+    <MESSAGE value="Cancel / Delete orders, admin inventory" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cancel / Delete orders, admin inventory" />
   </component>
 </project>

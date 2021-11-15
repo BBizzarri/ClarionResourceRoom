@@ -202,6 +202,7 @@ INSERT INTO functions (Name,Description) VALUES ('ProcessLogin', 'Process SSO Lo
 INSERT INTO functions (Name,Description) VALUES ('SecurityChangeUserLevel', 'Change authorization level');
 INSERT INTO functions (Name,Description) VALUES ('reNotifyEmail', 'allows user to send a renotify email to remind the person that ordered to pick up their order');
 
+INSERT INTO functions (Name,Description) VALUES ('deleteOrder', 'Deletes an order given orderID');
 
 
 INSERT INTO roles (Name,Description) VALUES  ('Admin','Full privileges.'),
@@ -225,13 +226,14 @@ INSERT INTO userroles (UserID,RoleID) VALUES ('s_inventory',4);
 INSERT INTO userroles (UserID,RoleID) VALUES ('s_order',5);
 
 INSERT INTO users (UserID,FirstName,LastName,UserName,Password,Email) VALUES ('s_gmbennett','Gina', 'Bennett', 's_gmbennett', SHA1('s_gmbennett'), 'g.m.bennett@eagle.clarion.edu'),
-                                                                      ('s_ajrobinso1','Austin', 'Robinson', 's_ajrobinso1', SHA1('s_ajrobinso1'), 'a.j.robinson1@eagle.clarion.edu'),
-                                                                      ('mlkarg','Meredith', 'Karg', 'mlkarg', SHA1('mlkarg'), 'mlkarg@clarion.edu'),
-                                                                      ('tcrissman','Tom', 'Crissman', 'tcrissman', SHA1('tcrissman'), 'tcrissman@clarion.edu'),
-                                                                      ('s_skcuster','Sara', 'Custer', 's_skcuster', SHA1('s_skcuster'), 's.k.custer@eagle.clarion.edu'),
-                                                                      ('s_nalacoe','Natalie', 'LaCoe', 's_nalacoe', SHA1('s_nalacoe'), 'n.a.lacoe@eagle.clarion.edu'),
-                                                                      ('s_srsmith','Samuel', 'Smith', 's_srsmith', SHA1('s_srsmith'), 's.r.smith@eagle.clarion.edu'),
-                                                                      ('s_bmbizzarri','Brady', 'Bizzarri', 's_bmbizzarri', SHA1('s_bmbizzarri'), 'b.m.bizzarri@eagle.clarion.edu');
+                                                                    ('s_ajrobinso1','Austin', 'Robinson', 's_ajrobinso1', SHA1('s_ajrobinso1'), 'a.j.robinson1@eagle.clarion.edu'),
+                                                                    ('mlkarg','Meredith', 'Karg', 'mlkarg', SHA1('mlkarg'), 'mlkarg@clarion.edu'),
+                                                                    ('tcrissman','Tom', 'Crissman', 'tcrissman', SHA1('tcrissman'), 'tcrissman@clarion.edu'),
+                                                                    ('s_skcuster','Sara', 'Custer', 's_skcuster', SHA1('s_skcuster'), 's.k.custer@eagle.clarion.edu'),
+                                                                    ('s_nalacoe','Natalie', 'LaCoe', 's_nalacoe', SHA1('s_nalacoe'), 'n.a.lacoe@eagle.clarion.edu'),
+                                                                    ('s_srsmith','Samuel', 'Smith', 's_srsmith', SHA1('s_srsmith'), 's.r.smith@eagle.clarion.edu'),
+                                                                    ('s_bmbizzarri','Brady', 'Bizzarri', 's_bmbizzarri', SHA1('s_bmbizzarri'), 'b.m.bizzarri@eagle.clarion.edu'),
+                                                                    ('s_smwice','Shane', 'Wice', 's_smwice', '', 'S.M.Wice@eagle.clarion.edu');
 
 INSERT INTO userroles (UserID,RoleID) VALUES ('s_gmbennett',2),  -- Gina as Student
                                              ('s_ajrobinso1',2),  -- Austin as Student
@@ -242,7 +244,8 @@ INSERT INTO userroles (UserID,RoleID) VALUES ('s_gmbennett',2),  -- Gina as Stud
                                              ('s_nalacoe',4), -- Nat as Order Fulfillment
                                              ('s_nalacoe',2), -- Nat as Student
                                              ('s_srsmith',2), -- Sam as Student
-                                             ('s_bmbizzarri',1); -- Brady as developer
+                                             ('s_bmbizzarri',3), -- Brady as developer
+                                            ('s_smwice',3); -- Shane as developer
 
 
 
@@ -277,7 +280,8 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,25),
                                                      (2,33),
                                                      (2,34),
                                                      (2,35),
-                                                     (2,36);
+                                                     (2,36),
+                                                     (2,42);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (3,1),
                                                      (3,2),
@@ -331,8 +335,7 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,20),
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (5,21),
                                                      (5,29),
                                                      (5,30),
-                                                     (5,36),
-                                                     (5,42);
+                                                     (5,36);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (6,16),
                                                      (6,17);
