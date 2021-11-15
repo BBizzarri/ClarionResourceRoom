@@ -196,6 +196,7 @@
                                 </form>
                             <?php elseif ($order->getOrderStatus() == "READY FOR PICKUP"):?>
                                 <button type="submit" class="btn btn-success">Order Picked Up</button>
+                                <button type="button" class="btn btn-warning" onclick="reNotify(<?php echo $order->getOrderID();?>);">Re-Notify</button>
                                 </form>
                                 <form action="../controller/controller.php?action=deleteOrder" method="post" enctype="multipart/form-data">
                                     <input type='hidden' name='ORDERID' value='<?php echo $order->getOrderID()?>'/>

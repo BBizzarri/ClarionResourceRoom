@@ -43,6 +43,9 @@
         case 'processStockAdjust':
             processStockAdjust();
             break;
+        case 'reNotifyEmail':
+            reNotifyEmail();
+            break;
         case 'updateEmailAnnouncementSettings':
             updateEmailAnnouncementSettings();
             break;
@@ -52,6 +55,13 @@
     {
         $OrderID = $_POST['ORDERID'];
         deleteOrder($OrderID);
+        $OrderedByEmail = getEmailToOrder($OrderID);
+        $to = $OrderedByEmail['Email'];
+        $subject = $SettingsInfo['OrderCancelledSubj'];
+        $message = $SettingsInfo['OrderCancelledText'];
+        $cc = $SettingsInfo['EmailOrderCancelled'];
+        $headers[] = 'Cc:' .$cc;
+        mail($to,$subject,$message,implode("\r\n", $headers));
         header("Location: {$_SERVER['HTTP_REFERER']}");
     }
     function addEditCategory()
@@ -251,10 +261,11 @@
         $OrderedByEmail = getEmailToOrder($orderID);
         $to = $OrderedByEmail['Email'];
         $subject = $SettingsInfo['OrderFilledSubj'];
-        $body = $SettingsInfo['OrderFilledText'];
+        $message = $SettingsInfo['OrderFilledText'];
+
         $cc = $SettingsInfo['EmailOrderFilled'];
         $headers[] = 'Cc:' .$cc;
-        mail($to,$subject,$body,implode("\r\n", $headers));
+        mail($to,$subject,$message,implode("\r\n", $headers));
         header("Location: {$_SERVER['HTTP_REFERER']}");
     }
 
@@ -300,6 +311,21 @@
         showInventory();
     }
 
+    function reNotifyEmail()
+    {
+        $orderID = $_GET['orderID'];
+        $SettingsInfo = getAllSettingsInfo();
+        $USERID = getUserID();
+        $OrderedByEmail = getEmailToOrder($orderID);
+        $to = $OrderedByEmail['Email'];
+        $subject = $SettingsInfo['OrderReminderSubj'];
+        $message = $SettingsInfo['OrderReminderText'];
+        $cc = $SettingsInfo['EmailOrderReminder'];
+        $headers[] = 'Cc:' .$cc;
+        mail($to,$subject,$message,implode("\r\n", $headers));
+        header("Location: {$_SERVER['HTTP_REFERER']}");
+    }
+
     function shopperPage(){
         $IncludeInactiveItems = false;
         $HideUnstockedItems = true;
@@ -309,9 +335,10 @@
     }
 
     function showAccountSettings() {
+        $USERID = getUserID();
+        $UserInfo = getUserInfo($USERID);
         $CategoryArray = getAllCategories();
         $SettingsInfo = getAllSettingsInfo();
-        console_log($SettingsInfo);
         include '../view/accountSettings.php';
     }
 

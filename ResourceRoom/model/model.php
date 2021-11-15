@@ -562,6 +562,21 @@
         }
     }
 
+    function getUserInfo($UserID)
+    {
+        $db = getDBConnection();
+        $query = "select UserID, FirstName, LastName, Email
+                    from users
+                    where UserID = :UserID";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':UserID', $UserID);
+        $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        $user = new user($result[0]['UserID'], $result[0]['FirstName'],$result[0]['LastName'],$result[0]['Email']);
+        return $user;
+    }
+
     function getReport()
     {
         $db = getDBConnection();

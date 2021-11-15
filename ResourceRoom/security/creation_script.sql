@@ -200,6 +200,7 @@ INSERT INTO functions (Name,Description) VALUES ('addEditProduct','Creates a new
                                                 ('mobileAdd','Allows user to add items from their phone');
 INSERT INTO functions (Name,Description) VALUES ('ProcessLogin', 'Process SSO Login');
 INSERT INTO functions (Name,Description) VALUES ('SecurityChangeUserLevel', 'Change authorization level');
+INSERT INTO functions (Name,Description) VALUES ('reNotifyEmail', 'allows user to send a renotify email to remind the person that ordered to pick up their order');
 INSERT INTO functions (Name,Description) VALUES ('deleteOrder', 'Deletes an order given orderID');
 
 
@@ -269,7 +270,8 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,30),
                                                      (1,37),
                                                      (1,38),
                                                      (1,39),
-                                                     (1,42);
+                                                     (1,42),
+                                                     (1,43);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,25),
                                                      (2,26),
@@ -279,7 +281,7 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,25),
                                                      (2,34),
                                                      (2,35),
                                                      (2,36),
-                                                     (2,42);
+                                                     (2,43);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (3,1),
                                                      (3,2),
@@ -322,7 +324,8 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (3,1),
                                                      (3,39),
                                                      (3,40),
                                                      (3,41),
-                                                     (3,42);
+                                                     (3,42),
+                                                     (3,43);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,20),
                                                      (4,24),
@@ -333,7 +336,8 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,20),
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (5,21),
                                                      (5,29),
                                                      (5,30),
-                                                     (5,36);
+                                                     (5,36),
+                                                     (5,42);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (6,16),
                                                      (6,17);
