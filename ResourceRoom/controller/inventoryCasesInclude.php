@@ -268,6 +268,7 @@
         $orderID = $_GET['orderID'];
         $status = $_GET['status'];
         $usersName = $_GET['usersName'];
+        $fillerComments = $_POST['fillerComments'];
         $orderDetails = array();
         $QTYRequested = '';
         foreach($_POST as $productID=>$QTYFilled){
@@ -290,12 +291,14 @@
         $OrderedByEmail = getEmailToOrder($orderID);
         $to = $OrderedByEmail['Email'];
         $subject = $SettingsInfo['OrderFilledSubj'];
-        $message = $SettingsInfo['OrderFilledText'];
+        //$message = $SettingsInfo['OrderFilledText'];
+        $message = $SettingsInfo['OrderFilledText'] . ' ' . $fillerComments;
+        console_log($message);
 
         $cc = $SettingsInfo['EmailOrderFilled'];
         $headers[] = 'Cc:' .$cc;
         mail($to,$subject,$message,implode("\r\n", $headers));
-        header("Location: {$_SERVER['HTTP_REFERER']}");
+        //header("Location: {$_SERVER['HTTP_REFERER']}");
     }
 
     function adminReports()
