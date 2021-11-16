@@ -3,9 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/css/admin.css" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/css/admin.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/model/model.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/navInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/navInclude.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -381,7 +383,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636962399485</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="Admin inventory Mobile UI">
+      <created>1637103977060</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1637103977060</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -404,7 +413,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="adding functionality to the admin inventory page" />
     <MESSAGE value="adding idea" />
     <MESSAGE value="Fixing table text color and updating creation script" />
     <MESSAGE value="Filter work" />
@@ -429,6 +437,7 @@
     <MESSAGE value="Creation script fix" />
     <MESSAGE value="Mobile UI fixes" />
     <MESSAGE value="Cancel / Delete orders, admin inventory" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cancel / Delete orders, admin inventory" />
+    <MESSAGE value="Admin inventory Mobile UI" />
+    <option name="LAST_COMMIT_MESSAGE" value="Admin inventory Mobile UI" />
   </component>
 </project>

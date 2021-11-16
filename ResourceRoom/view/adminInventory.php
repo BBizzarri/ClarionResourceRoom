@@ -1,68 +1,146 @@
 <?php
     $title = " Admin Inventory Page";
     require '../view/headerInclude.php';
-
 ?>
 <html>
 <body>
     <section class="clarion-blue">
-        <div class="container-fluid">
-            <div class ="row">
-                <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 sidebar">
-                   <form id="filterForm" action="../controller/controller.php?action=adminInventory" method="post" enctype="multipart/form-data">
-                        <div class="sidebar-elements">
-                              <div class="sidebar-search-div">
-                                              <input class="form-control mr-sm-2" type="text" id="adminSearchCriteria" name="adminSearchCriteria" value="<?php if($_SESSION['SearchTerm']){echo $_SESSION['SearchTerm'];}?>" placeholder="<?php if(!isset($_POST['adminSearchCriteria'])){echo 'Search';}?>">
-                                              <!--<input class="btn my-2 my-sm-0" id="adminSearchButton"type="button" value="Search" onclick="generalSearchAdmin();"/>-->
-                              </div>
-                            <div class="incoming-textbox-div">
-                                <h3 class="sidebar-heading">Filter Options</h3>
-                                <label for="qtyLessThan" title="Only show items with a quantity less than">Quantity Less Than:</label>
+        <div>
+            <div id="hiddenMenu" class="overlay" >
+                <!-- Button to close the overlay navigation -->
+                <!-- Overlay content -->
+                <div class="overlay-content" style="background-color: white">
+                    <form id="filterFormHidden" action="../controller/controller.php?action=adminInventory" method="post" enctype="multipart/form-data">
+                        <div class = "row">
+                            <div class = "container-fluid">
+                                <div class = "row">
+                                    <div class = "col-6">
+                                        <div class="col-12">
+                                            <h3 class="sidebar-heading">Filter Options</h3>
+                                        </div>
+                                        <div class="filterOption col-12">
+                                            <input class="form-control mr-sm-2" type="text" id="adminSearchCriteria1" name="adminSearchCriteria" value="<?php if($_SESSION['SearchTerm']){echo $_SESSION['SearchTerm'];}?>" placeholder="<?php if(!isset($_POST['adminSearchCriteria'])){echo 'Search';}?>">
+                                            <!--<input class="btn my-2 my-sm-0" id="adminSearchButton"type="button" value="Search" onclick="generalSearchAdmin();"/>-->
+                                        </div>
+                                        <div class="filterOption col-12">
+                                            <label for="qtyLessThan" title="Only show items with a quantity less than">Quantity Less Than:</label>
+                                            <input class="incoming-textbox" type="number" min="0" id="QtyLessThan1" name="QtyLessThan" value="<?php echo $_SESSION['QtyLessThan']?>"/>
+                                        </div>
+                                        <div class="filterOption col-12">
+                                            <label for="stockedItems" title="Only show items with a goal stock that is greater than 0">Show Stocked Items Only</label>
+                                            <input type="hidden" value = '0' name = 'stockedItems'>
+                                            <input type="checkbox" id="stockedItems1" name="stockedItems" <?php if($_SESSION['StockedItems']) echo "checked='checked'"; ?> />
+                                        </div>
+                                        <div class="filterOption col-12">
+                                            <label for="inactiveItems" title="Only show items with a qty on hand equal to 0 and a goal stock equal to 0">Include Inactive Items</label>
+                                            <input type="hidden" value = '0' name = 'inactiveItems'>
+                                            <input type="checkbox" id="inactiveItems1" name="inactiveItems" <?php if($_SESSION['InactiveItems']) echo "checked='checked'"; ?> />
+                                        </div>
+                                        <div class="filterOption col-12">
+                                            <label for="shoppingList" title="Only show items that need to be restocked (qty on hand is less than the goal stock)">Shopping List Only</label>
+                                            <input type="hidden" value = '0' name = 'shoppingList'>
+                                            <input type="checkbox" id="shoppingList1" name="shoppingList" <?php if($_SESSION['ShoppingList']) echo "checked='checked'"; ?> />
+                                        </div>
+                                        <div class="filterOption col-12">
+                                            <a href="../controller/controller.php?action=adminInventory&ClearFilters=true" class="btn btn-secondary filter-button" role="button">Clear</a>
+                                            <input class="btn btn-secondary filter-button" type="submit" value="Apply"/>
+                                            <button type="button" class="btn btn-danger d-lg-none" onclick="closeNav()">Close</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                    <h3 class="sidebar-heading">Categories</h3>
+                                    <div class="col-12">
+                                        <select multiple class="category-list col-12" size="<?php echo sizeof($CategoryArray) + 1; ?>" id="categorySelect1" name="CategoryList[]" form="filterFormHidden">
+                                            <option class="category nav-link col-12" style="white-space: normal" value="0" <?php if(empty($info[1])){echo 'selected';}?>>All</option>
+                                            <?php foreach ($CategoryArray as $category) {
+                                                ?>
+                                                <option class="category nav-link col-12" style="white-space: normal" value="<?php echo $category->getCategoryID()?>" <?php if(in_array($category->getCategoryID(), $info[1])){echo 'selected';}?>> <?php echo htmlspecialchars($category->getCategoryDescription())?></option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="incoming-textbox-div">
-                                <input class="incoming-textbox" type="number" min="0" id="QtyLessThan" name="QtyLessThan" value="<?php echo $_SESSION['QtyLessThan']?>"/>
-                            </div>
-                        </div>
-                        <div class="sidebar-elements">
-                            <label for="stockedItems" title="Only show items with a goal stock that is greater than 0">Show Stocked Items Only</label>
-                            <input type="hidden" value = '0' name = 'stockedItems'>
-                            <input type="checkbox" id="stockedItems" name="stockedItems" <?php if($_SESSION['StockedItems']) echo "checked='checked'"; ?> />
-                        </div>
-                        <div class="sidebar-elements">
-                            <label for="inactiveItems" title="Only show items with a qty on hand equal to 0 and a goal stock equal to 0">Include Inactive Items</label>
-                            <input type="hidden" value = '0' name = 'inactiveItems'>
-                            <input type="checkbox" id="inactiveItems" name="inactiveItems" <?php if($_SESSION['InactiveItems']) echo "checked='checked'"; ?> />
-                        </div>
-                        <div class="sidebar-elements">
-                            <label for="shoppingList" title="Only show items that need to be restocked (qty on hand is less than the goal stock)">Shopping List Only</label>
-                            <input type="hidden" value = '0' name = 'shoppingList'>
-                            <input type="checkbox" id="shoppingList" name="shoppingList" <?php if($_SESSION['ShoppingList']) echo "checked='checked'"; ?> />
-                        </div>
-                        <div class="filter-buttons">
-                            <a href="../controller/controller.php?action=adminInventory&ClearFilters=true" class="btn btn-secondary filter-button" role="button">Clear</a>
-                            <input class="btn btn-secondary filter-button" type="submit" value="Apply"/>
-                        </div>
-
-                        <hr class="sidebar-seperator">
-                        <div class="sidebar-elements col-12">
-                              <h3 class="sidebar-heading">Categories</h3>
-                              <div class="col-12">
-                                <a class="category nav-link" href="../controller/controller.php?action=adminInventory&CategoryMode=true">All</a>
-                                <select multiple class="category-list col-12" size="<?php echo sizeof($CategoryArray) + 1; ?>" id="categorySelect" name="CategoryList[]" form="filterForm">
-                                <?php foreach ($CategoryArray as $category) {
-                                ?>
-                                        <option class="category nav-link col-12" style="white-space: normal" value="<?php echo $category->getCategoryID()?>" <?php if(in_array($category->getCategoryID(), $info[1])){echo 'selected';}?>> <?php echo htmlspecialchars($category->getCategoryDescription())?></option>
-                                <?php
-                                }
-                                ?>
-                                </select>
-                              </div>
                         </div>
                 </div>
-                  </form>
-                      <div class="col-sm-12 col-md-8 col-lg-9 col-xl-10">
+                </form>
+                </div>
+            </div>
+            <script>
+                /* Open when someone clicks on the span element */
+                function openNav() {
+                    document.getElementById("hiddenMenu").style.width = "100%";
+                }
+
+                /* Close when someone clicks on the "x" symbol inside the overlay */
+                function closeNav() {
+                    document.getElementById("hiddenMenu").style.width = "0%";
+                }
+            </script>
+        </div>
+        <div class="container-fluid">
+            <div class ="row">
+                <div class="col-lg-3 col-xl-2 d-none d-sm-none d-md-none d-lg-block sidebar">
+                    <form id="filterForm" action="../controller/controller.php?action=adminInventory" method="post" enctype="multipart/form-data">
+                    <div class = "row">
+                            <div class = "container">
+                                <div class = "col-sm-6 col-md-6 col-lg-12 col-xl-12">
+                                    <div class="col-12">
+                                        <h3 class="sidebar-heading">Filter Options</h3>
+                                    </div>
+                                    <div class="filterOption col-12">
+                                        <input class="form-control mr-sm-2" type="text" id="adminSearchCriteria" name="adminSearchCriteria" value="<?php if($_SESSION['SearchTerm']){echo $_SESSION['SearchTerm'];}?>" placeholder="<?php if(!isset($_POST['adminSearchCriteria'])){echo 'Search';}?>">
+                                        <!--<input class="btn my-2 my-sm-0" id="adminSearchButton"type="button" value="Search" onclick="generalSearchAdmin();"/>-->
+                                    </div>
+                                    <div class="filterOption col-12">
+                                        <label for="qtyLessThan" title="Only show items with a quantity less than">Quantity Less Than:</label>
+                                        <input class="incoming-textbox" type="number" min="0" id="QtyLessThan" name="QtyLessThan" value="<?php echo $_SESSION['QtyLessThan']?>"/>
+                                    </div>
+                                    <div class="filterOption col-12">
+                                        <label for="stockedItems" title="Only show items with a goal stock that is greater than 0">Show Stocked Items Only</label>
+                                        <input type="hidden" value = '0' name = 'stockedItems'>
+                                        <input type="checkbox" id="stockedItems" name="stockedItems" <?php if($_SESSION['StockedItems']) echo "checked='checked'"; ?> />
+                                    </div>
+                                    <div class="filterOption col-12">
+                                        <label for="inactiveItems" title="Only show items with a qty on hand equal to 0 and a goal stock equal to 0">Include Inactive Items</label>
+                                        <input type="hidden" value = '0' name = 'inactiveItems'>
+                                        <input type="checkbox" id="inactiveItems" name="inactiveItems" <?php if($_SESSION['InactiveItems']) echo "checked='checked'"; ?> />
+                                    </div>
+                                    <div class="filterOption col-12">
+                                        <label for="shoppingList" title="Only show items that need to be restocked (qty on hand is less than the goal stock)">Shopping List Only</label>
+                                        <input type="hidden" value = '0' name = 'shoppingList'>
+                                        <input type="checkbox" id="shoppingList" name="shoppingList" <?php if($_SESSION['ShoppingList']) echo "checked='checked'"; ?> />
+                                    </div>
+                                    <div class="filterOption col-12">
+                                        <a href="../controller/controller.php?action=adminInventory&ClearFilters=true" class="btn btn-secondary filter-button" role="button">Clear</a>
+                                        <input class="btn btn-secondary filter-button" type="submit" value="Apply"/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-lg-12 col-xl-12"">
+                                    <hr class="sidebar-seperator">
+                                    <h3 class="sidebar-heading">Categories</h3>
+                                    <div class="col-12">
+                                        <select multiple class="category-list col-12" size="<?php echo sizeof($CategoryArray) + 1; ?>" id="categorySelect" name="CategoryList[]" form="filterForm">
+                                            <option class="category nav-link col-12" style="white-space: normal" value="0" <?php if(empty($info[1])){echo 'selected';}?>>All</option>
+                                            <?php foreach ($CategoryArray as $category) {
+                                                ?>
+                                                <option class="category nav-link col-12" style="white-space: normal" value="<?php echo $category->getCategoryID()?>" <?php if(in_array($category->getCategoryID(), $info[1])){echo 'selected';}?>> <?php echo htmlspecialchars($category->getCategoryDescription())?></option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                   </form>
+                </div>
+
+                      <div class="col-sm-12 col-md-12 col-lg-9 col-xl-10">
                           <div class ="row">
                               <div class="container-fluid">
+                                  <button type="button" class="btn btn-info d-lg-none" onclick="openNav()">Show Filters</button>
                                   <form id="adjustBulkForm" action="../controller/controller.php?action=processStockAdjust&Type=bulk" method="post" enctype="multipart/form-data">
                                       <div class="table-heading">
                                           <h3 class="clarion-white"><?php echo $CategoryHeader ?></h3>
@@ -98,8 +176,8 @@
                               </div>
                           </div>
                           <div class = "row">
-                              <div class="container-fluid">
-                                  <table class="table table-striped inventoryTable" id="inventoryTable">
+                              <div class="table-responsive">
+                                  <table class="table table-striped inventoryTable table-re" id="inventoryTable">
                                       <thead>
                                       <tr>
                                           <th>Product</th>

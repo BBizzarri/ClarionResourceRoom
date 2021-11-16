@@ -3,7 +3,7 @@
         $detect = new Mobile_Detect;
         if(!loggedIn() || loggedIn()) {
     ?>        
-        <nav class="clarion-gold navbar navbar-expand-md navbar-light sticky-top">
+        <nav class="clarion-gold navbar navbar-expand-lg navbar-light sticky-top">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -28,7 +28,7 @@
                         <?php } ?>
 
                         <?php if(userIsAuthorized("shopperOrders") && userIsAuthorized("adminInventory")) { ?>
-                            <div class="vl d-none d-md-block "></div>
+                            <div class="vl d-none d-lg-block "></div>
                             <div class="hl"></div>
                         <?php } ?>
 
