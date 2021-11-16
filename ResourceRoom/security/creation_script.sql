@@ -232,10 +232,13 @@ INSERT INTO users (UserID,FirstName,LastName,UserName,Password,Email) VALUES ('s
                                                                     ('s_nalacoe','Natalie', 'LaCoe', 's_nalacoe', SHA1('s_nalacoe'), 'n.a.lacoe@eagle.clarion.edu'),
                                                                     ('s_srsmith','Samuel', 'Smith', 's_srsmith', SHA1('s_srsmith'), 's.r.smith@eagle.clarion.edu'),
                                                                     ('s_bmbizzarri','Brady', 'Bizzarri', 's_bmbizzarri', SHA1('s_bmbizzarri'), 'b.m.bizzarri@eagle.clarion.edu'),
-                                                                    ('s_smwice','Shane', 'Wice', 's_smwice', '', 'S.M.Wice@eagle.clarion.edu');
+                                                                    ('s_smwice','Shane', 'Wice', 's_smwice', '', 'S.M.Wice@eagle.clarion.edu'),
+                                                                    ('s_csgildea','Chris', 'Gildea', 's_csgildea', SHA1('s_csgildea'), 'c.d.gildea@eagle.clarion.edu'),
+                                                                    ('s_dkaltenbau','Devin', 'Kaltenbaugh', 's_dkaltenbau', SHA1('s_dkaltenbau'), 'D.Kaltenbaugh@eagle.clarion.edu'),
+                                                                    ('s_bjlindermu','Bailey', 'Lindermuth', 's_bjlindermu', SHA1('s_bjlindermu'), 'b.j.lindermuth@eagle.clarion.edu');
 
-INSERT INTO userroles (UserID,RoleID) VALUES ('s_gmbennett',2),  -- Gina as Student
-                                             ('s_ajrobinso1',2),  -- Austin as Student
+INSERT INTO userroles (UserID,RoleID) VALUES ('s_gmbennett',3),  -- Gina as Developer
+                                             ('s_ajrobinso1',3),  -- Austin as Developer
                                              ('mlkarg',1),  -- Meredith as Admin
                                              ('tcrissman',1),  -- Tom as Admin
                                              ('s_skcuster',2), -- Sara as Student
@@ -244,7 +247,10 @@ INSERT INTO userroles (UserID,RoleID) VALUES ('s_gmbennett',2),  -- Gina as Stud
                                              ('s_nalacoe',2), -- Nat as Student
                                              ('s_srsmith',2), -- Sam as Student
                                              ('s_bmbizzarri',3), -- Brady as developer
-                                            ('s_smwice',3); -- Shane as developer
+                                             ('s_smwice',3), -- Shane as developer
+                                             ('s_csgildea',3), -- Chris as developer
+                                             ('s_bjlindermu',3), -- Bailey as developer
+                                             ('s_dkaltenbau',3); -- Devin as developer
 
 
 

@@ -32,6 +32,10 @@ section {
     color: white;
 }
 
+.inventoryTable{
+    color: white;
+}
+
 .account-dropdown {
     padding-left: 30px;
 }

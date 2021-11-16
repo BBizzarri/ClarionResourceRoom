@@ -43,7 +43,7 @@
                                                         <div class="container">
                                                             <div class = "row">
                                                                 <label class= "col-auto" for="quantity_<?php echo htmlspecialchars($product->getProductID())?>">QTY:</label>
-                                                                <input class= "col-auto" type="number" id="quantity_<?php echo htmlspecialchars($product->getProductID())?>" name="QTYRequested" min="1" max="<?php echo htmlspecialchars($product->getProductQTYAvailable())?>">
+                                                                <input class= "col-auto" type="number" id="quantity_<?php echo htmlspecialchars($product->getProductID())?>" name="QTYRequested" min="1" max="<?php echo htmlspecialchars($product->getProductOrderLimit())?>">
                                                                 <input type="submit" class="btn btn-primary col-auto" value="Change Quantity">
                                                             </div>
                                                         </div>
@@ -95,27 +95,26 @@
                                         <th>Product</th>
                                         <th>Quantity Requested</th>
                                         <?php if(userIsAuthorized("adminInventory")):?>
-                                        <th>Quantity Available</th>
+                                        <th>Order Limit</th>
                                         <?php endif; ?>
                                     </tr>
                                     </thead>
                                         <?php
                                         $cartError = FALSE;
+                                        $cartErrorMessage = [];
                                         foreach ($cart->getProductsInCart() as $cartItem)
                                         {
                                         $product = $cartItem->getProductObject();
-                                        if($cartError == FALSE and ($cartItem->getQTYRequested() <= $product->getProductQTYAvailable() and $cartItem->getQTYRequested()>0)){
-                                            $cartError = FALSE;
-                                        }
-                                        else{
+                                        if(($cartItem->getQTYRequested() > $product->getProductOrderLimit())){
                                             $cartError = TRUE;
+                                            array_push($cartErrorMessage, [$product->getProductName(),$cartItem->getQTYRequested(),$product->getProductOrderLimit()]);
                                         }
                                         ?>
                                             <tr>
                                                 <td><?php echo htmlspecialchars($product->getProductName())?></td>
                                                 <td><?php echo htmlspecialchars($cartItem->getQTYRequested())?></td>
                                                 <?php if(userIsAuthorized("adminInventory")):?>
-                                                    <td><?php echo htmlspecialchars($product->getProductQTYAvailable())?></td>
+                                                    <td><?php echo htmlspecialchars($product->getProductOrderLimit())?></td>
                                                 <?php endif; ?>
                                             </tr>
                                 <?php
@@ -131,9 +130,14 @@
                         </form>
                     <div class="modal-footer">
                         <div class="container">
-                            <?php if($cartError): ?>
-                                <h3>Quantity requested greater than quantity available, please change your order amount.</h3>
-                            <?php endif ; ?>
+                            <?php if($cartError){
+                                echo '<h5>Quantity requested greater than quantity available, please change your order amount.</h5>';
+                                foreach($cartErrorMessage as $message) {
+                                    echo $message[0] . ' available: ' . $message[2];
+                                    echo '<br>';
+                                }
+                            } ?>
+
                             <form action="../controller/controller.php?action=shopperSubmitOrder" method="post" enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label for="cartComment">Special Order Instructions</label>

@@ -6,7 +6,7 @@
 <body>
     <section class="clarion-blue">
         <div class = "table-responsive">
-            <table class="table clarion-blue" style="border-collapse:collapse;">
+            <table class="table clarion-blue" id="shopperOrderTable" style="border-collapse:collapse;">
                 <thead>
                 <tr class="clarion-white">
                     <th>STATUS</th>
@@ -90,6 +90,7 @@
     </section>
 </body>
 </html>
+
 <?php
     require '../view/footerInclude.php';
 ?>
