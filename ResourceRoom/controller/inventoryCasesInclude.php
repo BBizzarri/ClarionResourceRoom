@@ -2,6 +2,8 @@
 
     // This file is included in the main controller as a series of cases to check the $action querystring parameter.
     // The purpose is to separate the shopper actions from the back-end inventory actions to help version control.
+    require_once 'Mail.php';
+
 
     switch ($action) {
         case 'accountSettings':
@@ -54,14 +56,41 @@
     function adminDeleteOrder()
     {
         $OrderID = $_POST['ORDERID'];
-        deleteOrder($OrderID);
         $OrderedByEmail = getEmailToOrder($OrderID);
+        deleteOrder($OrderID);
+        $SettingsInfo = getAllSettingsInfo();
         $to = $OrderedByEmail['Email'];
         $subject = $SettingsInfo['OrderCancelledSubj'];
         $message = $SettingsInfo['OrderCancelledText'];
         $cc = $SettingsInfo['EmailOrderCancelled'];
-        $headers[] = 'Cc:' .$cc;
-        mail($to,$subject,$message,implode("\r\n", $headers));
+
+        $options = array();
+        $options['host'] = 'serversmtp.clarion.edu';
+        $options['port'] = '2500';
+        $options['auth'] = false;
+        $Mailer = Mail::factory('smtp', $options);
+
+        $recipients = $to.", ".$cc;
+        $headers = array();
+        $headers['Cc'] = $cc;
+        $headers['Subject'] = $subject;
+        $headers['From'] = 'clarionresourceroom@clarion.edu';
+        $headers['To'] = $to;
+        $headers['Content-type'] = 'text/html';
+        $htmlContent = $message;
+
+        $result = $Mailer->send($recipients, $headers, $htmlContent);
+
+        if(PEAR::isError($result))
+        {
+            echo 'Error sending email ' . $result;
+        }
+        else
+        {
+            echo 'Email sent successfully';
+        }
+
+        //mail($to,$subject,$message,implode("\r\n", $headers));
         header("Location: {$_SERVER['HTTP_REFERER']}");
     }
     function addEditCategory()
@@ -361,6 +390,7 @@
             $_SESSION['ShoppingList'] = null;
             $_SESSION['SearchTerm'] = null;
             $CategoryMode = true;
+            $CategoryHeader = 'All';
         }
         if(isset($_GET['CategoryMode']))
         {

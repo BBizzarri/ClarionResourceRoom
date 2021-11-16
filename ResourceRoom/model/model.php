@@ -403,6 +403,7 @@
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         $statement->closeCursor();
+        console_log($result);
         return $result;
     }
     function getProducts($CategoryID,$QTYLessThan,$IncludeInactiveItems,$HideUnstockedItems,$ShoppingList,$SearchTerm){
