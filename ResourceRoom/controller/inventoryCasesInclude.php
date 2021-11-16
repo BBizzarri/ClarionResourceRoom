@@ -2,7 +2,7 @@
 
     // This file is included in the main controller as a series of cases to check the $action querystring parameter.
     // The purpose is to separate the shopper actions from the back-end inventory actions to help version control.
-    require_once 'Mail.php';
+
 
 
     switch ($action) {
@@ -55,6 +55,7 @@
 
     function adminDeleteOrder()
     {
+        require_once 'Mail.php';
         $OrderID = $_POST['ORDERID'];
         $OrderedByEmail = getEmailToOrder($OrderID);
         deleteOrder($OrderID);
@@ -442,7 +443,7 @@
         {
             $ShoppingList = 0;
         }
-        if($CategoryMode)
+        if($CategoryMode or (isset($_POST['CategoryList']) and $_POST['CategoryList'][0] == 0))
         {
             $CategoryID = [];
             $CategoryHeader = 'All';
