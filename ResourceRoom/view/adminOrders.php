@@ -188,6 +188,7 @@
                         </div>
                         <div class="modal-footer">
                             <?php if($order->getOrderStatus() == "SUBMITTED"): ?>
+                                <input class="additional-comments" type="text" name="fillerComments" id="fillerComments" placeholder="Additional Comments"/>
                                 <button type="submit" class="btn btn-success">Fill Order</button>
                                 </form>
                                 <form action="../controller/controller.php?action=deleteOrder" method="post" enctype="multipart/form-data">
