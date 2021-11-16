@@ -8,21 +8,32 @@
     <section class="clarion-blue">
         <div class="container-fluid">
             <div class ="row">
-                <div class="col-auto sidebar">
+                <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2">
+                <nav class="navbar-fixed-left navbar-expand-md navbar-light bg-light flex-column col-12 w-100 sidebar">
+                <div class ="container-fluid">
+                    <div class ="row">
+                        <div class = "col-6">
+                            <a class="navbar-brand">Filter Options</a>
+                        </div>
+                        <div class = "col-6 text-right">
+                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#inventorySideBar" aria-controls="inventorySideBar" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="collapse navbar-collapse" id="inventorySideBar">
                    <form id="filterForm" action="../controller/controller.php?action=adminInventory" method="post" enctype="multipart/form-data">
-                        <div class="sidebar-elements">
-                              <div class="sidebar-search-div">
-                                              <input class="form-control mr-sm-2" type="text" id="adminSearchCriteria" name="adminSearchCriteria" value="<?php if($_SESSION['SearchTerm']){echo $_SESSION['SearchTerm'];}?>" placeholder="<?php if(!isset($_POST['adminSearchCriteria'])){echo 'Search';}?>">
-                                              <!--<input class="btn my-2 my-sm-0" id="adminSearchButton"type="button" value="Search" onclick="generalSearchAdmin();"/>-->
-                              </div>
-                            <div class="incoming-textbox-div">
-                                <h3 class="sidebar-heading">Filter Options</h3>
-                                <label for="qtyLessThan" title="Only show items with a quantity less than">Quantity Less Than:</label>
+                        <!--<div class="sidebar-elements">-->
+                            <div class="sidebar-elements sidebar-search-div">
+                                <input class="form-control mr-sm-2" type="text" id="adminSearchCriteria" name="adminSearchCriteria" value="<?php if($_SESSION['SearchTerm']){echo $_SESSION['SearchTerm'];}?>" placeholder="<?php if(!isset($_POST['adminSearchCriteria'])){echo 'Search';}?>">
+                                <!--<input class="btn my-2 my-sm-0" id="adminSearchButton"type="button" value="Search" onclick="generalSearchAdmin();"/>-->
                             </div>
-                            <div class="incoming-textbox-div">
+                            <div class="sidebar-elements incoming-textbox-div">
+                                <label for="qtyLessThan" title="Only show items with a quantity less than">Quantity Less Than:</label>
                                 <input class="incoming-textbox" type="number" min="0" id="QtyLessThan" name="QtyLessThan" value="<?php echo $_SESSION['QtyLessThan']?>"/>
                             </div>
-                        </div>
+                        <!--</div>-->
                         <div class="sidebar-elements">
                             <label for="stockedItems" title="Only show items with a goal stock that is greater than 0">Show Stocked Items Only</label>
                             <input type="hidden" value = '0' name = 'stockedItems'>
@@ -58,6 +69,8 @@
                                 </select>
                               </div>
                         </div>
+                </div>
+                </nav>
                 </div>
                   </form>
                       <div class="col-auto">
@@ -95,7 +108,7 @@
                                               </div>
                                             </div>
                         </div>
-                        <div class="container-fluid">
+                        <div class="table-responsive container-fluid">
                         <table class="clarion-white">
                         <tr>
                             <th>Product</th>
