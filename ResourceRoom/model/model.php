@@ -216,6 +216,11 @@
        }
     }
 
+    function deactivateCategory($categoryID){
+
+    }
+
+
     function fillOrder($order){
         try {
             $db = getDBConnection();

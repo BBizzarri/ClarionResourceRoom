@@ -8,7 +8,7 @@
     <section class="clarion-blue">
         <div class="container-fluid">
             <div class ="row">
-                <div class="col-auto sidebar">
+                <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 sidebar">
                    <form id="filterForm" action="../controller/controller.php?action=adminInventory" method="post" enctype="multipart/form-data">
                         <div class="sidebar-elements">
                               <div class="sidebar-search-div">
@@ -44,14 +44,14 @@
                         </div>
 
                         <hr class="sidebar-seperator">
-                        <div class="sidebar-elements">
+                        <div class="sidebar-elements col-12">
                               <h3 class="sidebar-heading">Categories</h3>
-                              <div>
+                              <div class="col-12">
                                 <a class="category nav-link" href="../controller/controller.php?action=adminInventory&CategoryMode=true">All</a>
-                                <select multiple class="category-list" size="<?php echo sizeof($CategoryArray) + 1; ?>" id="categorySelect" name="CategoryList[]" form="filterForm">
+                                <select multiple class="category-list col-12" size="<?php echo sizeof($CategoryArray) + 1; ?>" id="categorySelect" name="CategoryList[]" form="filterForm">
                                 <?php foreach ($CategoryArray as $category) {
                                 ?>
-                                        <option class="category nav-link" value="<?php echo $category->getCategoryID()?>" <?php if(in_array($category->getCategoryID(), $info[1])){echo 'selected';}?>> <?php echo htmlspecialchars($category->getCategoryDescription())?></option>
+                                        <option class="category nav-link col-12" style="white-space: normal" value="<?php echo $category->getCategoryID()?>" <?php if(in_array($category->getCategoryID(), $info[1])){echo 'selected';}?>> <?php echo htmlspecialchars($category->getCategoryDescription())?></option>
                                 <?php
                                 }
                                 ?>
@@ -60,81 +60,107 @@
                         </div>
                 </div>
                   </form>
-                      <div class="col-auto">
-                        <div class="container-fluid">
-                            <form id="adjustBulkForm" action="../controller/controller.php?action=processStockAdjust&Type=bulk" method="post" enctype="multipart/form-data">
-                                <div class="table-heading">
-                                    <h3 class="clarion-white"><?php echo $CategoryHeader ?></h3>
-                                </div>
-                                <div class="table-heading table-heading-buttons">
-                                    <input class="btn my-2 my-sm-0" id="addNewItemButton" type="button" data-toggle="modal" data-target="#addProductModal" value="Add New Item"/>
-                                    <input class="btn my-2 my-sm-0" type="button" value="Adjust All" data-toggle="modal" data-target="#adjustBulkConfirmModal"/>
-                                </div>
-                                  <!-- Adjust Bulk Confirm Modal -->
-                                            <div class="modal fade" id="adjustBulkConfirmModal" role="dialog">
-                                              <div class="modal-dialog modal-lg">-->
-                                                  <!-- Modal content-->
-                                                      <div class="modal-content clarion-blue clarion-white">
-                                                        <div class="modal-header" style="border-bottom: 1px solid #97824A;">
-                                                          <h4>Confirm</h4>
-                                                          <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        </div>
-                                                        <div class="row modal-body">
-                                                            <div class="column product-info-left">
-                                                              <h4>Are you sure you want to proceed with a bulk adjust?</h4>
-                                                            </div>
-                                                            <div class="column product-info-right">
+                      <div class="col-sm-12 col-md-8 col-lg-9 col-xl-10">
+                          <div class ="row">
+                              <div class="container-fluid">
+                                  <form id="adjustBulkForm" action="../controller/controller.php?action=processStockAdjust&Type=bulk" method="post" enctype="multipart/form-data">
+                                      <div class="table-heading">
+                                          <h3 class="clarion-white"><?php echo $CategoryHeader ?></h3>
+                                      </div>
+                                      <div class="table-heading table-heading-buttons">
+                                          <input class="btn my-2 my-sm-0" id="addNewItemButton" type="button" data-toggle="modal" data-target="#addProductModal" value="Add New Item"/>
 
-                                                            </div>
-                                                        </div>
-                                                            <div class="modal-footer" style="border-top: 1px solid #97824A;">
-                                                              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                                              <button type="submit" class="btn btn-default">Yes</button>
-                                                            </div>
+                                      </div>
+                                      <!-- Adjust Bulk Confirm Modal -->
+                                      <div class="modal fade" id="adjustBulkConfirmModal" role="dialog">
+                                          <div class="modal-dialog modal-lg">-->
+                                              <!-- Modal content-->
+                                              <div class="modal-content clarion-blue clarion-white">
+                                                  <div class="modal-header" style="border-bottom: 1px solid #97824A;">
+                                                      <h4>Confirm</h4>
+                                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                  </div>
+                                                  <div class="row modal-body">
+                                                      <div class="column product-info-left">
+                                                          <h4>Are you sure you want to proceed with a bulk adjust?</h4>
                                                       </div>
+                                                      <div class="column product-info-right">
+
+                                                      </div>
+                                                  </div>
+                                                  <div class="modal-footer" style="border-top: 1px solid #97824A;">
+                                                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                      <button type="submit" class="btn btn-default">Yes</button>
+                                                  </div>
                                               </div>
-                                            </div>
-                        </div>
-                        <div class="container-fluid">
-                        <table class="clarion-white">
-                        <tr>
-                            <th>Product</th>
-                            <th>Available <?php if($_SESSION['QtyLessThan'] != null){ echo '<' . ' ' . $_SESSION['QtyLessThan'];}?></th>
-                            <th>Goal Stock</th>
-                            <th>Incoming</th>
-                          </tr>
-                          <?php
-                          $i = 0;
-                          foreach($ProductArray as $product) {
-                          ?>
-                                                  <tr>
-                                                      <td class="text-left">
-                                                          <a class="clarion-white" href="#" data-toggle="modal" data-target="#editProductModal_<?php echo $product->getProductID()?>"><?php echo htmlspecialchars($product->getProductName())?></a>
-                                                      </td>
-                                                      <td class="text-right">
-                                                          <?php if($product->getProductQTYAvailable() != $product->getProductQtyOnHand())
-                                                          {
-                                                              echo '(' . $product->getProductQtyOnHand() . ')  |  ';
-                                                          }
-                                                          echo $product->getProductQTYAvailable();
-                                                          ?>
-                                                      </td>
-                                                      <td class="text-right">
-                                                          <?php echo $product->getProductGoalStock() ?>
-                                                      </td>
-                                                      <td title="To add stock enter in number you want to increase by and to subtract stock enter a '-' in front of number you want to decrease by" >
-                                                        <div class="incoming-textbox-div">
-                                                            <input class="incoming-textbox" type="number" id="incomingAmt_<?php echo $product->getProductID()?>" value="" name="incomingAmt_<?php echo $product->getProductID()?>">
-                                                        </div>
-                                                        <div class="adjust-button-div">
-                                                            <input type="button" value="Adjust Stock" onclick="adjustSingleStock(<?php echo $product->getProductID()?>);"/>
-                                                        </div>
-                                                      </td>
-                                                  </tr>
-                                  <?php } ?>
-                                </table>
-                            </form>
-                      </div>
+                                          </div>
+                                      </div>
+                              </div>
+                          </div>
+                          <div class = "row">
+                              <div class="container-fluid">
+                                  <table class="table table-striped inventoryTable" id="inventoryTable">
+                                      <thead>
+                                      <tr>
+                                          <th>Product</th>
+                                          <th>Available <?php if($_SESSION['QtyLessThan'] != null){ echo '<' . ' ' . $_SESSION['QtyLessThan'];}?></th>
+                                          <th>Goal Stock</th>
+                                          <th>Incoming <input class="btn my-2 my-sm-0" type="button" value="Adjust All" data-toggle="modal" data-target="#adjustBulkConfirmModal"/> </th>
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                      <?php
+                                      $i = 0;
+                                      foreach($ProductArray as $product) {
+                                          ?>
+                                          <tr>
+                                              <td class="text-left">
+                                                  <a class="clarion-white" href="#" data-toggle="modal" data-target="#editProductModal_<?php echo $product->getProductID()?>"><?php echo htmlspecialchars($product->getProductName())?></a>
+                                              </td>
+                                              <td class="text-right">
+                                                  <?php if($product->getProductQTYAvailable() != $product->getProductQtyOnHand())
+                                                  {
+                                                      echo '(' . $product->getProductQtyOnHand() . ')  |  ';
+                                                  }
+                                                  echo $product->getProductQTYAvailable();
+                                                  ?>
+                                              </td>
+                                              <td class="text-right">
+                                                  <?php echo $product->getProductGoalStock() ?>
+                                              </td>
+                                              <td title="To add stock enter in number you want to increase by and to subtract stock enter a '-' in front of number you want to decrease by" >
+                                                  <div class="incoming-textbox-div">
+                                                      <input class="incoming-textbox" type="number" id="incomingAmt_<?php echo $product->getProductID()?>" value="" name="incomingAmt_<?php echo $product->getProductID()?>">
+                                                  </div>
+                                                  <div class="adjust-button-div">
+                                                      <input type="button" value="Adjust Stock" onclick="adjustSingleStock(<?php echo $product->getProductID()?>);"/>
+                                                  </div>
+                                              </td>
+                                          </tr>
+                                      <?php } ?>
+                                      </tbody>
+                                  </table>
+                                  <script>
+                                      $(document).ready(function()
+                                      {
+                                          $("#inventoryTable").DataTable(
+                                              {
+                                                  dom:'Bfrtip',
+                                                  buttons: [
+                                                      {
+                                                          extend: 'csvHtml5',
+                                                          header: true
+                                                      },
+                                                      {
+                                                          extend: 'print',
+                                                      }
+                                                  ]
+                                              });
+                                      } );
+                                  </script>
+                                  </form>
+                              </div>
+                          </div>
                 </div>
             </div>
         </div>
