@@ -64,34 +64,7 @@
         $subject = $SettingsInfo['OrderCancelledSubj'];
         $message = $SettingsInfo['OrderCancelledText'];
         $cc = $SettingsInfo['EmailOrderCancelled'];
-
-        $options = array();
-        $options['host'] = 'serversmtp.clarion.edu';
-        $options['port'] = '2500';
-        $options['auth'] = false;
-        $Mailer = Mail::factory('smtp', $options);
-
-        $recipients = $to.", ".$cc;
-        $headers = array();
-        $headers['Cc'] = $cc;
-        $headers['Subject'] = $subject;
-        $headers['From'] = 'clarionresourceroom@clarion.edu';
-        $headers['To'] = $to;
-        $headers['Content-type'] = 'text/html';
-        $htmlContent = $message;
-
-        $result = $Mailer->send($recipients, $headers, $htmlContent);
-
-        if(PEAR::isError($result))
-        {
-            echo 'Error sending email ' . $result;
-        }
-        else
-        {
-            echo 'Email sent successfully';
-        }
-
-        //mail($to,$subject,$message,implode("\r\n", $headers));
+        sendEmail($to, $cc, $subject, $message);
         header("Location: {$_SERVER['HTTP_REFERER']}");
     }
     function addEditCategory()
@@ -287,19 +260,16 @@
         changeOrderStatus($orderID,$newStatus);
         fillOrderDetails($order);
         fillOrder($order);
+
         $SettingsInfo = getAllSettingsInfo();
         $USERID = getUserID();
         $OrderedByEmail = getEmailToOrder($orderID);
         $to = $OrderedByEmail['Email'];
         $subject = $SettingsInfo['OrderFilledSubj'];
-        //$message = $SettingsInfo['OrderFilledText'];
         $message = $SettingsInfo['OrderFilledText'] . ' ' . $fillerComments;
-        console_log($message);
-
         $cc = $SettingsInfo['EmailOrderFilled'];
-        $headers[] = 'Cc:' .$cc;
-        mail($to,$subject,$message,implode("\r\n", $headers));
-        //header("Location: {$_SERVER['HTTP_REFERER']}");
+        sendEmail($to, $cc, $subject, $message);
+        header("Location: {$_SERVER['HTTP_REFERER']}");
     }
 
     function adminReports()
@@ -354,8 +324,7 @@
         $subject = $SettingsInfo['OrderReminderSubj'];
         $message = $SettingsInfo['OrderReminderText'];
         $cc = $SettingsInfo['EmailOrderReminder'];
-        $headers[] = 'Cc:' .$cc;
-        mail($to,$subject,$message,implode("\r\n", $headers));
+        sendEmail($to, $cc, $subject, $message);
         header("Location: {$_SERVER['HTTP_REFERER']}");
     }
 

@@ -739,6 +739,36 @@
         }
     }
 
+    function sendEmail($to, $cc, $subject, $message)
+    {
+        $options = array();
+        $options['host'] = 'serversmtp.clarion.edu';
+        $options['port'] = '2500';
+        $options['auth'] = false;
+        $Mailer = Mail::factory('smtp', $options);
+
+        $recipients = $to.", ".$cc;
+        $headers = array();
+        $headers['Cc'] = $cc;
+        $headers['Subject'] = $subject;
+        $headers['From'] = 'clarionresourceroom@clarion.edu';
+        $headers['To'] = $to;
+        $headers['Content-type'] = 'text/html';
+        $htmlContent = $message;
+
+        $result = $Mailer->send($recipients, $headers, $htmlContent);
+        print_r($result);
+
+        if(PEAR::isError($result))
+        {
+            echo 'Error sending email ' . $result;
+        }
+        else
+        {
+            echo 'Email sent successfully';
+        }
+    }
+
 
     function updateCategory($CategoryID, $CategoryName)
     {
