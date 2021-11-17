@@ -12,13 +12,9 @@
                     <table class="table table-condensed" style="border-collapse:collapse;">
                         <thead>
                         <tr>
-                            <!--<th>STATUS</th>-->
                             <th>Name</th>
                             <th>DATE ORDERED</th>
-                            <!--<th>DATE FILLED</th>
-                            <th>DATE COMPLETED</th>-->
                             <th>NUMBER OF ITEMS</th>
-                            <!--<th>COMMENT</th>-->
                         </tr>
                         </thead>
                         <tbody>
@@ -45,7 +41,6 @@
                             <th>Name</th>
                             <th>DATE FILLED</th>
                             <th>NUMBER OF ITEMS</th>
-
                         </tr>
                         </thead>
                         <tbody>
