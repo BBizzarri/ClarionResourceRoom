@@ -746,7 +746,6 @@
         $options['port'] = '2500';
         $options['auth'] = false;
         $Mailer = Mail::factory('smtp', $options);
-
         $recipients = $to.", ".$cc;
         $headers = array();
         $headers['Cc'] = $cc;
@@ -755,10 +754,7 @@
         $headers['To'] = $to;
         $headers['Content-type'] = 'text/html';
         $htmlContent = $message;
-
         $result = $Mailer->send($recipients, $headers, $htmlContent);
-        print_r($result);
-
         if(PEAR::isError($result))
         {
             echo 'Error sending email ' . $result;
@@ -768,7 +764,6 @@
             echo 'Email sent successfully';
         }
     }
-
 
     function updateCategory($CategoryID, $CategoryName)
     {
