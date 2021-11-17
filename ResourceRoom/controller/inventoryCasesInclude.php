@@ -55,7 +55,6 @@
 
     function adminDeleteOrder()
     {
-        require_once 'Mail.php';
         $OrderID = $_POST['ORDERID'];
         $OrderedByEmail = getEmailToOrder($OrderID);
         deleteOrder($OrderID);
@@ -64,7 +63,7 @@
         $subject = $SettingsInfo['OrderCancelledSubj'];
         $message = $SettingsInfo['OrderCancelledText'];
         $cc = $SettingsInfo['EmailOrderCancelled'];
-        sendEmail($to, $cc, $subject, $message);
+        #sendEmail($to, $cc, $subject, $message);
         header("Location: {$_SERVER['HTTP_REFERER']}");
     }
     function addEditCategory()
@@ -241,14 +240,13 @@
     function adminFillOrder(){
         $orderID = $_GET['orderID'];
         $status = $_GET['status'];
-        $usersName = $_GET['usersName'];
         $fillerComments = $_POST['fillerComments'];
         $orderDetails = array();
         $QTYRequested = '';
         foreach($_POST as $productID=>$QTYFilled){
             array_push($orderDetails,new orderDetail($orderID,new product((int)$productID,'','','','','','','','',''),$QTYRequested,$QTYFilled));
         }
-        $order = new order($orderID,'',$status,'','','','',$orderDetails, $usersName);
+        $order = new order($orderID,'',$status,'','','','',$orderDetails, '');
         if($status == "SUBMITTED"){
             $newStatus = "READY FOR PICKUP";
         }
@@ -268,8 +266,8 @@
         $subject = $SettingsInfo['OrderFilledSubj'];
         $message = $SettingsInfo['OrderFilledText'] . ' ' . $fillerComments;
         $cc = $SettingsInfo['EmailOrderFilled'];
-        sendEmail($to, $cc, $subject, $message);
-        header("Location: {$_SERVER['HTTP_REFERER']}");
+        #sendEmail($to, $cc, $subject, $message);
+        showAdminOrders();
     }
 
     function adminReports()
@@ -324,7 +322,7 @@
         $subject = $SettingsInfo['OrderReminderSubj'];
         $message = $SettingsInfo['OrderReminderText'];
         $cc = $SettingsInfo['EmailOrderReminder'];
-        sendEmail($to, $cc, $subject, $message);
+        #sendEmail($to, $cc, $subject, $message);
         header("Location: {$_SERVER['HTTP_REFERER']}");
     }
 

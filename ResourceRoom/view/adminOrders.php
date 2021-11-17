@@ -130,83 +130,93 @@
                                 action="../controller/controller.php?action=adminChangeOrderStatus&orderID=<?php echo $order->getOrderID()?>&status=<?php echo $order->getOrderStatus()?>"
                                 <?php endif; ?>
                                 method="post" enctype="multipart/form-data">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>Product Name</th>
-                                    <?php
-                                        $orderDescriptionFlag = False;
-                                        foreach($order->getOrderDetails() as $orderDetail){
-                                            if($orderDetail->getProduct()->getProductDescription() != ""){
-                                                $orderDescriptionFlag = True;
-                                            }
-                                        }
-                                    ?>
-                                    <?php if($orderDescriptionFlag): ?>
-                                        <th>Description</th>
-                                    <?php endif; ?>
-                                    <th>Quantity Requested</th>
-                                    <th>Quantity Filled</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php foreach($order->getOrderDetails() as $orderDetail)
-                                {
-                                    ?>
-                                    <tr>
-                                        <td><?php echo htmlspecialchars($orderDetail->getProduct()->getProductName())?></td>
-                                        <?php if($orderDescriptionFlag): ?>
-                                            <td><?php echo htmlspecialchars($orderDetail->getProduct()->getProductDescription());?></td>
+                                <div class ='table-responsive'>
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>Product Name</th>
+                                            <?php
+                                                $orderDescriptionFlag = False;
+                                                foreach($order->getOrderDetails() as $orderDetail){
+                                                    if($orderDetail->getProduct()->getProductDescription() != ""){
+                                                        $orderDescriptionFlag = True;
+                                                    }
+                                                }
+                                            ?>
+                                            <?php if($orderDescriptionFlag): ?>
+                                                <th>Description</th>
+                                            <?php endif; ?>
+                                            <th>Quantity Requested</th>
+                                            <th>Quantity Filled</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php foreach($order->getOrderDetails() as $orderDetail)
+                                        {
+                                            ?>
+                                            <tr>
+                                                <td><?php echo htmlspecialchars($orderDetail->getProduct()->getProductName())?></td>
+                                                <?php if($orderDescriptionFlag): ?>
+                                                    <td><?php echo htmlspecialchars($orderDetail->getProduct()->getProductDescription());?></td>
+                                                <?php endif; ?>
+                                                <td><?php echo htmlspecialchars($orderDetail->getQTYRequested())?></td>
+                                            <?php if($order->getOrderStatus() == "SUBMITTED"): ?>
+                                                <td><input type="number" min="0" name="<?php echo $orderDetail->getProductID()?>" value="<?php echo htmlspecialchars($orderDetail->getQTYRequested())?>" required/></td>
+                                            <?php else:?>
+                                                <td><?php echo htmlspecialchars($orderDetail->getQTYFilled())?></td>
+                                            <?php endif; ?>
+                                            </tr>
+                                        <?php   } ?>
+                                        <?php if($order->getOrderComment() != ""): ?>
+                                            <tr>
+                                                <td>
+                                                    <h5>Comments:</h5>
+                                                </td>
+                                                <td
+                                                <?php if($orderDescriptionFlag){
+                                                    echo 'colspan="3"';
+                                                }else{
+                                                    echo 'colspan="2"';
+                                                }
+                                                ?>
+                                                >
+                                                    <p style="text-align: left"><?php echo htmlspecialchars($order->getOrderComment())?></p>
+                                                </td>
+                                            </tr>
                                         <?php endif; ?>
-                                        <td><?php echo htmlspecialchars($orderDetail->getQTYRequested())?></td>
-                                    <?php if($order->getOrderStatus() == "SUBMITTED"): ?>
-                                        <td><input type="number" min="0" name="<?php echo $orderDetail->getProductID()?>" value="<?php echo htmlspecialchars($orderDetail->getQTYRequested())?>" required/></td>
-                                    <?php else:?>
-                                        <td><?php echo htmlspecialchars($orderDetail->getQTYFilled())?></td>
-                                    <?php endif; ?>
-                                    </tr>
-                                <?php   } ?>
-                                <?php if($order->getOrderComment() != ""): ?>
-                                    <tr>
-                                        <td>
-                                            <h5>Comments:</h5>
-                                        </td>
-                                        <td
-                                        <?php if($orderDescriptionFlag){
-                                            echo 'colspan="3"';
-                                        }else{
-                                            echo 'colspan="2"';
-                                        }
-                                        ?>
-                                        >
-                                            <p style="text-align: left"><?php echo htmlspecialchars($order->getOrderComment())?></p>
-                                        </td>
-                                    </tr>
-                                <?php endif; ?>
-                                </tbody>
-                            </table>
+                                        </tbody>
+                                    </table>
+                                </div>
                         </div>
-                        <div class="modal-footer">
-                            <?php if($order->getOrderStatus() == "SUBMITTED"): ?>
-                                <input class="additional-comments" type="text" name="fillerComments" id="fillerComments" placeholder="Additional Comments"/>
-                                <button type="submit" class="btn btn-success">Fill Order</button>
-                                </form>
-                                <form action="../controller/controller.php?action=deleteOrder" method="post" enctype="multipart/form-data">
-                                    <input type='hidden' name='ORDERID' value='<?php echo $order->getOrderID()?>'/>
-                                    <input type="submit" class="btn btn-danger" style="margin-right: 25px" value="Delete Order">
-                                </form>
-                            <?php elseif ($order->getOrderStatus() == "READY FOR PICKUP"):?>
-                                <button type="submit" class="btn btn-success">Order Picked Up</button>
-                                <button type="button" class="btn btn-warning" onclick="reNotify(<?php echo $order->getOrderID();?>);">Re-Notify</button>
-                                </form>
-                                <form action="../controller/controller.php?action=deleteOrder" method="post" enctype="multipart/form-data">
-                                    <input type='hidden' name='ORDERID' value='<?php echo $order->getOrderID()?>'/>
-                                    <input type="submit" class="btn btn-danger" style="margin-right: 25px" value="Delete Order">
-                                </form>
-                            <?php elseif ($order->getOrderStatus() == "COMPLETED"):?>
-                                </form>
-                            <?php endif; ?>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <div class="modal-footer container">
+                            <div class = 'row'>
+                                <?php if($order->getOrderStatus() == "SUBMITTED"): ?>
+                                <div class = 'col-auto'>
+                                    <input class="additional-comments" type="text" name="fillerComments" id="fillerComments" placeholder="Additional Comments"/>
+                                    <button type="submit" class="btn btn-success">Fill Order</button>
+                                    </form>
+                                    <form action="../controller/controller.php?action=deleteOrder" method="post" enctype="multipart/form-data">
+                                        <input type='hidden' name='ORDERID' value='<?php echo $order->getOrderID()?>'/>
+                                        <input type="submit" class="btn btn-danger" style="margin-right: 25px" value="Delete Order">
+                                    </form>
+                                </div>
+                                <?php elseif ($order->getOrderStatus() == "READY FOR PICKUP"):?>
+                                <div class = 'col-auto'>
+                                    <button type="submit" class="btn btn-success">Order Picked Up</button>
+                                    <button type="button" class="btn btn-warning" onclick="reNotify(<?php echo $order->getOrderID();?>);">Re-Notify</button>
+                                    </form>
+                                    <form action="../controller/controller.php?action=deleteOrder" method="post" enctype="multipart/form-data">
+                                        <input type='hidden' name='ORDERID' value='<?php echo $order->getOrderID()?>'/>
+                                        <input type="submit" class="btn btn-danger" style="margin-right: 25px" value="Delete Order">
+                                    </form>
+                                </div>
+                                <?php elseif ($order->getOrderStatus() == "COMPLETED"):?>
+                                    </form>
+                                <?php endif; ?>
+                                <div class = 'col-auto'>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
