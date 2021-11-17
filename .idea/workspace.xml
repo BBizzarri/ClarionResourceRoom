@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
+    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Admin inventory Mobile UI">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/css/admin.css" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/css/admin.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/css/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/model/model.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/controller.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/security/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/security/index.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/view/navInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/navInclude.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -95,6 +94,7 @@
       <workItem from="1636957544856" duration="6709000" />
       <workItem from="1637069747624" duration="6596000" />
       <workItem from="1637094410558" duration="1603000" />
+      <workItem from="1637120477410" duration="869000" />
     </task>
     <task id="LOCAL-00001" summary="fixing merge conflict">
       <created>1631803451977</created>
@@ -390,7 +390,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637103977060</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="Admin inventory Mobile UI">
+      <created>1637105743951</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1637105743951</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
