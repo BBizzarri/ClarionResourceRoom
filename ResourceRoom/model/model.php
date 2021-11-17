@@ -741,6 +741,7 @@
 
     function sendEmail($to, $cc, $subject, $message)
     {
+        require_once 'Mail.php';
         $options = array();
         $options['host'] = 'serversmtp.clarion.edu';
         $options['port'] = '2500';

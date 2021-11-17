@@ -55,7 +55,6 @@
 
     function adminDeleteOrder()
     {
-        require_once 'Mail.php';
         $OrderID = $_POST['ORDERID'];
         $OrderedByEmail = getEmailToOrder($OrderID);
         deleteOrder($OrderID);
@@ -241,14 +240,13 @@
     function adminFillOrder(){
         $orderID = $_GET['orderID'];
         $status = $_GET['status'];
-        $usersName = $_GET['usersName'];
         $fillerComments = $_POST['fillerComments'];
         $orderDetails = array();
         $QTYRequested = '';
         foreach($_POST as $productID=>$QTYFilled){
             array_push($orderDetails,new orderDetail($orderID,new product((int)$productID,'','','','','','','','',''),$QTYRequested,$QTYFilled));
         }
-        $order = new order($orderID,'',$status,'','','','',$orderDetails, $usersName);
+        $order = new order($orderID,'',$status,'','','','',$orderDetails, '');
         if($status == "SUBMITTED"){
             $newStatus = "READY FOR PICKUP";
         }
@@ -269,7 +267,7 @@
         $message = $SettingsInfo['OrderFilledText'] . ' ' . $fillerComments;
         $cc = $SettingsInfo['EmailOrderFilled'];
         sendEmail($to, $cc, $subject, $message);
-        header("Location: {$_SERVER['HTTP_REFERER']}");
+        showAdminOrders();
     }
 
     function adminReports()
