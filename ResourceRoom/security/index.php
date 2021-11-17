@@ -13,7 +13,7 @@
     if ($action != 'SecurityLogin' && $action != 'ProcessLogin' && $action != 'SecurityProcessLogin' && !userIsAuthorized($action)) {
         if(!loggedIn()) {
             #header("Location:../security/index.php?action=SecurityLogin&RequestedPage=" . urlencode($_SERVER['REQUEST_URI']));
-            header("Location: https://vcisprod.clarion.edu/~s_ajrobinso1/php-saml-2.19.1/demo1&RequestedPage=" . urlencode($_SERVER['REQUEST_URI']));
+            header("Location: https://vcisprod.clarion.edu/~s_ajrobinso1/php-saml-2.19.1/demo1");
         } else {
             include('../security/not_authorized.html');
         }
@@ -27,7 +27,7 @@
                     exit();
                 }
                 #include('login_form.php');
-                header("Location: https://vcisprod.clarion.edu/~s_ajrobinso1/php-saml-2.19.1/demo1&RequestedPage=" . urlencode($_SERVER['REQUEST_URI']));
+                header("Location: https://vcisprod.clarion.edu/~s_ajrobinso1/php-saml-2.19.1/demo1");
                 break;
             case 'ProcessLogin':
                 ProcessSSOLogin();
@@ -119,7 +119,15 @@
 
         if(login($username,$password)){
             if (isset($_REQUEST["RequestedPage"])) {
-                header("Location: https://" . $_SERVER['HTTP_HOST'] . $_REQUEST["RequestedPage"]);
+                if($_SERVER['SERVER_NAME'] == 'localhost'){
+                    header("Location:" . $_REQUEST["RequestedPage"]);
+                }
+                else
+                {
+                    header("Location:" ."/~s_smwice" . $_REQUEST["RequestedPage"]);
+                }
+
+
             } else {
                 header("Location:../security/index.php");
             }
