@@ -63,7 +63,7 @@
         $subject = $SettingsInfo['OrderCancelledSubj'];
         $message = $SettingsInfo['OrderCancelledText'];
         $cc = $SettingsInfo['EmailOrderCancelled'];
-        #sendEmail($to, $cc, $subject, $message);
+        sendEmail($to, $cc, $subject, $message);
         header("Location: {$_SERVER['HTTP_REFERER']}");
     }
     function addEditCategory()
@@ -266,7 +266,7 @@
         $subject = $SettingsInfo['OrderFilledSubj'];
         $message = $SettingsInfo['OrderFilledText'] . ' ' . $fillerComments;
         $cc = $SettingsInfo['EmailOrderFilled'];
-        #sendEmail($to, $cc, $subject, $message);
+        sendEmail($to, $cc, $subject, $message);
         showAdminOrders();
     }
 
@@ -322,7 +322,7 @@
         $subject = $SettingsInfo['OrderReminderSubj'];
         $message = $SettingsInfo['OrderReminderText'];
         $cc = $SettingsInfo['EmailOrderReminder'];
-        #sendEmail($to, $cc, $subject, $message);
+        sendEmail($to, $cc, $subject, $message);
         header("Location: {$_SERVER['HTTP_REFERER']}");
     }
 
