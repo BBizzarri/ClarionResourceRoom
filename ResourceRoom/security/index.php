@@ -11,10 +11,7 @@
         $action = "SecurityHome";	// Default action that guest is authorized to use.
     }
     if ($action != 'SecurityLogin' && $action != 'ProcessLogin' && $action != 'SecurityProcessLogin' && !userIsAuthorized($action)) {
-        echo 'First If';
         if(!loggedIn()) {
-            print_r('not logged in');
-            print_r($_SESSION);
             #header("Location:../security/index.php?action=SecurityLogin&RequestedPage=" . urlencode($_SERVER['REQUEST_URI']));
             header("Location: https://vcisprod.clarion.edu/~s_ajrobinso1/php-saml-2.19.1/demo1");
         } else {
@@ -22,9 +19,6 @@
         }
     } else {
         switch ($action) {
-            case 'ProcessLogin':
-                ProcessSSOLogin();
-                break;
             case 'SecurityLogin':
                 if (!isset($_SERVER['HTTPS'])) {
                     $url = 'https://' . $_SERVER['HTTP_HOST'] .
@@ -32,8 +26,11 @@
                     header("Location: " . $url);
                     exit();
                 }
-                include('login_form.php');
+                #include('login_form.php');
                 header("Location: https://vcisprod.clarion.edu/~s_ajrobinso1/php-saml-2.19.1/demo1");
+                break;
+            case 'ProcessLogin':
+                ProcessSSOLogin();
                 break;
             case 'SecurityChangeUserLevel':
                 if (!isset($_SERVER['HTTPS'])) {
@@ -122,7 +119,15 @@
 
         if(login($username,$password)){
             if (isset($_REQUEST["RequestedPage"])) {
-                header("Location: https://" . $_SERVER['HTTP_HOST'] . $_REQUEST["RequestedPage"]);
+                if($_SERVER['SERVER_NAME'] == 'localhost'){
+                    header("Location:" . $_REQUEST["RequestedPage"]);
+                }
+                else
+                {
+                    header("Location:" ."/~s_smwice" . $_REQUEST["RequestedPage"]);
+                }
+
+
             } else {
                 header("Location:../security/index.php");
             }
@@ -150,7 +155,7 @@
         if (isset($_REQUEST["RequestedPage"])) {
                 header("Location:" . $_REQUEST["RequestedPage"]);
         } else {
-                header("Location:../security/index.php");
+            header("Location: https://vcisprod.clarion.edu/~s_ajrobinso1/php-saml-2.19.1/demo1");
         }
     }
     function ManageUsers() {

@@ -77,6 +77,10 @@ hr {width: 50px; color: #97824A}
     font-size: 25px;
 }
 
+.filterOption{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
 .account-settings-heading {
     font-size: 35px;
 }

@@ -359,6 +359,7 @@
 
         $AllProductsCategoriesArray = [];
         $AllProductsCategories = '';
+        $results = False;
         foreach($CategoryID as $SingleCategoryID)
         {
             $db = getDBConnection();
@@ -368,27 +369,37 @@
             $statement->execute();
             $results = $statement->fetch();
             $statement->closeCursor();
-            array_push($AllProductsCategoriesArray, $results[0]);
+            if ($results != False){
+                array_push($AllProductsCategoriesArray, $results[0]);
+            }
         }
-        foreach($AllProductsCategoriesArray as $SingleCategory)
-        {
-            if(end($AllProductsCategoriesArray) == $SingleCategory)
+        if($results != False){
+            foreach($AllProductsCategoriesArray as $SingleCategory)
             {
-                $AllProductsCategories = $AllProductsCategories  . $SingleCategory;
+                if(end($AllProductsCategoriesArray) == $SingleCategory)
+                {
+                    $AllProductsCategories = $AllProductsCategories  . $SingleCategory;
+                }
+                else
+                {
+                    $AllProductsCategories = $AllProductsCategories  . $SingleCategory . ',' . ' ';
+                }
+            }
+            if(strlen($AllProductsCategories) >= 45)
+            {
+                return substr($AllProductsCategories, 0, 45)."...";
             }
             else
             {
-                $AllProductsCategories = $AllProductsCategories  . $SingleCategory . ',' . ' ';
+                return $AllProductsCategories;
             }
         }
-         if(strlen($AllProductsCategories) >= 45)
-         {
-            return substr($AllProductsCategories, 0, 45)."...";
-         }
-         else
-         {
-            return $AllProductsCategories;
-         }
+        else
+        {
+
+            return "All";
+        }
+
     }
 
     function getEmailToOrder($orderID)

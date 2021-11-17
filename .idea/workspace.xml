@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/security/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/security/index.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,7 +23,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="bbizzarri-resource-room" />
+        <entry key="$PROJECT_DIR$" value="Staging" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -90,6 +91,7 @@
       <workItem from="1636957544856" duration="6709000" />
       <workItem from="1637069747624" duration="6596000" />
       <workItem from="1637094410558" duration="1603000" />
+      <workItem from="1637120477410" duration="2403000" />
     </task>
     <task id="LOCAL-00001" summary="fixing merge conflict">
       <created>1631803451977</created>
@@ -378,14 +380,28 @@
       <option name="project" value="LOCAL" />
       <updated>1636962399485</updated>
     </task>
-    <task id="LOCAL-00042" summary="adding in comment box for admin to add additional comments to order that is ready for pickup that will be included in the ready for pickup email">
-      <created>1637099049347</created>
+    <task id="LOCAL-00042" summary="Admin inventory Mobile UI">
+      <created>1637103977060</created>
       <option name="number" value="00042" />
       <option name="presentableId" value="LOCAL-00042" />
       <option name="project" value="LOCAL" />
-      <updated>1637099049347</updated>
+      <updated>1637103977060</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="Admin inventory Mobile UI">
+      <created>1637105743951</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1637105743951</updated>
+    </task>
+    <task id="LOCAL-00044" summary="SSO Stuff">
+      <created>1637121517658</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1637121517658</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -428,11 +444,11 @@
     <MESSAGE value="integrating email" />
     <MESSAGE value="getting email to work right!" />
     <MESSAGE value="Fixing date of competed orders" />
-    <MESSAGE value="SSO Stuff" />
     <MESSAGE value="Creation script fix" />
     <MESSAGE value="Mobile UI fixes" />
     <MESSAGE value="Cancel / Delete orders, admin inventory" />
-    <MESSAGE value="adding in comment box for admin to add additional comments to order that is ready for pickup that will be included in the ready for pickup email" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding in comment box for admin to add additional comments to order that is ready for pickup that will be included in the ready for pickup email" />
+    <MESSAGE value="Admin inventory Mobile UI" />
+    <MESSAGE value="SSO Stuff" />
+    <option name="LAST_COMMIT_MESSAGE" value="SSO Stuff" />
   </component>
 </project>
