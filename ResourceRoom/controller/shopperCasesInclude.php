@@ -147,7 +147,7 @@
         $cc = $SettingsInfo['EmailOrderReceived'];
         $subject = $SettingsInfo['OrderReceivedSubj'];
         $message = $SettingsInfo['OrderReceivedText'];
-        sendEmail($to, $cc, $subject, $message);
+        #sendEmail($to, $cc, $subject, $message);
     }
 
     function validateCart($USERID){
