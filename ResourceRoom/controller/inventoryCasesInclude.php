@@ -267,7 +267,7 @@
         $message = $SettingsInfo['OrderFilledText'] . ' ' . $fillerComments;
         $cc = $SettingsInfo['EmailOrderFilled'];
         sendEmail($to, $cc, $subject, $message);
-        showAdminOrders();
+        header("Location: {$_SERVER['HTTP_REFERER']}");
     }
 
     function adminReports()
