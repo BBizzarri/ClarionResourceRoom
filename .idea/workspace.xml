@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/security/creation_script.sql" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/security/creation_script.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/security/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/security/index.php" afterDir="false" />
-    </list>
+    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="updated all emails to not send from apache" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -409,7 +405,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637158197014</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="Updating admin permissions to allow them to change a users role now">
+      <created>1637160646963</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1637160646963</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -432,7 +435,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fixing table text color and updating creation script" />
     <MESSAGE value="Filter work" />
     <MESSAGE value="Finished Filtering" />
     <MESSAGE value="admin Inventory page touch up" />
@@ -457,6 +459,7 @@
     <MESSAGE value="Admin inventory Mobile UI" />
     <MESSAGE value="SSO Stuff" />
     <MESSAGE value="updated all emails to not send from apache" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated all emails to not send from apache" />
+    <MESSAGE value="Updating admin permissions to allow them to change a users role now" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updating admin permissions to allow them to change a users role now" />
   </component>
 </project>
