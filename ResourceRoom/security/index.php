@@ -114,6 +114,7 @@
     }
 
     function ProcessLogin(){
+        $SettingsInfo = getAllSettingsInfo();
         $username = $_POST["username"];
         $password = $_POST["password"];
 
@@ -151,6 +152,7 @@
     }
 
     function ProcessLogOut() {
+        $SettingsInfo = getAllSettingsInfo();
         logOut();
         if (isset($_REQUEST["RequestedPage"])) {
                 header("Location:" . $_REQUEST["RequestedPage"]);
@@ -160,12 +162,15 @@
     }
     function ManageUsers() {
         $results = getAllUsers();
+        $SettingsInfo = getAllSettingsInfo();
         include('../security/manage_users_form.php');
     }
     function UserAdd() {
+        $SettingsInfo = getAllSettingsInfo();
         include('../security/add_user_form.php');
     }
     function UserEdit() {
+        $SettingsInfo = getAllSettingsInfo();
         $id = $_GET["id"];
         if (empty($id)) {
             displayError("An ID is required for this function.");
@@ -186,6 +191,7 @@
         }
     }
     function UserDelete() {
+        $SettingsInfo = getAllSettingsInfo();
         if(isset($_POST["numListed"]))
         {
             $numListed = $_POST["numListed"];
@@ -201,6 +207,7 @@
         include('../security/manage_users_form.php');
     }
     function ProcessUserAddEdit() {
+        $SettingsInfo = getAllSettingsInfo();
         $errors = "";
 
         if(empty($_POST["FirstName"]))
@@ -234,12 +241,14 @@
 
     function ManageFunctions() {
         $results = getAllFunctions();
+        $SettingsInfo = getAllSettingsInfo();
         include('../security/manage_functions_form.php');
     }
     function FunctionAdd() {
         include('../security/add_function_form.php');
     }
     function FunctionEdit() {
+        $SettingsInfo = getAllSettingsInfo();
         $id = $_GET["id"];
         if (empty($id)) {
             displayError("An ID is required for this function.");
@@ -256,6 +265,7 @@
         }
     }
     function FunctionDelete() {
+        $SettingsInfo = getAllSettingsInfo();
         if(isset($_POST["numListed"]))
         {
             $numListed = $_POST["numListed"];
@@ -271,6 +281,7 @@
         include('../security/manage_functions_form.php');
     }
     function ProcessFunctionAddEdit() {
+        $SettingsInfo = getAllSettingsInfo();
         $errors = "";
 
         if(empty($_POST["Name"]))
@@ -294,12 +305,15 @@
 
     function ManageRoles() {
         $results = getAllRoles();
+        $SettingsInfo = getAllSettingsInfo();
         include('../security/manage_roles_form.php');
     }
     function RoleAdd() {
+        $SettingsInfo = getAllSettingsInfo();
         include('../security/add_role_form.php');
     }
     function RoleEdit() {
+        $SettingsInfo = getAllSettingsInfo();
         $id = $_GET["id"];
         if (empty($id)) {
             displayError("An ID is required for this function.");
@@ -317,6 +331,7 @@
         }
     }
     function RoleDelete() {
+        $SettingsInfo = getAllSettingsInfo();
         if(isset($_POST["numListed"]))
         {
             $numListed = $_POST["numListed"];
@@ -332,6 +347,7 @@
         include('../security/manage_roles_form.php');
     }
     function ProcessRoleAddEdit() {
+        $SettingsInfo = getAllSettingsInfo();
         $errors = "";
         if(empty($_POST["Name"]))
             $errors .= "<li>Error, field \"Name\" is blank.</li>";
