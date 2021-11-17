@@ -12,13 +12,9 @@
                     <table class="table table-condensed" style="border-collapse:collapse;">
                         <thead>
                         <tr>
-                            <!--<th>STATUS</th>-->
                             <th>Name</th>
                             <th>DATE ORDERED</th>
-                            <!--<th>DATE FILLED</th>
-                            <th>DATE COMPLETED</th>-->
                             <th>NUMBER OF ITEMS</th>
-                            <!--<th>COMMENT</th>-->
                         </tr>
                         </thead>
                         <tbody>
@@ -29,12 +25,8 @@
                                 ?>
                                 <tr data-toggle="modal" data-target="#orderDetails_<?php echo $order->getOrderID()?>">
                                     <td><?php echo htmlspecialchars($order->getUsersName())?></td>
-                                    <!--<td><?php echo htmlspecialchars($order->getOrderStatus())?></td>-->
                                     <td><?php $dateOrdered = new DateTime(htmlspecialchars($order->getOrderDateOrdered())); echo $dateOrdered->format('m/d/Y');?></td>
-                                    <!--<td><?php echo htmlspecialchars($order->getOrderDateFilled())?></td>
-                                    <td><?php echo htmlspecialchars($order->getOrderDateCompleted())?></td>-->
                                     <td><?php echo htmlspecialchars($order->getOrderSize())?></td>
-                                    <!--<td><?php echo htmlspecialchars($order->getOrderComment())?></td>-->
                                 </tr>
 
                             <?php } }?>
@@ -47,12 +39,8 @@
                         <thead>
                         <tr>
                             <th>Name</th>
-                            <!--<th>STATUS</th>-->
-                            <!--<th>DATE ORDERED</th>-->
                             <th>DATE FILLED</th>
-                            <!--<th>DATE COMPLETED</th>-->
                             <th>NUMBER OF ITEMS</th>
-                            <!--<th>COMMENT</th>-->
                         </tr>
                         </thead>
                         <tbody>
@@ -63,12 +51,8 @@
                                 ?>
                                 <tr data-toggle="modal" data-target="#orderDetails_<?php echo $order->getOrderID()?>">
                                     <td><?php echo htmlspecialchars($order->getUsersName())?></td>
-                                    <!--<td><?php echo htmlspecialchars($order->getOrderStatus())?></td>-->
-                                    <!--<td><?php echo htmlspecialchars($order->getOrderDateOrdered())?></td>-->
                                     <td><?php $dateFilled = new DateTime(htmlspecialchars($order->getOrderDateFilled())); echo $dateFilled->format('m/d/Y'); ?></td>
-                                    <!--<td><?php echo htmlspecialchars($order->getOrderDateCompleted())?></td>-->
                                     <td><?php echo htmlspecialchars($order->getOrderSize())?></td>
-                                    <!--<td><?php echo htmlspecialchars($order->getOrderComment())?></td>-->
                                 </tr>
                             <?php } }?>
                         </tbody>
@@ -96,12 +80,8 @@
                                 ?>
                                 <tr data-toggle="modal" data-target="#orderDetails_<?php echo $order->getOrderID()?>">
                                     <td><?php echo htmlspecialchars($order->getUsersName())?></td>
-                                    <!--<td><?php echo htmlspecialchars($order->getOrderStatus())?></td>-->
-                                    <!--<td><?php echo htmlspecialchars($order->getOrderDateOrdered())?></td>
-                                    <td><?php echo htmlspecialchars($order->getOrderDateFilled())?></td>-->
                                     <td><?php $dateCompleted = new DateTime(htmlspecialchars($order->getOrderDateCompleted())); echo $dateCompleted->format('m/d/Y');?></td>
                                     <td><?php echo htmlspecialchars($order->getOrderSize())?></td>
-                                    <!--<td><?php echo htmlspecialchars($order->getOrderComment())?></td>-->
                                 </tr>
                             <?php } }?>
                         </tbody>
