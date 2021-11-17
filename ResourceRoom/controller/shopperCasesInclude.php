@@ -146,10 +146,8 @@
         $to = $UsersEmail['Email'];
         $cc = $SettingsInfo['EmailOrderReceived'];
         $subject = $SettingsInfo['OrderReceivedSubj'];
-        $body = $SettingsInfo['OrderReceivedText'];
-        $cc = $SettingsInfo['EmailOrderReceived'];
-        $headers[] = 'Cc:' .$cc;
-        mail($to,$subject,$body,implode("\r\n", $headers));
+        $message = $SettingsInfo['OrderReceivedText'];
+        sendEmail($to, $cc, $subject, $message);
 
     }
 
