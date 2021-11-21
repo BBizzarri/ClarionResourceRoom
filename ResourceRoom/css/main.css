@@ -32,6 +32,10 @@ section {
     color: white;
 }
 
+.inventoryTable{
+    color: white;
+}
+
 .account-dropdown {
     padding-left: 30px;
 }
@@ -43,6 +47,11 @@ section {
   border-left: 6px solid #003366;
   height: 50px;
 }
+
+.hl{
+    border-bottom: 6px solid #003366;
+}
+
 hr {width: 50px; color: #97824A}
 
 .hiddenRow {
@@ -68,6 +77,10 @@ hr {width: 50px; color: #97824A}
     font-size: 25px;
 }
 
+.filterOption{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
 .account-settings-heading {
     font-size: 35px;
 }
@@ -96,3 +109,7 @@ ul#navigation .active {
   font-weight: bold;
 }
 
+.settings-inputs
+{
+    width: 600px;
+}

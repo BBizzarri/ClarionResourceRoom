@@ -17,4 +17,7 @@ function openEditModal($CategoryID) {
             $('#edit_categoryModal_' + $CategoryID).modal('toggle');
         }
 
-
+function reNotify($orderID) {
+    let orderID = $orderID;
+    document.location="../controller/controller.php?action=reNotifyEmail&orderID=" + orderID;
+}

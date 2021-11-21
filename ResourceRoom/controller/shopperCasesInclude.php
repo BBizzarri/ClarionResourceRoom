@@ -25,7 +25,6 @@
             processSubmitOrder();
             break;
     }
-
     function displayShopperOrders(){
         $SettingsInfo = getAllSettingsInfo();
         $USERID = getUserID();
@@ -132,6 +131,7 @@
     function processSubmitOrder(){
         $SettingsInfo = getAllSettingsInfo();
         $USERID = getUserID();
+        $UsersEmail = getUserEmail($USERID);
         $invalidRequests = validateCart($USERID);
         if(isset($_POST["cartComment"])){
             $COMMENT = $_POST["cartComment"];
@@ -142,6 +142,12 @@
             submitOrder($USERID,getCart($USERID),$COMMENT);
         }
         displayShopperOrders();
+
+        $to = $UsersEmail['Email'];
+        $cc = $SettingsInfo['EmailOrderReceived'];
+        $subject = $SettingsInfo['OrderReceivedSubj'];
+        $message = $SettingsInfo['OrderReceivedText'];
+        sendEmail($to, $cc, $subject, $message);
     }
 
     function validateCart($USERID){

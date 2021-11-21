@@ -3,11 +3,10 @@
         $detect = new Mobile_Detect;
         if(!loggedIn() || loggedIn()) {
     ?>        
-        <nav class="clarion-gold navbar navbar-expand-md sticky-top">
+        <nav class="clarion-gold navbar navbar-expand-lg navbar-light sticky-top">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul id="navigation" class="navbar-nav mr-auto">
                         <?php if(userIsAuthorized("shopperHome")) { ?>
@@ -29,7 +28,8 @@
                         <?php } ?>
 
                         <?php if(userIsAuthorized("shopperOrders") && userIsAuthorized("adminInventory")) { ?>
-                            <div class="vl"></div>
+                            <div class="vl d-none d-lg-block "></div>
+                            <div class="hl"></div>
                         <?php } ?>
 
                         <?php if(userIsAuthorized("adminOrders")) { ?>
@@ -51,9 +51,9 @@
                         <?php } ?>
 
                         <?php if(userIsAuthorized("adminShoppingList")) { ?>
-                            <li class="nav-item">
+                            <!--<li class="nav-item">
                                 <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'adminShoppingList')){ echo 'active';}?>" href="../controller/controller.php?action=adminShoppingList">Shopping List<span class="sr-only"></span></a>
-                            </li>
+                            </li>-->
                         <?php } ?>
 
                         <?php if(userIsAuthorized("adminSecurity")) { ?>
@@ -66,15 +66,19 @@
                                 <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'mobileAdd')){ echo 'active';}?>" href="../controller/controller.php?action=mobileAdd">Mobile Add<span class="sr-only"></span></a>
                             </li>
                         <?php } ?>
+                        <?php if(userIsAuthorized("SecurityChangeUserLevel")) { ?>
+                            <li class="nav-item">
+                                <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'SecurityChangeUserLevel')){ echo 'active';}?>" href="../security/index.php?action=SecurityChangeUserLevel">Change User Level<span class="sr-only"></span></a>
+                            </li>
+                        <?php } ?>
                     </ul>
             <?php if(userIsAuthorized("shopperHome")) { ?>
                 <form id = "navSearchForm" class="form-inline my-2 my-lg-0" action="../controller/controller.php?action=shopperHome&ListType=GeneralSearch" method="post" enctype="multipart/form-data">
-                    <input class="form-control mr-sm-2" type="text" id="searchCriteria" name="searchCriteria" placeholder="Search" aria-label="Search">
+                    <input class="form-control" type="text" id="searchCriteria" name="searchCriteria" placeholder="Search" aria-label="Search">
                     <input class="btn my-2 my-sm-0" id="searchButton" type="submit" value="Search"/>
                 </form>
             <?php } ?>
             <div class="dropdown account-dropdown">
-
               <?php if(loggedIn()) { ?>
                   <button class="btn dropdown-toggle" type="button" data-toggle="dropdown"><img src="../Images/person-icon.png" alt="person" height="40px" width="40px"/></button>
                   <ul class="dropdown-menu">
@@ -85,9 +89,10 @@
                         ?>
                     </li>
                   </ul>
+
               <?php }
               else {
-                echo "<a class='nav-link clarion-white' href='../security/index.php?action=SecurityLogin&RequestedPage=" . urlencode($_SERVER['REQUEST_URI'])  .  "'><i class='fas fa-sign-in-alt'></i> Log In </a>";
+                echo "<a class='nav-link clarion-white' href='https://vcisprod.clarion.edu/~s_ajrobinso1/php-saml-2.19.1/demo1&RequestedPage=" . urlencode($_SERVER['REQUEST_URI'])  .  "'><i class='fas fa-sign-in-alt'></i> Log In </a>";
 
               }  ?>
             </div>

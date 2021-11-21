@@ -10,10 +10,10 @@
     } else {
         $action = "SecurityHome";	// Default action that guest is authorized to use.
     }
-
-    if ($action != 'SecurityLogin' && $action != 'SecurityProcessLogin' && !userIsAuthorized($action)) {
+    if ($action != 'SecurityLogin' && $action != 'ProcessLogin' && $action != 'SecurityProcessLogin' && !userIsAuthorized($action)) {
         if(!loggedIn()) {
-            header("Location:../security/index.php?action=SecurityLogin&RequestedPage=" . urlencode($_SERVER['REQUEST_URI']));
+            #header("Location:../security/index.php?action=SecurityLogin&RequestedPage=" . urlencode($_SERVER['REQUEST_URI']));
+            header("Location: https://vcisprod.clarion.edu/~s_ajrobinso1/php-saml-2.19.1/demo1");
         } else {
             include('../security/not_authorized.html');
         }
@@ -21,8 +21,21 @@
         switch ($action) {
             case 'SecurityLogin':
                 if (!isset($_SERVER['HTTPS'])) {
-                    $url = 'https://' . $_SERVER['HTTP_HOST'] . 
-                                                      $_SERVER['REQUEST_URI'];
+                    $url = 'https://' . $_SERVER['HTTP_HOST'] .
+                        $_SERVER['REQUEST_URI'];
+                    header("Location: " . $url);
+                    exit();
+                }
+                #include('login_form.php');
+                header("Location: https://vcisprod.clarion.edu/~s_ajrobinso1/php-saml-2.19.1/demo1");
+                break;
+            case 'ProcessLogin':
+                ProcessSSOLogin();
+                break;
+            case 'SecurityChangeUserLevel':
+                if (!isset($_SERVER['HTTPS'])) {
+                    $url = 'https://' . $_SERVER['HTTP_HOST'] .
+                        $_SERVER['REQUEST_URI'];
                     header("Location: " . $url);
                     exit();
                 }
@@ -87,13 +100,35 @@
         }
     }
 
+    function ProcessSSOLogin(){
+        print_r("POST");
+        echo '<pre>';
+        print_r($_POST);
+        echo  '</pre>';
+        $sUnderScore = $_POST['sUnderScore'];
+        $firstName = $_POST['firstName'];
+        $lastname = $_POST['lastName'];
+        $email = $_POST['email'];
+        $user = new user($sUnderScore,$firstName,$lastname,$email);
+        processSignIn($user);
+    }
+
     function ProcessLogin(){
+        $SettingsInfo = getAllSettingsInfo();
         $username = $_POST["username"];
         $password = $_POST["password"];
 
         if(login($username,$password)){
             if (isset($_REQUEST["RequestedPage"])) {
-                header("Location: https://" . $_SERVER['HTTP_HOST'] . $_REQUEST["RequestedPage"]);
+                if($_SERVER['SERVER_NAME'] == 'localhost'){
+                    header("Location:" . $_REQUEST["RequestedPage"]);
+                }
+                else
+                {
+                    header("Location:" ."/~s_smwice" . $_REQUEST["RequestedPage"]);
+                }
+
+
             } else {
                 header("Location:../security/index.php");
             }
@@ -117,21 +152,25 @@
     }
 
     function ProcessLogOut() {
+        $SettingsInfo = getAllSettingsInfo();
         logOut();
         if (isset($_REQUEST["RequestedPage"])) {
                 header("Location:" . $_REQUEST["RequestedPage"]);
         } else {
-                header("Location:../security/index.php");
+            header("Location: https://vcisprod.clarion.edu/~s_ajrobinso1/php-saml-2.19.1/demo1");
         }
     }
     function ManageUsers() {
         $results = getAllUsers();
+        $SettingsInfo = getAllSettingsInfo();
         include('../security/manage_users_form.php');
     }
     function UserAdd() {
+        $SettingsInfo = getAllSettingsInfo();
         include('../security/add_user_form.php');
     }
     function UserEdit() {
+        $SettingsInfo = getAllSettingsInfo();
         $id = $_GET["id"];
         if (empty($id)) {
             displayError("An ID is required for this function.");
@@ -152,6 +191,7 @@
         }
     }
     function UserDelete() {
+        $SettingsInfo = getAllSettingsInfo();
         if(isset($_POST["numListed"]))
         {
             $numListed = $_POST["numListed"];
@@ -167,6 +207,7 @@
         include('../security/manage_users_form.php');
     }
     function ProcessUserAddEdit() {
+        $SettingsInfo = getAllSettingsInfo();
         $errors = "";
 
         if(empty($_POST["FirstName"]))
@@ -200,12 +241,14 @@
 
     function ManageFunctions() {
         $results = getAllFunctions();
+        $SettingsInfo = getAllSettingsInfo();
         include('../security/manage_functions_form.php');
     }
     function FunctionAdd() {
         include('../security/add_function_form.php');
     }
     function FunctionEdit() {
+        $SettingsInfo = getAllSettingsInfo();
         $id = $_GET["id"];
         if (empty($id)) {
             displayError("An ID is required for this function.");
@@ -222,6 +265,7 @@
         }
     }
     function FunctionDelete() {
+        $SettingsInfo = getAllSettingsInfo();
         if(isset($_POST["numListed"]))
         {
             $numListed = $_POST["numListed"];
@@ -237,6 +281,7 @@
         include('../security/manage_functions_form.php');
     }
     function ProcessFunctionAddEdit() {
+        $SettingsInfo = getAllSettingsInfo();
         $errors = "";
 
         if(empty($_POST["Name"]))
@@ -260,12 +305,15 @@
 
     function ManageRoles() {
         $results = getAllRoles();
+        $SettingsInfo = getAllSettingsInfo();
         include('../security/manage_roles_form.php');
     }
     function RoleAdd() {
+        $SettingsInfo = getAllSettingsInfo();
         include('../security/add_role_form.php');
     }
     function RoleEdit() {
+        $SettingsInfo = getAllSettingsInfo();
         $id = $_GET["id"];
         if (empty($id)) {
             displayError("An ID is required for this function.");
@@ -283,6 +331,7 @@
         }
     }
     function RoleDelete() {
+        $SettingsInfo = getAllSettingsInfo();
         if(isset($_POST["numListed"]))
         {
             $numListed = $_POST["numListed"];
@@ -298,6 +347,7 @@
         include('../security/manage_roles_form.php');
     }
     function ProcessRoleAddEdit() {
+        $SettingsInfo = getAllSettingsInfo();
         $errors = "";
         if(empty($_POST["Name"]))
             $errors .= "<li>Error, field \"Name\" is blank.</li>";
@@ -317,7 +367,6 @@
             displayError($errors);
         }
     }
-
 ?>
 
 

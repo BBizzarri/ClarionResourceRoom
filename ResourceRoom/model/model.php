@@ -216,6 +216,11 @@
        }
     }
 
+    function deactivateCategory($categoryID){
+
+    }
+
+
     function fillOrder($order){
         try {
             $db = getDBConnection();
@@ -354,6 +359,7 @@
 
         $AllProductsCategoriesArray = [];
         $AllProductsCategories = '';
+        $results = False;
         foreach($CategoryID as $SingleCategoryID)
         {
             $db = getDBConnection();
@@ -363,29 +369,54 @@
             $statement->execute();
             $results = $statement->fetch();
             $statement->closeCursor();
-            array_push($AllProductsCategoriesArray, $results[0]);
+            if ($results != False){
+                array_push($AllProductsCategoriesArray, $results[0]);
+            }
         }
-        foreach($AllProductsCategoriesArray as $SingleCategory)
-        {
-            if(end($AllProductsCategoriesArray) == $SingleCategory)
+        if($results != False){
+            foreach($AllProductsCategoriesArray as $SingleCategory)
             {
-                $AllProductsCategories = $AllProductsCategories  . $SingleCategory;
+                if(end($AllProductsCategoriesArray) == $SingleCategory)
+                {
+                    $AllProductsCategories = $AllProductsCategories  . $SingleCategory;
+                }
+                else
+                {
+                    $AllProductsCategories = $AllProductsCategories  . $SingleCategory . ',' . ' ';
+                }
+            }
+            if(strlen($AllProductsCategories) >= 45)
+            {
+                return substr($AllProductsCategories, 0, 45)."...";
             }
             else
             {
-                $AllProductsCategories = $AllProductsCategories  . $SingleCategory . ',' . ' ';
+                return $AllProductsCategories;
             }
         }
-         if(strlen($AllProductsCategories) >= 45)
-         {
-            return substr($AllProductsCategories, 0, 45)."...";
-         }
-         else
-         {
-            return $AllProductsCategories;
-         }
+        else
+        {
+
+            return "All";
+        }
+
     }
 
+    function getEmailToOrder($orderID)
+    {
+        $db = getDBConnection();
+        $query = "select users.Email
+                 from users
+                 inner join orders on users.UserID = orders.USERID
+                 where orders.ORDERID = :ORDERID";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':ORDERID', $orderID);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+        console_log($result);
+        return $result;
+    }
     function getProducts($CategoryID,$QTYLessThan,$IncludeInactiveItems,$HideUnstockedItems,$ShoppingList,$SearchTerm){
         try{
             $queryText = "SELECT productview.PRODUCTID,productview.*,productcategories.CATEGORYID,category.CATEGORYDESCRIPTION FROM productview inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
@@ -405,7 +436,7 @@
                 if($ShoppingList){
                     $queryText .= " and productview.QTYAVAILABLE < productview.GOALSTOCK";
                 }else{
-                    $queryText .= " and productview.QTYAVAILABLE > 0";
+                    $queryText .= " and (productview.QTYAVAILABLE > 0 or productview.GOALSTOCK > 0)";
 
                 }
             }
@@ -494,6 +525,53 @@
         }
     }
 
+    function getOrder($OrderID){
+        try{
+            $db = getDBConnection();
+            $query = "SELECT orders.ORDERID, orders.*, orderdetails.QTYREQUESTED, orderdetails.QTYFILLED, productview.*, concat(users.FirstName, ' ', users.LastName) as USERSNAME FROM orders inner join orderdetails on orders.ORDERID = orderdetails.ORDERID
+                                                     inner join productview on orderdetails.PRODUCTID = productview.PRODUCTID
+                                                     inner join users on orders.USERID = users.UserID WHERE orders.ORDERID = :ORDERID ORDER BY orders.DATEORDERED DESC";
+            $statement = $db->prepare($query);
+            $statement->bindValue(":ORDERID", $OrderID);
+            $statement->execute();
+            $result = $statement->fetchAll( PDO::FETCH_GROUP| PDO::FETCH_ASSOC);
+            $statement->closeCursor();
+            $AllOrders = array();
+            foreach($result as $order) {
+                $orderDetails = array();
+                foreach($order as $orderItem){
+                    array_push($orderDetails, new orderDetail($orderItem['ORDERID'],
+                        new product($orderItem['PRODUCTID'],$orderItem['NAME'],$orderItem['PRODUCTDESCRIPTION'],$orderItem['QTYONHAND'],
+                            $orderItem['MAXORDERQTY'],$orderItem['ORDERLIMIT'],$orderItem['GOALSTOCK'],$orderItem['QTYONORDER'],$orderItem['QTYAVAILABLE']),
+                        $orderItem['QTYREQUESTED'],$orderItem['QTYFILLED']));
+
+                }
+                array_push($AllOrders, new order($order[0]['ORDERID'],$order[0]['USERID'],$order[0]['STATUS'],$order[0]['DATEORDERED'],$order[0]['DATEFILLED'],$order[0]['DATECOMPLETED'],$order[0]['COMMENT'],$orderDetails, $order[0]['USERSNAME']));
+            }
+            return $AllOrders;
+        }
+        catch (Exception $ex)
+        {
+            $errorMessage = $ex->getMessage();
+            include '../view/errorPage.php';
+            die;
+        }
+    }
+
+    function getUserEmail($userID)
+    {
+        $db = getDBConnection();
+        $query = "select Email
+                    from users
+                    where USERID = :USERID";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':USERID', $userID);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+        return $result;
+    }
+
     function getUserID(){
         if(isset($_SESSION["UserID"]))
         {
@@ -501,79 +579,33 @@
         }
     }
 
-    function processSignIn($user){
-        try{
-            $db = getDBConnection();
-            $query = 'SELECT * FROM users inner join userroles on users.UserID = userroles.UserID where users.UserID = :sUnderScore';
-            $statement = $db->prepare($query);
-            $statement->bindValue(':sUnderScore', $user->getsUnderScore());
-            $statement->execute();
-            $result = $statement->fetchAll();
-            $statement->closeCursor();
-            if(empty($result)){
-                try{
-                    $db = getDBConnection();
-                    $query = 'INSERT INTO users (UserID, FirstName, LastName, UserName, Password, Email)
-                        VALUES (:sUnderScore, :FirstName, :LastName,:sUnderScore,:Password,:Email)';
-                    $statement = $db->prepare($query);
-                    $statement->bindValue(':sUnderScore', $user->getsUnderScore());
-                    $statement->bindValue(':FirstName', $user->getFirstName());
-                    $statement->bindValue(':LastName', $user->getLastName());
-                    $statement->bindValue(':Password', '');
-                    $statement->bindValue(':Email', $user->getEmail());
-                    $success = $statement->execute();
-                    $statement->closeCursor();
-                    if($success)
-                    {
-                        try{
-                            $db = getDBConnection();
-                            $query = 'INSERT INTO userroles (UserID, RoleId)
-                        VALUES (:sUnderScore, :RoleID)';
-                            $statement = $db->prepare($query);
-                            $statement->bindValue(':sUnderScore', $user->getsUnderScore());
-                            $statement->bindValue(':RoleID', 2);
-                            $success = $statement->execute();
-                            $statement->closeCursor();
-                            if($success)
-                            {
-                                include '../view/index.php';
-                            }
-                            else
-                            {
-                                logSQLError($statement->errorInfo());
-                            }
-                            return "no user";
-                        }catch (PDOException $e){
-                            $errorMessage = $e->getMessage();
-                            include '../view/errorPage.php';
-                            die;
-                        }
-                    }
-                    else
-                    {
-                        logSQLError($statement->errorInfo());
-                    }
-                    return "no user";
-                }catch (PDOException $e){
-                    $errorMessage = $e->getMessage();
-                    include '../view/errorPage.php';
-                    die;
-                }
-            }
-            else{
-                if($result[0]['RoleID'] == 2){
-                    header( 'Location:../controller/controller.php?action=shopperHome');
-                }else if ($result[0]['RoleID'] == 1){
-                    header( 'Location:../controller/controller.php?action=adminOrders');
-                } else{
-                    header( 'Location:../controller/controller.php?action=shopperHome');
-                }
-            }
-        }  catch (PDOException $e) {
-            $errorMessage = $e->getMessage();
-            include '../view/errorPage.php';
-            die;
-        }
+    function getUserInfo($UserID)
+    {
+        $db = getDBConnection();
+        $query = "select UserID, FirstName, LastName, Email
+                    from users
+                    where UserID = :UserID";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':UserID', $UserID);
+        $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        $user = new user($result[0]['UserID'], $result[0]['FirstName'],$result[0]['LastName'],$result[0]['Email']);
+        return $user;
+    }
+
+    function getReport()
+    {
+        $db = getDBConnection();
+        $query = "select users.UserID, users.FirstName, users.LastName, users.UserName, users.Email, COUNT(orders.ORDERID) as TotalOrders
+                    from users
+                    inner join orders on users.UserID = orders.USERID
+                    group by users.UserID";
+        $statement = $db->prepare($query);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+        return $result;
     }
 
     function removeFromCart($PRODUCTID)
@@ -634,6 +666,103 @@
         else
         {
             logSQLError($statement->errorInfo());
+        }
+    }
+
+    function deleteOrder($OrderID){
+        $AllOrders = getOrder($OrderID);
+        $order = $AllOrders[0];
+        if($order->getOrderStatus() == 'SUBMITTED')
+        {
+            $db = getDBConnection();
+            $query = 'DELETE FROM orderdetails WHERE (ORDERID = :ORDERID)';
+            $statement = $db->prepare($query);
+            $statement->bindValue(':ORDERID', $order->getOrderID());
+            $success = $statement->execute();
+            $statement->closeCursor();
+            if($success)
+            {
+                $db = getDBConnection();
+                $query = 'DELETE FROM orders WHERE (ORDERID = :ORDERID)';
+                $statement = $db->prepare($query);
+                $statement->bindValue(':ORDERID', $order->getOrderID());
+                $success = $statement->execute();
+                $statement->closeCursor();
+                if($success)
+                {
+                    return $statement->rowCount();
+                }
+                else
+                {
+                    logSQLError($statement->errorInfo());
+                }
+            }
+            else
+            {
+                logSQLError($statement->errorInfo());
+            }
+
+        }
+        else if($order->getOrderStatus() == 'READY FOR PICKUP')
+        {
+            foreach ($order->getOrderDetails() as $orderDetail)
+            {
+                 $rowCount = updateQTY($orderDetail->getProductID(),$orderDetail->getQTYFilled());
+            }
+            $db = getDBConnection();
+            $query = 'DELETE FROM orderdetails WHERE (ORDERID = :ORDERID)';
+            $statement = $db->prepare($query);
+            $statement->bindValue(':ORDERID', $order->getOrderID());
+            $success = $statement->execute();
+            $statement->closeCursor();
+            if($success)
+            {
+                $db = getDBConnection();
+                $query = 'DELETE FROM orders WHERE (ORDERID = :ORDERID)';
+                $statement = $db->prepare($query);
+                $statement->bindValue(':ORDERID', $order->getOrderID());
+                $success = $statement->execute();
+                $statement->closeCursor();
+                if($success)
+                {
+                    return $statement->rowCount();
+                }
+                else
+                {
+                    logSQLError($statement->errorInfo());
+                }
+            }
+            else
+            {
+                logSQLError($statement->errorInfo());
+            }
+        }
+    }
+
+    function sendEmail($to, $cc, $subject, $message)
+    {
+        require_once 'Mail.php';
+        $options = array();
+        $options['host'] = 'serversmtp.clarion.edu';
+        $options['port'] = '2500';
+        $options['auth'] = false;
+        $Mailer = Mail::factory('smtp', $options);
+        $recipients = $to.", ".$cc;
+        $headers = array();
+        $headers['Cc'] = $cc;
+        $headers['Subject'] = $subject;
+        $headers['From'] = 'clarionresourceroom@clarion.edu';
+        $headers['To'] = $to;
+        $headers['Content-type'] = 'text/html';
+        $htmlContent = $message;
+        $result = $Mailer->send($recipients, $headers, $htmlContent);
+        if(PEAR::isError($result))
+        {
+            echo 'Error sending email ' . $result;
+        }
+        else
+        {
+            echo 'Email sent successfully';
         }
     }
 

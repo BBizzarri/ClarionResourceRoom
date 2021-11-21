@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Fixing more of Brady's mistakes">
-      <change afterPath="$PROJECT_DIR$/ResourceRoom/lib/Mobile_Detect.php" afterDir="false" />
+    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Fixing brady's bugs for real this time">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +23,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="bbizzarri-resource-room" />
+        <entry key="$PROJECT_DIR$" value="Staging" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -64,6 +64,7 @@
       <recent name="C:\xampp\htdocs\ClarionResourceRoom\ResourceRoom\productImages" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\ClarionResourceRoom\ResourceRoom\productImages" />
       <recent name="C:\xampp\htdocs\ClarionResourceRoom\ResourceRoom\lib" />
       <recent name="C:\xampp\htdocs\ClarionResourceRoom\ResourceRoom\Images" />
     </key>
@@ -86,6 +87,11 @@
       <workItem from="1635982897080" duration="2343000" />
       <workItem from="1636103101359" duration="1502000" />
       <workItem from="1636125133039" duration="74000" />
+      <workItem from="1636751923214" duration="5474000" />
+      <workItem from="1636957544856" duration="6709000" />
+      <workItem from="1637069747624" duration="6596000" />
+      <workItem from="1637094410558" duration="1603000" />
+      <workItem from="1637120477410" duration="2403000" />
     </task>
     <task id="LOCAL-00001" summary="fixing merge conflict">
       <created>1631803451977</created>
@@ -318,7 +324,105 @@
       <option name="project" value="LOCAL" />
       <updated>1636341512394</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="updated admin permissions &#10;adding new images">
+      <created>1636406443998</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1636406443998</updated>
+    </task>
+    <task id="LOCAL-00035" summary="integrating email">
+      <created>1636409086357</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1636409086357</updated>
+    </task>
+    <task id="LOCAL-00036" summary="getting email to work right!">
+      <created>1636495905969</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1636495905969</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Fixing date of competed orders">
+      <created>1636572195065</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1636572195065</updated>
+    </task>
+    <task id="LOCAL-00038" summary="SSO Stuff">
+      <created>1636680521738</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1636680521738</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Creation script fix">
+      <created>1636681330391</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1636681330391</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Mobile UI fixes">
+      <created>1636757029828</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1636757029828</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Cancel / Delete orders, admin inventory">
+      <created>1636962399485</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1636962399485</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Admin inventory Mobile UI">
+      <created>1637103977060</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1637103977060</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Admin inventory Mobile UI">
+      <created>1637105743951</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1637105743951</updated>
+    </task>
+    <task id="LOCAL-00044" summary="SSO Stuff">
+      <created>1637121517658</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1637121517658</updated>
+    </task>
+    <task id="LOCAL-00045" summary="updated all emails to not send from apache">
+      <created>1637158197014</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1637158197014</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Fixing brady's bugs for real this time">
+      <created>1637173970385</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1637173970385</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Fixing brady's bugs for real this time">
+      <created>1637176438473</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1637176438473</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -327,6 +431,17 @@
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.css" />
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.sql" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -341,17 +456,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Finished UI For admin inventory page" />
-    <MESSAGE value="database connection admin inventory page" />
-    <MESSAGE value="Admin reports UI" />
-    <MESSAGE value="Hooking data up attempt" />
-    <MESSAGE value="Reports Page UI" />
-    <MESSAGE value="Fixing styling issues" />
-    <MESSAGE value="Sidebar updates" />
-    <MESSAGE value="updating creation script" />
-    <MESSAGE value="adding functionality to the admin inventory page" />
-    <MESSAGE value="adding idea" />
-    <MESSAGE value="Fixing table text color and updating creation script" />
     <MESSAGE value="Filter work" />
     <MESSAGE value="Finished Filtering" />
     <MESSAGE value="admin Inventory page touch up" />
@@ -366,6 +470,17 @@
     <MESSAGE value="Fixing more of Brady's mistakes" />
     <MESSAGE value="attempt 1 at mobile add" />
     <MESSAGE value="reports page" />
-    <option name="LAST_COMMIT_MESSAGE" value="reports page" />
+    <MESSAGE value="updated admin permissions &#10;adding new images" />
+    <MESSAGE value="integrating email" />
+    <MESSAGE value="getting email to work right!" />
+    <MESSAGE value="Fixing date of competed orders" />
+    <MESSAGE value="Creation script fix" />
+    <MESSAGE value="Mobile UI fixes" />
+    <MESSAGE value="Cancel / Delete orders, admin inventory" />
+    <MESSAGE value="Admin inventory Mobile UI" />
+    <MESSAGE value="SSO Stuff" />
+    <MESSAGE value="updated all emails to not send from apache" />
+    <MESSAGE value="Fixing brady's bugs for real this time" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixing brady's bugs for real this time" />
   </component>
 </project>

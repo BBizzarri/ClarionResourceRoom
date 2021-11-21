@@ -3,6 +3,8 @@
     // This file is included in the main controller as a series of cases to check the $action querystring parameter.
     // The purpose is to separate the shopper actions from the back-end inventory actions to help version control.
 
+
+
     switch ($action) {
         case 'accountSettings':
             showAccountSettings();
@@ -34,17 +36,36 @@
         case 'adminShoppingList':
             shopperPage();
             break;
+        case 'deleteOrder':
+            adminDeleteOrder();
+            break;
         case 'mobileAdd':
             mobileAdd();
             break;
         case 'processStockAdjust':
             processStockAdjust();
             break;
+        case 'reNotifyEmail':
+            reNotifyEmail();
+            break;
         case 'updateEmailAnnouncementSettings':
             updateEmailAnnouncementSettings();
             break;
     }
 
+    function adminDeleteOrder()
+    {
+        $OrderID = $_POST['ORDERID'];
+        $OrderedByEmail = getEmailToOrder($OrderID);
+        deleteOrder($OrderID);
+        $SettingsInfo = getAllSettingsInfo();
+        $to = $OrderedByEmail['Email'];
+        $subject = $SettingsInfo['OrderCancelledSubj'];
+        $message = $SettingsInfo['OrderCancelledText'];
+        $cc = $SettingsInfo['EmailOrderCancelled'];
+        sendEmail($to, $cc, $subject, $message);
+        header("Location: {$_SERVER['HTTP_REFERER']}");
+    }
     function addEditCategory()
     {
         $CategoryMode = $_GET['categoryMode'];
@@ -219,13 +240,13 @@
     function adminFillOrder(){
         $orderID = $_GET['orderID'];
         $status = $_GET['status'];
-        $usersName = $_GET['usersName'];
+        $fillerComments = $_POST['fillerComments'];
         $orderDetails = array();
         $QTYRequested = '';
         foreach($_POST as $productID=>$QTYFilled){
             array_push($orderDetails,new orderDetail($orderID,new product((int)$productID,'','','','','','','','',''),$QTYRequested,$QTYFilled));
         }
-        $order = new order($orderID,'',$status,'','','','',$orderDetails, $usersName);
+        $order = new order($orderID,'',$status,'','','','',$orderDetails, '');
         if($status == "SUBMITTED"){
             $newStatus = "READY FOR PICKUP";
         }
@@ -237,12 +258,22 @@
         changeOrderStatus($orderID,$newStatus);
         fillOrderDetails($order);
         fillOrder($order);
+
+        $SettingsInfo = getAllSettingsInfo();
+        $USERID = getUserID();
+        $OrderedByEmail = getEmailToOrder($orderID);
+        $to = $OrderedByEmail['Email'];
+        $subject = $SettingsInfo['OrderFilledSubj'];
+        $message = $SettingsInfo['OrderFilledText'] . ' ' . $fillerComments;
+        $cc = $SettingsInfo['EmailOrderFilled'];
+        sendEmail($to, $cc, $subject, $message);
         header("Location: {$_SERVER['HTTP_REFERER']}");
     }
 
     function adminReports()
     {
         $SettingsInfo = getAllSettingsInfo();
+        $SelectedReport = getReport();
         include '../view/adminReports.php';
     }
 
@@ -281,6 +312,20 @@
         showInventory();
     }
 
+    function reNotifyEmail()
+    {
+        $orderID = $_GET['orderID'];
+        $SettingsInfo = getAllSettingsInfo();
+        $USERID = getUserID();
+        $OrderedByEmail = getEmailToOrder($orderID);
+        $to = $OrderedByEmail['Email'];
+        $subject = $SettingsInfo['OrderReminderSubj'];
+        $message = $SettingsInfo['OrderReminderText'];
+        $cc = $SettingsInfo['EmailOrderReminder'];
+        sendEmail($to, $cc, $subject, $message);
+        header("Location: {$_SERVER['HTTP_REFERER']}");
+    }
+
     function shopperPage(){
         $IncludeInactiveItems = false;
         $HideUnstockedItems = true;
@@ -290,9 +335,10 @@
     }
 
     function showAccountSettings() {
+        $USERID = getUserID();
+        $UserInfo = getUserInfo($USERID);
         $CategoryArray = getAllCategories();
         $SettingsInfo = getAllSettingsInfo();
-        console_log($SettingsInfo);
         include '../view/accountSettings.php';
     }
 
@@ -315,6 +361,7 @@
             $_SESSION['ShoppingList'] = null;
             $_SESSION['SearchTerm'] = null;
             $CategoryMode = true;
+            $CategoryHeader = 'All';
         }
         if(isset($_GET['CategoryMode']))
         {
@@ -363,7 +410,7 @@
         {
             $ShoppingList = 0;
         }
-        if($CategoryMode)
+        if($CategoryMode or (isset($_POST['CategoryList']) and $_POST['CategoryList'][0] == 0))
         {
             $CategoryID = [];
             $CategoryHeader = 'All';
