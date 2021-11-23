@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/shopperCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/shopperCasesInclude.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/navInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/navInclude.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/css/admin.css" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/css/admin.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -426,7 +426,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637176438473</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="Removed log in/out button, shopper search fix if no products returned">
+      <created>1637705411231</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1637705411231</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -460,7 +467,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Filter work" />
     <MESSAGE value="Finished Filtering" />
     <MESSAGE value="admin Inventory page touch up" />
     <MESSAGE value="updated how category header gets set" />
@@ -485,6 +491,7 @@
     <MESSAGE value="SSO Stuff" />
     <MESSAGE value="updated all emails to not send from apache" />
     <MESSAGE value="Fixing brady's bugs for real this time" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixing brady's bugs for real this time" />
+    <MESSAGE value="Removed log in/out button, shopper search fix if no products returned" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed log in/out button, shopper search fix if no products returned" />
   </component>
 </project>
