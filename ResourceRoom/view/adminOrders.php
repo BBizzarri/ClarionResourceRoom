@@ -180,9 +180,9 @@
                                             </form>
                                         </div>
                                         <div class = 'col-auto'>
-                                            <form action="../controller/controller.php?action=deleteOrder" method="post" enctype="multipart/form-data">
+                                            <form action="../controller/controller.php?action=deleteOrder" onsubmit="return confirm('Are you sure you want to delete this order?');" method="post" enctype="multipart/form-data">
                                                 <input type='hidden' name='ORDERID' value='<?php echo $order->getOrderID()?>'/>
-                                                <input type="submit" class="btn btn-danger" style="margin-right: 25px" value="Delete Order">
+                                                <input type="submit" class="btn btn-danger"  value="Delete Order">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                             </form>
                                         </div>
@@ -195,9 +195,9 @@
                                             </form>
                                         </div>
                                         <div class = 'col-auto'>
-                                            <form action="../controller/controller.php?action=deleteOrder" method="post" enctype="multipart/form-data">
+                                            <form action="../controller/controller.php?action=deleteOrder" onsubmit="return confirm('Are you sure you want to delete this order?');" method="post" enctype="multipart/form-data">
                                                 <input type='hidden' name='ORDERID' value='<?php echo $order->getOrderID()?>'/>
-                                                <input type="submit" class="btn btn-danger" style="margin-right: 25px" value="Delete Order">
+                                                <input type="submit" class="btn btn-danger"   value="Delete Order">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                             </form>
                                         </div>
@@ -208,7 +208,6 @@
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     </div>
                                 <?php endif; ?>
-
                             </div>
                         </div>
                     </div>
