@@ -177,7 +177,7 @@
                           </div>
                           <div class = "row">
                               <div class="table-responsive">
-                                  <table class="table table-striped inventoryTable table-re" id="inventoryTable">
+                                  <table class="table table-striped inventoryTable table-responsive" id="inventoryTable">
                                       <thead>
                                       <tr>
                                           <th>Product</th>

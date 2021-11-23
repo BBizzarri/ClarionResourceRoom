@@ -121,7 +121,7 @@
                 }
                 else
                 {
-                    header("Location:" ."/~s_smwice" . $_REQUEST["RequestedPage"]);
+                    header("Location:" ."/~cis411" . $_REQUEST["RequestedPage"]);
                 }
 
 
