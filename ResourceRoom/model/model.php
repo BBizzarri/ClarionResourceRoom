@@ -751,7 +751,7 @@
         $headers = array();
         $headers['Cc'] = $cc;
         $headers['Subject'] = $subject;
-        $headers['From'] = 'clarionresourceroom@clarion.edu';
+        $headers['From'] = 'resourceroom@clarion.edu';
         $headers['To'] = $to;
         $headers['Content-type'] = 'text/html';
         $htmlContent = $message;

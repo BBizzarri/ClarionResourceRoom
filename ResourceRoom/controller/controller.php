@@ -16,7 +16,7 @@
     if (!userIsAuthorized($action)) {
         if(!loggedIn()) {
             #header("Location:../security/index.php?action=SecurityLogin&RequestedPage=" . urlencode($_SERVER['REQUEST_URI']));
-            header("Location: https://vcisprod.clarion.edu/~s_ajrobinso1/php-saml-2.19.1/demo1");
+            header("Location: ../security/php-saml-2.19.1/demo1");
         } else {
             include('../security/not_authorized.html');
         }

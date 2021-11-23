@@ -92,7 +92,7 @@
 
               <?php }
               else {
-                echo "<a class='nav-link clarion-white' href='https://vcisprod.clarion.edu/~s_ajrobinso1/php-saml-2.19.1/demo1&RequestedPage=" . urlencode($_SERVER['REQUEST_URI'])  .  "'><i class='fas fa-sign-in-alt'></i> Log In </a>";
+                echo "<a class='nav-link clarion-white' href='../security/php-saml-2.19.1/demo1" . urlencode($_SERVER['REQUEST_URI'])  .  "'><i class='fas fa-sign-in-alt'></i> Log In </a>";
 
               }  ?>
             </div>
