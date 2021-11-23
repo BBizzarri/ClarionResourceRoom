@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/headerInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/headerInclude.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/shopperOrders.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/shopperOrders.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,13 +95,6 @@
       <workItem from="1637120477410" duration="2403000" />
       <workItem from="1637544245832" duration="3935000" />
       <workItem from="1637602479840" duration="4305000" />
-    </task>
-    <task id="LOCAL-00001" summary="fixing merge conflict">
-      <created>1631803451977</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1631803451977</updated>
     </task>
     <task id="LOCAL-00002" summary="fixing merge conflict">
       <created>1631803661486</created>
@@ -442,7 +432,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637706995496</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="Order Delete confirmation">
+      <created>1637708122467</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1637708122467</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -476,7 +473,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="admin Inventory page touch up" />
     <MESSAGE value="updated how category header gets set" />
     <MESSAGE value="Updating CSS and code cleanup" />
     <MESSAGE value="Taking print_r out" />
@@ -501,6 +497,7 @@
     <MESSAGE value="Fixing brady's bugs for real this time" />
     <MESSAGE value="Removed log in/out button, shopper search fix if no products returned" />
     <MESSAGE value="Admin Order Buttons and comment box fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="Admin Order Buttons and comment box fixed" />
+    <MESSAGE value="Order Delete confirmation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Order Delete confirmation" />
   </component>
 </project>

@@ -223,6 +223,8 @@
                                       {
                                           $("#inventoryTable").DataTable(
                                               {
+                                                  searching: false,
+
                                                   dom:'Bfrtip',
                                                   buttons: [
                                                       {
