@@ -23,7 +23,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Staging" />
+        <entry key="$PROJECT_DIR$" value="bbizzarri-resource-room" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -422,7 +422,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637176438473</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="Bug fixes/feature updates">
+      <created>1637716436191</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1637716436191</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -456,7 +463,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Filter work" />
     <MESSAGE value="Finished Filtering" />
     <MESSAGE value="admin Inventory page touch up" />
     <MESSAGE value="updated how category header gets set" />
@@ -481,6 +487,7 @@
     <MESSAGE value="SSO Stuff" />
     <MESSAGE value="updated all emails to not send from apache" />
     <MESSAGE value="Fixing brady's bugs for real this time" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixing brady's bugs for real this time" />
+    <MESSAGE value="Bug fixes/feature updates" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bug fixes/feature updates" />
   </component>
 </project>
