@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-lg-4">
                     <h3 class="text-center">SUBMITTED ORDERS</h3>
-                    <table class="table table-condensed" style="border-collapse:collapse;">
+                    <table class="table table-condensed" id="submittedOrders" style="border-collapse:collapse;">
                         <thead>
                         <tr>
                             <th>Name</th>
@@ -24,7 +24,7 @@
                             {
                                 ?>
                                 <tr data-toggle="modal" data-target="#orderDetails_<?php echo $order->getOrderID()?>">
-                                    <td><?php echo htmlspecialchars($order->getUsersName())?></td>
+                                    <td class="text-left"><?php echo htmlspecialchars($order->getUsersName())?></td>
                                     <td><?php $dateOrdered = new DateTime(htmlspecialchars($order->getOrderDateOrdered())); echo $dateOrdered->format('m/d/Y');?></td>
                                     <td><?php echo htmlspecialchars($order->getOrderSize())?></td>
                                 </tr>
@@ -50,7 +50,7 @@
                             {
                                 ?>
                                 <tr data-toggle="modal" data-target="#orderDetails_<?php echo $order->getOrderID()?>">
-                                    <td><?php echo htmlspecialchars($order->getUsersName())?></td>
+                                    <td class="text-left"><?php echo htmlspecialchars($order->getUsersName())?></td>
                                     <td><?php $dateFilled = new DateTime(htmlspecialchars($order->getOrderDateFilled())); echo $dateFilled->format('m/d/Y'); ?></td>
                                     <td><?php echo htmlspecialchars($order->getOrderSize())?></td>
                                 </tr>
@@ -79,7 +79,7 @@
                             {
                                 ?>
                                 <tr data-toggle="modal" data-target="#orderDetails_<?php echo $order->getOrderID()?>">
-                                    <td><?php echo htmlspecialchars($order->getUsersName())?></td>
+                                    <td class="text-left"><?php echo htmlspecialchars($order->getUsersName())?></td>
                                     <td><?php $dateCompleted = new DateTime(htmlspecialchars($order->getOrderDateCompleted())); echo $dateCompleted->format('m/d/Y');?></td>
                                     <td><?php echo htmlspecialchars($order->getOrderSize())?></td>
                                 </tr>
@@ -135,9 +135,9 @@
                                         {
                                             ?>
                                             <tr>
-                                                <td><?php echo htmlspecialchars($orderDetail->getProduct()->getProductName())?></td>
+                                                <td class="text-left"><?php echo htmlspecialchars($orderDetail->getProduct()->getProductName())?></td>
                                                 <?php if($orderDescriptionFlag): ?>
-                                                    <td><?php echo htmlspecialchars($orderDetail->getProduct()->getProductDescription());?></td>
+                                                    <td class="text-left"><?php echo htmlspecialchars($orderDetail->getProduct()->getProductDescription());?></td>
                                                 <?php endif; ?>
                                                 <td><?php echo htmlspecialchars($orderDetail->getQTYRequested())?></td>
                                             <?php if($order->getOrderStatus() == "SUBMITTED"): ?>
@@ -150,7 +150,7 @@
                                         <?php if($order->getOrderComment() != ""): ?>
                                             <tr>
                                                 <td>
-                                                    <h5>Comments:</h5>
+                                                    <h5 class=text-left>Comments:</h5>
                                                 </td>
                                                 <td
                                                 <?php if($orderDescriptionFlag){
@@ -180,9 +180,9 @@
                                             </form>
                                         </div>
                                         <div class = 'col-auto'>
-                                            <form action="../controller/controller.php?action=deleteOrder" onsubmit="return confirm('Are you sure you want to delete this order?');" method="post" enctype="multipart/form-data">
+                                            <form action="../controller/controller.php?action=deleteOrder" onsubmit="return confirm('Are you sure you want to cancel this order?');" method="post" enctype="multipart/form-data">
                                                 <input type='hidden' name='ORDERID' value='<?php echo $order->getOrderID()?>'/>
-                                                <input type="submit" class="btn btn-danger"  value="Delete Order">
+                                                <input type="submit" class="btn btn-danger"  value="Cancel Order">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                             </form>
                                         </div>
@@ -195,9 +195,9 @@
                                             </form>
                                         </div>
                                         <div class = 'col-auto'>
-                                            <form action="../controller/controller.php?action=deleteOrder" onsubmit="return confirm('Are you sure you want to delete this order?');" method="post" enctype="multipart/form-data">
+                                            <form action="../controller/controller.php?action=deleteOrder" onsubmit="return confirm('Are you sure you want to cancel this order?');" method="post" enctype="multipart/form-data">
                                                 <input type='hidden' name='ORDERID' value='<?php echo $order->getOrderID()?>'/>
-                                                <input type="submit" class="btn btn-danger"   value="Delete Order">
+                                                <input type="submit" class="btn btn-danger"   value="Cancel Order">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                             </form>
                                         </div>

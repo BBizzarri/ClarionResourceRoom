@@ -29,6 +29,8 @@
         $SettingsInfo = getAllSettingsInfo();
         $USERID = getUserID();
         $orders = getOrderIDsByUSERID($USERID);
+        console_log(getOrderIDsByUSERID($USERID));
+        $UsersEmail = getUserEmail($USERID);
         include '../view/shopperOrders.php';
     }
 
@@ -130,7 +132,6 @@
     function processSubmitOrder(){
         $SettingsInfo = getAllSettingsInfo();
         $USERID = getUserID();
-        $UsersEmail = getUserEmail($USERID);
         $invalidRequests = validateCart($USERID);
         if(isset($_POST["cartComment"])){
             $COMMENT = $_POST["cartComment"];
@@ -138,15 +139,46 @@
             $COMMENT = "";
         }
         if(sizeof($invalidRequests) == 0){
-            submitOrder($USERID,getCart($USERID),$COMMENT);
+            $orderID = submitOrder($USERID,getCart($USERID),$COMMENT);
+            $currentOrder = getOrder($orderID)[0];
+            $SettingsInfo = getAllSettingsInfo();
+            $UsersEmail = getUserEmail($USERID);
+            $to = $UsersEmail['Email'];
+            $cc = $SettingsInfo['EmailOrderReceived'];
+            $subject = $SettingsInfo['OrderReceivedSubj'];
+            $tableBody = "";
+            foreach($currentOrder->getOrderDetails() as $orderDetail){
+                $ProductName = $orderDetail->getProduct()->getProductName();
+                $QtyRequested = $orderDetail->getQTYRequested();
+                $tableBody .= "
+                <tr>
+                <td>$ProductName</td>
+                <td style='text-align: center;'>$QtyRequested</td>
+                </tr>
+                ";
+            }
+            $message = $SettingsInfo['OrderReceivedText'] . PHP_EOL . PHP_EOL . "
+                                                                                <html>
+                                                                                <head>
+                                                                                <title>HTML email</title>
+                                                                                </head>
+                                                                                <body>
+                                                                                <table>
+                                                                                <thead>
+                                                                                    <th>Product Name</th>
+                                                                                    <th>Quantity Requested</th>
+                                                                                </thead>
+                                                                                <tbody>" .
+                                                                                    $tableBody .
+                                                                                "</tbody>
+                                                                                 </table>
+                                                                                 </body>
+                                                                                 </html>";
+            sendEmail($to, $cc, $subject, $message);
         }
         displayShopperOrders();
 
-        $to = $UsersEmail['Email'];
-        $cc = $SettingsInfo['EmailOrderReceived'];
-        $subject = $SettingsInfo['OrderReceivedSubj'];
-        $message = $SettingsInfo['OrderReceivedText'];
-        sendEmail($to, $cc, $subject, $message);
+
     }
 
     function validateCart($USERID){
