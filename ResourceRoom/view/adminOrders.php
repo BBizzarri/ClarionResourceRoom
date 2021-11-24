@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-lg-4">
                     <h3 class="text-center">SUBMITTED ORDERS</h3>
-                    <table class="table table-condensed" style="border-collapse:collapse;">
+                    <table class="table table-condensed" id="submittedOrders" style="border-collapse:collapse;">
                         <thead>
                         <tr>
                             <th>Name</th>
@@ -24,7 +24,7 @@
                             {
                                 ?>
                                 <tr data-toggle="modal" data-target="#orderDetails_<?php echo $order->getOrderID()?>">
-                                    <td><?php echo htmlspecialchars($order->getUsersName())?></td>
+                                    <td class="text-left"><?php echo htmlspecialchars($order->getUsersName())?></td>
                                     <td><?php $dateOrdered = new DateTime(htmlspecialchars($order->getOrderDateOrdered())); echo $dateOrdered->format('m/d/Y');?></td>
                                     <td><?php echo htmlspecialchars($order->getOrderSize())?></td>
                                 </tr>
@@ -50,7 +50,7 @@
                             {
                                 ?>
                                 <tr data-toggle="modal" data-target="#orderDetails_<?php echo $order->getOrderID()?>">
-                                    <td><?php echo htmlspecialchars($order->getUsersName())?></td>
+                                    <td class="text-left"><?php echo htmlspecialchars($order->getUsersName())?></td>
                                     <td><?php $dateFilled = new DateTime(htmlspecialchars($order->getOrderDateFilled())); echo $dateFilled->format('m/d/Y'); ?></td>
                                     <td><?php echo htmlspecialchars($order->getOrderSize())?></td>
                                 </tr>
@@ -79,7 +79,7 @@
                             {
                                 ?>
                                 <tr data-toggle="modal" data-target="#orderDetails_<?php echo $order->getOrderID()?>">
-                                    <td><?php echo htmlspecialchars($order->getUsersName())?></td>
+                                    <td class="text-left"><?php echo htmlspecialchars($order->getUsersName())?></td>
                                     <td><?php $dateCompleted = new DateTime(htmlspecialchars($order->getOrderDateCompleted())); echo $dateCompleted->format('m/d/Y');?></td>
                                     <td><?php echo htmlspecialchars($order->getOrderSize())?></td>
                                 </tr>
@@ -135,9 +135,9 @@
                                         {
                                             ?>
                                             <tr>
-                                                <td><?php echo htmlspecialchars($orderDetail->getProduct()->getProductName())?></td>
+                                                <td class="text-left"><?php echo htmlspecialchars($orderDetail->getProduct()->getProductName())?></td>
                                                 <?php if($orderDescriptionFlag): ?>
-                                                    <td><?php echo htmlspecialchars($orderDetail->getProduct()->getProductDescription());?></td>
+                                                    <td class="text-left"><?php echo htmlspecialchars($orderDetail->getProduct()->getProductDescription());?></td>
                                                 <?php endif; ?>
                                                 <td><?php echo htmlspecialchars($orderDetail->getQTYRequested())?></td>
                                             <?php if($order->getOrderStatus() == "SUBMITTED"): ?>
@@ -150,7 +150,7 @@
                                         <?php if($order->getOrderComment() != ""): ?>
                                             <tr>
                                                 <td>
-                                                    <h5>Comments:</h5>
+                                                    <h5 class=text-left>Comments:</h5>
                                                 </td>
                                                 <td
                                                 <?php if($orderDescriptionFlag){
@@ -172,12 +172,12 @@
                             <div class = 'row'>
                                 <?php if($order->getOrderStatus() == "SUBMITTED"): ?>
                                 <div class = 'col-auto'>
-                                    <input class="additional-comments" type="text" name="fillerComments" id="fillerComments" placeholder="Additional Comments"/>
+                                    <input class="additional-comments" type="text" name="fillerComments" id="fillerComments" placeholder="Additional Email Comments"/>
                                     <button type="submit" class="btn btn-success">Fill Order</button>
                                     </form>
                                     <form action="../controller/controller.php?action=deleteOrder" method="post" enctype="multipart/form-data">
                                         <input type='hidden' name='ORDERID' value='<?php echo $order->getOrderID()?>'/>
-                                        <input type="submit" class="btn btn-danger" style="margin-right: 25px" value="Delete Order">
+                                        <input type="submit" class="btn btn-danger" style="margin-right: 25px" value="Cancel Order">
                                     </form>
                                 </div>
                                 <?php elseif ($order->getOrderStatus() == "READY FOR PICKUP"):?>
@@ -187,7 +187,7 @@
                                     </form>
                                     <form action="../controller/controller.php?action=deleteOrder" method="post" enctype="multipart/form-data">
                                         <input type='hidden' name='ORDERID' value='<?php echo $order->getOrderID()?>'/>
-                                        <input type="submit" class="btn btn-danger" style="margin-right: 25px" value="Delete Order">
+                                        <input type="submit" class="btn btn-danger" style="margin-right: 25px" value="Cancel Order">
                                     </form>
                                 </div>
                                 <?php elseif ($order->getOrderStatus() == "COMPLETED"):?>

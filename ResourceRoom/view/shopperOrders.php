@@ -71,7 +71,7 @@
                                                         <form action="../controller/controller.php?action=deleteOrder" method="post" enctype="multipart/form-data">
                                                             <div class="form-group row">
                                                                 <input type='hidden' name='ORDERID' value='<?php echo $order->getOrderID()?>'/>
-                                                                <input type="submit" class="btn btn-danger" style="margin-right: 25px" value="Delete Order">
+                                                                <input type="submit" class="btn btn-danger" style="margin-right: 25px" value="Cancel Order">
                                                             </div>
                                                         </form>
                                                     </td>

@@ -2,7 +2,8 @@
 
     // This file is included in the main controller as a series of cases to check the $action querystring parameter.
     // The purpose is to separate the shopper actions from the back-end inventory actions to help version control.
-
+    include_once '../model/order.php';
+    include_once '../model/orderDetail.php';
 
 
     switch ($action) {
@@ -56,12 +57,43 @@
     function adminDeleteOrder()
     {
         $OrderID = $_POST['ORDERID'];
+        $currentOrder = getOrder($OrderID)[0];
         $OrderedByEmail = getEmailToOrder($OrderID);
         deleteOrder($OrderID);
         $SettingsInfo = getAllSettingsInfo();
         $to = $OrderedByEmail['Email'];
         $subject = $SettingsInfo['OrderCancelledSubj'];
-        $message = $SettingsInfo['OrderCancelledText'];
+        foreach($currentOrder->getOrderDetails() as $orderDetail){
+            $ProductName = $orderDetail->getProduct()->getProductName();
+            $QtyRequested = $orderDetail->getQTYRequested();
+            $QtyFilled = $orderDetail->getQTYFilled();
+            $tableBody .= "
+                    <tr>
+                    <td>$ProductName</td>
+                    <td style='text-align: center;'>$QtyRequested</td>
+                    <td style='text-align: center;'>$QtyFilled</td>
+                    </tr>
+                    ";
+        }
+//         $message = setMessage('',$SettingsInfo['OrderCancelledText'],$tableBody,'cancelled');
+        $message = $SettingsInfo['OrderCancelledText'] . PHP_EOL . PHP_EOL . "
+                                                <html>
+                                                <head>
+                                                <title>HTML email</title>
+                                                </head>
+                                                <body>
+                                                <table>
+                                                <thead>
+                                                    <th>Product Name</th>
+                                                    <th style='padding-left: 30px;'>Quantity Requested</th>
+                                                    <th style='padding-left: 30px;'>Quantity Filled</th>
+                                                </thead>
+                                                <tbody>" .
+                                                    $tableBody .
+                                                "</tbody>
+                                                 </table>
+                                                 </body>
+                                                 </html>";
         $cc = $SettingsInfo['EmailOrderCancelled'];
         sendEmail($to, $cc, $subject, $message);
         header("Location: {$_SERVER['HTTP_REFERER']}");
@@ -259,12 +291,44 @@
         fillOrderDetails($order);
         fillOrder($order);
 
+        $currentOrder = getOrder($orderID)[0];
         $SettingsInfo = getAllSettingsInfo();
         $USERID = getUserID();
         $OrderedByEmail = getEmailToOrder($orderID);
         $to = $OrderedByEmail['Email'];
         $subject = $SettingsInfo['OrderFilledSubj'];
-        $message = $SettingsInfo['OrderFilledText'] . ' ' . $fillerComments;
+        $tableBody = "";
+        foreach($currentOrder->getOrderDetails() as $orderDetail){
+            $ProductName = $orderDetail->getProduct()->getProductName();
+            $QtyRequested = $orderDetail->getQTYRequested();
+            $QtyFilled = $orderDetail->getQTYFilled();
+            $tableBody .= "
+            <tr>
+            <td>$ProductName</td>
+            <td style='text-align: center;'>$QtyRequested</td>
+            <td style='text-align: center;'>$QtyFilled</td>
+            </tr>
+            ";
+        }
+//         $message = setMessage($fillerComments, $SettingsInfo['OrderFilledText'],$tableBody,'filled');
+        $message = $fillerComments . PHP_EOL . PHP_EOL . $SettingsInfo['OrderFilledText'] . PHP_EOL . PHP_EOL . "
+                                                                                        <html>
+                                                                                        <head>
+                                                                                        <title>HTML email</title>
+                                                                                        </head>
+                                                                                        <body>
+                                                                                        <table>
+                                                                                        <thead>
+                                                                                            <th>Product Name</th>
+                                                                                            <th style='padding-left: 30px;'>Quantity Requested</th>
+                                                                                            <th style='padding-left: 30px;'>Quantity Filled</th>
+                                                                                        </thead>
+                                                                                        <tbody>" .
+                                                                                            $tableBody .
+                                                                                        "</tbody>
+                                                                                         </table>
+                                                                                         </body>
+                                                                                         </html>";
         $cc = $SettingsInfo['EmailOrderFilled'];
         sendEmail($to, $cc, $subject, $message);
         header("Location: {$_SERVER['HTTP_REFERER']}");
@@ -320,7 +384,38 @@
         $OrderedByEmail = getEmailToOrder($orderID);
         $to = $OrderedByEmail['Email'];
         $subject = $SettingsInfo['OrderReminderSubj'];
-        $message = $SettingsInfo['OrderReminderText'];
+        $currentOrder = getOrder($orderID)[0];
+        foreach($currentOrder->getOrderDetails() as $orderDetail){
+            $ProductName = $orderDetail->getProduct()->getProductName();
+            $QtyRequested = $orderDetail->getQTYRequested();
+            $QtyFilled = $orderDetail->getQTYFilled();
+            $tableBody .= "
+                        <tr>
+                        <td>$ProductName</td>
+                        <td style='text-align: center;'>$QtyRequested</td>
+                        <td style='text-align: center;'>$QtyFilled</td>
+                        </tr>
+                        ";
+        }
+//         $message = setMessage('',$SettingsInfo['OrderReminderText'],$tableBody,'renotify');
+        $message = $SettingsInfo['OrderReminderText'] . PHP_EOL . PHP_EOL . "
+                                                <html>
+                                                <head>
+                                                <title>HTML email</title>
+                                                </head>
+                                                <body>
+                                                <table>
+                                                <thead>
+                                                    <th>Product Name</th>
+                                                    <th style='padding-left: 30px;'>Quantity Requested</th>
+                                                    <th style='padding-left: 30px;'>Quantity Filled</th>
+                                                </thead>
+                                                <tbody>" .
+                                                    $tableBody .
+                                                "</tbody>
+                                                 </table>
+                                                 </body>
+                                                 </html>";
         $cc = $SettingsInfo['EmailOrderReminder'];
         sendEmail($to, $cc, $subject, $message);
         header("Location: {$_SERVER['HTTP_REFERER']}");
@@ -466,12 +561,65 @@
 
     function updateEmailAnnouncementSettings()
     {
-        $ReceiversPlaced = $_POST['ReceiversPlaced'];
-        $ReceiversFilled = $_POST['ReceiversFilled'];
-        $EmailTextPlaced = $_POST['EmailTextPlaced'];
-        $EmailTextFilled = $_POST['EmailTextFilled'];
+        $PlacedCC = $_POST['PlacedCC'];
+        $FilledCC = $_POST['FilledCC'];
+        $ReNotifyCC = $_POST['ReNotifyCC'];
+        $CancelledCC = $_POST['CancelledCC'];
+        $PlacedSubject = $_POST['PlacedSubject'];
+        $FilledSubject = $_POST['FilledSubject'];
+        $ReNotifySubject = $_POST['ReNotifySubject'];
+        $CancelledSubject  = $_POST['CancelledSubject'];
+        $PlacedText = $_POST['PlacedText'];
+        $FilledText = $_POST['FilledText'];
+        $ReNotifyText = $_POST['ReNotifyText'];
+        $CancelledText = $_POST['CancelledText'];
         $FooterAnnouncement = $_POST['Announcement'];
-        $SettingAffected = UpdateSettings($ReceiversPlaced, $ReceiversFilled, $EmailTextPlaced, $EmailTextFilled, $FooterAnnouncement);
-        header("Location: {$_SERVER['HTTP_REFERER']}");
+
+        $errorMessage = '';
+        $PlacedCCArray = explode(',',$PlacedCC);
+        $FilledCCArray = explode(',',$FilledCC);
+        $ReNotifyCCArray = explode(',',$ReNotifyCC);
+        $CancelledCCArray = explode(',',$CancelledCC);
+        foreach($PlacedCCArray as $singleEmail)
+        {
+            console_log($singleEmail);
+            if (!filter_var($singleEmail, FILTER_VALIDATE_EMAIL)) {
+                $errorMessage = "Invalid email format, emails must be seprated by a ',' and have no spaces in between";
+            }
+        }
+        foreach($FilledCCArray as $singleEmail)
+        {
+            console_log($singleEmail);
+            if (!filter_var($singleEmail, FILTER_VALIDATE_EMAIL)) {
+                $errorMessage = "Invalid email format, emails must be seprated by a ',' and have no spaces in between";
+            }
+        }
+        foreach($ReNotifyCCArray as $singleEmail)
+        {
+            console_log($singleEmail);
+            if (!filter_var($singleEmail, FILTER_VALIDATE_EMAIL)) {
+                $errorMessage = "Invalid email format, emails must be seprated by a ',' and have no spaces in between";
+            }
+        }
+        foreach($CancelledCCArray as $singleEmail)
+        {
+            console_log($singleEmail);
+            if (!filter_var($singleEmail, FILTER_VALIDATE_EMAIL)) {
+                $errorMessage = "Invalid email format, emails must be seprated by a ',' and have no spaces in between";
+            }
+        }
+
+
+        console_log($errorMessage);
+        if($errorMessage == '')
+        {
+            console_log('good to go');
+            $SettingAffected = UpdateSettings($PlacedCC, $FilledCC, $ReNotifyCC, $CancelledCC, $PlacedSubject, $FilledSubject, $ReNotifySubject, $CancelledSubject, $PlacedText, $FilledText, $ReNotifyText, $CancelledText, $FooterAnnouncement);
+            header("Location: {$_SERVER['HTTP_REFERER']}");
+        }
+        else
+        {
+            include '../view/errorPage.php';
+        }
     }
 ?>

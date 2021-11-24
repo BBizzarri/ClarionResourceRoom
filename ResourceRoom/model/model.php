@@ -516,6 +516,7 @@
                 array_push($AllOrders, new order($order[0]['ORDERID'],$order[0]['USERID'],$order[0]['STATUS'],$order[0]['DATEORDERED'],$order[0]['DATEFILLED'],$order[0]['DATECOMPLETED'],$order[0]['COMMENT'],$orderDetails, $order[0]['USERSNAME']));
             }
             return $AllOrders;
+
         }
         catch (Exception $ex)
         {
@@ -656,7 +657,7 @@
             }
             if($success){
                 clearCart($USERID);
-                return $statement->rowCount();
+                return $ORDERID;
             }
             else {
                 logSQLError($statement->errorInfo());
@@ -762,8 +763,104 @@
         }
         else
         {
-            echo 'Email sent successfully';
+            //echo 'Email sent successfully';
         }
+    }
+
+    function setMessage($fillerComments, $TextType, $tableBody, $EmailType)
+    {
+        if($EmailType == 'placed')
+        {
+            console_log("in placed order if");
+            $message = $TextType . PHP_EOL . PHP_EOL . "
+                                                                                                                    <html>
+                                                                                                                    <head>
+                                                                                                                    <title>HTML email</title>
+                                                                                                                    </head>
+                                                                                                                    <body>
+                                                                                                                    <table>
+                                                                                                                    <thead>
+                                                                                                                        <th>Product Name</th>
+                                                                                                                        <th>Quantity Requested</th>
+                                                                                                                    </thead>
+                                                                                                                    <tbody>" .
+                                                                                                                        $tableBody .
+                                                                                                                    "</tbody>
+                                                                                                                     </table>
+                                                                                                                     </body>
+                                                                                                                     </html>";
+        }
+        else if($EmailType == 'filled')
+        {
+            console_log("in filled order if");
+            $message = $fillerComments . PHP_EOL . PHP_EOL . $TextType . PHP_EOL . PHP_EOL . "
+                                                                                                                    <html>
+                                                                                                                    <head>
+                                                                                                                    <title>HTML email</title>
+                                                                                                                    </head>
+                                                                                                                    <body>
+                                                                                                                    <table>
+                                                                                                                    <thead>
+                                                                                                                        <th>Product Name</th>
+                                                                                                                        <th>Quantity Requested</th>
+                                                                                                                        <th>Quantity Filled</th>
+                                                                                                                    </thead>
+                                                                                                                    <tbody>" .
+                                                                                                                        $tableBody .
+                                                                                                                    "</tbody>
+                                                                                                                     </table>
+                                                                                                                     </body>
+                                                                                                                     </html>";
+        }
+        else if($EmailType == 'renotify')
+        {
+            console_log("In renotify order if");
+            $message = $TextType . PHP_EOL . PHP_EOL . "
+                                                                                <html>
+                                                                                <head>
+                                                                                <title>HTML email</title>
+                                                                                </head>
+                                                                                <body>
+                                                                                <table>
+                                                                                <thead>
+                                                                                    <th>Product Name</th>
+                                                                                    <th>Quantity Requested</th>
+                                                                                    <th>Quantity Filled</th>
+                                                                                </thead>
+                                                                                <tbody>" .
+                                                                                    $tableBody .
+                                                                                "</tbody>
+                                                                                 </table>
+                                                                                 </body>
+                                                                                 </html>";
+    }
+        else if($EmailType == 'cancelled')
+        {
+            console_log('in cancelled order if');
+            $message = $TextType . PHP_EOL . PHP_EOL . "
+                                                                                <html>
+                                                                                <head>
+                                                                                <title>HTML email</title>
+                                                                                </head>
+                                                                                <body>
+                                                                                <table>
+                                                                                <thead>
+                                                                                    <th>Product Name</th>
+                                                                                    <th>Quantity Requested</th>
+                                                                                    <th>Quantity Filled</th>
+                                                                                </thead>
+                                                                                <tbody>" .
+                                                                                    $tableBody .
+                                                                                "</tbody>
+                                                                                 </table>
+                                                                                 </body>
+                                                                                 </html>";
+        }
+        else
+        {
+            console_log('this is broken');
+        }
+
     }
 
     function updateCategory($CategoryID, $CategoryName)
@@ -841,15 +938,25 @@
        }
    }
 
-   function UpdateSettings($ReceiversPlaced, $ReceiversFilled, $EmailTextPlaced, $EmailTextFilled, $FooterAnnouncement)
+   function UpdateSettings($PlacedCC, $FilledCC, $ReNotifyCC, $CancelledCC, $PlacedSubject, $FilledSubject, $ReNotifySubject, $CancelledSubject, $PlacedText, $FilledText, $ReNotifyText, $CancelledText, $FooterAnnouncement)
    {
        $db = getDBConnection();
-       $query = 'UPDATE setting SET EmailOrderReceived = :EmailOrderReceived, EmailOrderFilled = :EmailOrderFilled, OrderReceivedText = :OrderReceivedText, OrderFilledText = :OrderFilledText, FooterText = :FooterText WHERE SETTINGID = 1';
+       $query = 'UPDATE setting SET EmailOrderReceived = :EmailOrderReceived, EmailOrderFilled = :EmailOrderFilled, EmailOrderReminder = :EmailOrderReminder, EmailOrderCancelled = :EmailOrderCancelled,
+                                    OrderReceivedSubj = :OrderReceivedSubj, OrderFilledSubj = :OrderFilledSubj, OrderReminderSubj = :OrderReminderSubj, OrderCancelledSubj = :OrderCancelledSubj,
+                                     OrderReceivedText = :OrderReceivedText, OrderFilledText = :OrderFilledText, OrderReminderText = :OrderReminderText, OrderCancelledText = :OrderCancelledText, FooterText = :FooterText WHERE SETTINGID = 1';
        $statement = $db->prepare($query);
-       $statement->bindValue(':EmailOrderReceived', $ReceiversPlaced);
-       $statement->bindValue(':EmailOrderFilled', $ReceiversFilled);
-       $statement->bindValue(':OrderReceivedText', $EmailTextPlaced);
-       $statement->bindValue(':OrderFilledText', $EmailTextFilled);
+       $statement->bindValue(':EmailOrderReceived', $PlacedCC);
+       $statement->bindValue(':EmailOrderFilled', $FilledCC);
+       $statement->bindValue(':EmailOrderReminder', $ReNotifyCC);
+       $statement->bindValue(':EmailOrderCancelled', $CancelledCC);
+       $statement->bindValue(':OrderReceivedSubj', $PlacedSubject);
+       $statement->bindValue(':OrderFilledSubj', $FilledSubject);
+       $statement->bindValue(':OrderReminderSubj', $ReNotifySubject);
+       $statement->bindValue(':OrderCancelledSubj', $CancelledSubject);
+       $statement->bindValue(':OrderReceivedText', $PlacedText);
+       $statement->bindValue(':OrderFilledText', $FilledText);
+       $statement->bindValue(':OrderReminderText', $ReNotifyText);
+       $statement->bindValue(':OrderCancelledText', $CancelledText);
        $statement->bindValue(':FooterText', $FooterAnnouncement);
        $success = $statement->execute();
        $statement->closeCursor();
