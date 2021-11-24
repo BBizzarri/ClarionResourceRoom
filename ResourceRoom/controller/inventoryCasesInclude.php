@@ -36,6 +36,9 @@
         case 'adminShoppingList':
             shopperPage();
             break;
+        case 'deleteCategory':
+            adminDeleteCategory();
+            break;
         case 'deleteOrder':
             adminDeleteOrder();
             break;
@@ -51,6 +54,12 @@
         case 'updateEmailAnnouncementSettings':
             updateEmailAnnouncementSettings();
             break;
+    }
+
+    function adminDeleteCategory()
+    {
+        $categoryID = $_POST['CategoryID'];
+        $result = deactivateCategory($categoryID);
     }
 
     function adminDeleteOrder()

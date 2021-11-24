@@ -79,22 +79,10 @@
                 </form>
             <?php } ?>
             <div class="dropdown account-dropdown">
-              <?php if(loggedIn()) { ?>
-                  <button class="btn dropdown-toggle" type="button" data-toggle="dropdown"><img src="../Images/person-icon.png" alt="person" height="40px" width="40px"/></button>
-                  <ul class="dropdown-menu">
+                <button class="btn dropdown-toggle" type="button" data-toggle="dropdown"><img src="../Images/person-icon.png" alt="person" height="40px" width="40px"/></button>
+                <ul class="dropdown-menu">
                     <li><a class="nav-link color-black" href="../controller/controller.php?action=accountSettings">Settings</a></li>
-                    <li>
-                        <?php
-                                echo "<a class='nav-link color-black' href='../security/index.php?action=SecurityLogOut&RequestedPage=" . urlencode($_SERVER['REQUEST_URI'])  .  "'> Log Out </a>";
-                        ?>
-                    </li>
-                  </ul>
-
-              <?php }
-              else {
-                echo "<a class='nav-link clarion-white' href='https://vcisprod.clarion.edu/~s_ajrobinso1/php-saml-2.19.1/demo1&RequestedPage=" . urlencode($_SERVER['REQUEST_URI'])  .  "'><i class='fas fa-sign-in-alt'></i> Log In </a>";
-
-              }  ?>
+                </ul>
             </div>
             </div>
         </nav>

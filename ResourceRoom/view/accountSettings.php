@@ -183,7 +183,7 @@
     ?>
       <!-- Edit Category Modal -->
         <div class="modal fade" id="edit_categoryModal_<?php echo $category->getCategoryID()?>" role="dialog">
-          <div class="modal-dialog modal-lg">-->
+          <div class="modal-dialog modal-lg">
                     <!-- Modal content-->
                     <form id="editCategoryForm" action="../controller/controller.php?action=addEditCategory&categoryMode=edit" method="post" enctype="multipart/form-data" >
                         <div class="modal-content clarion-blue clarion-white">
@@ -200,8 +200,13 @@
                           <div class="modal-footer" style="border-top: 1px solid #97824A;">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                             <button type="submit" class="btn btn-default">Save</button>
-                          </div>
                     </form>
+                            <form id="deleteCategoryForm" action="../controller/controller.php?action=deleteCategory" onsubmit="return confirm('Are you sure you want to delete this category?');" method="post" enctype="multipart/form-data" >
+                                <input type="hidden" id="CurrentCategory_<?php echo htmlspecialchars($category->getCategoryID()) ?>" name="CategoryID" value="<?php echo htmlspecialchars($category->getCategoryID()) ?>"/>
+                                <button type="submit" class="btn btn-danger">Delete Category</button>
+                            </form>
+                          </div>
+
             </div>
           </div>
         </div>

@@ -217,7 +217,57 @@
     }
 
     function deactivateCategory($categoryID){
+        try{
+            $db = getDBConnection();
+            $query = "SELECT * FROM productcategories";
+            $statement = $db->prepare($query);
+            $statement->bindValue(':CATEGORYID', $categoryID);
+            $statement->execute();
+            $result = $statement->fetchAll( PDO::FETCH_GROUP| PDO::FETCH_ASSOC);
+            $statement->closeCursor();
+            $products = array();
+            foreach($result as $product)
+            {
+                $isInCategory = False;
+                foreach($product as $categoryArray){
+                    if($categoryArray['CATEGORYID'] == $categoryID)
+                    {
+                        $isInCategory = True;
+                    }
+                }
+                if($isInCategory)
+                {
+                    if(count($product) == 1 )
+                    {
+                        array_push($products, $product);
+                    }
+                }
+            }
 
+            if(count($products) > 0)
+            {
+                $canDeactivate = False;
+            }
+            else
+            {
+                $db = getDBConnection();
+                $query = "update category set CATEGORYACTIVE = :CATEGORYACTIVE  where category.CATEGORYID = :CATEGORYID";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':CATEGORYACTIVE', 'N');
+                $statement->bindValue(':CATEGORYID', $categoryID);
+                $statement->execute();
+                $results = $statement->fetchAll();
+                $statement->closeCursor();
+                $canDeactivate = True;
+            }
+            return $canDeactivate;
+        }
+        catch (Exception $ex)
+        {
+            $errorMessage = $ex->getMessage();
+            include '../view/errorPage.php';
+            die;
+        }
     }
 
 
@@ -296,8 +346,9 @@
     function getAllCategories() {
             try {
                 $db = getDBConnection();
-                $query = "select * from category order by CATEGORYDESCRIPTION";
+                $query = "select * from category WHERE category.CATEGORYACTIVE = :CATEGORYACTIVE order by CATEGORYDESCRIPTION";
                 $statement = $db->prepare($query);
+                $statement->bindValue(':CATEGORYACTIVE', 'Y');
                 $statement->execute();
                 $results = $statement->fetchAll();
                 $statement->closeCursor();
@@ -452,7 +503,7 @@
             $db = getDBConnection();
             $statement = $db->prepare($query);
             if($QTYLessThan != ""){
-                $statement->bindValue(':QTYLessThan', $QTYLessThan);;
+                $statement->bindValue(':QTYLessThan', $QTYLessThan);
             }
             if($SearchTerm != ""){
                 $statement->bindValue(':SearchTerm', "%$SearchTerm%");
@@ -751,7 +802,7 @@
         $headers = array();
         $headers['Cc'] = $cc;
         $headers['Subject'] = $subject;
-        $headers['From'] = 'clarionresourceroom@clarion.edu';
+        $headers['From'] = 'resourceroom@clarion.edu';
         $headers['To'] = $to;
         $headers['Content-type'] = 'text/html';
         $htmlContent = $message;

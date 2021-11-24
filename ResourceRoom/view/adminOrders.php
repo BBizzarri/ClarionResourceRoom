@@ -168,34 +168,46 @@
                                     </table>
                                 </div>
                         </div>
-                        <div class="modal-footer container">
-                            <div class = 'row'>
+                        <div class="modal-footer">
+                            <div class = container>
                                 <?php if($order->getOrderStatus() == "SUBMITTED"): ?>
-                                <div class = 'col-auto'>
-                                    <input class="additional-comments" type="text" name="fillerComments" id="fillerComments" placeholder="Additional Comments"/>
-                                    <button type="submit" class="btn btn-success">Fill Order</button>
-                                    </form>
-                                    <form action="../controller/controller.php?action=deleteOrder" method="post" enctype="multipart/form-data">
-                                        <input type='hidden' name='ORDERID' value='<?php echo $order->getOrderID()?>'/>
-                                        <input type="submit" class="btn btn-danger" style="margin-right: 25px" value="Delete Order">
-                                    </form>
-                                </div>
+                                    <div class = 'row'>
+                                        <div class = 'col-8'>
+                                            <input class="w-100" type="text" name="fillerComments" id="fillerComments" placeholder="Additional Comments"/>
+                                        </div>
+                                        <div class = 'col-auto'>
+                                            <button type="submit" class="btn btn-success">Fill Order</button>
+                                            </form>
+                                        </div>
+                                        <div class = 'col-auto'>
+                                            <form action="../controller/controller.php?action=deleteOrder" onsubmit="return confirm('Are you sure you want to delete this order?');" method="post" enctype="multipart/form-data">
+                                                <input type='hidden' name='ORDERID' value='<?php echo $order->getOrderID()?>'/>
+                                                <input type="submit" class="btn btn-danger"  value="Delete Order">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 <?php elseif ($order->getOrderStatus() == "READY FOR PICKUP"):?>
-                                <div class = 'col-auto'>
-                                    <button type="submit" class="btn btn-success">Order Picked Up</button>
-                                    <button type="button" class="btn btn-warning" onclick="reNotify(<?php echo $order->getOrderID();?>);">Re-Notify</button>
-                                    </form>
-                                    <form action="../controller/controller.php?action=deleteOrder" method="post" enctype="multipart/form-data">
-                                        <input type='hidden' name='ORDERID' value='<?php echo $order->getOrderID()?>'/>
-                                        <input type="submit" class="btn btn-danger" style="margin-right: 25px" value="Delete Order">
-                                    </form>
-                                </div>
+                                    <div class = 'row d-flex justify-content-end'>
+                                        <div class = 'col-auto'>
+                                            <button type="submit" class="btn btn-success">Order Picked Up</button>
+                                            <button type="button" class="btn btn-warning" onclick="reNotify(<?php echo $order->getOrderID();?>);">Re-Notify</button>
+                                            </form>
+                                        </div>
+                                        <div class = 'col-auto'>
+                                            <form action="../controller/controller.php?action=deleteOrder" onsubmit="return confirm('Are you sure you want to delete this order?');" method="post" enctype="multipart/form-data">
+                                                <input type='hidden' name='ORDERID' value='<?php echo $order->getOrderID()?>'/>
+                                                <input type="submit" class="btn btn-danger"   value="Delete Order">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 <?php elseif ($order->getOrderStatus() == "COMPLETED"):?>
                                     </form>
+                                    <div class = 'd-flex justify-content-end'>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
                                 <?php endif; ?>
-                                <div class = 'col-auto'>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                </div>
                             </div>
                         </div>
                     </div>
