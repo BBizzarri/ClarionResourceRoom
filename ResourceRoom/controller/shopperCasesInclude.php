@@ -55,19 +55,18 @@
             $info = getProducts([$shopperCategoryID],'',$IncludeInactiveItems = false, $HideUnstockedItems = false,$ShoppingList = false,'');
             $ProductArray = $info[0];
         }
-        $CategoryHeader = $CurrentCategory;
             if ($ProductArray == false)
             {
-                $errorMessage = 'No items relevent to: ' . htmlspecialchars($_POST['searchCriteria']);
-                include '../view/errorPage.php';
+                $CategoryHeader = 'No items relevent to: ' . htmlspecialchars($_POST['searchCriteria']);
             }
-               else
-               {
-                   $USERID = getUserID();
-                   $cart = getCart($USERID);
-                   $_SESSION['itemsInCart'] = $cart->getNumberOfItemsInCart();
-                   include '../view/index.php';
-               }
+            else
+            {
+                $CategoryHeader = $CurrentCategory;
+            }
+        $USERID = getUserID();
+        $cart = getCart($USERID);
+        $_SESSION['itemsInCart'] = $cart->getNumberOfItemsInCart();
+        include '../view/index.php';
     }
     function displayCart()
     {

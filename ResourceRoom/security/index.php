@@ -13,7 +13,7 @@
     if ($action != 'SecurityLogin' && $action != 'ProcessLogin' && $action != 'SecurityProcessLogin' && !userIsAuthorized($action)) {
         if(!loggedIn()) {
             #header("Location:../security/index.php?action=SecurityLogin&RequestedPage=" . urlencode($_SERVER['REQUEST_URI']));
-            header("Location: https://vcisprod.clarion.edu/~s_ajrobinso1/php-saml-2.19.1/demo1");
+            header("Location: ../security/php-saml-2.19.1/demo1");
         } else {
             include('../security/not_authorized.html');
         }
@@ -27,7 +27,7 @@
                     exit();
                 }
                 #include('login_form.php');
-                header("Location: https://vcisprod.clarion.edu/~s_ajrobinso1/php-saml-2.19.1/demo1");
+                header("Location: ../security/php-saml-2.19.1/demo1");
                 break;
             case 'ProcessLogin':
                 ProcessSSOLogin();
@@ -101,14 +101,10 @@
     }
 
     function ProcessSSOLogin(){
-        print_r("POST");
-        echo '<pre>';
-        print_r($_POST);
-        echo  '</pre>';
-        $sUnderScore = $_POST['sUnderScore'];
-        $firstName = $_POST['firstName'];
-        $lastname = $_POST['lastName'];
-        $email = $_POST['email'];
+        $sUnderScore = $_SESSION['UserID'];
+        $firstName = $_SESSION['FirstName'];
+        $lastname = $_SESSION['LastName'];
+        $email = $_SESSION['Email'];
         $user = new user($sUnderScore,$firstName,$lastname,$email);
         processSignIn($user);
     }
@@ -125,7 +121,7 @@
                 }
                 else
                 {
-                    header("Location:" ."/~s_smwice" . $_REQUEST["RequestedPage"]);
+                    header("Location:" ."/~cis411" . $_REQUEST["RequestedPage"]);
                 }
 
 
@@ -157,7 +153,7 @@
         if (isset($_REQUEST["RequestedPage"])) {
                 header("Location:" . $_REQUEST["RequestedPage"]);
         } else {
-            header("Location: https://vcisprod.clarion.edu/~s_ajrobinso1/php-saml-2.19.1/demo1");
+            header("Location: ../security/php-saml-2.19.1/demo1");
         }
     }
     function ManageUsers() {

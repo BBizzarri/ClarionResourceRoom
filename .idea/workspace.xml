@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="xml">
+    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/shopperCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/shopperCasesInclude.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/model/model.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/model.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/security/creation_script.sql" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/security/creation_script.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/view/accountSettings.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/accountSettings.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/shopperOrders.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/shopperOrders.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminShoppingList.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminShoppingList.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +28,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Staging" />
+        <entry key="$PROJECT_DIR$" value="Shane-RR" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -56,7 +55,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/ResourceRoom/productImages" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/ResourceRoom/security" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -67,9 +66,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Clarion Folder\xampp\htdocs\ClarionResourceRoom\ResourceRoom\security" />
       <recent name="C:\xampp\htdocs\ClarionResourceRoom\ResourceRoom\productImages" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\Clarion Folder\xampp\htdocs\ClarionResourceRoom\ResourceRoom\js" />
       <recent name="C:\xampp\htdocs\ClarionResourceRoom\ResourceRoom\productImages" />
       <recent name="C:\xampp\htdocs\ClarionResourceRoom\ResourceRoom\lib" />
       <recent name="C:\xampp\htdocs\ClarionResourceRoom\ResourceRoom\Images" />
@@ -98,27 +99,8 @@
       <workItem from="1637069747624" duration="6596000" />
       <workItem from="1637094410558" duration="1603000" />
       <workItem from="1637120477410" duration="2403000" />
-    </task>
-    <task id="LOCAL-00001" summary="fixing merge conflict">
-      <created>1631803451977</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1631803451977</updated>
-    </task>
-    <task id="LOCAL-00002" summary="fixing merge conflict">
-      <created>1631803661486</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1631803661486</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Updating Main Branch">
-      <created>1631805592115</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1631805592115</updated>
+      <workItem from="1637544245832" duration="3935000" />
+      <workItem from="1637602479840" duration="4305000" />
     </task>
     <task id="LOCAL-00004" summary="Finished UI For admin inventory page">
       <created>1631825891312</created>
@@ -428,7 +410,42 @@
       <option name="project" value="LOCAL" />
       <updated>1637176438473</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="Removed log in/out button, shopper search fix if no products returned">
+      <created>1637705411231</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1637705411231</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Admin Order Buttons and comment box fixed">
+      <created>1637706995496</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1637706995496</updated>
+    </task>
+    <task id="LOCAL-00050" summary="Order Delete confirmation">
+      <created>1637708122467</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1637708122467</updated>
+    </task>
+    <task id="LOCAL-00051" summary="Admin inventory search removed">
+      <created>1637708301015</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1637708301016</updated>
+    </task>
+    <task id="LOCAL-00052" summary="Better Manage Users page">
+      <created>1637710351598</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1637710351598</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -462,11 +479,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Filter work" />
-    <MESSAGE value="Finished Filtering" />
-    <MESSAGE value="admin Inventory page touch up" />
-    <MESSAGE value="updated how category header gets set" />
-    <MESSAGE value="Updating CSS and code cleanup" />
     <MESSAGE value="Taking print_r out" />
     <MESSAGE value="Bug Fixes" />
     <MESSAGE value="Pictures" />
@@ -487,6 +499,11 @@
     <MESSAGE value="SSO Stuff" />
     <MESSAGE value="updated all emails to not send from apache" />
     <MESSAGE value="Fixing brady's bugs for real this time" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixing brady's bugs for real this time" />
+    <MESSAGE value="Removed log in/out button, shopper search fix if no products returned" />
+    <MESSAGE value="Admin Order Buttons and comment box fixed" />
+    <MESSAGE value="Order Delete confirmation" />
+    <MESSAGE value="Admin inventory search removed" />
+    <MESSAGE value="Better Manage Users page" />
+    <option name="LAST_COMMIT_MESSAGE" value="Better Manage Users page" />
   </component>
 </project>
