@@ -203,6 +203,7 @@ INSERT INTO functions (Name,Description) VALUES ('ProcessLogin', 'Process SSO Lo
 INSERT INTO functions (Name,Description) VALUES ('SecurityChangeUserLevel', 'Change authorization level');
 INSERT INTO functions (Name,Description) VALUES ('reNotifyEmail', 'allows user to send a renotify email to remind the person that ordered to pick up their order');
 INSERT INTO functions (Name,Description) VALUES ('deleteOrder', 'Deletes an order given orderID');
+INSERT INTO functions (Name,Description) VALUES ('deleteCategory', 'Deletes a category');
 
 
 INSERT INTO roles (Name,Description) VALUES  ('Admin','Full privileges.'),
@@ -333,7 +334,8 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (3,1),
                                                      (3,40),
                                                      (3,41),
                                                      (3,42),
-                                                     (3,43);
+                                                     (3,43),
+                                                     (3,44);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,20),
                                                      (4,24),

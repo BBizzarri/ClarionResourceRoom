@@ -177,7 +177,7 @@
                           </div>
                           <div class = "row">
                               <div class="table-responsive">
-                                  <table class="table table-striped inventoryTable table-responsive" id="inventoryTable">
+                                  <table class="table table-striped inventoryTable" id="inventoryTable">
                                       <thead>
                                       <tr>
                                           <th>Product</th>
@@ -302,7 +302,7 @@
           <?php } ?>
           <!-- Add Product Modal -->
           <div class="modal fade" id="addProductModal" role="dialog">
-            <div class="modal-dialog modal-lg">-->
+            <div class="modal-dialog modal-lg">
                 <!-- Modal content-->
                 <form id="addProductForm" action="../controller/controller.php?action=addEditProduct&productMode=Add" method="post" enctype="multipart/form-data">
                     <div class="modal-content clarion-blue clarion-white">
