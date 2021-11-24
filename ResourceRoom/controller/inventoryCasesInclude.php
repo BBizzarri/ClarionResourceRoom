@@ -61,6 +61,7 @@
     {
         $categoryID = $_POST['CategoryID'];
         $result = deactivateCategory($categoryID);
+        header("Location: {$_SERVER['HTTP_REFERER']}");
     }
 
     function adminDeleteOrder()
