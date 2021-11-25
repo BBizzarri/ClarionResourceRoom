@@ -117,10 +117,10 @@ CREATE TABLE setting
     EmailOrderFilled        VARCHAR(300),
     EmailOrderReminder      VARCHAR(300),
     EmailOrderCancelled     VARCHAR(300),
-    BBCOrderReceived        VARCHAR(300),
-    BBCOrderFilled          VARCHAR(300),
-    BBCOrderReminder        VARCHAR(300),
-    BBCOrderCanceled        VARCHAR(300),
+    BCCOrderReceived        VARCHAR(300),
+    BCCOrderFilled          VARCHAR(300),
+    BCCOrderReminder        VARCHAR(300),
+    BCCOrderCanceled        VARCHAR(300),
     OrderReceivedText       VARCHAR(500),
     OrderFilledText         VARCHAR(500),
     OrderReminderText       VARCHAR(500),
@@ -1091,10 +1091,11 @@ COMMIT;
 
 INSERT INTO `setting` (SettingID,
                        EmailOrderReceived, EmailOrderFilled, EmailOrderReminder, EmailOrderCancelled,
-                       BBCOrderReceived, BBCOrderFilled, BBCOrderReminder, BBCOrderCanceled,
+                       BCCOrderReceived, BCCOrderFilled, BCCOrderReminder, BCCOrderCanceled,
                        OrderReceivedText, OrderFilledText, OrderReminderText, OrderCancelledText,
                        OrderReceivedSubj, OrderFilledSubj, OrderReminderSubj, OrderCancelledSubj,
                        FooterTextLeft, FooterTextRight, PhotoDir) VALUES
+
      (1,
      'A.J.Robinson1@eagle.clarion.edu,B.J.Lindermuth@eagle.clarion.edu,D.Kaltenbaugh@eagle.clarion.edu',
      'A.J.Robinson1@eagle.clarion.edu,B.J.Lindermuth@eagle.clarion.edu,D.Kaltenbaugh@eagle.clarion.edu',
