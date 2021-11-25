@@ -157,7 +157,7 @@
                 </tr>
                 ";
             }
-            $message = $SettingsInfo['OrderReceivedText'] . PHP_EOL . PHP_EOL . "
+            $message = $SettingsInfo['OrderReceivedText'] . "<br><br>" . "
                                                                                 <html>
                                                                                 <head>
                                                                                 <title>HTML email</title>
@@ -166,7 +166,7 @@
                                                                                 <table>
                                                                                 <thead>
                                                                                     <th>Product Name</th>
-                                                                                    <th>Quantity Requested</th>
+                                                                                    <th style='padding-left:30px;'>Quantity Requested</th>
                                                                                 </thead>
                                                                                 <tbody>" .
                                                                                     $tableBody .

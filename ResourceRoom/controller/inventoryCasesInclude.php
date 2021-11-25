@@ -86,7 +86,7 @@
                     ";
         }
 //         $message = setMessage('',$SettingsInfo['OrderCancelledText'],$tableBody,'cancelled');
-        $message = $SettingsInfo['OrderCancelledText'] . PHP_EOL . PHP_EOL . "
+        $message = $SettingsInfo['OrderCancelledText'] . "<br><br>" . "
                                                 <html>
                                                 <head>
                                                 <title>HTML email</title>
@@ -321,7 +321,7 @@
             ";
         }
 //         $message = setMessage($fillerComments, $SettingsInfo['OrderFilledText'],$tableBody,'filled');
-        $message = $fillerComments . PHP_EOL . PHP_EOL . $SettingsInfo['OrderFilledText'] . PHP_EOL . PHP_EOL . "
+        $message = $fillerComments . "<br><br>" . $SettingsInfo['OrderFilledText'] . "<br><br>". "
                                                                                         <html>
                                                                                         <head>
                                                                                         <title>HTML email</title>
@@ -408,7 +408,7 @@
                         ";
         }
 //         $message = setMessage('',$SettingsInfo['OrderReminderText'],$tableBody,'renotify');
-        $message = $SettingsInfo['OrderReminderText'] . PHP_EOL . PHP_EOL . "
+        $message = $SettingsInfo['OrderReminderText'] . "<br><br>" . "
                                                 <html>
                                                 <head>
                                                 <title>HTML email</title>

@@ -143,8 +143,11 @@
                                                 <label id="announcementSettings" class="account-settings-heading clarion-white">Announcement Settings</label>
                                             </div>
                                             <div class="account-settings-card account-settings-card-body">
-                                                <label for="Announcement">Announcement that will appear in footer:</label>
-                                                <textarea class="vertical-align" id="body5" style="width: 99%;" name="Announcement" rows="4" cols="50"><?php echo $SettingsInfo['FooterText'];?></textarea>
+                                                <label for="AnnouncementLeft">Left Side of Footer:</label>
+                                                <textarea class="vertical-align" id="body5" style="width: 99%;" name="AnnouncementLeft" rows="4" cols="50"><?php echo $SettingsInfo['FooterText'];?></textarea>
+
+                                                <label for="AnnouncementRight">Right Side of Footer:</label>
+                                                <textarea class="vertical-align" id="body6" style="width: 99%;" name="AnnouncementRight" rows="4" cols="50"><?php echo $SettingsInfo['FooterText'];?></textarea>
                                                 <!--<textarea class="vertical-align" id="body5" style="width: 99%;" name="Announcement" rows="4" cols="50"><?php echo $SettingsInfo['FooterText'];?></textarea>-->
                                             </div>
                                               <br><br>

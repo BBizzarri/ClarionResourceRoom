@@ -799,9 +799,10 @@
         $options['port'] = '2500';
         $options['auth'] = false;
         $Mailer = Mail::factory('smtp', $options);
-        $recipients = $to.", ".$cc;
+        $recipients = $to.", ".$cc.", ".$bcc;
         $headers = array();
         $headers['Cc'] = $cc;
+        $headers['Bcc'] = $bcc;
         $headers['Subject'] = $subject;
         $headers['From'] = 'resourceroom@clarion.edu';
         $headers['To'] = $to;
