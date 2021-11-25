@@ -117,6 +117,10 @@ CREATE TABLE setting
     EmailOrderFilled        VARCHAR(300),
     EmailOrderReminder      VARCHAR(300),
     EmailOrderCancelled     VARCHAR(300),
+    BBCOrderReceived        VARCHAR(300),
+    BBCOrderFilled          VARCHAR(300),
+    BBCOrderReminder        VARCHAR(300),
+    BBCOrderCanceled        VARCHAR(300),
     OrderReceivedText       VARCHAR(500),
     OrderFilledText         VARCHAR(500),
     OrderReminderText       VARCHAR(500),
@@ -125,7 +129,8 @@ CREATE TABLE setting
     OrderFilledSubj         VARCHAR(100),
     OrderReminderSubj       VARCHAR(100),
     OrderCancelledSubj      VARCHAR(100),
-    FooterText              VARCHAR(200),
+    FooterTextLeft          VARCHAR(200),
+    FooterTextRight         VARCHAR(200),
     PhotoDir                TEXT,
     CONSTRAINT SETTING_PK PRIMARY KEY (SETTINGID)
 );
@@ -1084,14 +1089,18 @@ INSERT INTO `productcategories` (`ProductID`, `CategoryID`) VALUES
 COMMIT;
 
 
-INSERT INTO `setting` (SettingID, EmailOrderReceived, EmailOrderFilled, EmailOrderReminder, EmailOrderCancelled, OrderReceivedText,
-                       OrderFilledText, OrderReminderText, OrderCancelledText, OrderReceivedSubj, OrderFilledSubj, OrderReminderSubj,
-                       OrderCancelledSubj, FooterText, PhotoDir) VALUES
+INSERT INTO `setting` (SettingID,
+                       EmailOrderReceived, EmailOrderFilled, EmailOrderReminder, EmailOrderCancelled,
+                       BBCOrderReceived, BBCOrderFilled, BBCOrderReminder, BBCOrderCanceled,
+                       OrderReceivedText, OrderFilledText, OrderReminderText, OrderCancelledText,
+                       OrderReceivedSubj, OrderFilledSubj, OrderReminderSubj, OrderCancelledSubj,
+                       FooterTextLeft, FooterTextRight, PhotoDir) VALUES
      (1,
      'A.J.Robinson1@eagle.clarion.edu,B.J.Lindermuth@eagle.clarion.edu,D.Kaltenbaugh@eagle.clarion.edu',
      'A.J.Robinson1@eagle.clarion.edu,B.J.Lindermuth@eagle.clarion.edu,D.Kaltenbaugh@eagle.clarion.edu',
      'A.J.Robinson1@eagle.clarion.edu,B.J.Lindermuth@eagle.clarion.edu,D.Kaltenbaugh@eagle.clarion.edu,g.m.bennett@eagle.clarion.edu',
      'A.J.Robinson1@eagle.clarion.edu,B.J.Lindermuth@eagle.clarion.edu,D.Kaltenbaugh@eagle.clarion.edu,g.m.bennett@eagle.clarion.edu',
+      'b.m.bizzarri@eagle.clarion.edu', 'b.m.bizzarri@eagle.clarion.edu', 'b.m.bizzarri@eagle.clarion.edu', 'b.m.bizzarri@eagle.clarion.edu',
      'Hello!  We have received your order and it will be filled as soon as possible.  You will receive another email when it is ready for pickup.  Thank you!',
      'Hello!  Your order has been filled and is ready for pick up at the Gemmell Info Desk.
      Info desk hours are Monday-Friday 9AM -10PM and Noon-10PM on Saturday and Sunday. Please bring a photo ID with you when picking up your order.  Thank you!',
@@ -1099,4 +1108,4 @@ INSERT INTO `setting` (SettingID, EmailOrderReceived, EmailOrderFilled, EmailOrd
      Info desk hours are Monday-Friday 9AM -10PM and Noon-10PM on Saturday and Sunday. Please bring a photo ID with you when picking up your order.  Thank you!',
      'Hello!  Your order has been cancelled.  To place another order, visit: Clarion.edu/hungry',
      'Your Order Has Been Received!', 'Your Order is Ready For Pickup', 'Reminder: Your Order is Ready For Pickup','Your Order has been Cancelled',
-     'The last day to order from the resource room will be on Friday, November 19th','');
+     'The last day to order from the resource room will be on Friday, November 19th','','');
