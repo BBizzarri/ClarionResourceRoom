@@ -55,7 +55,7 @@
         }
             if ($ProductArray == false)
             {
-                $CategoryHeader = 'No items relevent to: ' . htmlspecialchars($_POST['searchCriteria']);
+                $CategoryHeader = 'No items relevant to: ' . htmlspecialchars($_POST['searchCriteria']);
             }
             else
             {

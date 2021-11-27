@@ -217,3 +217,7 @@ category-background {
 .sticky-top{
     z-index: 1;
 }
+
+div#inventoryTable_info {
+    color: white;
+}
