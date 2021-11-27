@@ -65,16 +65,18 @@
                                                 <label id="emailSettings" class="account-settings-heading clarion-white">Placed Order Email Settings</label>
                                             </div>
                                             <div class="account-settings-card account-settings-card-body">
-                                                <label for="ReceiversPlaced">CC:</label>
-                                                <input class="vertical-align settings-inputs" id="ReceiversPlaced"  type="text" name="ReceiversPlaced" value="<?php echo $SettingsInfo['EmailOrderReceived'];?>"/>
+                                                <div>
+                                                    <label for="ReceiversPlaced">CC:</label>
+                                                </div>
+                                                <input class="vertical-align settings-inputs" id="PlacedCC"  type="text" name="PlacedCC" value="<?php echo $SettingsInfo['EmailOrderReceived'];?>"/>
                                             </div>
                                             <div class="account-settings-card account-settings-card-body">
                                                 <label for="ReceivedSubject">Subject</label>
-                                                <input class="vertical-align settings-inputs" id="subject1" name="ReceivedSubject" value="<?php echo $SettingsInfo['OrderReceivedSubj'];?>"/>
+                                                <input class="vertical-align settings-inputs" id="subject1" style="width: 99%;" name="PlacedSubject" value="<?php echo $SettingsInfo['OrderReceivedSubj'];?>"/>
                                             </div>
                                             <div class="account-settings-card account-settings-card-body margin-bottom">
                                                 <label for="EmailTextPlaced">Message Body:</label>
-                                                <textarea class="vertical-align" id="body1" name="EmailTextPlaced" rows="4" cols="50"><?php echo $SettingsInfo['OrderReceivedText'];?></textarea>
+                                                <textarea class="vertical-align" id="body1" style="width: 99%;" name="PlacedText" rows="4" cols="50"><?php echo $SettingsInfo['OrderReceivedText'];?></textarea>
                                             </div>
                                         </div>
                                         <div class="card account-settings-card">
@@ -82,16 +84,18 @@
                                                 <label id="emailSettings" class="account-settings-heading clarion-white">Filled Order Email Settings</label>
                                             </div>
                                             <div class="account-settings-card account-settings-card-body">
-                                                <label for="ReceiversFilled">CC:</label>
-                                                <input class="vertical-align settings-inputs" id="ReceiversFilled" name="ReceiversFilled" value="<?php echo $SettingsInfo['EmailOrderFilled'];?>">
+                                                <div>
+                                                    <label for="ReceiversFilled">CC:</label>
+                                                </div>
+                                                <input class="vertical-align settings-inputs" id="ReceiversFilled" name="FilledCC" value="<?php echo $SettingsInfo['EmailOrderFilled'];?>">
                                             </div>
                                             <div class="account-settings-card account-settings-card-body">
                                                 <label for="EmailTextPlaced">Subject:</label>
-                                                <input class="vertical-align settings-inputs" id="subject2" name="FilledSubject" value="<?php echo $SettingsInfo['OrderFilledSubj'];?>">
+                                                <input class="vertical-align settings-inputs" id="subject2" style="width: 99%;" name="FilledSubject" value="<?php echo $SettingsInfo['OrderFilledSubj'];?>">
                                             </div>
                                             <div class="account-settings-card account-settings-card-body margin-bottom">
                                                 <label for="EmailTextFilled">Message Body:</label>
-                                                <textarea class="vertical-align" id="body2" name="EmailTextFilled" rows="4" cols="50"><?php echo $SettingsInfo['OrderFilledText'];?></textarea>
+                                                <textarea class="vertical-align" id="body2" style="width: 99%;" name="FilledText" rows="4" cols="50"><?php echo $SettingsInfo['OrderFilledText'];?></textarea>
                                             </div>
                                         </div>
                                         <div class="card account-settings-card">
@@ -99,16 +103,20 @@
                                                 <label id="emailSettings" class="account-settings-heading clarion-white">Re-Notify Email Settings</label>
                                             </div>
                                             <div class="account-settings-card account-settings-card-body">
-                                                <label for="Re-Notify">CC:</label>
-                                                <input class="vertical-align settings-inputs" id="Re-Notify" name="Re-Notify" value="<?php echo $SettingsInfo['EmailOrderReminder'];?>">
+                                                <div>
+                                                    <label for="Re-Notify">CC:</label>
+                                                </div>
+                                                <input class="vertical-align settings-inputs" id="Re-Notify" name="ReNotifyCC" value="<?php echo $SettingsInfo['EmailOrderReminder'];?>">
                                             </div>
                                             <div class="account-settings-card account-settings-card-body">
-                                                <label for="Re-NotifySubj">Subject:</label>
-                                                <input class="vertical-align settings-inputs" id="subject3" name="Re-NotifySubj" value="<?php echo $SettingsInfo['OrderReminderSubj'];?>">
+                                                <div>
+                                                    <label for="Re-NotifySubj">Subject:</label>
+                                                </div>
+                                                <input class="vertical-align settings-inputs" id="subject3" style="width: 99%;" name="ReNotifySubject" value="<?php echo $SettingsInfo['OrderReminderSubj'];?>">
                                             </div>
                                             <div class="account-settings-card account-settings-card-body margin-bottom">
                                                 <label for="Re-NotifyText">Message Body:</label>
-                                                <textarea class="vertical-align" id="body3" name="Re-NotifyText" rows="4" cols="50"><?php echo $SettingsInfo['OrderReminderText'];?></textarea>
+                                                <textarea class="vertical-align" id="body3" style="width: 99%;" name="ReNotifyText" rows="4" cols="50"><?php echo $SettingsInfo['OrderReminderText'];?></textarea>
                                             </div>
                                         </div>
                                         <div class="card account-settings-card">
@@ -116,16 +124,18 @@
                                                 <label id="emailSettings" class="account-settings-heading clarion-white">Cancelled Order Email Settings</label>
                                             </div>
                                             <div class="account-settings-card account-settings-card-body">
-                                                <label for="CancelledOrder">CC:</label>
-                                                <input class="vertical-align settings-inputs" id="CancelledOrder" name="CancelledOrder" value="<?php echo $SettingsInfo['EmailOrderCancelled'];?>">
+                                                <div>
+                                                    <label for="CancelledOrder">CC:</label>
+                                                </div>
+                                                <input class="vertical-align settings-inputs" id="CancelledCC" name="CancelledCC" value="<?php echo $SettingsInfo['EmailOrderCancelled'];?>">
                                             </div>
                                             <div class="account-settings-card account-settings-card-body">
                                                 <label for="CancelledOrderSubj">Subject:</label>
-                                                <input class="vertical-align settings-inputs" id="subject4" name="CancelledOrderSubj" value="<?php echo $SettingsInfo['OrderCancelledSubj'];?>">
+                                                <input class="vertical-align settings-inputs" id="subject4" style="width: 99%;" name="CancelledSubject" value="<?php echo $SettingsInfo['OrderCancelledSubj'];?>">
                                             </div>
                                             <div class="account-settings-card account-settings-card-body margin-bottom">
                                                 <label for="CancelledOrderText">Message Body:</label>
-                                                <textarea class="vertical-align" id="body4" name="CancelledOrderText" rows="4" cols="50"><?php echo $SettingsInfo['OrderCancelledText'];?></textarea>
+                                                <textarea class="vertical-align" id="body4" style="width: 99%;" name="CancelledText" rows="4" cols="50"><?php echo $SettingsInfo['OrderCancelledText'];?></textarea>
                                             </div>
                                         </div>
                                         <div class="card account-settings-card margin-bottom">
@@ -134,7 +144,8 @@
                                             </div>
                                             <div class="account-settings-card account-settings-card-body">
                                                 <label for="Announcement">Announcement that will appear in footer:</label>
-                                                <textarea class="vertical-align" id="Announcement" name="Announcement" rows="4" cols="50"><?php echo $SettingsInfo['FooterText'];?></textarea>
+                                                <textarea class="vertical-align" id="body5" style="width: 99%;" name="Announcement" rows="4" cols="50"><?php echo $SettingsInfo['FooterText'];?></textarea>
+                                                <!--<textarea class="vertical-align" id="body5" style="width: 99%;" name="Announcement" rows="4" cols="50"><?php echo $SettingsInfo['FooterText'];?></textarea>-->
                                             </div>
                                               <br><br>
                                               <!--<input type="submit" value="Submit">-->

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Deactiving categories">
+    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/shopperCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/shopperCasesInclude.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/css/admin.css" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/css/admin.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,7 +23,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Shane-RR" />
+        <entry key="$PROJECT_DIR$" value="Staging" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -98,8 +96,6 @@
       <workItem from="1637120477410" duration="2403000" />
       <workItem from="1637544245832" duration="3935000" />
       <workItem from="1637602479840" duration="4305000" />
-      <workItem from="1637717697083" duration="642000" />
-      <workItem from="1637971657347" duration="2001000" />
     </task>
     <task id="LOCAL-00005" summary="Finished UI For admin inventory page">
       <created>1631826766807</created>
@@ -437,12 +433,12 @@
       <option name="project" value="LOCAL" />
       <updated>1637710351598</updated>
     </task>
-    <task id="LOCAL-00053" summary="Deactiving categories">
-      <created>1637714548155</created>
+    <task id="LOCAL-00053" summary="fixes/feature updates">
+      <created>1637716721651</created>
       <option name="number" value="00053" />
       <option name="presentableId" value="LOCAL-00053" />
       <option name="project" value="LOCAL" />
-      <updated>1637714548155</updated>
+      <updated>1637716721652</updated>
     </task>
     <option name="localTasksCounter" value="54" />
     <servers />
@@ -502,7 +498,7 @@
     <MESSAGE value="Order Delete confirmation" />
     <MESSAGE value="Admin inventory search removed" />
     <MESSAGE value="Better Manage Users page" />
-    <MESSAGE value="Deactiving categories" />
-    <option name="LAST_COMMIT_MESSAGE" value="Deactiving categories" />
+    <MESSAGE value="fixes/feature updates" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixes/feature updates" />
   </component>
 </project>
