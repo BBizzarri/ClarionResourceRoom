@@ -177,8 +177,6 @@
             sendEmail($to, $cc, $subject, $message);
         }
         displayShopperOrders();
-
-
     }
 
     function validateCart($USERID){

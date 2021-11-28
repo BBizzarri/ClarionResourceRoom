@@ -359,6 +359,7 @@
                 }
                 return $categories;           // Assoc Array of Rows
             } catch (PDOException $e) {
+            } catch (PDOException $e) {
                 $errorMessage = $e->getMessage();
                 include '../view/errorPage.php';
                 die;
@@ -723,71 +724,80 @@
 
     function deleteOrder($OrderID){
         $AllOrders = getOrder($OrderID);
+        $UserID = getUserID();
         $order = $AllOrders[0];
-        if($order->getOrderStatus() == 'SUBMITTED')
+        $orderOwner = $order->getUserID();
+        if(userIsAuthorized("adminChangeOrderStatus") or ($UserID == $orderOwner))
         {
-            $db = getDBConnection();
-            $query = 'DELETE FROM orderdetails WHERE (ORDERID = :ORDERID)';
-            $statement = $db->prepare($query);
-            $statement->bindValue(':ORDERID', $order->getOrderID());
-            $success = $statement->execute();
-            $statement->closeCursor();
-            if($success)
+            if($order->getOrderStatus() == 'SUBMITTED')
             {
                 $db = getDBConnection();
-                $query = 'DELETE FROM orders WHERE (ORDERID = :ORDERID)';
+                $query = 'DELETE FROM orderdetails WHERE (ORDERID = :ORDERID)';
                 $statement = $db->prepare($query);
                 $statement->bindValue(':ORDERID', $order->getOrderID());
                 $success = $statement->execute();
                 $statement->closeCursor();
                 if($success)
                 {
-                    return $statement->rowCount();
+                    $db = getDBConnection();
+                    $query = 'DELETE FROM orders WHERE (ORDERID = :ORDERID)';
+                    $statement = $db->prepare($query);
+                    $statement->bindValue(':ORDERID', $order->getOrderID());
+                    $success = $statement->execute();
+                    $statement->closeCursor();
+                    if($success)
+                    {
+                        return True;
+                    }
+                    else
+                    {
+                        logSQLError($statement->errorInfo());
+                    }
                 }
                 else
                 {
                     logSQLError($statement->errorInfo());
                 }
-            }
-            else
-            {
-                logSQLError($statement->errorInfo());
-            }
 
-        }
-        else if($order->getOrderStatus() == 'READY FOR PICKUP')
-        {
-            foreach ($order->getOrderDetails() as $orderDetail)
-            {
-                 $rowCount = updateQTY($orderDetail->getProductID(),$orderDetail->getQTYFilled());
             }
-            $db = getDBConnection();
-            $query = 'DELETE FROM orderdetails WHERE (ORDERID = :ORDERID)';
-            $statement = $db->prepare($query);
-            $statement->bindValue(':ORDERID', $order->getOrderID());
-            $success = $statement->execute();
-            $statement->closeCursor();
-            if($success)
+            else if($order->getOrderStatus() == 'READY FOR PICKUP')
             {
+                foreach ($order->getOrderDetails() as $orderDetail)
+                {
+                    $rowCount = updateQTY($orderDetail->getProductID(),$orderDetail->getQTYFilled());
+                }
                 $db = getDBConnection();
-                $query = 'DELETE FROM orders WHERE (ORDERID = :ORDERID)';
+                $query = 'DELETE FROM orderdetails WHERE (ORDERID = :ORDERID)';
                 $statement = $db->prepare($query);
                 $statement->bindValue(':ORDERID', $order->getOrderID());
                 $success = $statement->execute();
                 $statement->closeCursor();
                 if($success)
                 {
-                    return $statement->rowCount();
+                    $db = getDBConnection();
+                    $query = 'DELETE FROM orders WHERE (ORDERID = :ORDERID)';
+                    $statement = $db->prepare($query);
+                    $statement->bindValue(':ORDERID', $order->getOrderID());
+                    $success = $statement->execute();
+                    $statement->closeCursor();
+                    if($success)
+                    {
+                        return True;
+                    }
+                    else
+                    {
+                        logSQLError($statement->errorInfo());
+                    }
                 }
                 else
                 {
                     logSQLError($statement->errorInfo());
                 }
             }
-            else
-            {
-                logSQLError($statement->errorInfo());
-            }
+        }
+        else
+        {
+            return False;
         }
     }
 

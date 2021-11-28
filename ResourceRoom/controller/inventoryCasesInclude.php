@@ -69,24 +69,25 @@
         $OrderID = $_POST['ORDERID'];
         $currentOrder = getOrder($OrderID)[0];
         $OrderedByEmail = getEmailToOrder($OrderID);
-        deleteOrder($OrderID);
         $SettingsInfo = getAllSettingsInfo();
-        $to = $OrderedByEmail['Email'];
-        $subject = $SettingsInfo['OrderCancelledSubj'];
-        foreach($currentOrder->getOrderDetails() as $orderDetail){
-            $ProductName = $orderDetail->getProduct()->getProductName();
-            $QtyRequested = $orderDetail->getQTYRequested();
-            $QtyFilled = $orderDetail->getQTYFilled();
-            $tableBody .= "
+        if(deleteOrder($OrderID))
+        {
+            $to = $OrderedByEmail['Email'];
+            $subject = $SettingsInfo['OrderCancelledSubj'];
+            foreach($currentOrder->getOrderDetails() as $orderDetail){
+                $ProductName = $orderDetail->getProduct()->getProductName();
+                $QtyRequested = $orderDetail->getQTYRequested();
+                $QtyFilled = $orderDetail->getQTYFilled();
+                $tableBody .= "
                     <tr>
                     <td>$ProductName</td>
                     <td style='text-align: center;'>$QtyRequested</td>
                     <td style='text-align: center;'>$QtyFilled</td>
                     </tr>
                     ";
-        }
+            }
 //         $message = setMessage('',$SettingsInfo['OrderCancelledText'],$tableBody,'cancelled');
-        $message = $SettingsInfo['OrderCancelledText'] . PHP_EOL . PHP_EOL . "
+            $message = $SettingsInfo['OrderCancelledText'] . PHP_EOL . PHP_EOL . "
                                                 <html>
                                                 <head>
                                                 <title>HTML email</title>
@@ -99,13 +100,14 @@
                                                     <th style='padding-left: 30px;'>Quantity Filled</th>
                                                 </thead>
                                                 <tbody>" .
-                                                    $tableBody .
-                                                "</tbody>
+                $tableBody .
+                "</tbody>
                                                  </table>
                                                  </body>
                                                  </html>";
-        $cc = $SettingsInfo['EmailOrderCancelled'];
-        sendEmail($to, $cc, $subject, $message);
+            $cc = $SettingsInfo['EmailOrderCancelled'];
+            sendEmail($to, $cc, $subject, $message);
+        }
         header("Location: {$_SERVER['HTTP_REFERER']}");
     }
     function addEditCategory()
