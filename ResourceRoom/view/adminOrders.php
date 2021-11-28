@@ -7,7 +7,7 @@
     <section class="clarion-blue">
         <div class="container-fluid clarion-white">
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col">
                     <h3 class="text-center">SUBMITTED ORDERS</h3>
                     <table class="table table-condensed" id="submittedOrders" style="border-collapse:collapse;">
                         <thead>
@@ -33,7 +33,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col-lg-4">
+                <div class="col">
                     <h3 class="text-center">READY FOR PICKUP</h3>
                     <table class="table table-condensed" style="border-collapse:collapse;">
                         <thead>
@@ -58,18 +58,14 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col-lg-4">
+                <div class="col">
                     <h3 class="text-center">COMPLETED ORDERS</h3>
-                    <table class="table table-condensed clarion-white" style="border-collapse:collapse;">
+                    <table class="table table-condensed clarion-white" id="completedOrdersTable" style="border-collapse:collapse;">
                         <thead>
                         <tr>
                             <th>Name</th>
-                            <!--<th>STATUS</th>-->
-                            <!--<th>DATE ORDERED</th>
-                            <th>DATE FILLED</th>-->
                             <th>DATE COMPLETED</th>
                             <th>NUMBER OF ITEMS</th>
-                            <!--<th>COMMENT</th>-->
                         </tr>
                         </thead>
                         <tbody>
@@ -111,7 +107,7 @@
                                 <?php endif; ?>
                                 method="post" enctype="multipart/form-data">
                                 <div class ='table-responsive'>
-                                    <table class="table">
+                                    <table class="table" id="orderTable_<?php echo $order->getOrderID()?>">
                                         <thead>
                                         <tr>
                                             <th>Product Name</th>
@@ -168,6 +164,26 @@
                                     </table>
                                 </div>
                         </div>
+                        <script>
+                            $(document).ready(function()
+                            {
+                                $("#orderTable_<?php echo $order->getOrderID()?>").DataTable(
+                                    {
+                                        searching: false,
+                                        "paging": false,
+                                        dom:'Bfrtip',
+                                        buttons: [
+                                            {
+                                                extend: 'csvHtml5',
+                                                header: true
+                                            },
+                                            {
+                                                extend: 'print',
+                                            }
+                                        ]
+                                    });
+                            } );
+                        </script>
                         <div class="modal-footer">
                             <div class = container>
                                 <?php if($order->getOrderStatus() == "SUBMITTED"): ?>
@@ -218,6 +234,26 @@
     </section>
     </body>
     </html>
+    <script>
+        $(document).ready(function()
+        {
+            $("#completedOrdersTable").DataTable(
+                {
+                    searching: true,
+                    "pageLength" : -1,
+                    dom:'Bfrtip',
+                    buttons: [
+                        {
+                            extend: 'csvHtml5',
+                            header: true
+                        },
+                        {
+                            extend: 'print',
+                        }
+                    ]
+                });
+        } );
+    </script>
 <?php
     require '../view/footerInclude.php';
 ?>

@@ -41,8 +41,8 @@
                         <div class="row">
                             <?php foreach ($ProductArray as $product) {
                                 ?>
-                            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 py-3">
-                                <div class="card h-100">
+                            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 py-3 d-flex align-items-stretch">
+                                <div class="card">
                                     <div class="card-header">
                                         <img <?php if(file_exists("../productImages/{$product->getProductID()}.jpg")):?>
                                                 src="../productImages/<?php echo($product->getProductID())?>.jpg"
