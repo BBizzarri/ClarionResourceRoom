@@ -71,6 +71,7 @@
         $OrderedByEmail = getEmailToOrder($OrderID);
         deleteOrder($OrderID);
         $SettingsInfo = getAllSettingsInfo();
+        $UserInfo = getUserInfo($USERID);
         $to = $OrderedByEmail['Email'];
         $bcc = $SettingsInfo['BCCOrderCanceled'];
         $subject = $SettingsInfo['OrderCancelledSubj'];
@@ -87,7 +88,7 @@
                     ";
         }
 //         $message = setMessage('',$SettingsInfo['OrderCancelledText'],$tableBody,'cancelled');
-        $message = $SettingsInfo['OrderCancelledText'] . "<br><br>" . "<h3>Order Summary: " . $UsersName['Name'] . "</h3>" . "
+        $message = $SettingsInfo['OrderCancelledText'] . "<br><br>" . "<h3>Order Summary: " . $UserInfo->getFirstName() . " " . $UserInfo->getLastName() . "</h3>" . "
                                                 <html>
                                                 <head>
                                                 <title>HTML email</title>
@@ -306,6 +307,7 @@
         $SettingsInfo = getAllSettingsInfo();
         $USERID = getUserID();
         $OrderedByEmail = getEmailToOrder($orderID);
+        $UserInfo = getUserInfo($USERID);
         $to = $OrderedByEmail['Email'];
         $subject = $SettingsInfo['OrderFilledSubj'];
         $tableBody = "";
@@ -322,7 +324,7 @@
             ";
         }
 //         $message = setMessage($fillerComments, $SettingsInfo['OrderFilledText'],$tableBody,'filled');
-        $message = $fillerComments . "<br><br>" . $SettingsInfo['OrderFilledText'] . "<br><br>" . "<h3>Order Summary: " . $UsersName['Name'] . "</h3>" . "
+        $message = $fillerComments . "<br><br>" . $SettingsInfo['OrderFilledText'] . "<br><br>" . "<h3>Order Summary: " . $UserInfo->getFirstName() . " " . $UserInfo->getLastName() . "</h3>" . "
                                                                                         <html>
                                                                                         <head>
                                                                                         <title>HTML email</title>
@@ -394,6 +396,7 @@
         $SettingsInfo = getAllSettingsInfo();
         $USERID = getUserID();
         $OrderedByEmail = getEmailToOrder($orderID);
+        $UserInfo = getUserInfo($USERID);
         $to = $OrderedByEmail['Email'];
         $subject = $SettingsInfo['OrderReminderSubj'];
         $currentOrder = getOrder($orderID)[0];
@@ -410,7 +413,7 @@
                         ";
         }
 //         $message = setMessage('',$SettingsInfo['OrderReminderText'],$tableBody,'renotify');
-        $message = $SettingsInfo['OrderReminderText'] . "<br><br>" . "<h3>Order Summary: " . $UsersName['Name'] . "</h3>" . "
+        $message = $SettingsInfo['OrderReminderText'] . "<br><br>" . "<h3>Order Summary: " . $UserInfo->getFirstName() . " " . $UserInfo->getLastName() . "</h3>" . "
                                                 <html>
                                                 <head>
                                                 <title>HTML email</title>
