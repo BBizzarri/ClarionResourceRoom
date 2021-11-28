@@ -86,7 +86,7 @@
                     ";
         }
 //         $message = setMessage('',$SettingsInfo['OrderCancelledText'],$tableBody,'cancelled');
-        $message = $SettingsInfo['OrderCancelledText'] . "<br><br>" . "
+        $message = $SettingsInfo['OrderCancelledText'] . "<br><br>" . "<h3>Order Summary: " . $UsersName['Name'] . "</h3>" . "
                                                 <html>
                                                 <head>
                                                 <title>HTML email</title>
@@ -321,7 +321,7 @@
             ";
         }
 //         $message = setMessage($fillerComments, $SettingsInfo['OrderFilledText'],$tableBody,'filled');
-        $message = $fillerComments . "<br><br>" . $SettingsInfo['OrderFilledText'] . "<br><br>". "
+        $message = $fillerComments . "<br><br>" . $SettingsInfo['OrderFilledText'] . "<br><br>" . "<h3>Order Summary: " . $UsersName['Name'] . "</h3>" . "
                                                                                         <html>
                                                                                         <head>
                                                                                         <title>HTML email</title>
@@ -340,7 +340,8 @@
                                                                                          </body>
                                                                                          </html>";
         $cc = $SettingsInfo['EmailOrderFilled'];
-        sendEmail($to, $cc, $subject, $message);
+        $bcc = $SettingsInfo['BCCOrderFilled'];
+        sendEmail($to, $cc, $bcc, $subject, $message);
         header("Location: {$_SERVER['HTTP_REFERER']}");
     }
 
@@ -408,7 +409,7 @@
                         ";
         }
 //         $message = setMessage('',$SettingsInfo['OrderReminderText'],$tableBody,'renotify');
-        $message = $SettingsInfo['OrderReminderText'] . "<br><br>" . "
+        $message = $SettingsInfo['OrderReminderText'] . "<br><br>" . "<h3>Order Summary: " . $UsersName['Name'] . "</h3>" . "
                                                 <html>
                                                 <head>
                                                 <title>HTML email</title>
@@ -575,6 +576,10 @@
         $FilledCC = $_POST['FilledCC'];
         $ReNotifyCC = $_POST['ReNotifyCC'];
         $CancelledCC = $_POST['CancelledCC'];
+        $PlacedBCC = $_POST['PlacedBCC'];
+        $FilledBCC = $_POST['FilledBCC'];
+        $ReNotifyBCC = $_POST['ReNotifyBCC'];
+        $CancelledBCC = $_POST['CancelledBCC'];
         $PlacedSubject = $_POST['PlacedSubject'];
         $FilledSubject = $_POST['FilledSubject'];
         $ReNotifySubject = $_POST['ReNotifySubject'];
@@ -583,48 +588,69 @@
         $FilledText = $_POST['FilledText'];
         $ReNotifyText = $_POST['ReNotifyText'];
         $CancelledText = $_POST['CancelledText'];
-        $FooterAnnouncement = $_POST['Announcement'];
+        $FooterLeftAnnouncement = $_POST['FooterLeft'];
+        $FooterRightAnnouncement = $_POST['FooterRight'];
 
         $errorMessage = '';
         $PlacedCCArray = explode(',',$PlacedCC);
         $FilledCCArray = explode(',',$FilledCC);
         $ReNotifyCCArray = explode(',',$ReNotifyCC);
         $CancelledCCArray = explode(',',$CancelledCC);
+        $PlacedBCCArray = explode(',',$PlacedBCC);
+        $FilledBCCArray = explode(',',$FilledBCC);
+        $ReNotifyBCCArray = explode(',',$ReNotifyBCC);
+        $CancelledBCCArray = explode(',',$CancelledBCC);
+
         foreach($PlacedCCArray as $singleEmail)
         {
-            console_log($singleEmail);
             if (!filter_var($singleEmail, FILTER_VALIDATE_EMAIL)) {
                 $errorMessage = "Invalid email format, emails must be seprated by a ',' and have no spaces in between";
             }
         }
         foreach($FilledCCArray as $singleEmail)
         {
-            console_log($singleEmail);
             if (!filter_var($singleEmail, FILTER_VALIDATE_EMAIL)) {
                 $errorMessage = "Invalid email format, emails must be seprated by a ',' and have no spaces in between";
             }
         }
         foreach($ReNotifyCCArray as $singleEmail)
         {
-            console_log($singleEmail);
             if (!filter_var($singleEmail, FILTER_VALIDATE_EMAIL)) {
                 $errorMessage = "Invalid email format, emails must be seprated by a ',' and have no spaces in between";
             }
         }
         foreach($CancelledCCArray as $singleEmail)
         {
-            console_log($singleEmail);
+            if (!filter_var($singleEmail, FILTER_VALIDATE_EMAIL)) {
+                $errorMessage = "Invalid email format, emails must be seprated by a ',' and have no spaces in between";
+            }
+        }
+        foreach($PlacedBCCArray as $singleEmail)
+        {
+            if (!filter_var($singleEmail, FILTER_VALIDATE_EMAIL)) {
+                $errorMessage = "Invalid email format, emails must be seprated by a ',' and have no spaces in between";
+            }
+        }
+        foreach($FilledBCCArray as $singleEmail)
+        {
+            if (!filter_var($singleEmail, FILTER_VALIDATE_EMAIL)) {
+                $errorMessage = "Invalid email format, emails must be seprated by a ',' and have no spaces in between";
+            }
+        }
+        foreach($ReNotifyBCC as $singleEmail) {
+            if (!filter_var($singleEmail, FILTER_VALIDATE_EMAIL)) {
+                $errorMessage = "Invalid email format, emails must be seprated by a ',' and have no spaces in between";
+            }
+        }
+        foreach($CancelledBCCArray as $singleEmail) {
             if (!filter_var($singleEmail, FILTER_VALIDATE_EMAIL)) {
                 $errorMessage = "Invalid email format, emails must be seprated by a ',' and have no spaces in between";
             }
         }
 
-
-        console_log($errorMessage);
         if($errorMessage == '')
         {
-            console_log('good to go');
-            $SettingAffected = UpdateSettings($PlacedCC, $FilledCC, $ReNotifyCC, $CancelledCC, $PlacedSubject, $FilledSubject, $ReNotifySubject, $CancelledSubject, $PlacedText, $FilledText, $ReNotifyText, $CancelledText, $FooterAnnouncement);
+            $SettingAffected = UpdateSettings($PlacedCC, $FilledCC, $ReNotifyCC, $CancelledCC, $PlacedBCC, $FilledBCC, $ReNotifyBCC, $CancelledBCC, $PlacedSubject, $FilledSubject, $ReNotifySubject, $CancelledSubject, $PlacedText, $FilledText, $ReNotifyText, $CancelledText, $FooterLeftAnnouncement, $FooterRightAnnouncement);
             header("Location: {$_SERVER['HTTP_REFERER']}");
         }
         else

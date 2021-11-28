@@ -1109,4 +1109,6 @@ INSERT INTO `setting` (SettingID,
      Info desk hours are Monday-Friday 9AM -10PM and Noon-10PM on Saturday and Sunday. Please bring a photo ID with you when picking up your order.  Thank you!',
      'Hello!  Your order has been cancelled.  To place another order, visit: Clarion.edu/hungry',
      'Your Order Has Been Received!', 'Your Order is Ready For Pickup', 'Reminder: Your Order is Ready For Pickup','Your Order has been Cancelled',
-     'The last day to order from the resource room will be on Friday, November 19th','','');
+     'The Resource room is located on the first floor of Gemmell in Room 112',
+     'The last day to order from the resource room will be on Friday, November 19th','');
+

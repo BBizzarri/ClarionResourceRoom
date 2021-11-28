@@ -71,6 +71,12 @@
                                                 <input class="vertical-align settings-inputs" id="PlacedCC"  type="text" name="PlacedCC" value="<?php echo $SettingsInfo['EmailOrderReceived'];?>"/>
                                             </div>
                                             <div class="account-settings-card account-settings-card-body">
+                                                <div>
+                                                    <label for="PlacedBCC">BCC:</label>
+                                                </div>
+                                                <input class="vertical-align settings-inputs" id="PlacedBCC"  type="text" name="PlacedBCC" value="<?php echo $SettingsInfo['BCCOrderReceived'];?>"/>
+                                            </div>
+                                            <div class="account-settings-card account-settings-card-body">
                                                 <label for="ReceivedSubject">Subject</label>
                                                 <input class="vertical-align settings-inputs" id="subject1" style="width: 99%;" name="PlacedSubject" value="<?php echo $SettingsInfo['OrderReceivedSubj'];?>"/>
                                             </div>
@@ -88,6 +94,12 @@
                                                     <label for="ReceiversFilled">CC:</label>
                                                 </div>
                                                 <input class="vertical-align settings-inputs" id="ReceiversFilled" name="FilledCC" value="<?php echo $SettingsInfo['EmailOrderFilled'];?>">
+                                            </div>
+                                            <div class="account-settings-card account-settings-card-body">
+                                                <div>
+                                                    <label for="ReceiversBCCFilled">BCC:</label>
+                                                </div>
+                                                <input class="vertical-align settings-inputs" id="ReceiversBBCFilled" name="FilledBCC" value="<?php echo $SettingsInfo['BCCOrderFilled'];?>">
                                             </div>
                                             <div class="account-settings-card account-settings-card-body">
                                                 <label for="EmailTextPlaced">Subject:</label>
@@ -108,6 +120,12 @@
                                                 </div>
                                                 <input class="vertical-align settings-inputs" id="Re-Notify" name="ReNotifyCC" value="<?php echo $SettingsInfo['EmailOrderReminder'];?>">
                                             </div>
+                                             <div class="account-settings-card account-settings-card-body">
+                                                    <div>
+                                                        <label for="Re-NotifyBCC">BCC:</label>
+                                                    </div>
+                                                    <input class="vertical-align settings-inputs" id="Re-NotifyBCC" name="ReNotifyBCC" value="<?php echo $SettingsInfo['BCCOrderReminder'];?>">
+                                                </div>
                                             <div class="account-settings-card account-settings-card-body">
                                                 <div>
                                                     <label for="Re-NotifySubj">Subject:</label>
@@ -130,6 +148,12 @@
                                                 <input class="vertical-align settings-inputs" id="CancelledCC" name="CancelledCC" value="<?php echo $SettingsInfo['EmailOrderCancelled'];?>">
                                             </div>
                                             <div class="account-settings-card account-settings-card-body">
+                                                <div>
+                                                    <label for="CancelledBCC">BCC:</label>
+                                                </div>
+                                                <input class="vertical-align settings-inputs" id="CancelledBCC" name="CancelledBCC" value="<?php echo $SettingsInfo['BCCOrderCanceled'];?>">
+                                            </div>
+                                            <div class="account-settings-card account-settings-card-body">
                                                 <label for="CancelledOrderSubj">Subject:</label>
                                                 <input class="vertical-align settings-inputs" id="subject4" style="width: 99%;" name="CancelledSubject" value="<?php echo $SettingsInfo['OrderCancelledSubj'];?>">
                                             </div>
@@ -144,10 +168,10 @@
                                             </div>
                                             <div class="account-settings-card account-settings-card-body">
                                                 <label for="AnnouncementLeft">Left Side of Footer:</label>
-                                                <textarea class="vertical-align" id="body5" style="width: 99%;" name="AnnouncementLeft" rows="4" cols="50"><?php echo $SettingsInfo['FooterText'];?></textarea>
+                                                <textarea class="vertical-align" id="body5" style="width: 99%;" name="FooterLeft" rows="4" cols="50"><?php echo $SettingsInfo['FooterTextLeft'];?></textarea>
 
                                                 <label for="AnnouncementRight">Right Side of Footer:</label>
-                                                <textarea class="vertical-align" id="body6" style="width: 99%;" name="AnnouncementRight" rows="4" cols="50"><?php echo $SettingsInfo['FooterText'];?></textarea>
+                                                <textarea class="vertical-align" id="body6" style="width: 99%;" name="FooterRight" rows="4" cols="50"><?php echo $SettingsInfo['FooterTextRight'];?></textarea>
                                                 <!--<textarea class="vertical-align" id="body5" style="width: 99%;" name="Announcement" rows="4" cols="50"><?php echo $SettingsInfo['FooterText'];?></textarea>-->
                                             </div>
                                               <br><br>
