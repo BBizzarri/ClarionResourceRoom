@@ -7,7 +7,7 @@
     <section class="clarion-blue">
         <div class="container-fluid clarion-white">
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col">
                     <h3 class="text-center">SUBMITTED ORDERS</h3>
                     <table class="table table-condensed" id="submittedOrders" style="border-collapse:collapse;">
                         <thead>
@@ -33,7 +33,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col-lg-4">
+                <div class="col">
                     <h3 class="text-center">READY FOR PICKUP</h3>
                     <table class="table table-condensed" style="border-collapse:collapse;">
                         <thead>
@@ -58,7 +58,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col-lg-4">
+                <div class="col">
                     <h3 class="text-center">COMPLETED ORDERS</h3>
                     <table class="table table-condensed clarion-white" id="completedOrdersTable" style="border-collapse:collapse;">
                         <thead>

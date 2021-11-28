@@ -4,6 +4,7 @@
     <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/index.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,13 +97,7 @@
       <workItem from="1637120477410" duration="2403000" />
       <workItem from="1637544245832" duration="3935000" />
       <workItem from="1637602479840" duration="4305000" />
-    </task>
-    <task id="LOCAL-00005" summary="Finished UI For admin inventory page">
-      <created>1631826766807</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1631826766807</updated>
+      <workItem from="1638130236651" duration="2142000" />
     </task>
     <task id="LOCAL-00006" summary="Finished UI For admin inventory page">
       <created>1631896883068</created>
@@ -440,7 +435,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637716721652</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="fixes/feature updates">
+      <created>1637974671242</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1637974671242</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
