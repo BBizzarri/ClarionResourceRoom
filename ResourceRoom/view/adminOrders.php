@@ -179,6 +179,7 @@
                                             },
                                             {
                                                 extend: 'print',
+                                                title: '<?php echo htmlspecialchars($order->getUsersName())  . ':' . ' ' . htmlspecialchars($order->getOrderStatus())?>',
                                             }
                                         ]
                                     });

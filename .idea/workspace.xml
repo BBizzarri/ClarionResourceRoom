@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/model/model.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -434,12 +434,12 @@
       <option name="project" value="LOCAL" />
       <updated>1638132419063</updated>
     </task>
-    <task id="LOCAL-00056" summary="email updates">
-      <created>1638137710116</created>
+    <task id="LOCAL-00056" summary="Empty category fix">
+      <created>1638138099388</created>
       <option name="number" value="00056" />
       <option name="presentableId" value="LOCAL-00056" />
       <option name="project" value="LOCAL" />
-      <updated>1638137710116</updated>
+      <updated>1638138099388</updated>
     </task>
     <option name="localTasksCounter" value="57" />
     <servers />
@@ -499,7 +499,7 @@
     <MESSAGE value="Better Manage Users page" />
     <MESSAGE value="fixes/feature updates" />
     <MESSAGE value="Mobile UI fixes" />
-    <MESSAGE value="email updates" />
-    <option name="LAST_COMMIT_MESSAGE" value="email updates" />
+    <MESSAGE value="Empty category fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="Empty category fix" />
   </component>
 </project>
