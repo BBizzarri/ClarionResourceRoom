@@ -70,7 +70,7 @@
         $currentOrder = getOrder($OrderID)[0];
         $OrderedByEmail = getEmailToOrder($OrderID);
         $SettingsInfo = getAllSettingsInfo();
-        $UserInfo = getUserInfo($USERID);
+        $UserInfo = getUserInfo($currentOrder->getUserID());
         if(deleteOrder($OrderID))
         {
             $to = $OrderedByEmail['Email'];
@@ -102,14 +102,15 @@
                                                     <th style='padding-left: 30px;'>Quantity Filled</th>
                                                 </thead>
                                                 <tbody>" .
-                $tableBody .
-                "</tbody>
+                                                $tableBody .
+                                                "</tbody>
                                                  </table>
                                                  </body>
                                                  </html>";
-        $cc = $SettingsInfo['EmailOrderCancelled'];
-        sendEmail($to, $cc, $bcc, $subject, $message);
-        header("Location: {$_SERVER['HTTP_REFERER']}");
+            $cc = $SettingsInfo['EmailOrderCancelled'];
+            sendEmail($to, $cc, $bcc, $subject, $message);
+        }
+            header("Location: {$_SERVER['HTTP_REFERER']}");
     }
     function addEditCategory()
     {
@@ -399,6 +400,7 @@
         $OrderedByEmail = getEmailToOrder($orderID);
         $UserInfo = getUserInfo($USERID);
         $to = $OrderedByEmail['Email'];
+        $bcc = $SettingsInfo['BCCOrderReminder'];
         $subject = $SettingsInfo['OrderReminderSubj'];
         $currentOrder = getOrder($orderID)[0];
         foreach($currentOrder->getOrderDetails() as $orderDetail){
@@ -433,7 +435,7 @@
                                                  </body>
                                                  </html>";
         $cc = $SettingsInfo['EmailOrderReminder'];
-        sendEmail($to, $cc, $subject, $message);
+        sendEmail($to, $cc, $bcc, $subject, $message);
         header("Location: {$_SERVER['HTTP_REFERER']}");
     }
 
