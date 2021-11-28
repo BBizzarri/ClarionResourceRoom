@@ -69,24 +69,25 @@
         $OrderID = $_POST['ORDERID'];
         $currentOrder = getOrder($OrderID)[0];
         $OrderedByEmail = getEmailToOrder($OrderID);
-        deleteOrder($OrderID);
         $SettingsInfo = getAllSettingsInfo();
         $UserInfo = getUserInfo($USERID);
-        $to = $OrderedByEmail['Email'];
-        $bcc = $SettingsInfo['BCCOrderCanceled'];
-        $subject = $SettingsInfo['OrderCancelledSubj'];
-        foreach($currentOrder->getOrderDetails() as $orderDetail){
-            $ProductName = $orderDetail->getProduct()->getProductName();
-            $QtyRequested = $orderDetail->getQTYRequested();
-            $QtyFilled = $orderDetail->getQTYFilled();
-            $tableBody .= "
+        if(deleteOrder($OrderID))
+        {
+            $to = $OrderedByEmail['Email'];
+            $bcc = $SettingsInfo['BCCOrderCanceled'];
+            $subject = $SettingsInfo['OrderCancelledSubj'];
+            foreach($currentOrder->getOrderDetails() as $orderDetail){
+                $ProductName = $orderDetail->getProduct()->getProductName();
+                $QtyRequested = $orderDetail->getQTYRequested();
+                $QtyFilled = $orderDetail->getQTYFilled();
+                $tableBody .= "
                     <tr>
                     <td>$ProductName</td>
                     <td style='text-align: center;'>$QtyRequested</td>
                     <td style='text-align: center;'>$QtyFilled</td>
                     </tr>
                     ";
-        }
+            }
 //         $message = setMessage('',$SettingsInfo['OrderCancelledText'],$tableBody,'cancelled');
         $message = $SettingsInfo['OrderCancelledText'] . "<br><br>" . "<h3>Order Summary: " . $UserInfo->getFirstName() . " " . $UserInfo->getLastName() . "</h3>" . "
                                                 <html>
@@ -101,8 +102,8 @@
                                                     <th style='padding-left: 30px;'>Quantity Filled</th>
                                                 </thead>
                                                 <tbody>" .
-                                                    $tableBody .
-                                                "</tbody>
+                $tableBody .
+                "</tbody>
                                                  </table>
                                                  </body>
                                                  </html>";
