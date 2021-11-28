@@ -647,6 +647,20 @@
         return $user;
     }
 
+    function getUserName($userID)
+    {
+        $db = getDBConnection();
+        $query = "select  concat(FirstName, ' ', LastName) as Name
+                    from users
+                    where USERID = :USERID";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':USERID', $userID);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+        return $result;
+    }
+
     function getReport()
     {
         $db = getDBConnection();
@@ -801,7 +815,7 @@
         }
     }
 
-    function sendEmail($to, $cc, $subject, $message)
+    function sendEmail($to, $cc, $bcc, $subject, $message)
     {
         require_once 'Mail.php';
         $options = array();
@@ -809,9 +823,10 @@
         $options['port'] = '2500';
         $options['auth'] = false;
         $Mailer = Mail::factory('smtp', $options);
-        $recipients = $to.", ".$cc;
+        $recipients = $to.", ".$cc.", ".$bcc;
         $headers = array();
         $headers['Cc'] = $cc;
+        $headers['Bcc'] = $bcc;
         $headers['Subject'] = $subject;
         $headers['From'] = 'resourceroom@clarion.edu';
         $headers['To'] = $to;
@@ -999,17 +1014,21 @@
        }
    }
 
-   function UpdateSettings($PlacedCC, $FilledCC, $ReNotifyCC, $CancelledCC, $PlacedSubject, $FilledSubject, $ReNotifySubject, $CancelledSubject, $PlacedText, $FilledText, $ReNotifyText, $CancelledText, $FooterAnnouncement)
+   function UpdateSettings($PlacedCC, $FilledCC, $ReNotifyCC, $CancelledCC, $PlacedBCC, $FilledBCC, $ReNotifyBCC, $CancelledBCC, $PlacedSubject, $FilledSubject, $ReNotifySubject, $CancelledSubject, $PlacedText, $FilledText, $ReNotifyText, $CancelledText, $FooterLeftAnnouncement, $FooterRightAnnouncement)
    {
        $db = getDBConnection();
        $query = 'UPDATE setting SET EmailOrderReceived = :EmailOrderReceived, EmailOrderFilled = :EmailOrderFilled, EmailOrderReminder = :EmailOrderReminder, EmailOrderCancelled = :EmailOrderCancelled,
-                                    OrderReceivedSubj = :OrderReceivedSubj, OrderFilledSubj = :OrderFilledSubj, OrderReminderSubj = :OrderReminderSubj, OrderCancelledSubj = :OrderCancelledSubj,
-                                     OrderReceivedText = :OrderReceivedText, OrderFilledText = :OrderFilledText, OrderReminderText = :OrderReminderText, OrderCancelledText = :OrderCancelledText, FooterText = :FooterText WHERE SETTINGID = 1';
+                                    BCCOrderReceived = :BCCOrderReceived, BCCOrderFilled = :BCCOrderFilled, BCCOrderReminder = :BCCOrderReminder, BCCOrderCanceled = :BCCOrderCanceled,  OrderReceivedSubj = :OrderReceivedSubj, OrderFilledSubj = :OrderFilledSubj, OrderReminderSubj = :OrderReminderSubj, OrderCancelledSubj = :OrderCancelledSubj,
+                                     OrderReceivedText = :OrderReceivedText, OrderFilledText = :OrderFilledText, OrderReminderText = :OrderReminderText, OrderCancelledText = :OrderCancelledText, FooterTextLeft = :FooterTextLeft, FooterTextRight = :FooterTextRight WHERE SETTINGID = 1';
        $statement = $db->prepare($query);
        $statement->bindValue(':EmailOrderReceived', $PlacedCC);
        $statement->bindValue(':EmailOrderFilled', $FilledCC);
        $statement->bindValue(':EmailOrderReminder', $ReNotifyCC);
        $statement->bindValue(':EmailOrderCancelled', $CancelledCC);
+       $statement->bindValue(':BCCOrderReceived', $PlacedBCC);
+       $statement->bindValue(':BCCOrderFilled', $FilledBCC);
+       $statement->bindValue(':BCCOrderReminder', $ReNotifyBCC);
+       $statement->bindValue(':BCCOrderCanceled', $CancelledBCC);
        $statement->bindValue(':OrderReceivedSubj', $PlacedSubject);
        $statement->bindValue(':OrderFilledSubj', $FilledSubject);
        $statement->bindValue(':OrderReminderSubj', $ReNotifySubject);
@@ -1018,7 +1037,8 @@
        $statement->bindValue(':OrderFilledText', $FilledText);
        $statement->bindValue(':OrderReminderText', $ReNotifyText);
        $statement->bindValue(':OrderCancelledText', $CancelledText);
-       $statement->bindValue(':FooterText', $FooterAnnouncement);
+       $statement->bindValue(':FooterTextLeft', $FooterLeftAnnouncement);
+       $statement->bindValue(':FooterTextRight', $FooterRightAnnouncement);
        $success = $statement->execute();
        $statement->closeCursor();
        if($success)

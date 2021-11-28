@@ -143,8 +143,10 @@
             $currentOrder = getOrder($orderID)[0];
             $SettingsInfo = getAllSettingsInfo();
             $UsersEmail = getUserEmail($USERID);
+            $UserInfo = getUserInfo($USERID);
             $to = $UsersEmail['Email'];
             $cc = $SettingsInfo['EmailOrderReceived'];
+            $bcc = $SettingsInfo['BCCOrderReceived'];
             $subject = $SettingsInfo['OrderReceivedSubj'];
             $tableBody = "";
             foreach($currentOrder->getOrderDetails() as $orderDetail){
@@ -157,7 +159,7 @@
                 </tr>
                 ";
             }
-            $message = $SettingsInfo['OrderReceivedText'] . PHP_EOL . PHP_EOL . "
+            $message = $SettingsInfo['OrderReceivedText'] . "<br><br>" . "<h3>Order Summary: " . $UserInfo->getFirstName() . " " . $UserInfo->getLastName() . "</h3>" . "
                                                                                 <html>
                                                                                 <head>
                                                                                 <title>HTML email</title>
@@ -166,7 +168,7 @@
                                                                                 <table>
                                                                                 <thead>
                                                                                     <th>Product Name</th>
-                                                                                    <th>Quantity Requested</th>
+                                                                                    <th style='padding-left:30px;'>Quantity Requested</th>
                                                                                 </thead>
                                                                                 <tbody>" .
                                                                                     $tableBody .
@@ -174,7 +176,7 @@
                                                                                  </table>
                                                                                  </body>
                                                                                  </html>";
-            sendEmail($to, $cc, $subject, $message);
+            sendEmail($to, $cc, $bcc, $subject, $message);
         }
         displayShopperOrders();
     }
