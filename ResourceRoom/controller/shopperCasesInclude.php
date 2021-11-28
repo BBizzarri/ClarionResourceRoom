@@ -57,7 +57,14 @@
         }
             if ($ProductArray == false)
             {
-                $CategoryHeader = 'No items relevant to: ' . htmlspecialchars($_POST['searchCriteria']);
+                if($listType =='GeneralSearch')
+                {
+                    $CategoryHeader = 'No items relevant to: ' . htmlspecialchars($_POST['searchCriteria']);
+                }
+                else
+                {
+                    $CategoryHeader = $CurrentCategory . ' has no available products.';
+                }
             }
             else
             {
