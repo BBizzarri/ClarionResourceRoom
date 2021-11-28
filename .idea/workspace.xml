@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/model/model.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/model.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,13 +97,6 @@
       <workItem from="1637544245832" duration="3935000" />
       <workItem from="1637602479840" duration="4305000" />
       <workItem from="1638130236651" duration="6226000" />
-    </task>
-    <task id="LOCAL-00007" summary="database connection admin inventory page">
-      <created>1632143699876</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1632143699876</updated>
     </task>
     <task id="LOCAL-00008" summary="Admin reports UI">
       <created>1632148602943</created>
@@ -441,7 +434,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638132419063</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="email updates">
+      <created>1638137710116</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1638137710116</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -475,7 +475,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Bug Fixes" />
     <MESSAGE value="Pictures" />
     <MESSAGE value="Bug fixes" />
     <MESSAGE value="making everyone elses work" />
@@ -500,6 +499,7 @@
     <MESSAGE value="Better Manage Users page" />
     <MESSAGE value="fixes/feature updates" />
     <MESSAGE value="Mobile UI fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Mobile UI fixes" />
+    <MESSAGE value="email updates" />
+    <option name="LAST_COMMIT_MESSAGE" value="email updates" />
   </component>
 </project>
