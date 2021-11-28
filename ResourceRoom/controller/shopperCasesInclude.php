@@ -143,10 +143,9 @@
             $currentOrder = getOrder($orderID)[0];
             $SettingsInfo = getAllSettingsInfo();
             $UsersEmail = getUserEmail($USERID);
-            $UsersName = getUserName($USERID);
+            $UserInfo = getUserInfo($USERID);
             $to = $UsersEmail['Email'];
             $cc = $SettingsInfo['EmailOrderReceived'];
-            $bcc = $SettingsInfo['BCCOrderReceived'];
             $subject = $SettingsInfo['OrderReceivedSubj'];
             $tableBody = "";
             foreach($currentOrder->getOrderDetails() as $orderDetail){
@@ -159,7 +158,7 @@
                 </tr>
                 ";
             }
-            $message = $SettingsInfo['OrderReceivedText'] . "<br><br>" . "<h3>Order Summary: " . $UsersName['Name'] . "</h3>" . "
+            $message = $SettingsInfo['OrderReceivedText'] . "<br><br>" . "<h3>Order Summary: " . "</h3>" . "
                                                                                 <html>
                                                                                 <head>
                                                                                 <title>HTML email</title>
@@ -179,8 +178,6 @@
             sendEmail($to, $cc, $bcc, $subject, $message);
         }
         displayShopperOrders();
-
-
     }
 
     function validateCart($USERID){

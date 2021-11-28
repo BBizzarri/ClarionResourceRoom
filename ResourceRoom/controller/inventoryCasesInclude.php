@@ -72,6 +72,7 @@
         deleteOrder($OrderID);
         $SettingsInfo = getAllSettingsInfo();
         $to = $OrderedByEmail['Email'];
+        $bcc = $SettingsInfo['BCCOrderCanceled'];
         $subject = $SettingsInfo['OrderCancelledSubj'];
         foreach($currentOrder->getOrderDetails() as $orderDetail){
             $ProductName = $orderDetail->getProduct()->getProductName();
@@ -105,7 +106,7 @@
                                                  </body>
                                                  </html>";
         $cc = $SettingsInfo['EmailOrderCancelled'];
-        sendEmail($to, $cc, $subject, $message);
+        sendEmail($to, $cc, $bcc, $subject, $message);
         header("Location: {$_SERVER['HTTP_REFERER']}");
     }
     function addEditCategory()
