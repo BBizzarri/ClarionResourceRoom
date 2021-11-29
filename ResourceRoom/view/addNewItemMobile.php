@@ -17,7 +17,7 @@
                         </div>
                         <div class="form-group clarion-blue clarion-white">
                             <label class="product-info-spacing" for="categorySelect">Categories:
-                                <select id="categorySelect" class="selectpicker" name="Categories[]" multiple form="addProductForm">
+                                <select id="categorySelect" class="selectpicker" name="Categories[]" multiple form="addProductForm" required>
                                     <?php foreach ($CategoryArray as $category) { ?>
                                         <option value="<?php echo htmlspecialchars($category->getCategoryID()) ?>"><?php echo htmlspecialchars($category->getCategoryDescription()) ?></option>
                                     <?php } ?>

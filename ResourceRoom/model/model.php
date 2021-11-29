@@ -466,7 +466,7 @@
             }
             $arrayPos = $arrayPos + 1;
         }
-        array_shift($categoryArray);
+        $categoryArray = array_values($categoryArray);
     }
     function getEmailToOrder($orderID)
     {
