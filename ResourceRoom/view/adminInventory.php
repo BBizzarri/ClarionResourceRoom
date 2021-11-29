@@ -179,6 +179,7 @@
                                       <tr>
                                           <th>Product</th>
                                           <th>Available <?php if($_SESSION['QtyLessThan'] != null){ echo '<' . ' ' . $_SESSION['QtyLessThan'];}?></th>
+                                          <th>On Hand</th>
                                           <th>Goal Stock</th>
                                           <th>Incoming <input class="btn my-2 my-sm-0" type="button" value="Adjust All" data-toggle="modal" data-target="#adjustBulkConfirmModal"/> </th>
                                       </tr>
@@ -193,12 +194,10 @@
                                                   <a class="clarion-white" href="#" data-toggle="modal" data-target="#editProductModal_<?php echo $product->getProductID()?>"><?php echo htmlspecialchars($product->getProductName())?></a>
                                               </td>
                                               <td class="text-right">
-                                                  <?php if($product->getProductQTYAvailable() != $product->getProductQtyOnHand())
-                                                  {
-                                                      echo '(' . $product->getProductQtyOnHand() . ')  |  ';
-                                                  }
-                                                  echo $product->getProductQTYAvailable();
-                                                  ?>
+                                                  <?php echo $product->getProductQTYAvailable(); ?>
+                                              </td>
+                                              <td class="text-right">
+                                                  <?php echo $product->getProductQtyOnHand() ?>
                                               </td>
                                               <td class="text-right">
                                                   <?php echo $product->getProductGoalStock() ?>
