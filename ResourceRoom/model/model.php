@@ -661,32 +661,49 @@
         return $result;
     }
 
-    function getReport($ReportType)
+    function getReport($ReportType, $StartDate, $EndDate)
+    {
+        if(isset($ReportType))
+        {
+            switch ($ReportType) {
+                case 'Users':
+                    $report = getUserReport($StartDate, $EndDate);
+                    break;
+                case 'Orders':
+                    $report = getOrdersReport($StartDate, $EndDate);
+                    break;
+                case 'Products':
+                    $report = getProductReport($StartDate, $EndDate);
+                    break;
+            }
+        }
+        else
+        {
+            $report = getUserReport($StartDate, $EndDate);
+        }
+
+        return $report;
+    }
+
+     function getUserReport($StartDate, $EndDate)
     {
         $db = getDBConnection();
-        if($ReportType == 'Users')
-        {
-            $query = "select users.UserID, users.FirstName, users.LastName, users.UserName, users.Email, COUNT(orders.ORDERID) as TotalOrders
-                        from users
-                        inner join orders on users.UserID = orders.USERID
-                        group by users.UserID";
-        }
-        else if($ReportType == "Orders")
-        {
-            $query = "select * from orders";
-        }
-        else if($ReportType == "Products")
-        {
-            $query = "select * from product";
-        }
+        $query = "select users.UserID, users.FirstName, users.LastName, users.Email, COUNT(orders.ORDERID) as TotalOrders
+                    from users
+                    inner join orders on users.UserID = orders.USERID
+                    where (orders.DATECOMPLETED between :STARTDATE and :ENDDATE) and orders.STATUS = :STATUS
+                    group by users.UserID";
         $statement = $db->prepare($query);
+        $statement->bindValue(':STARTDATE', $StartDate);
+        $statement->bindValue(':ENDDATE', $EndDate);
+        $statement->bindValue(':STATUS', 'COMPLETED');
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         $statement->closeCursor();
         return $result;
     }
 
-    function getOrdersReport()
+    function getOrdersReport($StartDate, $EndDate)
     {
         $db = getDBConnection();
         $query = "select users.UserID,users.FirstName, users.Lastname, users.Email, orders.ORDERID, orders.DATEORDERED, orders.DATEFILLED, orders.DATECOMPLETED, orders.COMMENT, orderdetails.PRODUCTID, product.NAME, orderdetails.QTYREQUESTED,
@@ -706,15 +723,17 @@
         return $result;
     }
 
-    function getProductReport()
+    function getProductReport($StartDate, $EndDate)
     {
+        console_log('here');
         $db = getDBConnection();
         $query = "select product.*, category.*, SUM(orderdetails.QTYFILLED) as TOTALFILLED, COUNT(orderdetails.QTYFILLED) as UNIQUEORDERS
                     from product   
                     inner join productcategories on product.PRODUCTID = productcategories.PRODUCTID
                     inner join category on productcategories.CATEGORYID = category.CATEGORYID
                     left join orderdetails on product.PRODUCTID = orderdetails.PRODUCTID
-                    WHERE orders.STATUS = :STATUS
+                    left join orders on orderdetails.ORDERID = orders.ORDERID
+                    where orders.STATUS = :STATUS
                     GROUP BY product.PRODUCTID
                     ";
         $statement = $db->prepare($query);
@@ -723,6 +742,7 @@
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         $statement->closeCursor();
         return $result;
+
     }
 
 

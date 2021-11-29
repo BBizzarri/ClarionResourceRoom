@@ -7,7 +7,7 @@
     <section class="clarion-blue">
         <div class="container-fluid clarion-white">
             <div class="row">
-                <div class="col-3">
+                <div class="col-12">
                     <form id="ReportsSelect" action="../controller/controller.php?action=adminReports" method="post" enctype="multipart/form-data">
                           <label for="report">Report Type:</label><br>
                           <select class="sidebar-dropdown" name="report" id="report">
@@ -15,21 +15,15 @@
                             <option name="Orders" value="Orders">Orders</option>
                             <option name="Products" value="Products">Products</option>
                           </select>
+                          <div id="date-picker-example">
+                              <label for="example">Start Date: </label>
+                              <input placeholder="Select date" id="startDate" name="startDate" type="date">
+                              <label for="example">End Date: </label>
+                              <input placeholder="Select date" id="endDate" name="endDate" type="date">
+                          </div>
                           <input class="btn btn-secondary filter-button" type="submit" value="Apply"/>
                     </form>
                 </div>
-
-            <div class="col-9">
-                <form id="ReportsFilter" action="#" method="post" enctype="multipart/form-data">
-                      <div id="date-picker-example" class="md-form md-outline input-with-post-icon datepicker" inline="true">
-                            <label for="example">Start Date: </label>
-                            <input placeholder="Select date" id="startDate" name="startDate" type="date">
-                            <label for="example">End Date: </label>
-                            <input placeholder="Select date" id="endDate" name="endDate" type="date">
-                            <input class="btn btn-secondary filter-button" type="submit" value="Apply"/>
-                      </div>
-                </form>
-            </div>
             </div>
             <div class="row">
                 <div class="col-12">

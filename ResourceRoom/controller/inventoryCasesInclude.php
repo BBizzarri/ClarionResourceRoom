@@ -353,9 +353,24 @@
     function adminReports()
     {
         $SettingsInfo = getAllSettingsInfo();
-        $SelectedReport = getProductReport();
         $ReportType = $_POST['report'];
-        $SelectedReport = getReport($ReportType);
+        if(isset($_POST['startDate'])
+        {
+            $StartDate = $_POST['startDate'];
+        }
+        else
+        {
+            $StartDate = '';
+        }
+        if(isset($_POST['endDate'])
+        {
+            $EndDate = $_POST['endDate'];
+        }
+        else
+        {
+            $EndDate = '';
+        }
+        $SelectedReport = getReport($ReportType, $StartDate, $EndDate);
         include '../view/adminReports.php';
     }
 
