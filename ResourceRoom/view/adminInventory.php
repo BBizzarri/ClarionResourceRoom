@@ -1,6 +1,8 @@
 <?php
     $title = " Admin Inventory Page";
     require '../view/headerInclude.php';
+    require_once '../lib/Mobile_Detect.php';
+    $detect = new Mobile_Detect;
 ?>
 <html>
 <body>
@@ -139,10 +141,11 @@
                                       <div class="table-heading">
                                           <h3 class="clarion-white"><?php echo $CategoryHeader ?></h3>
                                       </div>
+                                      <?php if(!$detect->isMobile()){ ?>
                                       <div class="table-heading table-heading-buttons">
                                           <input class="btn my-2 my-sm-0" id="addNewItemButton" type="button" data-toggle="modal" data-target="#addProductModal" value="Add New Item"/>
-
                                       </div>
+                                      <?php } ?>
                                       <!-- Adjust Bulk Confirm Modal -->
                                       <div class="modal fade" id="adjustBulkConfirmModal" role="dialog">
                                           <div class="modal-dialog modal-lg">-->
