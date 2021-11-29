@@ -251,19 +251,19 @@
 
                 // Display of output image and save in set directory
                 imagejpeg($image_p, $target_file);
-                header("Location: {$_SERVER['HTTP_REFERER']}");
+                showInventory();
             }
         }
         else if(file_exists($target_dir . $ProductID . 'jpg'))
         {
-            header("Location: {$_SERVER['HTTP_REFERER']}");
+            showInventory();
         }
         else {
             $imgName = imagecreatefromjpeg('../productImages/ImageNotAvailable.jpg');
             $new_Name =  $ProductID;
             // Display of output image and save in set directory
             imagejpeg($imgName, '../productImages/'.$new_Name.'.jpg');
-            header("Location: {$_SERVER['HTTP_REFERER']}");
+            showInventory();
         }
     }
 
