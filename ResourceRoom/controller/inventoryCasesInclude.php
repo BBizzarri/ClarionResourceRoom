@@ -370,10 +370,9 @@
         {
             $EndDate = date("Y/m/d");
         }
-        console_log('Here');
-        console_log($StartDate);
-        console_log($EndDate);
+        console_log('Before getReport');
         $SelectedReport = getReport($ReportType, toMySQLDate($StartDate), toMySQLDate($EndDate));
+        console_log('Before include');
         include '../view/adminReports.php';
     }
 
