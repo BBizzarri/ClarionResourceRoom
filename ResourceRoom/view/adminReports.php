@@ -17,10 +17,12 @@
                           </select>
                           <div id="date-picker-example">
                               <label for="example">Start Date: </label>
-                              <input placeholder="Select date" id="startDate" name="startDate" type="date">
+                              <input type="date" value= "0001-01-01" id="startDate" name="startDate">
                               <label for="example">End Date: </label>
-                              <input placeholder="Select date" id="endDate" name="endDate" type="date">
+                              <input type="date" value="<?php echo date("Y-m-d")?>" id="endDate" name="endDate" >
                           </div>
+
+
                           <input class="btn btn-secondary filter-button" type="submit" value="Apply"/>
                     </form>
                 </div>
