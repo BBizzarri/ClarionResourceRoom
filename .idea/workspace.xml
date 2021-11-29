@@ -4,6 +4,9 @@
     <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/model/model.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/addNewItemMobile.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/addNewItemMobile.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminReports.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminReports.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,14 +103,7 @@
       <workItem from="1638139530959" duration="339000" />
       <workItem from="1638189522984" duration="7920000" />
       <workItem from="1638204044455" duration="250000" />
-      <workItem from="1638207054475" duration="9723000" />
-    </task>
-    <task id="LOCAL-00013" summary="Sidebar updates">
-      <created>1632697104678</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1632697104678</updated>
+      <workItem from="1638207054475" duration="11087000" />
     </task>
     <task id="LOCAL-00014" summary="updating creation script">
       <created>1632705387937</created>
@@ -445,7 +441,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638216062560</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="hidding empty categories from students">
+      <created>1638216856243</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1638216856243</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -479,7 +482,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="attempt 1 at mobile add" />
     <MESSAGE value="reports page" />
     <MESSAGE value="updated admin permissions &#10;adding new images" />
     <MESSAGE value="integrating email" />
@@ -504,6 +506,7 @@
     <MESSAGE value="Reports page work" />
     <MESSAGE value="Reports" />
     <MESSAGE value="Trello bugs, hidding empty categories from students, css" />
-    <option name="LAST_COMMIT_MESSAGE" value="Trello bugs, hidding empty categories from students, css" />
+    <MESSAGE value="hidding empty categories from students" />
+    <option name="LAST_COMMIT_MESSAGE" value="hidding empty categories from students" />
   </component>
 </project>

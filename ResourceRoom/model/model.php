@@ -487,8 +487,8 @@
     }
     function getProducts($CategoryID,$QTYLessThan,$IncludeInactiveItems,$HideUnstockedItems,$ShoppingList,$SearchTerm){
         try{
-            $queryText = "SELECT productview.PRODUCTID,productview.*,productcategories.CATEGORYID,category.CATEGORYDESCRIPTION FROM productview inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
-                            inner join category on productcategories.CATEGORYID = category.CATEGORYID";
+            $queryText = "SELECT productview.PRODUCTID,productview.*,productcategories.CATEGORYID,category.CATEGORYDESCRIPTION FROM productview left join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
+                            left join category on productcategories.CATEGORYID = category.CATEGORYID";
             if($ShoppingList){
                 $HideUnstockedItems = true;
                 $IncludeInactiveItems = false;
@@ -745,7 +745,6 @@
 
     function getProductReport($StartDate, $EndDate)
     {
-        console_log('here');
         $db = getDBConnection();
         $query = "select product.*, category.*, SUM(orderdetails.QTYFILLED) as TOTALFILLED, COUNT(orderdetails.QTYFILLED) as UNIQUEORDERS
                     from product   
@@ -753,13 +752,12 @@
                     inner join category on productcategories.CATEGORYID = category.CATEGORYID
                     left join orderdetails on product.PRODUCTID = orderdetails.PRODUCTID
                     left join orders on orderdetails.ORDERID = orders.ORDERID
-                    where (orders.DATECOMPLETED between :STARTDATE and :ENDDATE) and orders.STATUS = :STATUS
+                    where (orders.DATECOMPLETED between :STARTDATE and :ENDDATE) or ISNULL(orders.DATECOMPLETED)
                     GROUP BY product.PRODUCTID
                     ";
         $statement = $db->prepare($query);
         $statement->bindValue(':STARTDATE', $StartDate);
         $statement->bindValue(':ENDDATE', $EndDate);
-        $statement->bindValue(':STATUS', 'COMPLETED');
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         $statement->closeCursor();
