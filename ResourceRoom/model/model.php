@@ -460,13 +460,15 @@
         {
             $info = getProducts([$category->getCategoryID()],'',$IncludeInactiveItems = false ,$HideUnstockedItems = false,$ShoppingList = false,'');
             $ProductArray = $info[0];
+            console_log($ProductArray);
             if(count($ProductArray) == 0)
             {
                 unset($categoryArray[$arrayPos]);
             }
             $arrayPos = $arrayPos + 1;
+
         }
-        array_shift($categoryArray);
+        $categoryArray = array_values($categoryArray);
     }
     function getEmailToOrder($orderID)
     {
