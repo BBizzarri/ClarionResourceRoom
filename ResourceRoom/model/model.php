@@ -716,8 +716,10 @@
                     inner join product on orderdetails.PRODUCTID = product.PRODUCTID    
                     inner join productcategories on product.PRODUCTID = productcategories.PRODUCTID
                     inner join category on productcategories.CATEGORYID = category.CATEGORYID
-                    WHERE orders.STATUS = :STATUS";
+                    where (orders.DATECOMPLETED between :STARTDATE and :ENDDATE) and orders.STATUS = :STATUS";
         $statement = $db->prepare($query);
+        $statement->bindValue(':STARTDATE', $StartDate);
+        $statement->bindValue(':ENDDATE', $EndDate);
         $statement->bindValue(':STATUS', 'COMPLETED');
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -735,10 +737,12 @@
                     inner join category on productcategories.CATEGORYID = category.CATEGORYID
                     left join orderdetails on product.PRODUCTID = orderdetails.PRODUCTID
                     left join orders on orderdetails.ORDERID = orders.ORDERID
-                    where orders.STATUS = :STATUS
+                    where (orders.DATECOMPLETED between :STARTDATE and :ENDDATE) and orders.STATUS = :STATUS
                     GROUP BY product.PRODUCTID
                     ";
         $statement = $db->prepare($query);
+        $statement->bindValue(':STARTDATE', $StartDate);
+        $statement->bindValue(':ENDDATE', $EndDate);
         $statement->bindValue(':STATUS', 'COMPLETED');
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
