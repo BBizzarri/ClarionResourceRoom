@@ -21,7 +21,13 @@
                               <label for="example">End Date: </label>
                               <input type="date" value="<?php echo date("Y-m-d")?>" id="endDate" name="endDate" >
                           </div>
-
+                          <?php if($_POST['report'] == 'Products') { ?>
+                              <select id="filterByCategories" name="CategoriesFilter">
+                                  <?php foreach ($CategoryArray as $category) { ?>
+                                      <option value="<?php echo htmlspecialchars($category->getCategoryID()) ?>"><?php echo htmlspecialchars($category->getCategoryDescription()) ?></option>
+                                  <?php } ?>
+                              </select>
+                          <?php } ?>
 
                           <input class="btn btn-secondary filter-button" type="submit" value="Apply"/>
                     </form>
@@ -47,7 +53,8 @@
                                                 echo "<td class='text-left'>$date</td>";
                                             }
                                             else{
-                                                echo "<td class='text-left'>$ReportRow[$TableHeader]</td>";
+                                                $output = htmlspecialchars($ReportRow[$TableHeader]);
+                                                echo "<td class='text-left'>$output</td>";
                                             }
                                         }
                                         ?>

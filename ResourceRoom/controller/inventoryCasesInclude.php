@@ -353,7 +353,9 @@
     function adminReports()
     {
         $SettingsInfo = getAllSettingsInfo();
+        $CategoryArray = getAllCategories();
         $ReportType = $_POST['report'];
+        $FilterOnCategories = $_POST['CategoriesFilter'];
         if($_POST['startDate'] != null)
         {
             $StartDate = $_POST['startDate'];
@@ -370,10 +372,7 @@
         {
             $EndDate = date("Y/m/d");
         }
-        console_log('Here');
-        console_log($StartDate);
-        console_log($EndDate);
-        $SelectedReport = getReport($ReportType, toMySQLDate($StartDate), toMySQLDate($EndDate));
+        $SelectedReport = getReport($ReportType, toMySQLDate($StartDate), toMySQLDate($EndDate), $FilterOnCategories);
         include '../view/adminReports.php';
     }
 

@@ -485,8 +485,8 @@
     }
     function getProducts($CategoryID,$QTYLessThan,$IncludeInactiveItems,$HideUnstockedItems,$ShoppingList,$SearchTerm){
         try{
-            $queryText = "SELECT productview.PRODUCTID,productview.*,productcategories.CATEGORYID,category.CATEGORYDESCRIPTION FROM productview inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
-                            inner join category on productcategories.CATEGORYID = category.CATEGORYID";
+            $queryText = "SELECT productview.PRODUCTID,productview.*,productcategories.CATEGORYID,category.CATEGORYDESCRIPTION FROM productview left join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
+                            left join category on productcategories.CATEGORYID = category.CATEGORYID";
             if($ShoppingList){
                 $HideUnstockedItems = true;
                 $IncludeInactiveItems = false;
@@ -675,10 +675,8 @@
         return $result;
     }
 
-    function getReport($ReportType, $StartDate, $EndDate)
+    function getReport($ReportType, $StartDate, $EndDate, $FilterOnCategories)
     {
-        console_log($StartDate);
-        console_log($EndDate);
         if(isset($ReportType))
         {
             switch ($ReportType) {
@@ -689,7 +687,7 @@
                     $report = getOrdersReport($StartDate, $EndDate);
                     break;
                 case 'Products':
-                    $report = getProductReport($StartDate, $EndDate);
+                    $report = getProductReport($StartDate, $EndDate, $FilterOnCategories);
                     break;
             }
         }
@@ -741,23 +739,30 @@
         return $result;
     }
 
-    function getProductReport($StartDate, $EndDate)
+    function getProductReport($StartDate, $EndDate, $FilterOnCategories)
     {
-        console_log('here');
         $db = getDBConnection();
-        $query = "select product.*, category.*, SUM(orderdetails.QTYFILLED) as TOTALFILLED, COUNT(orderdetails.QTYFILLED) as UNIQUEORDERS
-                    from product   
+        $query = "select product.*, category.*, COUNT(orderdetails.QTYFILLED) as TotalOrders
+                    from product
                     inner join productcategories on product.PRODUCTID = productcategories.PRODUCTID
                     inner join category on productcategories.CATEGORYID = category.CATEGORYID
                     left join orderdetails on product.PRODUCTID = orderdetails.PRODUCTID
                     left join orders on orderdetails.ORDERID = orders.ORDERID
-                    where (orders.DATECOMPLETED between :STARTDATE and :ENDDATE) and orders.STATUS = :STATUS
-                    GROUP BY product.PRODUCTID
+                    where ((orders.DATECOMPLETED between :STARTDATE and :ENDDATE) || ISNULL(orders.DATECOMPLETED))
                     ";
+        if($FilterOnCategories != '')
+        {
+            $query .= " && (category.CATEGORYID = :CATEGORYID)";
+        }
+        $query .= " group by category.CATEGORYDESCRIPTION";
         $statement = $db->prepare($query);
         $statement->bindValue(':STARTDATE', $StartDate);
         $statement->bindValue(':ENDDATE', $EndDate);
-        $statement->bindValue(':STATUS', 'COMPLETED');
+        if($FilterOnCategories != '')
+        {
+            $statement->bindValue(':CATEGORYID', $FilterOnCategories);
+        }
+        $statement->bindValue(':ENDDATE', $EndDate);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         $statement->closeCursor();

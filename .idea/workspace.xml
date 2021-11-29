@@ -3,12 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/shopperCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/shopperCasesInclude.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/model/model.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/addNewItemMobile.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/addNewItemMobile.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/navInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/navInclude.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminReports.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminReports.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
