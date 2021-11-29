@@ -5,8 +5,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/model/model.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/security/login_form.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/security/login_form.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminReports.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminReports.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,13 +100,6 @@
       <workItem from="1638130236651" duration="6226000" />
       <workItem from="1638139530959" duration="339000" />
       <workItem from="1638189522984" duration="7920000" />
-    </task>
-    <task id="LOCAL-00010" summary="Reports Page UI">
-      <created>1632343651891</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1632343651891</updated>
     </task>
     <task id="LOCAL-00011" summary="Fixing styling issues">
       <created>1632345847364</created>
@@ -446,7 +437,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638191887862</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="Reports page work">
+      <created>1638201006387</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1638201006387</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -480,7 +478,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="making everyone elses work" />
     <MESSAGE value="css updates" />
     <MESSAGE value="Fixing more of Brady's mistakes" />
     <MESSAGE value="attempt 1 at mobile add" />
@@ -505,6 +502,7 @@
     <MESSAGE value="Empty category fix" />
     <MESSAGE value="Print Order added student name" />
     <MESSAGE value="Ui fixes, report testing" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ui fixes, report testing" />
+    <MESSAGE value="Reports page work" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reports page work" />
   </component>
 </project>

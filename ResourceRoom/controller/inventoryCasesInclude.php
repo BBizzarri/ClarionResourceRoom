@@ -353,7 +353,24 @@
     function adminReports()
     {
         $SettingsInfo = getAllSettingsInfo();
-        $SelectedReport = getProductReport();
+        $ReportType = $_POST['report'];
+        if(isset($_POST['startDate']))
+        {
+            $StartDate = $_POST['startDate'];
+        }
+        else
+        {
+            $StartDate = '0000/00/00';
+        }
+        if(isset($_POST['endDate']))
+        {
+            $EndDate = $_POST['endDate'];
+        }
+        else
+        {
+            $EndDate = date("Y/m/d");
+        }
+        $SelectedReport = getReport($ReportType, toMySQLDate($StartDate), toMySQLDate($EndDate));
         include '../view/adminReports.php';
     }
 

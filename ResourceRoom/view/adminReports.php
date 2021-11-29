@@ -5,20 +5,31 @@
 <html>
 <body>
     <section class="clarion-blue">
-        <div class="container-fluid">
+        <div class="container-fluid clarion-white">
             <div class="row">
-                <div class="column sidebar">
-                    <div class="col-12 sidebar">
-                        <label for="report">Report Type:</label><br>
-                        <select class="sidebar-dropdown" name="report" id="report">
-                          <option value="Users">Users</option>
-                        </select>
-                    </div>
+                <div class="col-12">
+                    <form id="ReportsSelect" action="../controller/controller.php?action=adminReports" method="post" enctype="multipart/form-data">
+                          <label for="report">Report Type:</label><br>
+                          <select class="sidebar-dropdown" name="report" id="report">
+                            <option name="Users" value="Users">Users</option>
+                            <option name="Orders" value="Orders">Orders</option>
+                            <option name="Products" value="Products">Products</option>
+                          </select>
+                          <div id="date-picker-example">
+                              <label for="example">Start Date: </label>
+                              <input placeholder="Select date" id="startDate" name="startDate" type="date">
+                              <label for="example">End Date: </label>
+                              <input placeholder="Select date" id="endDate" name="endDate" type="date">
+                          </div>
+                          <input class="btn btn-secondary filter-button" type="submit" value="Apply"/>
+                    </form>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-12">
                     <div class="container-fluid clarion-white">
                         <div class = 'table-responsive'>
-                            <table id="reportsTable">
+                            <table class="table table-striped inventoryTable" id="reportsTable">
                                 <thead>
                                 <tr>
                                     <?php foreach(array_keys($SelectedReport[0]) as $TableHeader) { ?>
@@ -38,6 +49,7 @@
                                             }
                                         }
                                         ?>
+
                                     </tr>
                                 <?php } ?>
                             </table>
@@ -49,7 +61,7 @@
     </section>
 </body>
 </html>
-<script>
+ <script>
     $(document).ready(function()
     {
         $("#reportsTable").DataTable(
