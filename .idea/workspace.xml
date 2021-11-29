@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/model/model.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/index.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,13 +99,8 @@
       <workItem from="1637544245832" duration="3935000" />
       <workItem from="1637602479840" duration="4305000" />
       <workItem from="1638130236651" duration="6226000" />
-    </task>
-    <task id="LOCAL-00008" summary="Admin reports UI">
-      <created>1632148602943</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1632148602943</updated>
+      <workItem from="1638139530959" duration="339000" />
+      <workItem from="1638189522984" duration="2313000" />
     </task>
     <task id="LOCAL-00009" summary="Hooking data up attempt">
       <created>1632318195333</created>
@@ -441,7 +438,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638138099388</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="Print Order added student name">
+      <created>1638138880958</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1638138880958</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -475,7 +479,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Pictures" />
     <MESSAGE value="Bug fixes" />
     <MESSAGE value="making everyone elses work" />
     <MESSAGE value="css updates" />
@@ -500,6 +503,7 @@
     <MESSAGE value="fixes/feature updates" />
     <MESSAGE value="Mobile UI fixes" />
     <MESSAGE value="Empty category fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="Empty category fix" />
+    <MESSAGE value="Print Order added student name" />
+    <option name="LAST_COMMIT_MESSAGE" value="Print Order added student name" />
   </component>
 </project>

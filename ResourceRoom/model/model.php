@@ -675,6 +675,25 @@
         return $result;
     }
 
+    function getReports()
+    {
+        $db = getDBConnection();
+        $query = "select *
+                    from users
+                    inner join orders on users.UserID = orders.USERID
+                    inner join orderdetails on orders.ORDERID = orderdetails.ORDERID
+                    inner join product on orderdetails.PRODUCTID = product.PRODUCTID    
+                    inner join productcategories on product.PRODUCTID = productcategories.PRODUCTID
+                    inner join category on productcategories.CATEGORYID = category.CATEGORYID
+                    group by users.UserID";
+        $statement = $db->prepare($query);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+        return $result;
+    }
+
+
     function removeFromCart($PRODUCTID)
     {
         $USERID = getUserID();
