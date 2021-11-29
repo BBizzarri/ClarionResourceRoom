@@ -91,7 +91,7 @@
             <!-- Individual order Modal -->
             <div class="modal fade" id="orderDetails_<?php echo $order->getOrderID()?>" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable orderModals">
-                    <div class="modal-content clarion-blue clarion-white">
+                    <div class="modal-content w-100 clarion-blue clarion-white">
                         <div class="modal-header">
                             <h5 class="modal-title" id="staticBackdropLabel_<?php echo $order->getOrderID()?>"><?php echo htmlspecialchars($order->getOrderStatus()) . ':' . ' ' . htmlspecialchars($order->getUsersName())?></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -150,14 +150,15 @@
                                                 </td>
                                                 <td
                                                 <?php if($orderDescriptionFlag){
-                                                    echo 'colspan="3"';
-                                                }else{
                                                     echo 'colspan="2"';
+                                                }else{
+                                                    echo 'colspan="3"';
                                                 }
                                                 ?>
                                                 >
                                                     <p style="text-align: left"><?php echo htmlspecialchars($order->getOrderComment())?></p>
                                                 </td>
+                                                <td style="display: none"></td>
                                             </tr>
                                         <?php endif; ?>
                                         </tbody>
@@ -170,6 +171,7 @@
                                 $("#orderTable_<?php echo $order->getOrderID()?>").DataTable(
                                     {
                                         searching: false,
+                                        "ordering": false,
                                         "paging": false,
                                         dom:'Bfrtip',
                                         buttons: [

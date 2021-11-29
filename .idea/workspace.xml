@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Change">
+    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/shopperCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/shopperCasesInclude.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/css/main.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/model/model.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminReports.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminReports.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/addNewItemMobile.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/addNewItemMobile.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/navInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/navInclude.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,13 +104,8 @@
       <workItem from="1638130236651" duration="6226000" />
       <workItem from="1638139530959" duration="339000" />
       <workItem from="1638189522984" duration="7920000" />
-    </task>
-    <task id="LOCAL-00011" summary="Fixing styling issues">
-      <created>1632345847364</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1632345847364</updated>
+      <workItem from="1638204044455" duration="250000" />
+      <workItem from="1638207054475" duration="8757000" />
     </task>
     <task id="LOCAL-00012" summary="Sidebar updates">
       <created>1632613403939</created>
@@ -445,7 +443,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638201006387</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="Reports">
+      <created>1638203082159</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1638203082159</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -479,7 +484,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="css updates" />
     <MESSAGE value="Fixing more of Brady's mistakes" />
     <MESSAGE value="attempt 1 at mobile add" />
     <MESSAGE value="reports page" />
@@ -504,6 +508,7 @@
     <MESSAGE value="Print Order added student name" />
     <MESSAGE value="Ui fixes, report testing" />
     <MESSAGE value="Reports page work" />
-    <option name="LAST_COMMIT_MESSAGE" value="Reports page work" />
+    <MESSAGE value="Reports" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reports" />
   </component>
 </project>

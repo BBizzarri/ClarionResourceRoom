@@ -61,7 +61,7 @@
                                 <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'adminSecurity')){ echo 'active';}?>" href="../controller/controller.php?action=adminSecurity">Security<span class="sr-only"></span></a>
                             </li>
                         <?php } ?>
-                        <?php if($detect->isMobile()){ ?>
+                        <?php if($detect->isMobile() or userIsAuthorized("SecurityChangeUserLevel")){ ?>
                             <li class="nav-item">
                                 <a style="color: white; font-size: 20px;" class="nav-link admin-user-nav-bar-text <?php if(strpos($_SERVER['REQUEST_URI'], 'mobileAdd')){ echo 'active';}?>" href="../controller/controller.php?action=mobileAdd">Mobile Add<span class="sr-only"></span></a>
                             </li>

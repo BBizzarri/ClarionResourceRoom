@@ -454,6 +454,20 @@
 
     }
 
+    function checkCategory(&$categoryArray){
+        $arrayPos = 0;
+        foreach($categoryArray as $category)
+        {
+            $info = getProducts([$category->getCategoryID()],'',$IncludeInactiveItems = false ,$HideUnstockedItems = false,$ShoppingList = false,'');
+            $ProductArray = $info[0];
+            if(count($ProductArray) == 0)
+            {
+                unset($categoryArray[$arrayPos]);
+            }
+            $arrayPos = $arrayPos + 1;
+        }
+        array_shift($categoryArray);
+    }
     function getEmailToOrder($orderID)
     {
         $db = getDBConnection();
