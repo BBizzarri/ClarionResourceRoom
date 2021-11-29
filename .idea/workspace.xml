@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
+    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="On hand for admin inventory">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/model/model.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminReports.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminReports.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,14 +101,7 @@
       <workItem from="1638139530959" duration="339000" />
       <workItem from="1638189522984" duration="7920000" />
       <workItem from="1638204044455" duration="250000" />
-      <workItem from="1638207054475" duration="12022000" />
-    </task>
-    <task id="LOCAL-00015" summary="adding functionality to the admin inventory page">
-      <created>1632937824813</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1632937824813</updated>
+      <workItem from="1638207054475" duration="16205000" />
     </task>
     <task id="LOCAL-00016" summary="adding idea">
       <created>1632939281143</created>
@@ -445,7 +439,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638218254080</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="On hand for admin inventory">
+      <created>1638219175511</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1638219175511</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -479,7 +480,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="updated admin permissions &#10;adding new images" />
     <MESSAGE value="integrating email" />
     <MESSAGE value="getting email to work right!" />
     <MESSAGE value="Fixing date of competed orders" />
@@ -504,6 +504,7 @@
     <MESSAGE value="Trello bugs, hidding empty categories from students, css" />
     <MESSAGE value="hidding empty categories from students" />
     <MESSAGE value="Cannot remove all categories from product or add a product without a category" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cannot remove all categories from product or add a product without a category" />
+    <MESSAGE value="On hand for admin inventory" />
+    <option name="LAST_COMMIT_MESSAGE" value="On hand for admin inventory" />
   </component>
 </project>

@@ -47,7 +47,8 @@
                                                 echo "<td class='text-left'>$date</td>";
                                             }
                                             else{
-                                                echo "<td class='text-left'>$ReportRow[$TableHeader]</td>";
+                                                $output = htmlspecialchars($ReportRow[$TableHeader]);
+                                                echo "<td class='text-left'>$output</td>";
                                             }
                                         }
                                         ?>
