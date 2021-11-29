@@ -3,53 +3,63 @@
     require '../view/headerInclude.php';
 ?>
 <html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
 <body>
     <section class="clarion-blue">
-        <div class="container-fluid">
+        <div class="container-fluid clarion-white">
             <div class="row">
-                <div class="column sidebar">
-                    <div class="col-auto sidebar">
-                        <label for="report">Report Type:</label><br>
-                        <select class="sidebar-dropdown" name="report" id="report">
-                          <option value="Users">Users</option>
-                        </select>
-                    </div>
+                <div class="col-3">
+                    <form id="ReportsSelect" action="../controller/controller.php?action=adminReports" method="post" enctype="multipart/form-data">
+                          <label for="report">Report Type:</label><br>
+                          <select class="sidebar-dropdown" name="report" id="report">
+                            <option name="Users" value="Users">Users</option>
+                            <option name="Orders" value="Orders">Orders</option>
+                            <option name="Products" value="Products">Products</option>
+                          </select>
+                          <input class="btn btn-secondary filter-button" type="submit" value="Apply"/>
+                    </form>
                 </div>
-                <div class="col-auto">
+
+            <div class="col-9">
+                <form id="ReportsFilter" action="#" method="post" enctype="multipart/form-data">
+                      <div id="date-picker-example" class="md-form md-outline input-with-post-icon datepicker" inline="true">
+                            <label for="example">Start Date: </label>
+                            <input placeholder="Select date" id="startDate" name="startDate" type="date">
+                            <label for="example">End Date: </label>
+                            <input placeholder="Select date" id="endDate" name="endDate" type="date">
+                            <input class="btn btn-secondary filter-button" type="submit" value="Apply"/>
+                      </div>
+                </form>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
                     <div class="container-fluid clarion-white">
-                        <!--<div class="table-heading date-selection">
-                            <label class="clarion-white" for="startDate">Start Date:</label>
-                            <input type="date" id="startDate" name="startDate">
-                            <label class="clarion-white" for="endDate">End Date:</label>
-                            <input type="date" id="endDate" name="endDate">
+                        <div class = 'table-responsive'>
+                            <table class="table table-striped inventoryTable" id="reportsTable">
+                                <thead>
+                                <tr>
+                                    <?php foreach(array_keys($SelectedReport[0]) as $TableHeader) { ?>
+                                        <th><?php echo $TableHeader ?></th>
+                                    <?php } ?>
+                                </tr>
+                                </thead>
+                                <?php foreach($SelectedReport as $ReportRow) { ?>
+                                    <tr>
+                                        <?php foreach(array_keys($SelectedReport[0]) as $TableHeader) {
+                                            if ($TableHeader == 'DATEORDERED' or $TableHeader == 'DATEFILLED' or $TableHeader == 'DATECOMPLETED') {
+                                                $date = toDisplayDate($ReportRow[$TableHeader]);
+                                                echo "<td class='text-left'>$date</td>";
+                                            }
+                                            else{
+                                                echo "<td class='text-left'>$ReportRow[$TableHeader]</td>";
+                                            }
+                                        }
+                                        ?>
+
+                                    </tr>
+                                <?php } ?>
+                            </table>
                         </div>
-                        <div class="table-heading export-button">
-                            <button type="button">Export</button>
-                        </div>-->
-                            <!--This is where the reports will live-->
-                            <table>
-                                          <tr>
-                                            <th>User ID</th>
-                                            <th>First Name</th>
-                                            <th>Last Name</th>
-                                            <th>Username</th>
-                                            <th>Email</th>
-                                            <th>Total Orders</th>
-                                          </tr>
-                                          <?php foreach($SelectedReport as $ReportRow) { ?>
-                                              <tr>
-                                                <td class="text-left"><?php echo $ReportRow['UserID'] ?></td>
-                                                <td class="text-left"><?php echo $ReportRow['FirstName'] ?></td>
-                                                <td class="text-left"><?php echo $ReportRow['LastName'] ?></td>
-                                                <td class="text-left"><?php echo $ReportRow['UserName'] ?></td>
-                                                <td class="text-left"><?php echo $ReportRow['Email'] ?></td>
-                                                <td class="text-left"><?php echo $ReportRow['TotalOrders'] ?></td>
-                                              </tr>
-                                          <?php } ?>
-                                        </table>
                     </div>
                 </div>
             </div>
@@ -57,6 +67,23 @@
     </section>
 </body>
 </html>
+ <script>
+    $(document).ready(function()
+    {
+        $("#reportsTable").DataTable(
+            {
+                searching: true,
+                "pageLength" : 100,
+                dom:'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'csvHtml5',
+                        header: true
+                    }
+                ]
+            });
+    } );
+</script>
 <?php
     require '../view/footerInclude.php';
 ?>

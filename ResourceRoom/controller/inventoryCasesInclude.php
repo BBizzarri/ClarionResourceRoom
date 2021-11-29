@@ -353,7 +353,8 @@
     function adminReports()
     {
         $SettingsInfo = getAllSettingsInfo();
-        $SelectedReport = getReport();
+        $ReportType = $_POST['report'];
+        $SelectedReport = getReport($ReportType);
         include '../view/adminReports.php';
     }
 

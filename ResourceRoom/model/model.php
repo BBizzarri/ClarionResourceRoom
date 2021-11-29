@@ -661,13 +661,24 @@
         return $result;
     }
 
-    function getReport()
+    function getReport($ReportType)
     {
         $db = getDBConnection();
-        $query = "select users.UserID, users.FirstName, users.LastName, users.UserName, users.Email, COUNT(orders.ORDERID) as TotalOrders
-                    from users
-                    inner join orders on users.UserID = orders.USERID
-                    group by users.UserID";
+        if($ReportType == 'Users')
+        {
+            $query = "select users.UserID, users.FirstName, users.LastName, users.UserName, users.Email, COUNT(orders.ORDERID) as TotalOrders
+                        from users
+                        inner join orders on users.UserID = orders.USERID
+                        group by users.UserID";
+        }
+        else if($ReportType == "Orders")
+        {
+            $query = "select * from orders";
+        }
+        else if($ReportType == "Products")
+        {
+            $query = "select * from product";
+        }
         $statement = $db->prepare($query);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
