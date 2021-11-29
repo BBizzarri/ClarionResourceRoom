@@ -8,7 +8,7 @@
 
             Username: <input type="text" name="username" /><br/>
             Password: <input type="password" name="password" /><br/><br/>
-            <input type="hidden" name="RequestedPage" value="/ClarionResourceRoom/ResourceRoom/controller/controller.php?action=accountSettings" />
+            <input type="hidden" name="RequestedPage" value="/StudentResourceRoom/ResourceRoom/controller/controller.php?action=accountSettings" />
             <input type="submit" value="Submit"/>
             <?php
                 if (isset($_GET['LoginFailure'])) {

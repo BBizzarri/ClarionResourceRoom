@@ -353,7 +353,7 @@
     function adminReports()
     {
         $SettingsInfo = getAllSettingsInfo();
-        $SelectedReport = getReports();
+        $SelectedReport = getProductReport();
         include '../view/adminReports.php';
     }
 
