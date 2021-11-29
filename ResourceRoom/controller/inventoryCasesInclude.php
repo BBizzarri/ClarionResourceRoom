@@ -354,23 +354,23 @@
     {
         $SettingsInfo = getAllSettingsInfo();
         $ReportType = $_POST['report'];
-        if(isset($_POST['startDate'])
+        if(isset($_POST['startDate']))
         {
             $StartDate = $_POST['startDate'];
         }
         else
         {
-            $StartDate = '';
+            $StartDate = '0000/00/00';
         }
-        if(isset($_POST['endDate'])
+        if(isset($_POST['endDate']))
         {
             $EndDate = $_POST['endDate'];
         }
         else
         {
-            $EndDate = '';
+            $EndDate = date("Y/m/d");
         }
-        $SelectedReport = getReport($ReportType, $StartDate, $EndDate);
+        $SelectedReport = getReport($ReportType, toMySQLDate($StartDate), toMySQLDate($EndDate));
         include '../view/adminReports.php';
     }
 

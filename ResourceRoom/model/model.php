@@ -663,6 +663,8 @@
 
     function getReport($ReportType, $StartDate, $EndDate)
     {
+        console_log($StartDate);
+        console_log($EndDate);
         if(isset($ReportType))
         {
             switch ($ReportType) {
