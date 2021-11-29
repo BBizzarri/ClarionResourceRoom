@@ -686,6 +686,46 @@
         return $result;
     }
 
+    function getOrdersReport()
+    {
+        $db = getDBConnection();
+        $query = "select users.UserID,users.FirstName, users.Lastname, users.Email, orders.ORDERID, orders.DATEORDERED, orders.DATEFILLED, orders.DATECOMPLETED, orders.COMMENT, orderdetails.PRODUCTID, product.NAME, orderdetails.QTYREQUESTED,
+                        orderdetails.QTYFILLED, product.PRODUCTDESCRIPTION, category.CATEGORYID, category.CATEGORYDESCRIPTION
+                    from users
+                    inner join orders on users.UserID = orders.USERID
+                    inner join orderdetails on orders.ORDERID = orderdetails.ORDERID
+                    inner join product on orderdetails.PRODUCTID = product.PRODUCTID    
+                    inner join productcategories on product.PRODUCTID = productcategories.PRODUCTID
+                    inner join category on productcategories.CATEGORYID = category.CATEGORYID
+                    WHERE orders.STATUS = :STATUS";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':STATUS', 'COMPLETED');
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+        return $result;
+    }
+
+    function getProductReport()
+    {
+        $db = getDBConnection();
+        $query = "select product.*, category.*, SUM(orderdetails.QTYFILLED) as TOTALFILLED, COUNT(orderdetails.QTYFILLED) as UNIQUEORDERS
+                    from product   
+                    inner join productcategories on product.PRODUCTID = productcategories.PRODUCTID
+                    inner join category on productcategories.CATEGORYID = category.CATEGORYID
+                    left join orderdetails on product.PRODUCTID = orderdetails.PRODUCTID
+                    WHERE orders.STATUS = :STATUS
+                    GROUP BY product.PRODUCTID
+                    ";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':STATUS', 'COMPLETED');
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+        return $result;
+    }
+
+
     function removeFromCart($PRODUCTID)
     {
         $USERID = getUserID();
