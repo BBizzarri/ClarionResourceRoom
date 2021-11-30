@@ -353,16 +353,16 @@
     function adminReports()
     {
         $SettingsInfo = getAllSettingsInfo();
-        $CategoryArray = getAllCategories();
         $ReportType = $_POST['report'];
-//         if(isset($_POST['inactiveItems']))
-//         {
-//             $ReportType = $_POST['report'];
-//         }
-//         else if(isset($_SESSION['report']))
-//         {
-//             $ReportType = $_SESSION['report'];
-//         }
+        $CategoryList = $_POST['CategoryList'];
+        if($_POST['OnlyOrderedProducts'] == 'on')
+        {
+            $OnlyOrderedProducts = True;
+        }
+        else
+        {
+            $OnlyOrderedProducts = False;
+        }
         if($_POST['startDate'] != null)
         {
             $StartDate = $_POST['startDate'];
@@ -379,7 +379,8 @@
         {
             $EndDate = date("Y/m/d");
         }
-        $SelectedReport = getReport($ReportType, toMySQLDate($StartDate), toMySQLDate($EndDate), $FilterOnCategories);
+        $SelectedReport = getReport($ReportType, toMySQLDate($StartDate), toMySQLDate($EndDate), $OnlyOrderedProducts ,$CategoryList);
+        $CategoryArray = getAllCategories();
         include '../view/adminReports.php';
     }
 

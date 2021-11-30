@@ -5,6 +5,7 @@
     include_once 'order.php';
     include_once 'user.php';
 
+
     function getDBConnection() {
             $dsn = 'mysql:host=localhost;dbname=resourceroom';
             $username = 'cis411';
@@ -675,8 +676,10 @@
         return $result;
     }
 
-    function getReport($ReportType, $StartDate, $EndDate, $FilterOnCategories)
+    function getReport($ReportType, $StartDate, $EndDate, $OnlyOrderedProducts, $CategoryList)
     {
+        console_log($StartDate);
+        console_log($EndDate);
         if(isset($ReportType))
         {
             switch ($ReportType) {
@@ -687,7 +690,7 @@
                     $report = getOrdersReport($StartDate, $EndDate);
                     break;
                 case 'Products':
-                    $report = getProductReport($StartDate, $EndDate, $FilterOnCategories);
+                    $report = getProductReport($StartDate, $EndDate, $OnlyOrderedProducts,$CategoryList);
                     break;
             }
         }
@@ -695,7 +698,6 @@
         {
             $report = getUserReport($StartDate, $EndDate);
         }
-
         return $report;
     }
 
@@ -739,31 +741,48 @@
         return $result;
     }
 
-    function getProductReport($StartDate, $EndDate, $FilterOnCategories)
+    function getProductReport($StartDate, $EndDate, $OnlyOrderedProducts, $CategoryIDs)
     {
-        console_log($FilterOnCategories);
         $db = getDBConnection();
-        $query = "select product.*, category.*, SUM(orderdetails.QTYFILLED) as TotalOrdered, COUNT(orderdetails.QTYFILLED) as UniqueOrders
-                    from product
+        $query = "select product.*, GROUP_CONCAT(category.CATEGORYDESCRIPTION ORDER BY category.CATEGORYDESCRIPTION ASC SEPARATOR ', ') as CATEGORY,
+                    SUM(orderdetails.QTYFILLED) as TOTALORDERED, COUNT(orderdetails.QTYFILLED) as UNIQUEORDERS
+                    from product   
                     inner join productcategories on product.PRODUCTID = productcategories.PRODUCTID
                     inner join category on productcategories.CATEGORYID = category.CATEGORYID
                     left join orderdetails on product.PRODUCTID = orderdetails.PRODUCTID
-                    left join orders on orderdetails.ORDERID = orders.ORDERID
-                    where ((orders.DATECOMPLETED between :STARTDATE and :ENDDATE) || ISNULL(orders.DATECOMPLETED))
-                    ";
-        if($FilterOnCategories[0] != '')
+                    left join orders on orderdetails.ORDERID = orders.ORDERID";
+
+        if($OnlyOrderedProducts)
         {
-            $query .= " && (category.CATEGORYID = :CATEGORYID)";
+            $query .= " where (orders.DATECOMPLETED between :STARTDATE and :ENDDATE)";
         }
-        $query .= " group by product.PRODUCTID, category.CATEGORYID";
+        else
+        {
+            $query .= " where ((orders.DATECOMPLETED between :STARTDATE and :ENDDATE) or ISNULL(orders.DATECOMPLETED))";
+        }
+        if(!in_array(0, $CategoryIDs))
+        {
+            $query .= " and (";
+            foreach($CategoryIDs as $categoryID)
+            {
+                $query .= "category.CATEGORYID = :$categoryID or ";
+            }
+
+            $query .= "false)";
+        }
+
+        $query .= " GROUP BY product.PRODUCTID
+                    ORDER BY product.PRODUCTID ASC";
         $statement = $db->prepare($query);
-        $statement->bindValue(':STARTDATE', $StartDate);
-        $statement->bindValue(':ENDDATE', $EndDate);
-        if($FilterOnCategories[0] != '')
+        if(!in_array(0, $CategoryIDs))
         {
-            console_log('here');
-            $statement->bindValue(':CATEGORYID', $FilterOnCategories[0]);
+            foreach($CategoryIDs as $categoryID)
+            {
+                $statement->bindValue(":$categoryID", $categoryID);
+            }
         }
+        //console_log('Query: ' . $query);
+        $statement->bindValue(':STARTDATE', $StartDate);
         $statement->bindValue(':ENDDATE', $EndDate);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
