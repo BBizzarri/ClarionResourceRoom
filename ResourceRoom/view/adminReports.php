@@ -11,8 +11,8 @@
                     <form id="ReportsSelect" action="../controller/controller.php?action=adminReports" method="post" enctype="multipart/form-data">
                           <label for="report">Report Type:</label><br>
                           <select class="sidebar-dropdown" name="report" id="report">
-                            <option name="Users" value="Users">Users</option>
-                            <option name="Orders" value="Orders">Orders</option>
+                            <option name="Users"  value="Users">Users</option>
+                            <option name="Orders" value="Orders" >Orders</option>
                             <option name="Products" value="Products">Products</option>
                           </select>
                           <div id="date-picker-example">
@@ -21,13 +21,12 @@
                               <label for="example">End Date: </label>
                               <input type="date" value="<?php echo date("Y-m-d")?>" id="endDate" name="endDate" >
                           </div>
-                          <?php if($_POST['report'] == 'Products') { ?>
-                              <select id="filterByCategories" name="CategoriesFilter">
+                              <select id="filterByCategories" class="selectpicker" name="CategoriesFilter[]">
+                                    <option value="">All</option>
                                   <?php foreach ($CategoryArray as $category) { ?>
                                       <option value="<?php echo htmlspecialchars($category->getCategoryID()) ?>"><?php echo htmlspecialchars($category->getCategoryDescription()) ?></option>
                                   <?php } ?>
                               </select>
-                          <?php } ?>
 
                           <input class="btn btn-secondary filter-button" type="submit" value="Apply"/>
                     </form>

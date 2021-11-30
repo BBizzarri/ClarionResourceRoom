@@ -355,7 +355,14 @@
         $SettingsInfo = getAllSettingsInfo();
         $CategoryArray = getAllCategories();
         $ReportType = $_POST['report'];
-        $FilterOnCategories = $_POST['CategoriesFilter'];
+//         if(isset($_POST['inactiveItems']))
+//         {
+//             $ReportType = $_POST['report'];
+//         }
+//         else if(isset($_SESSION['report']))
+//         {
+//             $ReportType = $_SESSION['report'];
+//         }
         if($_POST['startDate'] != null)
         {
             $StartDate = $_POST['startDate'];

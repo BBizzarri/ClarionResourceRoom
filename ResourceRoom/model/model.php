@@ -741,8 +741,9 @@
 
     function getProductReport($StartDate, $EndDate, $FilterOnCategories)
     {
+        console_log($FilterOnCategories);
         $db = getDBConnection();
-        $query = "select product.*, category.*, COUNT(orderdetails.QTYFILLED) as TotalOrders
+        $query = "select product.*, category.*, SUM(orderdetails.QTYFILLED) as TotalOrdered, COUNT(orderdetails.QTYFILLED) as UniqueOrders
                     from product
                     inner join productcategories on product.PRODUCTID = productcategories.PRODUCTID
                     inner join category on productcategories.CATEGORYID = category.CATEGORYID
@@ -750,17 +751,18 @@
                     left join orders on orderdetails.ORDERID = orders.ORDERID
                     where ((orders.DATECOMPLETED between :STARTDATE and :ENDDATE) || ISNULL(orders.DATECOMPLETED))
                     ";
-        if($FilterOnCategories != '')
+        if($FilterOnCategories[0] != '')
         {
             $query .= " && (category.CATEGORYID = :CATEGORYID)";
         }
-        $query .= " group by category.CATEGORYDESCRIPTION";
+        $query .= " group by product.PRODUCTID, category.CATEGORYID";
         $statement = $db->prepare($query);
         $statement->bindValue(':STARTDATE', $StartDate);
         $statement->bindValue(':ENDDATE', $EndDate);
-        if($FilterOnCategories != '')
+        if($FilterOnCategories[0] != '')
         {
-            $statement->bindValue(':CATEGORYID', $FilterOnCategories);
+            console_log('here');
+            $statement->bindValue(':CATEGORYID', $FilterOnCategories[0]);
         }
         $statement->bindValue(':ENDDATE', $EndDate);
         $statement->execute();
