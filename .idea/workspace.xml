@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
+    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Forgot to">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/model/model.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminReports.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminReports.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +24,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Staging" />
+        <entry key="$PROJECT_DIR$" value="bbizzarri-resource-room" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -100,21 +101,7 @@
       <workItem from="1638139530959" duration="339000" />
       <workItem from="1638189522984" duration="7920000" />
       <workItem from="1638204044455" duration="250000" />
-      <workItem from="1638207054475" duration="16467000" />
-    </task>
-    <task id="LOCAL-00017" summary="adding idea">
-      <created>1632939701902</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1632939701902</updated>
-    </task>
-    <task id="LOCAL-00018" summary="Fixing table text color and updating creation script">
-      <created>1632940042329</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1632940042329</updated>
+      <workItem from="1638207054475" duration="18106000" />
     </task>
     <task id="LOCAL-00019" summary="Filter work">
       <created>1634041974567</created>
@@ -445,7 +432,21 @@
       <option name="project" value="LOCAL" />
       <updated>1638224089503</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="add edit product fix">
+      <created>1638224358626</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1638224358626</updated>
+    </task>
+    <task id="LOCAL-00067" summary="Product reports and sorting">
+      <created>1638277282510</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1638277282511</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -479,8 +480,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="getting email to work right!" />
-    <MESSAGE value="Fixing date of competed orders" />
     <MESSAGE value="Creation script fix" />
     <MESSAGE value="Cancel / Delete orders, admin inventory" />
     <MESSAGE value="Admin inventory Mobile UI" />
@@ -504,6 +503,8 @@
     <MESSAGE value="Cannot remove all categories from product or add a product without a category" />
     <MESSAGE value="On hand for admin inventory" />
     <MESSAGE value="category fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="category fix" />
+    <MESSAGE value="add edit product fix" />
+    <MESSAGE value="Product reports and sorting" />
+    <option name="LAST_COMMIT_MESSAGE" value="Product reports and sorting" />
   </component>
 </project>
