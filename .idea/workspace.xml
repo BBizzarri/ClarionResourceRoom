@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
+    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Forgot to">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/model/model.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/model.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminReports.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminReports.php" afterDir="false" />
     </list>
@@ -103,13 +102,6 @@
       <workItem from="1638189522984" duration="7920000" />
       <workItem from="1638204044455" duration="250000" />
       <workItem from="1638207054475" duration="18106000" />
-    </task>
-    <task id="LOCAL-00018" summary="Fixing table text color and updating creation script">
-      <created>1632940042329</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1632940042329</updated>
     </task>
     <task id="LOCAL-00019" summary="Filter work">
       <created>1634041974567</created>
@@ -447,7 +439,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638224358626</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="Product reports and sorting">
+      <created>1638277282510</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1638277282511</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -481,7 +480,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fixing date of competed orders" />
     <MESSAGE value="Creation script fix" />
     <MESSAGE value="Cancel / Delete orders, admin inventory" />
     <MESSAGE value="Admin inventory Mobile UI" />
@@ -506,6 +504,7 @@
     <MESSAGE value="On hand for admin inventory" />
     <MESSAGE value="category fix" />
     <MESSAGE value="add edit product fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="add edit product fix" />
+    <MESSAGE value="Product reports and sorting" />
+    <option name="LAST_COMMIT_MESSAGE" value="Product reports and sorting" />
   </component>
 </project>

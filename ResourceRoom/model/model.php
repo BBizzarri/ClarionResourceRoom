@@ -5,9 +5,6 @@
     include_once 'order.php';
     include_once 'user.php';
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
     function getDBConnection() {
             $dsn = 'mysql:host=localhost;dbname=resourceroom';
@@ -756,12 +753,10 @@ error_reporting(E_ALL);
         if($OnlyOrderedProducts)
         {
             $query .= " where (orders.DATECOMPLETED between :STARTDATE and :ENDDATE)";
-            print_r('$OnlyOrderedProducts = True');
         }
         else
         {
             $query .= " where ((orders.DATECOMPLETED between :STARTDATE and :ENDDATE) or ISNULL(orders.DATECOMPLETED))";
-            print_r('$OnlyOrderedProducts = False');
         }
         if(!in_array(0, $CategoryIDs))
         {
