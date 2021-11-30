@@ -5,6 +5,10 @@
     include_once 'order.php';
     include_once 'user.php';
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
     function getDBConnection() {
             $dsn = 'mysql:host=localhost;dbname=resourceroom';
             $username = 'cis411';
@@ -675,7 +679,7 @@
         return $result;
     }
 
-    function getReport($ReportType, $StartDate, $EndDate)
+    function getReport($ReportType, $StartDate, $EndDate, $OnlyOrderedProducts, $CategoryList)
     {
         if(isset($ReportType))
         {
@@ -687,7 +691,7 @@
                     $report = getOrdersReport($StartDate, $EndDate);
                     break;
                 case 'Products':
-                    $report = getProductReport($StartDate, $EndDate);
+                    $report = getProductReport($StartDate, $EndDate, $OnlyOrderedProducts,$CategoryList);
                     break;
             }
         }
@@ -738,19 +742,49 @@
         return $result;
     }
 
-    function getProductReport($StartDate, $EndDate)
+    function getProductReport($StartDate, $EndDate, $OnlyOrderedProducts, $CategoryIDs)
     {
         $db = getDBConnection();
-        $query = "select product.*, category.*, SUM(orderdetails.QTYFILLED) as TOTALFILLED, COUNT(orderdetails.QTYFILLED) as UNIQUEORDERS
+        $query = "select product.*, GROUP_CONCAT(category.CATEGORYDESCRIPTION ORDER BY category.CATEGORYDESCRIPTION ASC SEPARATOR ', ') as CATEGORY,
+                    SUM(orderdetails.QTYFILLED) as TOTALORDERED, COUNT(orderdetails.QTYFILLED) as UNIQUEORDERS
                     from product   
                     inner join productcategories on product.PRODUCTID = productcategories.PRODUCTID
                     inner join category on productcategories.CATEGORYID = category.CATEGORYID
                     left join orderdetails on product.PRODUCTID = orderdetails.PRODUCTID
-                    left join orders on orderdetails.ORDERID = orders.ORDERID
-                    where (orders.DATECOMPLETED between :STARTDATE and :ENDDATE) or ISNULL(orders.DATECOMPLETED)
-                    GROUP BY product.PRODUCTID
-                    ";
+                    left join orders on orderdetails.ORDERID = orders.ORDERID";
+
+        if($OnlyOrderedProducts)
+        {
+            $query .= " where (orders.DATECOMPLETED between :STARTDATE and :ENDDATE)";
+            print_r('$OnlyOrderedProducts = True');
+        }
+        else
+        {
+            $query .= " where ((orders.DATECOMPLETED between :STARTDATE and :ENDDATE) or ISNULL(orders.DATECOMPLETED))";
+            print_r('$OnlyOrderedProducts = False');
+        }
+        if(!in_array(0, $CategoryIDs))
+        {
+            $query .= " and (";
+            foreach($CategoryIDs as $categoryID)
+            {
+                $query .= "category.CATEGORYID = :$categoryID or ";
+            }
+
+            $query .= "false)";
+        }
+
+        $query .= " GROUP BY product.PRODUCTID
+                    ORDER BY product.PRODUCTID ASC";
         $statement = $db->prepare($query);
+        if(!in_array(0, $CategoryIDs))
+        {
+            foreach($CategoryIDs as $categoryID)
+            {
+                $statement->bindValue(":$categoryID", $categoryID);
+            }
+        }
+        //console_log('Query: ' . $query);
         $statement->bindValue(':STARTDATE', $StartDate);
         $statement->bindValue(':ENDDATE', $EndDate);
         $statement->execute();

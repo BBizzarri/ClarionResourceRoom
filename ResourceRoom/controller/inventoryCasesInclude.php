@@ -354,6 +354,15 @@
     {
         $SettingsInfo = getAllSettingsInfo();
         $ReportType = $_POST['report'];
+        $CategoryList = $_POST['CategoryList'];
+        if($_POST['OnlyOrderedProducts'] == 'on')
+        {
+            $OnlyOrderedProducts = True;
+        }
+        else
+        {
+            $OnlyOrderedProducts = False;
+        }
         if($_POST['startDate'] != null)
         {
             $StartDate = $_POST['startDate'];
@@ -370,9 +379,8 @@
         {
             $EndDate = date("Y/m/d");
         }
-        console_log('Before getReport');
-        $SelectedReport = getReport($ReportType, toMySQLDate($StartDate), toMySQLDate($EndDate));
-        console_log('Before include');
+        $SelectedReport = getReport($ReportType, toMySQLDate($StartDate), toMySQLDate($EndDate), $OnlyOrderedProducts ,$CategoryList);
+        $CategoryArray = getAllCategories();
         include '../view/adminReports.php';
     }
 
