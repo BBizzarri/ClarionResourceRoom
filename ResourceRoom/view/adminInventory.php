@@ -1,133 +1,243 @@
 <?php
     $title = " Admin Inventory Page";
     require '../view/headerInclude.php';
+    require_once '../lib/Mobile_Detect.php';
+    $detect = new Mobile_Detect;
 ?>
 <html>
 <body>
     <section class="clarion-blue">
-        <div class="container-fluid">
-            <div class ="row">
-                <div class="col-auto sidebar">
-                   <form id="filterForm" action="../controller/controller.php?action=adminInventory" method="post" enctype="multipart/form-data">
-                        <div class="sidebar-elements">
-                              <div class="sidebar-search-div">
-                                              <input class="form-control mr-sm-2" type="text" id="adminSearchCriteria" name="adminSearchCriteria" value="<?php if($_SESSION['SearchTerm']){echo $_SESSION['SearchTerm'];}?>" placeholder="<?php if(!isset($_POST['adminSearchCriteria'])){echo 'Search';}?>">
-                                              <!--<input class="btn my-2 my-sm-0" id="adminSearchButton"type="button" value="Search" onclick="generalSearchAdmin();"/>-->
-                              </div>
-                            <div class="incoming-textbox-div">
-                                <h3 class="sidebar-heading">Filter Options</h3>
-                                <label for="qtyLessThan" title="Only show items with a quantity less than">Quantity Less Than:</label>
-                            </div>
-                            <div class="incoming-textbox-div">
-                                <input class="incoming-textbox" type="number" min="1" id="QtyLessThan" name="QtyLessThan" value="<?php echo $_SESSION['QtyLessThan']?>"/>
+        <div>
+            <div id="hiddenMenu" class="overlay" >
+                <!-- Button to close the overlay navigation -->
+                <!-- Overlay content -->
+                <div class="overlay-content" style="background-color: white">
+                    <form id="filterFormHidden" action="../controller/controller.php?action=adminInventory" method="post" enctype="multipart/form-data">
+                        <div class = "row">
+                            <div class = "container-fluid">
+                                <div class = "row">
+                                    <div class = "col-6">
+                                        <div class="col-12">
+                                            <h3 class="sidebar-heading">Filter Options</h3>
+                                        </div>
+                                        <div class="filterOption col-12">
+                                            <input class="form-control mr-sm-2" type="text" id="adminSearchCriteria1" name="adminSearchCriteria" value="<?php if($_SESSION['SearchTerm']){echo $_SESSION['SearchTerm'];}?>" placeholder="<?php if(!isset($_POST['adminSearchCriteria'])){echo 'Search';}?>">
+                                            <!--<input class="btn my-2 my-sm-0" id="adminSearchButton"type="button" value="Search" onclick="generalSearchAdmin();"/>-->
+                                        </div>
+                                        <div class="filterOption col-12">
+                                            <label for="qtyLessThan" title="Only show items with a quantity less than">Quantity Less Than:</label>
+                                            <input class="incoming-textbox" type="number" min="0" id="QtyLessThan1" name="QtyLessThan" value="<?php echo $_SESSION['QtyLessThan']?>"/>
+                                        </div>
+                                        <div class="filterOption col-12">
+                                            <label for="stockedItems" title="Only show items with a goal stock that is greater than 0">Show Stocked Items Only</label>
+                                            <input type="hidden" value = '0' name = 'stockedItems'>
+                                            <input type="checkbox" id="stockedItems1" name="stockedItems" <?php if($_SESSION['StockedItems']) echo "checked='checked'"; ?> />
+                                        </div>
+                                        <div class="filterOption col-12">
+                                            <label for="inactiveItems" title="Only show items with a qty on hand equal to 0 and a goal stock equal to 0">Include Inactive Items</label>
+                                            <input type="hidden" value = '0' name = 'inactiveItems'>
+                                            <input type="checkbox" id="inactiveItems1" name="inactiveItems" <?php if($_SESSION['InactiveItems']) echo "checked='checked'"; ?> />
+                                        </div>
+                                        <div class="filterOption col-12">
+                                            <label for="shoppingList" title="Only show items that need to be restocked (qty on hand is less than the goal stock)">Shopping List Only</label>
+                                            <input type="hidden" value = '0' name = 'shoppingList'>
+                                            <input type="checkbox" id="shoppingList1" name="shoppingList" <?php if($_SESSION['ShoppingList']) echo "checked='checked'"; ?> />
+                                        </div>
+                                        <div class="filterOption col-12">
+                                            <a href="../controller/controller.php?action=adminInventory&ClearFilters=true" class="btn btn-secondary filter-button" role="button">Clear</a>
+                                            <input class="btn btn-secondary filter-button" type="submit" value="Apply"/>
+                                            <button type="button" class="btn btn-danger d-lg-none" onclick="closeNav()">Close</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                    <h3 class="sidebar-heading">Categories</h3>
+                                    <div class="col-12">
+                                        <select multiple class="category-list col-12" size="<?php echo sizeof($CategoryArray) + 1; ?>" id="categorySelect1" name="CategoryList[]" form="filterFormHidden">
+                                            <option class="category nav-link col-12" style="white-space: normal" value="0" <?php if(empty($info[1])){echo 'selected';}?>>All</option>
+                                            <?php foreach ($CategoryArray as $category) {
+                                                ?>
+                                                <option class="category nav-link col-12" style="white-space: normal" value="<?php echo $category->getCategoryID()?>" <?php if(in_array($category->getCategoryID(), $info[1])){echo 'selected';}?>> <?php echo htmlspecialchars($category->getCategoryDescription())?></option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="sidebar-elements">
+                </div>
+                </form>
+                </div>
+            </div>
+            <script>
+                /* Open when someone clicks on the span element */
+                function openNav() {
+                    document.getElementById("hiddenMenu").style.width = "100%";
+                }
+
+                /* Close when someone clicks on the "x" symbol inside the overlay */
+                function closeNav() {
+                    document.getElementById("hiddenMenu").style.width = "0%";
+                }
+            </script>
+        </div>
+        <div class="container-fluid">
+            <div class ="row">
+                <div class="col-lg-3 col-xl-3 d-none d-sm-none d-md-none d-lg-block sidebar">
+                    <form id="filterForm" class="form-horizontal" action="../controller/controller.php?action=adminInventory" method="post" enctype="multipart/form-data">
+                        <div class ='form-group'>
+                            <h3 class="sidebar-heading">Filter Options</h3>
+                        </div>
+                        <div class ='form-group filterOption'>
+                            <input class="form-control mr-sm-2" type="text" id="adminSearchCriteria" name="adminSearchCriteria" value="<?php if($_SESSION['SearchTerm']){echo $_SESSION['SearchTerm'];}?>" placeholder="<?php if(!isset($_POST['adminSearchCriteria'])){echo 'Search';}?>">
+                            <!--<input class="btn my-2 my-sm-0" id="adminSearchButton"type="button" value="Search" onclick="generalSearchAdmin();"/>-->
+                        </div>
+                        <div class ='form-group filterOption'>
+                            <label for="qtyLessThan" title="Only show items with a quantity less than">Quantity Less Than:</label>
+                            <input class="incoming-textbox" type="number" min="0" id="QtyLessThan" name="QtyLessThan" value="<?php echo $_SESSION['QtyLessThan']?>"/>
+                        </div>
+                        <div class ='form-group filterOption'>
                             <label for="stockedItems" title="Only show items with a goal stock that is greater than 0">Show Stocked Items Only</label>
                             <input type="hidden" value = '0' name = 'stockedItems'>
                             <input type="checkbox" id="stockedItems" name="stockedItems" <?php if($_SESSION['StockedItems']) echo "checked='checked'"; ?> />
                         </div>
-                        <div class="sidebar-elements">
+                        <div class ='form-group filterOption'>
                             <label for="inactiveItems" title="Only show items with a qty on hand equal to 0 and a goal stock equal to 0">Include Inactive Items</label>
                             <input type="hidden" value = '0' name = 'inactiveItems'>
                             <input type="checkbox" id="inactiveItems" name="inactiveItems" <?php if($_SESSION['InactiveItems']) echo "checked='checked'"; ?> />
                         </div>
-                        <div class="sidebar-elements">
+                        <div class ='form-group filterOption'>
                             <label for="shoppingList" title="Only show items that need to be restocked (qty on hand is less than the goal stock)">Shopping List Only</label>
                             <input type="hidden" value = '0' name = 'shoppingList'>
                             <input type="checkbox" id="shoppingList" name="shoppingList" <?php if($_SESSION['ShoppingList']) echo "checked='checked'"; ?> />
                         </div>
-                        <div class="filter-buttons">
+                        <div class ='form-group filterOption'>
                             <a href="../controller/controller.php?action=adminInventory&ClearFilters=true" class="btn btn-secondary filter-button" role="button">Clear</a>
                             <input class="btn btn-secondary filter-button" type="submit" value="Apply"/>
                         </div>
-
-                        <hr class="sidebar-seperator">
-                        <div class="sidebar-elements">
-                              <h3 class="sidebar-heading">Categories</h3>
-                              <div>
-                                <a class="category nav-link" href="../controller/controller.php?action=adminInventory&CategoryMode=true">All</a>
-                                <select multiple class="category-list" size="<?php echo sizeof($CategoryArray) + 1; ?>" id="categorySelect" name="CategoryList[]" form="filterForm">
-                                <?php foreach ($CategoryArray as $category) {
-                                ?>
-                                        <option class="category nav-link" value="<?php echo $category->getCategoryID()?>" <?php if(in_array($category->getCategoryID(), $info[1])){echo 'selected';}?>> <?php echo htmlspecialchars($category->getCategoryDescription())?></option>
-                                <?php
-                                }
-                                ?>
+                            <div class="col-sm-6 col-md-6 col-lg-12 col-xl-12"">
+                            <hr class="sidebar-seperator">
+                            <h3 class="sidebar-heading">Categories</h3>
+                            <div class="col-12">
+                                <select multiple class="category-list col-12" size="<?php echo sizeof($CategoryArray) + 1; ?>" id="categorySelect" name="CategoryList[]" form="filterForm">
+                                    <option class="category nav-link col-12" style="white-space: normal" value="0" <?php if(empty($info[1])){echo 'selected';}?>>All</option>
+                                    <?php foreach ($CategoryArray as $category) {
+                                        ?>
+                                        <option class="category nav-link col-12" style="white-space: normal" value="<?php echo $category->getCategoryID()?>" <?php if(in_array($category->getCategoryID(), $info[1])){echo 'selected';}?>> <?php echo htmlspecialchars($category->getCategoryDescription())?></option>
+                                        <?php
+                                    }
+                                    ?>
                                 </select>
-                              </div>
+                            </div>
                         </div>
+                   </form>
                 </div>
-                  </form>
-                      <div class="col-auto">
-                        <div class="container-fluid">
-                            <!--<div class=" clarion-white table-heading table-heading-category">-->
 
-                            <!--</div>-->
-                            <form id="adjustBulkForm" action="../controller/controller.php?action=processStockAdjust&Type=bulk" method="post" enctype="multipart/form-data">
-                                <!--<div class="table-heading table-heading-buttons">-->
-                                    <h3 class="clarion-white"><?php echo $CategoryHeader ?></h3>
-                                    <input class="btn my-2 my-sm-0" id="addNewItemButton" type="button" data-toggle="modal" data-target="#addProductModal" value="Add New Item"/>
-                                    <input class="btn my-2 my-sm-0" type="button" value="Adjust All" data-toggle="modal" data-target="#adjustBulkConfirmModal"/>
-                                <!--</div>-->
-                                  <!-- Adjust Bulk Confirm Modal -->
-                                            <div class="modal fade" id="adjustBulkConfirmModal" role="dialog">
-                                              <div class="modal-dialog modal-lg">-->
-                                                  <!-- Modal content-->
-                                                      <div class="modal-content clarion-blue clarion-white">
-                                                        <div class="modal-header" style="border-bottom: 1px solid #97824A;">
-                                                          <h4>Confirm</h4>
-                                                          <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        </div>
-                                                        <div class="row modal-body">
-                                                            <div class="column product-info-left">
-                                                              <h4>Are you sure you want to proceed with a bulk adjust?</h4>
-                                                            </div>
-                                                            <div class="column product-info-right">
-
-                                                            </div>
-                                                        </div>
-                                                            <div class="modal-footer" style="border-top: 1px solid #97824A;">
-                                                              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                                              <button type="submit" class="btn btn-default">Yes</button>
-                                                            </div>
+                      <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
+                          <div class ="row">
+                              <div class="container-fluid">
+                                  <button type="button" class="btn btn-info d-lg-none" onclick="openNav()">Show Filters</button>
+                                  <form id="adjustBulkForm" action="../controller/controller.php?action=processStockAdjust&Type=bulk" method="post" enctype="multipart/form-data">
+                                      <div class="table-heading">
+                                          <h3 class="clarion-white"><?php echo $CategoryHeader ?></h3>
+                                      </div>
+                                      <?php if(!$detect->isMobile()){ ?>
+                                      <div class="table-heading table-heading-buttons">
+                                          <input class="btn my-2 my-sm-0" id="addNewItemButton" type="button" data-toggle="modal" data-target="#addProductModal" value="Add New Item"/>
+                                      </div>
+                                      <?php } ?>
+                                      <!-- Adjust Bulk Confirm Modal -->
+                                      <div class="modal fade" id="adjustBulkConfirmModal" role="dialog">
+                                          <div class="modal-dialog modal-lg">-->
+                                              <!-- Modal content-->
+                                              <div class="modal-content clarion-blue clarion-white">
+                                                  <div class="modal-header" style="border-bottom: 1px solid #97824A;">
+                                                      <h4>Confirm</h4>
+                                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                  </div>
+                                                  <div class="row modal-body">
+                                                      <div class="column product-info-left">
+                                                          <h4>Are you sure you want to proceed with a bulk adjust?</h4>
                                                       </div>
+                                                      <div class="column product-info-right">
+
+                                                      </div>
+                                                  </div>
+                                                  <div class="modal-footer" style="border-top: 1px solid #97824A;">
+                                                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                      <button type="submit" class="btn btn-default">Yes</button>
+                                                  </div>
                                               </div>
-                                            </div>
-                        <table class="clarion-white">
-                        <tr>
-                            <th>Product</th>
-                            <th>On Hand <?php if($_SESSION['QtyLessThan'] != null){ echo '<' . ' ' . $_SESSION['QtyLessThan'];}?></th>
-                            <th>Goal Stock</th>
-                            <th>Incoming</th>
-                          </tr>
-                          <?php
-                          $i = 0;
-                          foreach($ProductArray as $product) {
-                          ?>
-                                                  <tr>
-                                                      <td class="text-left">
-                                                          <a class="clarion-white" href="#" data-toggle="modal" data-target="#editProductModal_<?php echo $product->getProductID()?>"><?php echo htmlspecialchars($product->getProductName())?></a>
-                                                      </td>
-                                                      <td class="text-right">
-                                                         <?php echo $product->getProductQTYOnHand() ?>
-                                                      </td>
-                                                      <td class="text-right">
-                                                          <?php echo $product->getProductGoalStock() ?>
-                                                      </td>
-                                                      <td title="To add stock enter in number you want to increase by and to subtract stock enter a '-' in front of number you want to decrease by" >
-                                                        <div class="incoming-textbox-div">
-                                                            <input class="incoming-textbox" type="number" id="incomingAmt_<?php echo $product->getProductID()?>" value="" name="incomingAmt_<?php echo $product->getProductID()?>">
-                                                        </div>
-                                                        <div class="adjust-button-div">
-                                                            <input type="button" value="Adjust Stock" onclick="adjustSingleStock(<?php echo $product->getProductID()?>);"/>
-                                                        </div>
-                                                      </td>
-                                                  </tr>
-                                  <?php } ?>
-                                </table>
-                            </form>
-                      </div>
+                                          </div>
+                                      </div>
+                              </div>
+                          </div>
+                          <div class = "row">
+                              <div class="table-responsive">
+                                  <table class="table table-striped inventoryTable" id="inventoryTable">
+                                      <thead>
+                                      <tr>
+                                          <th>Product</th>
+                                          <th>Available <?php if($_SESSION['QtyLessThan'] != null){ echo '<' . ' ' . $_SESSION['QtyLessThan'];}?></th>
+                                          <th>Goal Stock</th>
+                                          <th>Incoming <input class="btn my-2 my-sm-0" type="button" value="Adjust All" data-toggle="modal" data-target="#adjustBulkConfirmModal"/> </th>
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                      <?php
+                                      $i = 0;
+                                      foreach($ProductArray as $product) {
+                                          ?>
+                                          <tr>
+                                              <td class="text-left">
+                                                  <a class="clarion-white" href="#" data-toggle="modal" data-target="#editProductModal_<?php echo $product->getProductID()?>"><?php echo htmlspecialchars($product->getProductName())?></a>
+                                              </td>
+                                              <td class="text-right">
+                                                  <?php if($product->getProductQTYAvailable() != $product->getProductQtyOnHand())
+                                                  {
+                                                      echo '(' . $product->getProductQtyOnHand() . ')  |  ';
+                                                  }
+                                                  echo $product->getProductQTYAvailable();
+                                                  ?>
+                                              </td>
+                                              <td class="text-right">
+                                                  <?php echo $product->getProductGoalStock() ?>
+                                              </td>
+                                              <td title="To add stock enter in number you want to increase by and to subtract stock enter a '-' in front of number you want to decrease by" >
+                                                  <div class="incoming-textbox-div">
+                                                      <input class="incoming-textbox" type="number" id="incomingAmt_<?php echo $product->getProductID()?>" value="" name="incomingAmt_<?php echo $product->getProductID()?>">
+                                                  </div>
+                                                  <div class="adjust-button-div">
+                                                      <input type="button" value="Adjust Stock" onclick="adjustSingleStock(<?php echo $product->getProductID()?>);"/>
+                                                  </div>
+                                              </td>
+                                          </tr>
+                                      <?php } ?>
+                                      </tbody>
+                                  </table>
+                                  <script>
+                                      $(document).ready(function()
+                                      {
+                                          $("#inventoryTable").DataTable(
+                                              {
+                                                  searching: false,
+                                                  "pageLength" : 100,
+                                                  dom:'Bfrtip',
+                                                  buttons: [
+                                                      {
+                                                          extend: 'csvHtml5',
+                                                          header: true
+                                                      },
+                                                      {
+                                                          extend: 'print',
+                                                      }
+                                                  ]
+                                              });
+                                      } );
+                                  </script>
+                                  </form>
+                              </div>
+                          </div>
                 </div>
             </div>
         </div>
@@ -189,7 +299,7 @@
           <?php } ?>
           <!-- Add Product Modal -->
           <div class="modal fade" id="addProductModal" role="dialog">
-            <div class="modal-dialog modal-lg">-->
+            <div class="modal-dialog modal-lg">
                 <!-- Modal content-->
                 <form id="addProductForm" action="../controller/controller.php?action=addEditProduct&productMode=Add" method="post" enctype="multipart/form-data">
                     <div class="modal-content clarion-blue clarion-white">

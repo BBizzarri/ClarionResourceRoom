@@ -2,6 +2,9 @@
 
     // This file is included in the main controller as a series of cases to check the $action querystring parameter.
     // The purpose is to separate the shopper actions from the back-end inventory actions to help version control.
+    include_once '../model/order.php';
+    include_once '../model/orderDetail.php';
+
 
     switch ($action) {
         case 'accountSettings':
@@ -26,13 +29,19 @@
             showAdminOrders();
             break;
         case 'adminReports':
-            include '../view/adminReports.php';
+            adminReports();
             break;
         case 'adminSecurity':
-            include '../security/index.php';
+            adminSecurity();
             break;
         case 'adminShoppingList':
             shopperPage();
+            break;
+        case 'deleteCategory':
+            adminDeleteCategory();
+            break;
+        case 'deleteOrder':
+            adminDeleteOrder();
             break;
         case 'mobileAdd':
             mobileAdd();
@@ -40,11 +49,69 @@
         case 'processStockAdjust':
             processStockAdjust();
             break;
+        case 'reNotifyEmail':
+            reNotifyEmail();
+            break;
         case 'updateEmailAnnouncementSettings':
             updateEmailAnnouncementSettings();
             break;
     }
 
+    function adminDeleteCategory()
+    {
+        $categoryID = $_POST['CategoryID'];
+        $result = deactivateCategory($categoryID);
+        header("Location: {$_SERVER['HTTP_REFERER']}");
+    }
+
+    function adminDeleteOrder()
+    {
+        $OrderID = $_POST['ORDERID'];
+        $currentOrder = getOrder($OrderID)[0];
+        $OrderedByEmail = getEmailToOrder($OrderID);
+        $SettingsInfo = getAllSettingsInfo();
+        $UserInfo = getUserInfo($currentOrder->getUserID());
+        if(deleteOrder($OrderID))
+        {
+            $to = $OrderedByEmail['Email'];
+            $bcc = $SettingsInfo['BCCOrderCanceled'];
+            $subject = $SettingsInfo['OrderCancelledSubj'];
+            foreach($currentOrder->getOrderDetails() as $orderDetail){
+                $ProductName = $orderDetail->getProduct()->getProductName();
+                $QtyRequested = $orderDetail->getQTYRequested();
+                $QtyFilled = $orderDetail->getQTYFilled();
+                $tableBody .= "
+                    <tr>
+                    <td>$ProductName</td>
+                    <td style='text-align: center;'>$QtyRequested</td>
+                    <td style='text-align: center;'>$QtyFilled</td>
+                    </tr>
+                    ";
+            }
+//         $message = setMessage('',$SettingsInfo['OrderCancelledText'],$tableBody,'cancelled');
+        $message = $SettingsInfo['OrderCancelledText'] . "<br><br>" . "<h3>Order Summary: " . $UserInfo->getFirstName() . " " . $UserInfo->getLastName() . "</h3>" . "
+                                                <html>
+                                                <head>
+                                                <title>HTML email</title>
+                                                </head>
+                                                <body>
+                                                <table>
+                                                <thead>
+                                                    <th>Product Name</th>
+                                                    <th style='padding-left: 30px;'>Quantity Requested</th>
+                                                    <th style='padding-left: 30px;'>Quantity Filled</th>
+                                                </thead>
+                                                <tbody>" .
+                                                $tableBody .
+                                                "</tbody>
+                                                 </table>
+                                                 </body>
+                                                 </html>";
+            $cc = $SettingsInfo['EmailOrderCancelled'];
+            sendEmail($to, $cc, $bcc, $subject, $message);
+        }
+            header("Location: {$_SERVER['HTTP_REFERER']}");
+    }
     function addEditCategory()
     {
         $CategoryMode = $_GET['categoryMode'];
@@ -219,13 +286,13 @@
     function adminFillOrder(){
         $orderID = $_GET['orderID'];
         $status = $_GET['status'];
-        $usersName = $_GET['usersName'];
+        $fillerComments = $_POST['fillerComments'];
         $orderDetails = array();
         $QTYRequested = '';
         foreach($_POST as $productID=>$QTYFilled){
             array_push($orderDetails,new orderDetail($orderID,new product((int)$productID,'','','','','','','','',''),$QTYRequested,$QTYFilled));
         }
-        $order = new order($orderID,'',$status,'','','','',$orderDetails, $usersName);
+        $order = new order($orderID,'',$status,'','','','',$orderDetails, '');
         if($status == "SUBMITTED"){
             $newStatus = "READY FOR PICKUP";
         }
@@ -237,7 +304,83 @@
         changeOrderStatus($orderID,$newStatus);
         fillOrderDetails($order);
         fillOrder($order);
+
+        $currentOrder = getOrder($orderID)[0];
+        $SettingsInfo = getAllSettingsInfo();
+        $USERID = getUserID();
+        $OrderedByEmail = getEmailToOrder($orderID);
+        $UserInfo = getUserInfo($USERID);
+        $to = $OrderedByEmail['Email'];
+        $subject = $SettingsInfo['OrderFilledSubj'];
+        $tableBody = "";
+        foreach($currentOrder->getOrderDetails() as $orderDetail){
+            $ProductName = $orderDetail->getProduct()->getProductName();
+            $QtyRequested = $orderDetail->getQTYRequested();
+            $QtyFilled = $orderDetail->getQTYFilled();
+            $tableBody .= "
+            <tr>
+            <td>$ProductName</td>
+            <td style='text-align: center;'>$QtyRequested</td>
+            <td style='text-align: center;'>$QtyFilled</td>
+            </tr>
+            ";
+        }
+//         $message = setMessage($fillerComments, $SettingsInfo['OrderFilledText'],$tableBody,'filled');
+        $message = $fillerComments . "<br><br>" . $SettingsInfo['OrderFilledText'] . "<br><br>" . "<h3>Order Summary: " . $UserInfo->getFirstName() . " " . $UserInfo->getLastName() . "</h3>" . "
+                                                                                        <html>
+                                                                                        <head>
+                                                                                        <title>HTML email</title>
+                                                                                        </head>
+                                                                                        <body>
+                                                                                        <table>
+                                                                                        <thead>
+                                                                                            <th>Product Name</th>
+                                                                                            <th style='padding-left: 30px;'>Quantity Requested</th>
+                                                                                            <th style='padding-left: 30px;'>Quantity Filled</th>
+                                                                                        </thead>
+                                                                                        <tbody>" .
+                                                                                            $tableBody .
+                                                                                        "</tbody>
+                                                                                         </table>
+                                                                                         </body>
+                                                                                         </html>";
+        $cc = $SettingsInfo['EmailOrderFilled'];
+        $bcc = $SettingsInfo['BCCOrderFilled'];
+        sendEmail($to, $cc, $bcc, $subject, $message);
         header("Location: {$_SERVER['HTTP_REFERER']}");
+    }
+
+    function adminReports()
+    {
+        $SettingsInfo = getAllSettingsInfo();
+        $ReportType = $_POST['report'];
+        if($_POST['startDate'] != null)
+        {
+            $StartDate = $_POST['startDate'];
+        }
+        else
+        {
+            $StartDate = '0000/00/00';
+        }
+        if($_POST['endDate'] != null)
+        {
+            $EndDate = $_POST['endDate'];
+        }
+        else
+        {
+            $EndDate = date("Y/m/d");
+        }
+        console_log('Here');
+        console_log($StartDate);
+        console_log($EndDate);
+        $SelectedReport = getReport($ReportType, toMySQLDate($StartDate), toMySQLDate($EndDate));
+        include '../view/adminReports.php';
+    }
+
+    function adminSecurity()
+    {
+        $SettingsInfo = getAllSettingsInfo();
+        include '../security/index.php';
     }
 
     function mobileAdd()
@@ -269,6 +412,53 @@
         showInventory();
     }
 
+    function reNotifyEmail()
+    {
+        $orderID = $_GET['orderID'];
+        $SettingsInfo = getAllSettingsInfo();
+        $USERID = getUserID();
+        $OrderedByEmail = getEmailToOrder($orderID);
+        $UserInfo = getUserInfo($USERID);
+        $to = $OrderedByEmail['Email'];
+        $bcc = $SettingsInfo['BCCOrderReminder'];
+        $subject = $SettingsInfo['OrderReminderSubj'];
+        $currentOrder = getOrder($orderID)[0];
+        foreach($currentOrder->getOrderDetails() as $orderDetail){
+            $ProductName = $orderDetail->getProduct()->getProductName();
+            $QtyRequested = $orderDetail->getQTYRequested();
+            $QtyFilled = $orderDetail->getQTYFilled();
+            $tableBody .= "
+                        <tr>
+                        <td>$ProductName</td>
+                        <td style='text-align: center;'>$QtyRequested</td>
+                        <td style='text-align: center;'>$QtyFilled</td>
+                        </tr>
+                        ";
+        }
+//         $message = setMessage('',$SettingsInfo['OrderReminderText'],$tableBody,'renotify');
+        $message = $SettingsInfo['OrderReminderText'] . "<br><br>" . "<h3>Order Summary: " . $UserInfo->getFirstName() . " " . $UserInfo->getLastName() . "</h3>" . "
+                                                <html>
+                                                <head>
+                                                <title>HTML email</title>
+                                                </head>
+                                                <body>
+                                                <table>
+                                                <thead>
+                                                    <th>Product Name</th>
+                                                    <th style='padding-left: 30px;'>Quantity Requested</th>
+                                                    <th style='padding-left: 30px;'>Quantity Filled</th>
+                                                </thead>
+                                                <tbody>" .
+                                                    $tableBody .
+                                                "</tbody>
+                                                 </table>
+                                                 </body>
+                                                 </html>";
+        $cc = $SettingsInfo['EmailOrderReminder'];
+        sendEmail($to, $cc, $bcc, $subject, $message);
+        header("Location: {$_SERVER['HTTP_REFERER']}");
+    }
+
     function shopperPage(){
         $IncludeInactiveItems = false;
         $HideUnstockedItems = true;
@@ -278,9 +468,10 @@
     }
 
     function showAccountSettings() {
+        $USERID = getUserID();
+        $UserInfo = getUserInfo($USERID);
         $CategoryArray = getAllCategories();
         $SettingsInfo = getAllSettingsInfo();
-        console_log($SettingsInfo);
         include '../view/accountSettings.php';
     }
 
@@ -303,6 +494,7 @@
             $_SESSION['ShoppingList'] = null;
             $_SESSION['SearchTerm'] = null;
             $CategoryMode = true;
+            $CategoryHeader = 'All';
         }
         if(isset($_GET['CategoryMode']))
         {
@@ -351,7 +543,7 @@
         {
             $ShoppingList = 0;
         }
-        if($CategoryMode)
+        if($CategoryMode or (isset($_POST['CategoryList']) and $_POST['CategoryList'][0] == 0))
         {
             $CategoryID = [];
             $CategoryHeader = 'All';
@@ -384,11 +576,11 @@
         }
         if(isset($_POST['adminSearchCriteria']))
         {
-            $SearchTerm = $_POST['adminSearchCriteria'];
+            $SearchTerm = htmlspecialchars($_POST['adminSearchCriteria']);
         }
         else if(isset($_SESSION['SearchTerm']))
         {
-            $SearchTerm = $_SESSION['SearchTerm'];
+            $SearchTerm = htmlspecialchars($_SESSION['SearchTerm']);
         }
         else
         {
@@ -407,12 +599,90 @@
 
     function updateEmailAnnouncementSettings()
     {
-        $ReceiversPlaced = $_POST['ReceiversPlaced'];
-        $ReceiversFilled = $_POST['ReceiversFilled'];
-        $EmailTextPlaced = $_POST['EmailTextPlaced'];
-        $EmailTextFilled = $_POST['EmailTextFilled'];
-        $FooterAnnouncement = $_POST['Announcement'];
-        $SettingAffected = UpdateSettings($ReceiversPlaced, $ReceiversFilled, $EmailTextPlaced, $EmailTextFilled, $FooterAnnouncement);
-        header("Location: {$_SERVER['HTTP_REFERER']}");
+        $PlacedCC = $_POST['PlacedCC'];
+        $FilledCC = $_POST['FilledCC'];
+        $ReNotifyCC = $_POST['ReNotifyCC'];
+        $CancelledCC = $_POST['CancelledCC'];
+        $PlacedBCC = $_POST['PlacedBCC'];
+        $FilledBCC = $_POST['FilledBCC'];
+        $ReNotifyBCC = $_POST['ReNotifyBCC'];
+        $CancelledBCC = $_POST['CancelledBCC'];
+        $PlacedSubject = $_POST['PlacedSubject'];
+        $FilledSubject = $_POST['FilledSubject'];
+        $ReNotifySubject = $_POST['ReNotifySubject'];
+        $CancelledSubject  = $_POST['CancelledSubject'];
+        $PlacedText = $_POST['PlacedText'];
+        $FilledText = $_POST['FilledText'];
+        $ReNotifyText = $_POST['ReNotifyText'];
+        $CancelledText = $_POST['CancelledText'];
+        $FooterLeftAnnouncement = $_POST['FooterLeft'];
+        $FooterRightAnnouncement = $_POST['FooterRight'];
+
+        $errorMessage = '';
+        $PlacedCCArray = explode(',',$PlacedCC);
+        $FilledCCArray = explode(',',$FilledCC);
+        $ReNotifyCCArray = explode(',',$ReNotifyCC);
+        $CancelledCCArray = explode(',',$CancelledCC);
+        $PlacedBCCArray = explode(',',$PlacedBCC);
+        $FilledBCCArray = explode(',',$FilledBCC);
+        $ReNotifyBCCArray = explode(',',$ReNotifyBCC);
+        $CancelledBCCArray = explode(',',$CancelledBCC);
+
+        foreach($PlacedCCArray as $singleEmail)
+        {
+            if (!filter_var($singleEmail, FILTER_VALIDATE_EMAIL)) {
+                $errorMessage = "Invalid email format, emails must be seprated by a ',' and have no spaces in between";
+            }
+        }
+        foreach($FilledCCArray as $singleEmail)
+        {
+            if (!filter_var($singleEmail, FILTER_VALIDATE_EMAIL)) {
+                $errorMessage = "Invalid email format, emails must be seprated by a ',' and have no spaces in between";
+            }
+        }
+        foreach($ReNotifyCCArray as $singleEmail)
+        {
+            if (!filter_var($singleEmail, FILTER_VALIDATE_EMAIL)) {
+                $errorMessage = "Invalid email format, emails must be seprated by a ',' and have no spaces in between";
+            }
+        }
+        foreach($CancelledCCArray as $singleEmail)
+        {
+            if (!filter_var($singleEmail, FILTER_VALIDATE_EMAIL)) {
+                $errorMessage = "Invalid email format, emails must be seprated by a ',' and have no spaces in between";
+            }
+        }
+        foreach($PlacedBCCArray as $singleEmail)
+        {
+            if (!filter_var($singleEmail, FILTER_VALIDATE_EMAIL)) {
+                $errorMessage = "Invalid email format, emails must be seprated by a ',' and have no spaces in between";
+            }
+        }
+        foreach($FilledBCCArray as $singleEmail)
+        {
+            if (!filter_var($singleEmail, FILTER_VALIDATE_EMAIL)) {
+                $errorMessage = "Invalid email format, emails must be seprated by a ',' and have no spaces in between";
+            }
+        }
+        foreach($ReNotifyBCC as $singleEmail) {
+            if (!filter_var($singleEmail, FILTER_VALIDATE_EMAIL)) {
+                $errorMessage = "Invalid email format, emails must be seprated by a ',' and have no spaces in between";
+            }
+        }
+        foreach($CancelledBCCArray as $singleEmail) {
+            if (!filter_var($singleEmail, FILTER_VALIDATE_EMAIL)) {
+                $errorMessage = "Invalid email format, emails must be seprated by a ',' and have no spaces in between";
+            }
+        }
+
+        if($errorMessage == '')
+        {
+            $SettingAffected = UpdateSettings($PlacedCC, $FilledCC, $ReNotifyCC, $CancelledCC, $PlacedBCC, $FilledBCC, $ReNotifyBCC, $CancelledBCC, $PlacedSubject, $FilledSubject, $ReNotifySubject, $CancelledSubject, $PlacedText, $FilledText, $ReNotifyText, $CancelledText, $FooterLeftAnnouncement, $FooterRightAnnouncement);
+            header("Location: {$_SERVER['HTTP_REFERER']}");
+        }
+        else
+        {
+            include '../view/errorPage.php';
+        }
     }
 ?>

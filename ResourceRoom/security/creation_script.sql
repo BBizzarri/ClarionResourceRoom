@@ -7,6 +7,7 @@ USE resourceroom;
 -- CREATE USER cis411 IDENTIFIED BY 'cis411';
 GRANT USAGE ON *.* TO cis411@localhost IDENTIFIED BY 'cis411';
 GRANT ALL PRIVILEGES ON resourceroom.* TO 'cis411'@'localhost';
+
 -- --------------------------------------------------------
 
 CREATE TABLE functions ( FunctionID INT NOT NULL AUTO_INCREMENT,
@@ -19,7 +20,7 @@ CREATE TABLE roles ( RoleID INT NOT NULL AUTO_INCREMENT,
                      Description TEXT,
                      PRIMARY KEY (RoleID) );
 
-CREATE TABLE users ( UserID INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE users ( UserID VARCHAR(20) NOT NULL,
                      FirstName VARCHAR(32) NOT NULL,
                      LastName VARCHAR(32) NOT NULL,
                      UserName VARCHAR(32) NOT NULL,
@@ -33,7 +34,7 @@ CREATE TABLE rolefunctions ( RoleID INT NOT NULL,
                              FOREIGN KEY (RoleID) REFERENCES roles(RoleID) ON DELETE CASCADE,
                              FOREIGN KEY (FunctionID) REFERENCES functions(FunctionID) ON DELETE CASCADE );
 
-CREATE TABLE userroles ( UserID INT NOT NULL,
+CREATE TABLE userroles ( UserID VARCHAR(20) NOT NULL,
                          RoleID INT NOT NULL,
                          PRIMARY KEY (UserID, RoleID),
                          FOREIGN KEY (UserID) REFERENCES users(UserID) ON DELETE CASCADE,
@@ -42,14 +43,14 @@ CREATE TABLE userroles ( UserID INT NOT NULL,
 CREATE TABLE errorlog (
                           LogID     INT NOT NULL AUTO_INCREMENT,
                           TimeInserted     TIMESTAMP NOT NULL,
-                          UserID     INT NOT NULL,
+                          UserID     VARCHAR(20) NOT NULL,
                           UserName     VARCHAR(32) NOT NULL,
                           ErrorMessage     VARCHAR(1024) NOT NULL,
                           PRIMARY KEY (LogID));
 
 CREATE TABLE orders
 (   ORDERID                 INT AUTO_INCREMENT,
-    USERID                  INT,
+    USERID                  VARCHAR(20),
     STATUS                  VARCHAR(30),
     DATEORDERED             DATE,
     DATEFILLED              DATE,
@@ -85,6 +86,7 @@ CREATE TABLE orderdetails
 CREATE TABLE category
 (   CATEGORYID              INT AUTO_INCREMENT,
     CATEGORYDESCRIPTION     VARCHAR(50),
+    CATEGORYACTIVE          CHAR(1) DEFAULT 'Y',
     CONSTRAINT CATEGORY_PK PRIMARY KEY (CATEGORYID)
 );
 
@@ -100,7 +102,7 @@ CREATE TABLE productcategories
 
 CREATE TABLE cart
 (
-    USERID                  INT,
+    USERID                  VARCHAR(20),
     PRODUCTID               INT,
     QTYREQUESTED            INT,
     CONSTRAINT CART_PK PRIMARY KEY (USERID, PRODUCTID),
@@ -113,9 +115,22 @@ CREATE TABLE setting
 (   SETTINGID               INT,
     EmailOrderReceived      VARCHAR(300),
     EmailOrderFilled        VARCHAR(300),
+    EmailOrderReminder      VARCHAR(300),
+    EmailOrderCancelled     VARCHAR(300),
+    BCCOrderReceived        VARCHAR(300),
+    BCCOrderFilled          VARCHAR(300),
+    BCCOrderReminder        VARCHAR(300),
+    BCCOrderCanceled        VARCHAR(300),
     OrderReceivedText       VARCHAR(500),
     OrderFilledText         VARCHAR(500),
-    FooterText              VARCHAR(200),
+    OrderReminderText       VARCHAR(500),
+    OrderCancelledText      VARCHAR(500),
+    OrderReceivedSubj       VARCHAR(100),
+    OrderFilledSubj         VARCHAR(100),
+    OrderReminderSubj       VARCHAR(100),
+    OrderCancelledSubj      VARCHAR(100),
+    FooterTextLeft          VARCHAR(200),
+    FooterTextRight         VARCHAR(200),
     PhotoDir                TEXT,
     CONSTRAINT SETTING_PK PRIMARY KEY (SETTINGID)
 );
@@ -187,8 +202,13 @@ INSERT INTO functions (Name,Description) VALUES ('addEditProduct','Creates a new
                                                 ('shopperSubmitOrder','Creates an order for users based off of users cart'),
                                                 ('accountSettings','Allows User to view their account settings'),
                                                 ('addEditCategory','Allows User to add, edit or delete a category'),
-                                                ('updateEmailAnnouncementSettings','Allows user to update email and announcement settings');
-
+                                                ('updateEmailAnnouncementSettings','Allows user to update email and announcement settings'),
+                                                ('mobileAdd','Allows user to add items from their phone');
+INSERT INTO functions (Name,Description) VALUES ('ProcessLogin', 'Process SSO Login');
+INSERT INTO functions (Name,Description) VALUES ('SecurityChangeUserLevel', 'Change authorization level');
+INSERT INTO functions (Name,Description) VALUES ('reNotifyEmail', 'allows user to send a renotify email to remind the person that ordered to pick up their order');
+INSERT INTO functions (Name,Description) VALUES ('deleteOrder', 'Deletes an order given orderID');
+INSERT INTO functions (Name,Description) VALUES ('deleteCategory', 'Deletes a category');
 
 
 INSERT INTO roles (Name,Description) VALUES  ('Admin','Full privileges.'),
@@ -198,38 +218,51 @@ INSERT INTO roles (Name,Description) VALUES  ('Admin','Full privileges.'),
                                              ('Order Fulfillment','View and fill orders.'),
                                              ('Guest', 'Guest');
 
--- INSERT INTO roles (Name,Description) VALUES ('updater','Update/Read privileges.');
--- INSERT INTO roles (Name,Description) VALUES ('reader','Read-only privileges.');
--- INSERT INTO roles (Name,Description) VALUES ('guest','Features available to all visitors without logging in.');
+
+INSERT INTO users (UserID,FirstName,LastName,UserName,Password,Email) VALUES ('s_admin','TestAdmin','TestAdmin','admin',SHA1('admin'),'admin@clarion.edu'),
+                                                                      ('s_student','TestStudent','TestStudent', 'student', SHA1('student'), 'teststudent@clarion.edu'),
+                                                                      ('s_developer','TestDeveloper', 'TestDeveloper', 'developer', SHA1('developer'), 'testdeveloper@clarion.edu'),
+                                                                      ('s_inventory','TestInventory', 'TestInventory', 'inventory', SHA1('inventory'), 'testinventory@clarion.edu'),
+                                                                      ('s_order','TestOrder', 'TestOrder', 'order', SHA1('order'), 'testorder@clarion.edu');
+
+INSERT INTO userroles (UserID,RoleID) VALUES ('s_admin',1);
+INSERT INTO userroles (UserID,RoleID) VALUES ('s_student',2);
+INSERT INTO userroles (UserID,RoleID) VALUES ('s_developer',3);
+INSERT INTO userroles (UserID,RoleID) VALUES ('s_inventory',4);
+INSERT INTO userroles (UserID,RoleID) VALUES ('s_order',5);
+
+INSERT INTO users (UserID,FirstName,LastName,UserName,Password,Email) VALUES ('s_gmbennett','Gina', 'Bennett', 's_gmbennett', SHA1('s_gmbennett'), 'g.m.bennett@eagle.clarion.edu'),
+                                                                    ('s_ajrobinso1','Austin', 'Robinson', 's_ajrobinso1', SHA1('s_ajrobinso1'), 'a.j.robinson1@eagle.clarion.edu'),
+                                                                    ('mlkarg','Meredith', 'Karg', 'mlkarg', SHA1('mlkarg'), 'mlkarg@clarion.edu'),
+                                                                    ('tcrissman','Tom', 'Crissman', 'tcrissman', SHA1('tcrissman'), 'tcrissman@clarion.edu'),
+                                                                    ('s_skcuster','Sara', 'Custer', 's_skcuster', SHA1('s_skcuster'), 's.k.custer@eagle.clarion.edu'),
+                                                                    ('s_nalacoe','Natalie', 'LaCoe', 's_nalacoe', SHA1('s_nalacoe'), 'n.a.lacoe@eagle.clarion.edu'),
+                                                                    ('s_srsmith','Samuel', 'Smith', 's_srsmith', SHA1('s_srsmith'), 's.r.smith@eagle.clarion.edu'),
+                                                                    ('s_bmbizzarri','Brady', 'Bizzarri', 's_bmbizzarri', SHA1('s_bmbizzarri'), 'b.m.bizzarri@eagle.clarion.edu'),
+                                                                    ('s_smwice','Shane', 'Wice', 's_smwice', '', 'S.M.Wice@eagle.clarion.edu'),
+                                                                    ('s_csgildea','Chris', 'Gildea', 's_csgildea', SHA1('s_csgildea'), 'c.d.gildea@eagle.clarion.edu'),
+                                                                    ('s_dkaltenbau','Devin', 'Kaltenbaugh', 's_dkaltenbau', SHA1('s_dkaltenbau'), 'D.Kaltenbaugh@eagle.clarion.edu'),
+                                                                    ('s_bjlindermu','Bailey', 'Lindermuth', 's_bjlindermu', SHA1('s_bjlindermu'), 'b.j.lindermuth@eagle.clarion.edu');
+
+INSERT INTO userroles (UserID,RoleID) VALUES ('s_gmbennett',3),  -- Gina as Developer
+                                             ('s_ajrobinso1',3),  -- Austin as Developer
+                                             ('mlkarg',1),  -- Meredith as Admin
+                                             ('tcrissman',1),  -- Tom as Admin
+                                             ('s_skcuster',2), -- Sara as Student
+                                             ('s_skcuster',4), -- Sara as Inventory Management
+                                             ('s_nalacoe',4), -- Nat as Order Fulfillment
+                                             ('s_nalacoe',2), -- Nat as Student
+                                             ('s_srsmith',2), -- Sam as Student
+                                             ('s_bmbizzarri',3), -- Brady as developer
+                                             ('s_smwice',3), -- Shane as developer
+                                             ('s_csgildea',3), -- Chris as developer
+                                             ('s_bjlindermu',3), -- Bailey as developer
+                                             ('s_dkaltenbau',3); -- Devin as developer
 
 
 
-
-INSERT INTO users (FirstName,LastName,UserName,Password,Email) VALUES ('TestAdmin','TestAdmin','admin',SHA1('admin'),'admin@clarion.edu'),
-                                                                      ('TestStudent','TestStudent', 'student', SHA1('student'), 'teststudent@clarion.edu'),
-                                                                      ('TestDeveloper', 'TestDeveloper', 'developer', SHA1('developer'), 'testdeveloper@clarion.edu'),
-                                                                      ('TestInventory', 'TestInventory', 'inventory', SHA1('inventory'), 'testinventory@clarion.edu'),
-                                                                      ('TestOrder', 'TestOrder', 'order', SHA1('order'), 'testorder@clarion.edu');
-
-INSERT INTO userroles (UserID,RoleID) VALUES (1,1);
-INSERT INTO userroles (UserID,RoleID) VALUES (2,2);
-INSERT INTO userroles (UserID,RoleID) VALUES (3,3);
-INSERT INTO userroles (UserID,RoleID) VALUES (4,4);
-INSERT INTO userroles (UserID,RoleID) VALUES (5,5);
-
--- Should admin have these functions??
--- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,1);
--- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,2);
--- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,3);
--- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,4);
--- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,5);
--- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,6);
--- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,7);
--- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,8);
--- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,9);
--- INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,10);
-
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,11);
+INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,1);
+INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,3);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,12);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,13);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,14);
@@ -238,7 +271,6 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,21);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,22);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,23);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,24);
-INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,25);
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,29);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,30),
@@ -246,17 +278,14 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,30),
                                                      (1,19),
                                                      (1,16),
                                                      (1,17),
-                                                     (1,26),
-                                                     (1,27),
                                                      (1,28),
                                                      (1,20),
-                                                     (1,32),
-                                                     (1,33),
-                                                     (1,34),
-                                                     (1,35),
                                                      (1,36),
                                                      (1,37),
-                                                     (1,38);
+                                                     (1,38),
+                                                     (1,39),
+                                                     (1,42),
+                                                     (1,43);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,25),
                                                      (2,26),
@@ -265,7 +294,8 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,25),
                                                      (2,33),
                                                      (2,34),
                                                      (2,35),
-                                                     (2,36);
+                                                     (2,36),
+                                                     (2,43);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (3,1),
                                                      (3,2),
@@ -304,7 +334,13 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (3,1),
                                                      (3,35),
                                                      (3,36),
                                                      (3,37),
-                                                     (3,38);
+                                                     (3,38),
+                                                     (3,39),
+                                                     (3,40),
+                                                     (3,41),
+                                                     (3,42),
+                                                     (3,43),
+                                                     (3,44);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,20),
                                                      (4,24),
@@ -315,7 +351,8 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (4,20),
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (5,21),
                                                      (5,29),
                                                      (5,30),
-                                                     (5,36);
+                                                     (5,36),
+                                                     (5,42);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (6,16),
                                                      (6,17);
@@ -343,313 +380,333 @@ INSERT INTO `category` (`CategoryID`, `CategoryDescription`) VALUES
 COMMIT;
 
 INSERT INTO `product` (`ProductID`, `Name`, `ProductDescription`, `QtyOnHand`, `MaxOrderQty`, `GoalStock`) VALUES
-(1, 'Strawberry Shampoo', '', 1, 0, 0),
-(2, 'Ocean Breeze Shampoo', '', 4, 0, 5),
-(3, 'Ocean Breeze Conditioner', '', 5, 0, 5),
-(4, 'Tropical Coconut Shampoo', '', 5, 0, 5),
-(5, 'Tropical Coconut Conditioner', '', 4, 0, 5),
-(6, 'Dry Shampoo Spray', '', 6, 0, 5),
+(1, 'Strawberry Shampoo', '', 0, 0, 0),
+(2, 'Ocean Breeze Shampoo', '', 14, 0, 5),
+(3, 'Ocean Breeze Conditioner', '', 6, 0, 5),
+(4, 'Tropical Coconut Shampoo', '', 4, 0, 5),
+(5, 'Tropical Coconut Conditioner', '', 14, 0, 5),
+(6, 'Dry Shampoo Spray', '', 3, 0, 5),
 (7, 'Curling Cream', '', 0, 0, 3),
-(8, 'Olive Oil Styling Gel', '', 3, 0, 3),
-(9, 'Hair Pick', '', 3, 0, 4),
-(10, 'Lift and Style Comb', '', 4, 0, 3),
-(11, 'Wide Tooth Comb', '', 0, 0, 3),
-(12, 'Regular Comb', '', 2, 0, 3),
-(13, 'Do Rag', '', 1, 0, 5),
-(14, 'Night Bonnet', '', 3, 0, 5),
-(15, 'Original Bar Soap', '', 15, 0, 8),
-(16, 'Sensitive Skin Bar Soap', '', 6, 0, 6),
-(17, 'Liquid Hand Soap', '', 6, 0, 8),
-(18, 'Regular Body Wash (neutral scent)', '', 6, 0, 5),
-(19, 'Sensitive Skin Body Wash', '', 10, 0, 5),
-(20, 'Men\'s Regular Body Wash', '', 14, 0, 0),
-(21, 'Loofah/Shower Puff', '', 4, 0, 6),
-(22, 'Medicated Body Powder', '', 3, 0, 3),
-(23, 'Creamy Body Lotion with Cocoa Butter and Shea', '', 2, 0, 5),
-(24, 'Vitamin E Skin Care Cream', '', 3, 0, 4),
-(25, 'Cocoa Butter Skin Care Cream', '', 3, 0, 4),
-(26, 'Petrolium Jelly', '', 1, 0, 3),
-(27, 'Women\'s Deodorant', '', 12, 0, 10),
-(28, 'Men\'s Deodorant', '', 13, 0, 10),
-(29, 'Hand Sanitizer', '', 52, 0, 6),
-(30, 'Men\'s Razors', '', 13, 0, 10),
-(31, 'Women\'s Razors', '', 13, 0, 10),
-(32, 'Men\'s Shaving Cream', '', 8, 0, 6),
-(33, 'Women\'s Shaving Cream', '', 6, 0, 6),
-(34, 'Baby Powder', '', 3, 0, 3),
-(35, 'Bandaids', '', 8, 0, 5),
-(36, 'Q Tips', '', 10, 0, 8),
-(37, 'Baby Wipes', '', 4, 0, 5),
-(38, 'Cream Style Face Wash', '', 9, 0, 5),
-(39, 'Facial Cleanser', '', 9, 0, 5),
-(40, 'Face/makeup wipes', '', 15, 0, 8),
-(41, 'Lip Balm', '', 2, 0, 5),
-(42, 'Dental Floss', '', 4, 0, 5),
-(43, 'Mouthwash', '', 8, 0, 5),
-(44, 'Toothbrush single', '', 16, 0, 10),
-(45, 'Toothbrush (2 pack)', '', 20, 0, 0),
-(46, 'Toothbrush (6 pack)', '', 4, 0, 0),
-(47, 'Toothpaste', '', 11, 0, 5),
-(48, 'Makeup Kit', '', 2, 0, 0),
-(49, 'Eye makeup kit', '', 1, 0, 0),
-(50, 'Tampons - Variety Pack', '', 10, 0, 5),
-(51, 'Feminine Pads with Wings (box of 3)', '', 58, 0, 5),
-(52, 'Plastic Plate', '', 10, 0, 8),
-(53, 'Plastic Cup', '', 10, 0, 8),
-(54, 'Plastic Bowl', '', 10, 0, 8),
-(55, 'Reusable Water Bottle', '', 28, 0, 4),
-(56, 'Metal Fork', '', 9, 0, 8),
-(57, 'Metal Knife', '', 11, 0, 8),
-(58, 'Metal Spoon', '', 9, 0, 8),
-(59, 'Can Opener', '', 13, 0, 3),
-(60, 'Microfiber Cleaning towel', '', 2, 0, 0),
-(61, '5 piece kitchen towel set', '', 4, 0, 0),
-(62, 'Dish Soap', '', 7, 0, 8),
-(63, 'Cleaning Wipes', '', 37, 0, 8),
-(64, 'All Purpose Cleaner', '', 5, 0, 5),
-(65, 'Toilet Bowl Cleaner', '', 8, 0, 5),
-(66, 'Disinfecting Spray', '', 2, 0, 0),
-(67, '13 Gallon Garbage Bags', '', 9, 0, 5),
-(68, 'Travel Tissue pack', '', 6, 0, 5),
-(69, 'Tissue Box', '', 5, 0, 8),
-(70, 'Paper Towel Single Roll', '', 13, 0, 20),
-(71, 'Toilet Paper (4 pack)', '', 27, 0, 20),
-(72, 'Laundry soap', '', 7, 0, 5),
-(73, 'Dryer Sheets', '', 9, 0, 5),
-(74, 'Mini Plastic Cups with lids', '', 1, 0, 0),
-(75, 'Tropical Nector Candle: 2 pack', '', 1, 0, 0),
-(76, '60W light bulb', '', 32, 0, 0),
-(77, 'Wash Cloth', '', 8, 0, 8),
-(78, 'Hand Towel', '', 8, 0, 8),
+(8, 'Olive Oil Styling Gel', '', 0, 0, 3),
+(9, 'Hair Pick', '', 12, 0, 4),
+(10, 'Lift and Style Comb', '', 2, 0, 3),
+(11, 'Wide Tooth Comb', '', 0, 0, 0),
+(12, 'Regular Comb', '', 10, 0, 3),
+(13, 'Do Rag', '', 7, 0, 5),
+(14, 'Night Bonnet', '', 5, 0, 5),
+(15, 'Original Bar Soap', '', 40, 0, 8),
+(16, 'Sensitive Skin Bar Soap', '', 11, 0, 6),
+(17, 'Liquid Hand Soap', '', 10, 0, 8),
+(18, 'Regular Body Wash (neutral scent)', '', 13, 0, 5),
+(19, 'Sensitive Skin Body Wash', '', 5, 0, 5),
+(20, 'Men\'s Regular Body Wash', '', 9, 0, 0),
+(21, 'Loofah/Shower Puff', '', 15, 0, 6),
+(22, 'Medicated Body Powder', '', 4, 0, 3),
+(23, 'Creamy Body Lotion with Cocoa Butter and Shea', '', 10, 0, 5),
+(24, 'Vitamin E Skin Care Cream', '', 49, 0, 4),
+(25, 'Cocoa Butter Skin Care Cream', '', 2, 0, 4),
+(26, 'Petrolium Jelly', '', 12, 0, 3),
+(27, 'Women\'s Deodorant', '', 37, 0, 10),
+(28, 'Men\'s Deodorant', '', 12, 0, 10),
+(29, 'Hand Sanitizer', '', 43, 0, 6),
+(30, 'Men\'s Razors', '', 56, 0, 10),
+(31, 'Women\'s Razors', '', 25, 0, 10),
+(32, 'Men\'s Shaving Cream', '', 20, 0, 6),
+(33, 'Women\'s Shaving Cream', '', 13, 0, 6),
+(34, 'Baby Powder', '', 0, 0, 0),
+(35, 'Bandaids', '', 3, 0, 5),
+(36, 'Q Tips', '', 17, 0, 8),
+(37, 'Baby Wipes', '', 3, 0, 0),
+(38, 'Cream Style Face Wash', '', 7, 0, 5),
+(39, 'Facial Cleanser', '', 5, 0, 5),
+(40, 'Face/makeup wipes', '', 9, 0, 8),
+(41, 'Lip Balm', '', 12, 0, 5),
+(42, 'Dental Floss', '', 47, 0, 5),
+(43, 'Mouthwash', '', 6, 0, 5),
+(44, 'Toothbrush single', '', 10, 0, 10),
+(45, 'Toothbrush (2 pack)', '', 14, 0, 0),
+(46, 'Toothbrush (6 pack)', '', 0, 0, 0),
+(47, 'Toothpaste', '', 7, 0, 5),
+(48, 'Makeup Kit', '', 0, 0, 0),
+(49, 'Eye makeup kit', '', 0, 0, 0),
+(50, 'Tampons - Variety Pack', '', 5, 0, 5),
+(51, 'Feminine Pads with Wings (box of 3)', '', 23, 0, 5),
+(52, 'Plastic Plate', '', 8, 0, 8),
+(53, 'Plastic Cup', '', 8, 0, 8),
+(54, 'Plastic Bowl', '', 9, 0, 8),
+(55, 'Reusable Water Bottle', '', 18, 0, 4),
+(56, 'Metal Fork', '', 10, 0, 8),
+(57, 'Metal Knife', '', 9, 0, 8),
+(58, 'Metal Spoon', '', 10, 0, 8),
+(59, 'Can Opener', '', 8, 0, 3),
+(60, 'Microfiber Cleaning towel', '', 0, 0, 0),
+(61, '5 piece kitchen towel set', '', 0, 0, 0),
+(62, 'Dish Soap', '', 67, 0, 8),
+(63, 'Cleaning Wipes', '', 20, 0, 8),
+(64, 'All Purpose Cleaner', '', 0, 0, 5),
+(65, 'Toilet Bowl Cleaner', '', 5, 0, 5),
+(66, 'Disinfecting Spray', '', 0, 0, 0),
+(67, '13 Gallon Garbage Bags', '', 1, 0, 5),
+(68, 'Travel Tissue pack', '', 1, 0, 5),
+(69, 'Tissue Box', '', 18, 0, 8),
+(70, 'Paper Towel Single Roll', '', 33, 0, 20),
+(71, 'Toilet Paper (4 pack)', '', 16, 0, 20),
+(72, 'Laundry soap', '', 5, 0, 5),
+(73, 'Dryer Sheets', '', 6, 0, 5),
+(74, 'Mini Plastic Cups with lids', '', 0, 0, 0),
+(75, 'Tropical Nector Candle: 2 pack', '', 0, 0, 0),
+(76, '60W light bulb', '', 28, 0, 0),
+(77, 'Wash Cloth', '', 9, 0, 8),
+(78, 'Hand Towel', '', 7, 0, 8),
 (79, 'Body Towel', '', 8, 0, 8),
-(80, 'Twin 3-piece Sheet Set', '', 8, 0, 0),
+(80, 'Twin 3-piece Sheet Set', '', 6, 0, 0),
 (81, 'Twin Quilt', '', 1, 0, 0),
-(82, 'Full/Queen comforter', '', 1, 0, 0),
-(83, 'Pink Fleece Blanket', '', 1, 0, 0),
-(84, '3 piece bath towel set', '', 6, 0, 0),
-(85, 'Shower Curtain Set (pink)', '', 5, 0, 0),
-(86, 'Nutrigrain Bar: Mixed Berry Box', '', 5, 0, 5),
-(87, 'Nutrigrain Bar: Apple Cinnamon Box', '', 5, 0, 5),
-(88, 'Nutrigrain Bar: Strawberry Box', '', 5, 0, 5),
-(89, 'Nutrigrain Bar: Blueberry Box', '', 1, 0, 0),
-(90, 'Nutrigrain Bar: Apple Cinnamon Single', '', 2, 0, 0),
-(91, 'Oatmeal: Fruit and Cream Variety Box', '', 3, 0, 3),
-(92, 'Oatmeal: Low Sugar Variety Box', '', 2, 0, 0),
-(93, 'Instant Cream of Wheat: Maple Brown Sugar box', '', 1, 0, 0),
-(94, 'Oatmeal: Maple and Brown Sugar Microwave Cup', '', 6, 0, 5),
-(95, 'Oatmeal: Strawberries and Cream Cup', '', 5, 0, 5),
-(96, 'Froasted Flakes Cereal Box', '', 1, 0, 3),
+(82, 'Full/Queen comforter', '', 0, 0, 0),
+(83, 'Pink Fleece Blanket', '', 0, 0, 0),
+(84, '3 piece bath towel set', '', 7, 0, 0),
+(85, 'Shower Curtain Set (pink)', '', 3, 0, 0),
+(86, 'Nutrigrain Bar: Mixed Berry Box', '', 6, 0, 5),
+(87, 'Nutrigrain Bar: Apple Cinnamon Box', '', 6, 0, 5),
+(88, 'Nutrigrain Bar: Strawberry Box', '', 7, 0, 5),
+(89, 'Nutrigrain Bar: Blueberry Box', '', 0, 0, 0),
+(90, 'Nutrigrain Bar: Apple Cinnamon Single', '', 0, 0, 0),
+(91, 'Oatmeal: Fruit and Cream Variety Box', '', 4, 0, 3),
+(92, 'Oatmeal: Low Sugar Variety Box', '', 0, 0, 0),
+(93, 'Instant Cream of Wheat: Maple Brown Sugar box', '', 0, 0, 0),
+(94, 'Oatmeal: Maple and Brown Sugar Microwave Cup', '', 4, 0, 5),
+(95, 'Oatmeal: Strawberries and Cream Cup', '', 0, 0, 5),
+(96, 'Froasted Flakes Cereal Box', '', 2, 0, 3),
 (97, 'Honey Nut O\'s Cereal Box', '', 3, 0, 3),
-(98, 'Toasted O\'s Cereal Box', '', 2, 0, 0),
-(99, 'Strawberry Awake Cereal Box', '', 2, 0, 3),
-(100, 'Oatmeal Cream Pie Cereal Box', '', 1, 0, 0),
-(101, 'Cereal: Honey Nut Cheerios ? Single Serve', '', 1, 0, 0),
-(102, 'Cereal: Fruit Loops - Single Serve', '', 2, 0, 0),
-(103, 'Cereal: Cinnamon Toast Crunch - Single Serve', '', 1, 0, 0),
-(104, 'Toaster Pasteries: Frosted Brown Sugar Box', '', 5, 0, 5),
-(105, 'Toaster Pasteries: Frosted Strawberry Box', '', 7, 0, 5),
-(106, 'Pop Tarts: Frosted Cookies and Creme: Individual packs', '', 7, 0, 0),
-(107, 'Original Syrup: Bottle', '', 3, 0, 0),
-(108, 'Pancake Mix: Box', '', 1, 0, 0),
-(109, 'Belvita Breakfast Biscuits: Cinnamon & Sugar - single pack', '', 1, 0, 0),
-(110, 'Nature Valley Biscuits: Cinnamon Almond Butter - Single', '', 2, 0, 0),
-(111, 'Bottle Water', '', 62, 0, 0),
-(112, 'Box of Hot Cocoa', '', 3, 0, 0),
-(113, 'Body Armour Super Drink - Fruit Punch', '', 4, 0, 0),
-(114, 'Pepsi: 2L Bottle', '', 3, 0, 0),
-(115, 'Carmel Apple Black Tea: Box', '', 1, 0, 0),
-(116, 'Gatorade: Glacier Freeze', '', 7, 0, 0),
+(98, 'Toasted O\'s Cereal Box', '', 1, 0, 0),
+(99, 'Strawberry Awake Cereal Box', '', 3, 0, 3),
+(100, 'Oatmeal Cream Pie Cereal Box', '', 0, 0, 0),
+(101, 'Cereal: Honey Nut Cheerios ? Single Serve', '', 0, 0, 0),
+(102, 'Cereal: Fruit Loops - Single Serve', '', 0, 0, 0),
+(103, 'Cereal: Cinnamon Toast Crunch - Single Serve', '', 0, 0, 0),
+(104, 'Toaster Pasteries: Frosted Brown Sugar Box', '', 4, 0, 5),
+(105, 'Toaster Pasteries: Frosted Strawberry Box', '', 5, 0, 5),
+(106, 'Pop Tarts: Frosted Cookies and Creme: Individual packs', '', 2, 0, 0),
+(107, 'Original Syrup: Bottle', '', 1, 0, 0),
+(108, 'Pancake Mix: Box', '', 0, 0, 0),
+(109, 'Belvita Breakfast Biscuits: Cinnamon & Sugar - single pack', '', 0, 0, 0),
+(110, 'Nature Valley Biscuits: Cinnamon Almond Butter - Single', '', 0, 0, 0),
+(111, 'Bottle Water', '', 19, 0, 0),
+(112, 'Box of Hot Cocoa', '', 0, 0, 0),
+(113, 'Body Armour Super Drink - Fruit Punch', '', 0, 0, 0),
+(114, 'Pepsi: 2L Bottle', '', 0, 0, 0),
+(115, 'Carmel Apple Black Tea: Box', '', 0, 0, 0),
+(116, 'Gatorade: Glacier Freeze', '', 0, 0, 0),
 (117, 'Salted Caramel Light Roast Coffee: Bag', '', 1, 0, 0),
-(118, 'Quest Salted Caramel Protein drink: 4 pack', '', 1, 0, 0),
-(119, 'V8 Engery: Peach Mango can', '', 2, 0, 0),
-(120, 'Sunkist Grape Drink Mix Singles: Box', '', 1, 0, 0),
-(121, 'Sparkling Water-Black Raspberry: Bottle', '', 3, 0, 0),
-(122, 'Sparkling Water - Orange Mango: Bottle', '', 1, 0, 0),
-(123, 'Sunkist Pineapple Drink Mix Singles: Box', '', 1, 0, 0),
+(118, 'Quest Salted Caramel Protein drink: 4 pack', '',0, 0, 0),
+(119, 'V8 Engery: Peach Mango can', '', 0, 0, 0),
+(120, 'Sunkist Grape Drink Mix Singles: Box', '', 0, 0, 0),
+(121, 'Sparkling Water-Black Raspberry: Bottle', '', 0, 0, 0),
+(122, 'Sparkling Water - Orange Mango: Bottle', '', 0, 0, 0),
+(123, 'Sunkist Pineapple Drink Mix Singles: Box', '', 0, 0, 0),
 (124, 'Sparkling Water-Grapefruit: Can', '', 6, 0, 0),
-(125, 'Sparkling Water-Black Cherry: Can', '', 3, 0, 0),
-(126, 'Sparkling Water-Watermelon: Can', '', 4, 0, 0),
-(127, 'Green Tea with Pomegranate: single packet', '', 9, 0, 0),
-(128, 'Electrolyte', '', 3, 0, 3),
-(129, 'Compleats Meals: Turkey and Dressing', '', 2, 0, 5),
+(125, 'Sparkling Water-Black Cherry: Can', '', 0, 0, 0),
+(126, 'Sparkling Water-Watermelon: Can', '', 0, 0, 0),
+(127, 'Green Tea with Pomegranate: single packet', '', 0, 0, 0),
+(128, 'Electrolyte', '', 0, 0, 3),
+(129, 'Compleats Meals: Turkey and Dressing', '', 7, 0, 5),
 (130, 'Compleats Meals: Tender Beef with Mashed Potatoes & gravy', '', 0, 0, 5),
-(131, 'Compleats Meals: Beef Pot Roast', '', 4, 0, 5),
-(132, 'Compleats Meals: Chicken & Noodles', '', 3, 0, 5),
-(133, 'Compleats Meals: Rice & Chicken', '', 1, 0, 0),
-(134, 'Compleats Meals: Dumplings & Chicken', '', 3, 0, 0),
-(135, 'Compleats Meals: Stroganoff', '', 1, 0, 0),
+(131, 'Compleats Meals: Beef Pot Roast', '', 3, 0, 5),
+(132, 'Compleats Meals: Chicken & Noodles', '', 2, 0, 5),
+(133, 'Compleats Meals: Rice & Chicken', '', 0, 0, 0),
+(134, 'Compleats Meals: Dumplings & Chicken', '', 2, 0, 0),
+(135, 'Compleats Meals: Stroganoff', '', 0, 0, 0),
 (136, 'Compleats Meals: Chicken Alfredo', '', 0, 0, 0),
-(137, 'Hamburger Helper: Cheesburger Macaroni', '', 1, 0, 0),
-(138, 'Pasta: Spaghetti', '', 25, 0, 10),
-(139, 'Pasta: Rotini', '', 10, 0, 10),
-(140, 'Pasta: Egg Noodles', '', 2, 0, 0),
-(141, 'Pasta: Lasgna Noodles ', '', 3, 0, 0),
-(142, 'Tomato Sauce with Meat', '', 6, 0, 6),
-(143, 'Tomato Sauce no Meat', '', 12, 0, 6),
-(144, 'Pizza Sauce', '', 2, 0, 0),
-(145, 'Alfredo Sauce', '', 1, 0, 0),
-(146, 'Spaghettio\'s Original', '', 16, 0, 8),
+(137, 'Hamburger Helper: Cheesburger Macaroni', '', 0, 0, 0),
+(138, 'Pasta: Spaghetti', '', 19, 0, 10),
+(139, 'Pasta: Rotini', '', 11, 0, 10),
+(140, 'Pasta: Egg Noodles', '', 0, 0, 0),
+(141, 'Pasta: Lasgna Noodles ', '', 2, 0, 0),
+(142, 'Tomato Sauce with Meat', '', 1, 0, 6),
+(143, 'Tomato Sauce no Meat', '', 9, 0, 6),
+(144, 'Pizza Sauce', '', 0, 0, 0),
+(145, 'Alfredo Sauce', '', 0, 0, 0),
+(146, 'Spaghettio\'s Original', '', 10, 0, 8),
 (147, 'Spaghettio\'s with Meatballs', '', 8, 0, 8),
-(148, 'Canned Beef Ravioli', '', 16, 0, 0),
-(149, 'Macaroni and Cheese Box', '', 18, 0, 10),
-(150, 'Shells & Cheese Box', '', 4, 0, 0),
+(148, 'Canned Beef Ravioli', '', 17, 0, 0),
+(149, 'Macaroni and Cheese Box', '', 10, 0, 10),
+(150, 'Shells & Cheese Box', '', 0, 0, 0),
 (151, 'Instant White Rice Box', '', 5, 0, 5),
-(152, 'Instant Brown Rice Box', '', 4, 0, 5),
-(153, 'Jasmine Rice: Bag', '', 1, 0, 0),
-(154, 'Yellow Rice: Bag', '', 1, 0, 0),
-(155, 'White Rice: Micrwaveable Cup - 2 pack', '', 5, 0, 5),
+(152, 'Instant Brown Rice Box', '', 5, 0, 5),
+(153, 'Jasmine Rice: Bag', '', 0, 0, 0),
+(154, 'Yellow Rice: Bag', '', 0, 0, 0),
+(155, 'White Rice: Micrwaveable Cup - 2 pack', '', 6, 0, 5),
 (156, 'Brown Rice: Microwaveable Cup - 2 pack', '', 5, 0, 5),
-(157, 'Rice a Roni Cheddar Broccoli: Microwaveable Cup', '', 0, 0, 6),
-(158, 'Microwaveable Cauliflower Rice', '', 1, 0, 0),
-(159, 'Microwaveable Ready Pasta', '', 3, 0, 0),
-(160, 'Beef Ravioli Microwaveable Cups', '', 7, 0, 8),
-(161, 'Beefaroni Microwaveable Cups', '', 2, 0, 0),
+(157, 'Rice a Roni Cheddar Broccoli: Microwaveable Cup', '', 6, 0, 6),
+(158, 'Microwaveable Cauliflower Rice', '', 0, 0, 0),
+(159, 'Microwaveable Ready Pasta', '', 1, 0, 0),
+(160, 'Beef Ravioli Microwaveable Cups', '', 2, 0, 8),
+(161, 'Beefaroni Microwaveable Cups', '', 0, 0, 0),
 (162, 'Macaroni & Cheese: Microwaveable Cups', '', 26, 0, 24),
-(163, 'White Cheddar Macaroni & Cheese cups', '', 2, 0, 0),
-(164, 'Shells & Cheese: Microwaveable Cups', '', 11, 0, 0),
+(163, 'White Cheddar Macaroni & Cheese cups', '', 0, 0, 0),
+(164, 'Shells & Cheese: Microwaveable Cups', '', 3, 0, 0),
 (165, 'Rice Sides: Chicken Flavor', '', 3, 0, 5),
-(166, 'Rice Sides: Creamy Chicken', '', 1, 0, 0),
-(167, 'Rice Sides: Chicken with Broccoli', '', 3, 0, 5),
-(168, 'Rice Sides: Herb and Butter', '', 2, 0, 5),
-(169, 'Pasta Sides: Creamy Chicken', '', 2, 0, 5),
-(170, 'Pasta Sides: Butter and Herb', '', 2, 0, 5),
-(171, 'Pasta Sides: Alfredo', '', 2, 0, 0),
-(172, 'Pasta Sides: Cheddar Broccoli', '', 3, 0, 0),
-(173, 'Italian Sides: 4 Cheese Pasta', '', 3, 0, 5),
-(174, 'Fiesta Sides: Mexican Rice', '', 6, 0, 5),
-(175, 'Fiesta Sides: Spanish Rice ', '', 2, 0, 0),
-(176, 'Instant Mashed Potatoes: Butter', '', 5, 0, 5),
+(166, 'Rice Sides: Creamy Chicken', '', 8, 0, 0),
+(167, 'Rice Sides: Chicken with Broccoli', '', 2, 0, 5),
+(168, 'Rice Sides: Herb and Butter', '', 5, 0, 5),
+(169, 'Pasta Sides: Creamy Chicken', '', 10, 0, 5),
+(170, 'Pasta Sides: Butter and Herb', '', 9, 0, 5),
+(171, 'Pasta Sides: Alfredo', '', 0, 0, 0),
+(172, 'Pasta Sides: Cheddar Broccoli', '', 10, 0, 0),
+(173, 'Italian Sides: 4 Cheese Pasta', '', 14, 0, 5),
+(174, 'Fiesta Sides: Mexican Rice', '', 5, 0, 5),
+(175, 'Fiesta Sides: Spanish Rice ', '', 0, 0, 0),
+(176, 'Instant Mashed Potatoes: Butter', '', 3, 0, 5),
 (177, 'Instant Mashed Potatoes: Four Cheese', '', 4, 0, 5),
-(178, 'Mashed Potatoes: Box', '', 1, 0, 0),
-(179, 'Au Gratin Potatoes: Box', '', 2, 0, 0),
-(180, 'Suddenly Pasta Salad: Creamy Macaroni', '', 1, 0, 0),
-(181, 'Stuffing: Chicken flavor - Box', '', 1, 0, 0),
-(182, 'Butter Mashed Potato: Microwaveable Cup', '', 2, 0, 0),
-(183, 'Beef Vegetable Soup', '', 10, 0, 10),
-(184, 'Broccoli Cheese Soup', '', 7, 0, 10),
-(185, 'Chicken Noodle Soup', '', 31, 0, 10),
-(186, 'Creamy Chicken Noodle Soup', '', 2, 0, 0),
-(187, 'Chicken and Rice Soup', '', 12, 0, 10),
-(188, 'Clam Chowder Soup', '', 0, 0, 5),
-(189, 'Bean with Bacon Soup', '', 1, 0, 0),
-(190, 'Cream of Potato Soup', '', 7, 0, 10),
-(191, 'Tomato Soup', '', 21, 0, 10),
+(178, 'Mashed Potatoes: Box', '', 0, 0, 0),
+(179, 'Au Gratin Potatoes: Box', '', 0, 0, 0),
+(180, 'Suddenly Pasta Salad: Creamy Macaroni', '', 0, 0, 0),
+(181, 'Stuffing: Chicken flavor - Box', '', 0, 0, 0),
+(182, 'Butter Mashed Potato: Microwaveable Cup', '', 0, 0, 0),
+(183, 'Beef Vegetable Soup', '', 9, 0, 10),
+(184, 'Broccoli Cheese Soup', '', 8, 0, 10),
+(185, 'Chicken Noodle Soup', '', 17, 0, 10),
+(186, 'Creamy Chicken Noodle Soup', '', 0, 0, 0),
+(187, 'Chicken and Rice Soup', '', 8, 0, 10),
+(188, 'Clam Chowder Soup', '', 4, 0, 5),
+(189, 'Bean with Bacon Soup', '', 0, 0, 0),
+(190, 'Cream of Potato Soup', '', 8, 0, 10),
+(191, 'Tomato Soup', '', 13, 0, 10),
 (192, 'Vegetable Soup', '', 10, 0, 10),
 (193, 'Beef Barley Soup', '', 1, 0, 0),
-(194, 'Cream of Chicken Soup', '', 5, 0, 0),
-(195, 'Cream of Mushroom Soup', '', 3, 0, 0),
+(194, 'Cream of Chicken Soup', '', 0, 0, 0),
+(195, 'Cream of Mushroom Soup', '', 0, 0, 0),
 (196, 'Bean and Ham Soup', '', 1, 0, 0),
-(197, 'Chicken Broccoli Cheese w/Potato', '', 1, 0, 0),
-(198, 'Cheddar Cheese Soup', '', 2, 0, 0),
-(199, 'Chicken and Dumpling Soup', '', 2, 0, 0),
-(200, 'Beef Raman packets', '', 24, 0, 24),
-(201, 'Chicken Raman packets', '', 61, 0, 24),
-(202, 'Chicken Stock', '', 3, 0, 0),
+(197, 'Chicken Broccoli Cheese w/Potato', '', 0, 0, 0),
+(198, 'Cheddar Cheese Soup', '', 1, 0, 0),
+(199, 'Chicken and Dumpling Soup', '', 0, 0, 0),
+(200, 'Beef Raman packets', '', 14, 0, 24),
+(201, 'Chicken Raman packets', '', 28, 0, 24),
+(202, 'Chicken Stock', '', 0, 0, 0),
 (203, 'Vegetable Stock', '', 1, 0, 0),
-(204, 'Beef Broth', '', 1, 0, 0),
-(205, 'Italian Style Meatball soup', '', 1, 0, 0),
-(206, 'Chicken Noodle Soup: Microwaveable Cup', '', 3, 0, 10),
-(207, 'Tomato Soup: Microwaveable Cup', '', 19, 0, 8),
-(208, 'Beef Raman: Microwaveable Cup', '', 0, 0, 10),
-(209, 'Chicken Raman: Microwaveable Cup', '', 4, 0, 10),
+(204, 'Beef Broth', '', 0, 0, 0),
+(205, 'Italian Style Meatball soup', '', 0, 0, 0),
+(206, 'Chicken Noodle Soup: Microwaveable Cup', '', 11, 0, 10),
+(207, 'Tomato Soup: Microwaveable Cup', '', 5, 0, 5),
+(208, 'Beef Raman: Microwaveable Cup', '', 0, 0, 0),
+(209, 'Chicken Raman: Microwaveable Cup', '', 10, 0, 10),
 (210, 'Cheddar Cheese Raman: Microwaveable Cup', '', 1, 0, 0),
 (211, 'Hot & Spicy Shrimp Raman: Microwaveable Cup', '', 1, 0, 0),
-(212, 'Chicken and Stars Soup: Microwaveable Cup', '', 4, 0, 10),
-(213, 'Applesauce cups 6 Pack: original', '', 4, 0, 5),
+(212, 'Chicken and Stars Soup: Microwaveable Cup', '', 1, 0, 0),
+(213, 'Applesauce cups 6 Pack: original', '', 14, 0, 5),
 (214, 'Applesauce cups 6 Pack: Cinnamon', '', 6, 0, 5),
-(215, 'Applesauce Cinnamon: large jar', '', 1, 0, 0),
-(216, 'Mandarin Orange Cups: 4 pack', '', 5, 0, 5),
+(215, 'Applesauce Cinnamon: large jar', '', 0, 0, 0),
+(216, 'Mandarin Orange Cups: 4 pack', '', 0, 0, 5),
 (217, 'Peach Cups: 4 pack', '', 4, 0, 5),
 (218, 'Pear Cups: 4 pack', '', 5, 0, 5),
-(219, 'Pineapple Cups: 4 pack', '', 5, 0, 5),
-(220, 'Raisins: Individual ', '', 1, 0, 0),
+(219, 'Pineapple Cups: 4 pack', '', 2, 0, 5),
+(220, 'Raisins: Individual ', '', 0, 0, 0),
 (221, 'Canned Mandarin Oranges', '', 2, 0, 0),
-(222, 'Canned Pineapple ', '', 1, 0, 0),
-(223, 'Canned Fruit Cocktail ', '', 2, 0, 0),
-(224, 'Canned Pears', '', 1, 0, 0),
-(225, 'Mixed Fruit: Single Cup', '', 2, 0, 0),
+(222, 'Canned Pineapple ', '', 0, 0, 0),
+(223, 'Canned Fruit Cocktail ', '', 0, 0, 0),
+(224, 'Canned Pears', '', 0, 0, 0),
+(225, 'Mixed Fruit: Single Cup', '', 0, 0, 0),
 (226, 'Applesauce Original: individual Cup', '', 0, 0, 0),
-(227, 'Potato Crisps: Original', '', 5, 0, 3),
-(228, 'Potato Crisps: Cheddar Cheese', '', 4, 0, 3),
-(229, 'Potato Crisps: Barbecue', '', 5, 0, 3),
-(230, 'Butter Crackers: Box', '', 4, 0, 3),
-(231, 'Wheat Crackers: Box', '', 3, 0, 3),
-(232, 'White Cheddar Cheese Crackers: Box', '', 4, 0, 3),
-(233, 'Multigrain Crackers: Box', '', 1, 0, 0),
-(234, 'Peanut Butter Sandwich Crackers: Box of 8 packs', '', 4, 0, 4),
+(227, 'Potato Crisps: Original', '', 0, 0, 3),
+(228, 'Potato Crisps: Cheddar Cheese', '', 1, 0, 3),
+(229, 'Potato Crisps: Barbecue', '', 1, 0, 3),
+(230, 'Butter Crackers: Box', '', 3, 0, 3),
+(231, 'Wheat Crackers: Box', '', 2, 0, 3),
+(232, 'White Cheddar Cheese Crackers: Box', '', 0, 0, 3),
+(233, 'Multigrain Crackers: Box', '', 0, 0, 0),
+(234, 'Peanut Butter Sandwich Crackers: Box of 8 packs', '', 3, 0, 4),
 (235, 'Cheese Sandwhich Crackers: Box of 8 packs', '', 4, 0, 4),
-(236, 'Microwave popcorn: box of 3 packs', '', 9, 0, 5),
-(237, 'Individaul gummy packs', '', 21, 0, 0),
-(238, 'Animal Crackers Snack Size Bag', '', 12, 0, 0),
-(239, 'Green Pea Snack Crisps', '', 1, 0, 0),
-(240, 'Girl Scout Cookies: Lemonades pack', '', 1, 0, 0),
-(241, 'Crispy Rice Treats Box', '', 1, 0, 0),
-(242, 'Seasoned Croutons', '', 1, 0, 0),
-(243, 'Smokehouse Almonds', '', 1, 0, 0),
-(244, 'Nature Valley Crunchy Oats & Honey: single bar', '', 2, 0, 0),
-(245, 'Salted Caramel Protein Bar: Single', '', 13, 0, 0),
-(246, 'Creamy Peanut Butter Protein Bar: Single', '', 4, 0, 0),
-(247, 'Smores Protein Bar: Single', '', 2, 0, 0),
+(236, 'Microwave popcorn: box of 3 packs', '', 5, 0, 5),
+(237, 'Individaul gummy packs', '', 0, 0, 0),
+(238, 'Animal Crackers Snack Size Bag', '', 0, 0, 0),
+(239, 'Green Pea Snack Crisps', '', 0, 0, 0),
+(240, 'Girl Scout Cookies: Lemonades pack', '', 0, 0, 0),
+(241, 'Crispy Rice Treats Box', '', 0, 0, 0),
+(242, 'Seasoned Croutons', '', 0, 0, 0),
+(243, 'Smokehouse Almonds', '', 0, 0, 0),
+(244, 'Nature Valley Crunchy Oats & Honey: single bar', '', 0, 0, 0),
+(245, 'Salted Caramel Protein Bar: Single', '', 11, 0, 0),
+(246, 'Creamy Peanut Butter Protein Bar: Single', '', 0, 0, 0),
+(247, 'Smores Protein Bar: Single', '', 0, 0, 0),
 (248, 'Granola Bar: Chewy Choloclate chunk Single', '', 0, 0, 0),
-(249, 'Strawberry Geletin Cup', '', 2, 0, 0),
-(250, 'Cheese Sandwhich Crackers: Individual', '', 5, 0, 0),
-(251, 'Sliced Carrots', '', 5, 0, 8),
-(252, 'Corn', '', 11, 0, 8),
+(249, 'Strawberry Geletin Cup', '', 0, 0, 0),
+(250, 'Cheese Sandwhich Crackers: Individual', '', 0, 0, 0),
+(251, 'Sliced Carrots', '', 8, 0, 8),
+(252, 'Corn', '', 7, 0, 8),
 (253, 'Cream Style Corn', '', 1, 0, 0),
-(254, 'Green Beans', '', 31, 0, 8),
-(255, 'Peas', '', 8, 0, 8),
-(256, 'Sliced Potatoes', '', 8, 0, 8),
-(257, 'Chick Peas/Garbanzo Beans', '', 1, 0, 0),
+(254, 'Green Beans', '', 26, 0, 8),
+(255, 'Peas', '', 6, 0, 8),
+(256, 'Sliced Potatoes', '', 7, 0, 8),
+(257, 'Chick Peas/Garbanzo Beans', '', 0, 0, 0),
 (258, 'Diced Tomatoes', '', 2, 0, 0),
-(259, 'Kidney Beans', '', 2, 0, 0),
-(260, 'Baked Beans', '', 1, 0, 0),
+(259, 'Kidney Beans', '', 1, 0, 0),
+(260, 'Baked Beans', '', 0, 0, 0),
 (261, 'Sauerkraut', '', 2, 0, 0),
-(262, 'Mixed Vegetables ', '', 3, 0, 0),
+(262, 'Mixed Vegetables ', '', 0, 0, 0),
 (263, 'Refried Beans', '', 2, 0, 0),
 (264, 'Collard Greens', '', 1, 0, 0),
-(265, 'Canned Tuna', '', 32, 0, 10),
-(266, 'Canned Chicken', '', 14, 0, 10),
-(267, 'Tuna Packet: no flavor', '', 34, 0, 10),
+(265, 'Canned Tuna', '', 17, 0, 10),
+(266, 'Canned Chicken', '', 5, 0, 10),
+(267, 'Tuna Packet: no flavor', '', 33, 0, 10),
 (268, 'Chicken Packet: no flavor', '', 1, 0, 0),
-(269, 'Chicken Packet: Buffalo flavor', '', 1, 0, 0),
-(270, 'Ketchup', '', 5, 0, 5),
-(271, 'Mustard', '', 5, 0, 5),
-(272, 'Mayonnaise', '', 5, 0, 5),
-(273, 'Peanut Butter', '', 6, 0, 5),
+(269, 'Chicken Packet: Buffalo flavor', '', 0, 0, 0),
+(270, 'Ketchup', '', 4, 0, 5),
+(271, 'Mustard', '', 4, 0, 5),
+(272, 'Mayonnaise', '', 2, 0, 5),
+(273, 'Peanut Butter', '', 3, 0, 5),
 (274, 'Grape Jelly', '', 3, 0, 3),
-(275, 'Peanut Butter & Grape Jelly Stripes', '', 1, 0, 0),
+(275, 'Peanut Butter & Grape Jelly Stripes', '', 0, 0, 0),
 (276, 'Sugar Free Grape Jam', '', 0, 0, 0),
-(277, 'Srawberry Jelly', '', 3, 0, 3),
+(277, 'Srawberry Jelly', '', 2, 0, 3),
 (278, 'Large 26 OZ salt', '', 1, 0, 0),
-(279, 'Salt & Pepper combo pack', '', 5, 0, 5),
+(279, 'Salt & Pepper combo pack', '', 4, 0, 5),
 (280, 'Tomato Paste', '', 1, 0, 0),
-(281, 'Chicken Gravy Packet', '', 2, 0, 0),
-(282, 'Brown Gravy Packet', '', 3, 0, 0),
-(283, 'Savory Beef Gravy: Jar', '', 1, 0, 0),
-(284, 'Chipotle Sauce', '', 1, 0, 0),
-(285, 'Taco Seasoning mix: packet', '', 5, 0, 0),
+(281, 'Chicken Gravy Packet', '', 1, 0, 0),
+(282, 'Brown Gravy Packet', '', 1, 0, 0),
+(283, 'Savory Beef Gravy: Jar', '', 0, 0, 0),
+(284, 'Chipotle Sauce', '', 0, 0, 0),
+(285, 'Taco Seasoning mix: packet', '', 1, 0, 0),
 (286, 'Salad Dressing: French', '', 2, 0, 0),
-(287, 'Season Salt: Bottle', '', 1, 0, 0),
-(288, 'Teriyaki Sauce: Bottle', '', 1, 0, 0),
-(289, 'Minced Onion seasoning', '', 1, 0, 0),
+(287, 'Season Salt: Bottle', '', 0, 0, 0),
+(288, 'Teriyaki Sauce: Bottle', '', 0, 0, 0),
+(289, 'Minced Onion seasoning', '', 0, 0, 0),
 (290, 'Guacamole Dip Mix: packet', '', 2, 0, 0),
-(291, 'Ranch seasoning: packet', '', 1, 0, 0),
-(292, 'Garlic Parmesean mix: packet', '', 1, 0, 0),
+(291, 'Ranch seasoning: packet', '', 0, 0, 0),
+(292, 'Garlic Parmesean mix: packet', '', 0, 0, 0),
 (293, 'Sloppy Joe mix: packet', '', 1, 0, 0),
-(294, 'Cinnamon', '', 1, 0, 0),
-(295, 'Manwich Original Sloppy Joe Sauce', '', 4, 0, 0),
-(296, 'Chocolate Cake Mix: Box', '', 1, 0, 0),
-(297, 'All purpose flour', '', 2, 0, 0),
+(294, 'Cinnamon', '', 0, 0, 0),
+(295, 'Manwich Original Sloppy Joe Sauce', '', 3, 0, 0),
+(296, 'Chocolate Cake Mix: Box', '', 0, 0, 0),
+(297, 'All purpose flour', '', 0, 0, 0),
 (298, 'Plain Bread Crumbs', '', 1, 0, 0),
-(299, 'Corn Muffin Mix: Box', '', 4, 0, 0),
-(300, 'Fudge Brownie mix: Box', '', 1, 0, 0),
-(301, 'Toothpicks: pack', '', 1, 0, 0),
-(302, 'Disposable Cupcack Liners: pack', '', 1, 0, 0),
-(303, 'Food Coloring: pack of 4', '', 1, 0, 0),
-(304, 'Milk chocolate brownie Mix: Box', '', 1, 0, 0),
-(305, 'Baking Powder', '', 1, 0, 0),
-(306, 'Cheddar Bay Biscuit Mix', '', 1, 0, 0),
-(307, 'Angel Food cake mix: Box', '', 1, 0, 0);
+(299, 'Corn Muffin Mix: Box', '', 1, 0, 0),
+(300, 'Fudge Brownie mix: Box', '', 0, 0, 0),
+(301, 'Toothpicks: pack', '', 0, 0, 0),
+(302, 'Disposable Cupcack Liners: pack', '', 0, 0, 0),
+(303, 'Food Coloring: pack of 4', '', 0, 0, 0),
+(304, 'Milk chocolate brownie Mix: Box', '', 0, 0, 0),
+(305, 'Baking Powder', '', 0, 0, 0),
+(306, 'Cheddar Bay Biscuit Mix', '', 0, 0, 0),
+(307, 'Angel Food cake mix: Box', '', 0, 0, 0),
+(308, 'Baby Shampoo', '', 1, 0, 0),
+(309, 'Pack of 10 Emery Boards', '', 1, 0, 0),
+(310, 'Baseball hats', '', 4, 0, 0),
+(311, 'Reuseable Face Mask', '', 60, 0, 0),
+(312, 'Compleats Meals: Salisbury Steak', '', 2, 0, 0),
+(313, 'White Rice: Bag', '', 1, 0, 0),
+(314, 'Rice with Chicken and Vegetables: Microwaveable', '', 2, 0, 0),
+(315, 'Chicken Broth', '', 2, 0, 0),
+(316, 'Lasgna Style Soup', '', 1, 0, 0),
+(317, 'Chili with Beans & Beef', '', 1, 0, 0),
+(318, 'Savory Chicken with Brown Rice', '', 5, 0, 0),
+(319, 'Creamy Chicken Noodle', '', 2, 0, 0),
+(320, 'Italian Style Meatball', '', 1, 0, 0),
+(321, 'Unsweetened Applesauce Can', '', 1, 0, 0),
+(322, 'Diced Mango: 3 pack', '', 1, 0, 0),
+(323, 'Rasin snack box: 6 pack', '', 7, 0, 0),
+(324, 'Banana creme sandwich cookie: 6 pack', '', 2, 0, 0),
+(325, 'Vanilla Creme sandwich cookie: 6 pack', '', 2, 0, 0),
+(326, 'Vienna Sausage: BBQ flavor', '', 5, 0, 0);
+COMMIT;
 
 INSERT INTO `productcategories` (`ProductID`, `CategoryID`) VALUES
 (1, 1),
@@ -737,7 +794,7 @@ INSERT INTO `productcategories` (`ProductID`, `CategoryID`) VALUES
 (83, 3),
 (84, 3),
 (85, 3),
-(86, 3),
+(86, 4),
 (87, 4),
 (88, 4),
 (89, 4),
@@ -959,6 +1016,25 @@ INSERT INTO `productcategories` (`ProductID`, `CategoryID`) VALUES
 (305, 14),
 (306, 14),
 (307, 14),
+(308,1),
+(309,1),
+(310,3),
+(311,3),
+(312,6),
+(313,7),
+(314,7),
+(315,9),
+(316,9),
+(317,9),
+(318,9),
+(319,9),
+(320,9),
+(321,10),
+(322,10),
+(323,11),
+(324,11),
+(325,11),
+(326,12),
 (1, 15),
 (2, 15),
 (3, 15),
@@ -1012,109 +1088,27 @@ INSERT INTO `productcategories` (`ProductID`, `CategoryID`) VALUES
 (51, 18);
 COMMIT;
 
-INSERT INTO `product` (`ProductID`, `Name`, `ProductDescription`, `QtyOnHand`, `MaxOrderQty`, `GoalStock`) VALUES
-(1000, 'Blanket', 'Dark blue, fleece.  Approximately 50x50 inches', 1, 1, 0),  -- GoalStock = 0 (Temp item)
-(1001, 'Clear American Sparkling Water, Wild Cherry', '1 bottle, 33.8 fl oz', 10, 5, 5),
-(1002, 'Basmati Rice', '1 bag, 32 oz', 2, 1, 5),  -- QtyOnHand < GoalStock (On shopping List)
-(1003, 'Gluten Free Angel Hair Pasta', '1 box, 1lb', 4, 2, 10), -- QtyOnHand < GoalStock (On shopping List)
-(1004, 'Coat', 'Forever 21 Faux Fur Lined Womens Coat, size Xtra Large', 1, 1, 0), -- GoalStock = 0 (Temp item)
-(1005, 'Canned Dragon Fruit', '1 can, 12 oz', 9, 3, 5),
-(1006, 'Sugar', '1 bag, .5 lb', 6, 2, 8), -- QtyOnHand < GoalStock (On shopping List)
-(1007, 'Flour', '1 bag, .5 lb', 8, 1, 3),
-(1008, 'Curtains', 'Barbie Pink, Room darkening, 63"', 1, 1, 0), -- GoalStock = 0 (Temp item)
-(1009, 'Vienna Sausages', '1 can, 6 oz', 10, 15, 6),
-(1010, 'Ruler', '12 inch Ruler', 20, 3, 5),
-(1011, 'Black Tank Top', 'Womens Tank Tops, size Small, Medium, and Xtra Large Available.
-Please put size in comment box before ordering', 30, 5, 0), -- GoalStock = 0 (Temp item)
-(1012, 'Composition Notebooks', '1 Black, regular ruled notebook', 0, 5, 19),  -- QtyOnHand = 0, out of stock
-(1013, 'Canned Alfredo Pasta Sauce', '1 can, 24 oz', 0, 3, 10), -- QtyOnHand = 0, out of stock
-(1014, 'iPhone 10 case', 'blue with stars design, Otterbox', 0, 1, 0), -- inactive item
-(1015, 'Thinx Period Proof Underwear', 'black, size Medium, brief style', 1, 1, 0),  -- GoalStock = 0 (Temp item)
-(1016, 'Creamy Italian Wedding Soup', '12 oz can', 5, 8, 0),
-(1017, 'Suave 3-1 Shampoo, Body and Face Wash', '16 fl oz bottle, scent: ThunderBird Axe Attack', 3, 10, 15); -- QtyOnHand < GoalStock (On shopping List)
-COMMIT;
 
-INSERT INTO `orders` (`ORDERID`, `USERID`, `STATUS`, `DATEORDERED`, `DATEFILLED`, `DATECOMPLETED`, `COMMENT`) VALUES
-(1, 1, 'COMPLETED', '2021-08-29', '2021-09-01', '2021-09-05', 'I am allergice to Nuts'),
-(2, 2, 'READY FOR PICKUP', '2021-09-16', '2021-09-17', '', ' '),
-(3, 1, 'SUBMITTED', '2021-09-18',  '', '', 'I live off campus'),
-(4, 3, 'SUBMITTED', '2021-09-19', '', '', 'Size Xtra Large For the Tank Top');
-COMMIT;
+INSERT INTO `setting` (SettingID,
+                       EmailOrderReceived, EmailOrderFilled, EmailOrderReminder, EmailOrderCancelled,
+                       BCCOrderReceived, BCCOrderFilled, BCCOrderReminder, BCCOrderCanceled,
+                       OrderReceivedText, OrderFilledText, OrderReminderText, OrderCancelledText,
+                       OrderReceivedSubj, OrderFilledSubj, OrderReminderSubj, OrderCancelledSubj,
+                       FooterTextLeft, FooterTextRight, PhotoDir) VALUES
 
-INSERT INTO `productcategories` (`ProductID`, `CategoryID`) VALUES
-(1000, 3),    -- Blanket in linens
-(1001, 5),    -- Water in Beverages
-(1002, 7),    -- Rice in Pasta & Rice
-(1003, 7),    -- Pasta in Pasta & Rice
-(1004, 19),   -- Coat in Clothing
-(1005, 10),   -- Dragon fruit in Fruit
-(1005, 11),   -- Dragon fruit in Snacks
-(1006, 14),   -- Sugar in Baking
-(1007, 14),   -- Flour in Baking
-(1008, 3),    -- Curtains in Linens
-(1009, 12),   -- Canned Sausage under Canned Meats
-(1010, 2),    -- Ruler in Household Supplies
-(1011, 19),   -- Tank Top in Clothing
-(1012, 2),    -- Notebook in Household Supplies
-(1013, 7),    -- Alfredo Sauce in Pasta & Rice
-(1014, 2),    -- Phone Case in Household Supplies
-(1015, 18),   -- Underwear in Feminine Hygiene Products
-(1015, 19),   -- Underwear in Clothing
-(1016, 9),    -- Italian Wedding in Soup
-(1017, 15),   -- Suave in Hair Care
-(1017, 16),   -- Suave in Body
-(1017, 17);   -- Suave in Face
-COMMIT;
+     (1,
+     'A.J.Robinson1@eagle.clarion.edu,B.J.Lindermuth@eagle.clarion.edu,D.Kaltenbaugh@eagle.clarion.edu',
+     'A.J.Robinson1@eagle.clarion.edu,B.J.Lindermuth@eagle.clarion.edu,D.Kaltenbaugh@eagle.clarion.edu',
+     'A.J.Robinson1@eagle.clarion.edu,B.J.Lindermuth@eagle.clarion.edu,D.Kaltenbaugh@eagle.clarion.edu,g.m.bennett@eagle.clarion.edu',
+     'A.J.Robinson1@eagle.clarion.edu,B.J.Lindermuth@eagle.clarion.edu,D.Kaltenbaugh@eagle.clarion.edu,g.m.bennett@eagle.clarion.edu',
+      'b.m.bizzarri@eagle.clarion.edu', 'b.m.bizzarri@eagle.clarion.edu', 'b.m.bizzarri@eagle.clarion.edu', 'b.m.bizzarri@eagle.clarion.edu',
+     'Hello!  We have received your order and it will be filled as soon as possible.  You will receive another email when it is ready for pickup.  Thank you!',
+     'Hello!  Your order has been filled and is ready for pick up at the Gemmell Info Desk.
+     Info desk hours are Monday-Friday 9AM -10PM and Noon-10PM on Saturday and Sunday. Please bring a photo ID with you when picking up your order.  Thank you!',
+     'Hello!  Reminder that your order is ready to be picked up!  Please pick it up at your earliest convenience at the Gemmell info desk.
+     Info desk hours are Monday-Friday 9AM -10PM and Noon-10PM on Saturday and Sunday. Please bring a photo ID with you when picking up your order.  Thank you!',
+     'Hello!  Your order has been cancelled.  To place another order, visit: Clarion.edu/hungry',
+     'Your Order Has Been Received!', 'Your Order is Ready For Pickup', 'Reminder: Your Order is Ready For Pickup','Your Order has been Cancelled',
+     'The Resource room is located on the first floor of Gemmell in Room 112',
+     'The last day to order from the resource room will be on Friday, November 19th','');
 
-INSERT INTO `orderdetails` (`ORDERID`, `PRODUCTID`, `QTYREQUESTED`, `QTYFILLED`) VALUES
--- Order 1, 5 different items, all items filled as requested, Order Complete
-(1, 1002, 1, 1),
-(1, 1003, 2, 2),
-(1, 1005, 2, 2),
-(1, 1009, 3, 3),
-(1, 1010, 1, 1),
-(1, 1012, 1, 1),
--- Order 2, 8 different items, 2 items not filled as requested, Ready for Pickup
-(2, 1000, 1, 1),
-(2, 1001, 3, 3),
-(2, 1003, 1, 1),
-(2, 1005, 2, 2),
-(2, 1006, 2, 1),  -- Only received 1 bag of sugar
-(2, 1007, 1, 1),
-(2, 1009, 2, 2),
-(2, 1012, 4, 0),  -- Received no notebooks
--- Order 3, 6 different items, Submitted (Not Filled) so QtyFilled = 0 for all items
-(3, 1000, 1, 0),
-(3, 1004, 1, 0),
-(3, 1005, 2, 0),
-(3, 1010, 3, 0),
-(3, 1016, 8, 0),  -- QtyRequested > Qty Available
-(3, 1017, 7, 0),  -- QtyRequested > Qty Available
--- Order 4, 10 different items, Submitted (Not Filled) so QtyFilled = 0 for all items
-(4, 1001, 4, 0),
-(4, 1002, 1, 0),
-(4, 1003, 2, 0),
-(4, 1004, 1, 0), -- QtyAvailable < QtyRequested, Will not receive a coat
-(4, 1005, 2, 0),
-(4, 1006, 1, 0),
-(4, 1007, 1, 0),
-(4, 1009, 2, 0),
-(4, 1010, 1, 0),
-(4, 1011, 4, 0);
-COMMIT;
-
-INSERT INTO `cart` (`USERID`, `PRODUCTID`, `QTYREQUESTED`) VALUES
-(5, 1001, 6),      -- QtyRequested > MaxOrderQty, can't be ordered as in cart
-(5, 1002, 1),      -- No issues
-(5, 1003, 2),      -- No issues
-(5, 1006, 1),      -- Date is from 2020
-(5, 1009, 10),     -- QtyRequested > QtyAvailable, can't be ordered as in cart
-(5, 1012, 4);      -- QtyAvailable = 0, Item is out of stock
-COMMIT;
-
-INSERT INTO `setting` (SettingID, EmailOrderReceived, EmailOrderFilled, OrderReceivedText, OrderFilledText, FooterText, PhotoDir) VALUES
-(1, 'mlkarg@clarion.edu, resourceroom@clarion.edu, admin@clarion.edu', 'mlkarg@clarion.edu, resourceroom@clarion.edu',
- 'Hello!  We have received your order and will fill it as soon as we are able.  Once the order has been filled, another email will be sent to confirm pick up details.',
- 'Hello!  Your order has been filled and can be picked up in Ralston Hall, Monday through Friday from 8am to 4pm.  In the entry way is a table.
- Your order will be in a reusable shopping bag on the table. Please bring your order number to ensure you pick up the correct order.',
- 'The last day to order from the resource room will be on Friday, November 19th','');

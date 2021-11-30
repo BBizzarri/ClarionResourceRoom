@@ -44,81 +44,6 @@
 
 
 
-    function processSignIn($user){
-        try{
-            $db = getDBConnection();
-            $query = 'SELECT * FROM users inner join userroles on users.UserID = userroles.UserID where users.UserID = :sUnderScore';
-            $statement = $db->prepare($query);
-            $statement->bindValue(':sUnderScore', $user->getsUnderScore());
-            $statement->execute();
-            $result = $statement->fetchAll();
-            $statement->closeCursor();
-            if(empty($result)){
-                try{
-                    $db = getDBConnection();
-                    $query = 'INSERT INTO users (UserID, FirstName, LastName, UserName, Password, Email)
-                    VALUES (:sUnderScore, :FirstName, :LastName,:sUnderScore,:Password,:Email)';
-                    $statement = $db->prepare($query);
-                    $statement->bindValue(':sUnderScore', $user->getsUnderScore());
-                    $statement->bindValue(':FirstName', $user->getFirstName());
-                    $statement->bindValue(':LastName', $user->getLastName());
-                    $statement->bindValue(':Password', '');
-                    $statement->bindValue(':Email', $user->getEmail());
-                    $success = $statement->execute();
-                    $statement->closeCursor();
-                    if($success)
-                    {
-                        try{
-                            $db = getDBConnection();
-                            $query = 'INSERT INTO userroles (UserID, RoleId)
-                    VALUES (:sUnderScore, :RoleID)';
-                            $statement = $db->prepare($query);
-                            $statement->bindValue(':sUnderScore', $user->getsUnderScore());
-                            $statement->bindValue(':RoleID', 2);
-                            $success = $statement->execute();
-                            $statement->closeCursor();
-                            if($success)
-                            {
-                                include '../view/index.php';
-                            }
-                            else
-                            {
-                                logSQLError($statement->errorInfo());
-                            }
-                            return "no user";
-                        }catch (PDOException $e){
-                            $errorMessage = $e->getMessage();
-                            include '../view/errorPage.php';
-                            die;
-                        }
-                    }
-                    else
-                    {
-                        logSQLError($statement->errorInfo());
-                    }
-                    return "no user";
-                }catch (PDOException $e){
-                    $errorMessage = $e->getMessage();
-                    include '../view/errorPage.php';
-                    die;
-                }
-            }
-            else{
-                if($result[0]['RoleID'] == 2){
-                    header( 'Location:../controller/controller.php?action=shopperHome');
-                }else if ($result[0]['RoleID'] == 1){
-                    header( 'Location:../controller/controller.php?action=adminOrders');
-                } else{
-                    header( 'Location:../controller/controller.php?action=shopperHome');
-                }
-            }
-        }  catch (PDOException $e) {
-            $errorMessage = $e->getMessage();
-            include '../view/errorPage.php';
-            die;
-        }
-    }
-
     function AdjustCart($PRODUCTID, $QTYREQUESTED)
     {
         $USERID = getUserID();
@@ -291,6 +216,61 @@
        }
     }
 
+    function deactivateCategory($categoryID){
+        try{
+            $db = getDBConnection();
+            $query = "SELECT * FROM productcategories";
+            $statement = $db->prepare($query);
+            $statement->bindValue(':CATEGORYID', $categoryID);
+            $statement->execute();
+            $result = $statement->fetchAll( PDO::FETCH_GROUP| PDO::FETCH_ASSOC);
+            $statement->closeCursor();
+            $products = array();
+            foreach($result as $product)
+            {
+                $isInCategory = False;
+                foreach($product as $categoryArray){
+                    if($categoryArray['CATEGORYID'] == $categoryID)
+                    {
+                        $isInCategory = True;
+                    }
+                }
+                if($isInCategory)
+                {
+                    if(count($product) == 1 )
+                    {
+                        array_push($products, $product);
+                    }
+                }
+            }
+
+            if(count($products) > 0)
+            {
+                $canDeactivate = False;
+            }
+            else
+            {
+                $db = getDBConnection();
+                $query = "update category set CATEGORYACTIVE = :CATEGORYACTIVE  where category.CATEGORYID = :CATEGORYID";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':CATEGORYACTIVE', 'N');
+                $statement->bindValue(':CATEGORYID', $categoryID);
+                $statement->execute();
+                $results = $statement->fetchAll();
+                $statement->closeCursor();
+                $canDeactivate = True;
+            }
+            return $canDeactivate;
+        }
+        catch (Exception $ex)
+        {
+            $errorMessage = $ex->getMessage();
+            include '../view/errorPage.php';
+            die;
+        }
+    }
+
+
     function fillOrder($order){
         try {
             $db = getDBConnection();
@@ -335,8 +315,8 @@
             try{
                 $db = getDBConnection();
                 $query = "SELECT orders.ORDERID, orders.*, orderdetails.QTYREQUESTED, orderdetails.QTYFILLED, productview.*, concat(users.FirstName, ' ', users.LastName) as USERSNAME FROM orders inner join orderdetails on orders.ORDERID = orderdetails.ORDERID
-                                                      inner join productview on orderdetails.PRODUCTID = productview.PRODUCTID
-                                                      inner join users on orders.USERID = users.UserID";
+                                                                                                          inner join productview on orderdetails.PRODUCTID = productview.PRODUCTID
+                                                                                                          inner join users on orders.USERID = users.UserID WHERE orders.DATEORDERED >= DATE_ADD(NOW(),INTERVAL -4 MONTH) ORDER BY orders.DATEORDERED DESC";
                 $statement = $db->prepare($query);
                 $statement->execute();
                 $result = $statement->fetchAll( PDO::FETCH_GROUP| PDO::FETCH_ASSOC);
@@ -366,8 +346,9 @@
     function getAllCategories() {
             try {
                 $db = getDBConnection();
-                $query = "select * from category order by CATEGORYDESCRIPTION";
+                $query = "select * from category WHERE category.CATEGORYACTIVE = :CATEGORYACTIVE order by CATEGORYDESCRIPTION";
                 $statement = $db->prepare($query);
+                $statement->bindValue(':CATEGORYACTIVE', 'Y');
                 $statement->execute();
                 $results = $statement->fetchAll();
                 $statement->closeCursor();
@@ -377,6 +358,7 @@
                     array_push($categories,new category($CategoryRow['CATEGORYID'],$CategoryRow['CATEGORYDESCRIPTION']));
                 }
                 return $categories;           // Assoc Array of Rows
+            } catch (PDOException $e) {
             } catch (PDOException $e) {
                 $errorMessage = $e->getMessage();
                 include '../view/errorPage.php';
@@ -429,6 +411,7 @@
 
         $AllProductsCategoriesArray = [];
         $AllProductsCategories = '';
+        $results = False;
         foreach($CategoryID as $SingleCategoryID)
         {
             $db = getDBConnection();
@@ -438,29 +421,54 @@
             $statement->execute();
             $results = $statement->fetch();
             $statement->closeCursor();
-            array_push($AllProductsCategoriesArray, $results[0]);
+            if ($results != False){
+                array_push($AllProductsCategoriesArray, $results[0]);
+            }
         }
-        foreach($AllProductsCategoriesArray as $SingleCategory)
-        {
-            if(end($AllProductsCategoriesArray) == $SingleCategory)
+        if($results != False){
+            foreach($AllProductsCategoriesArray as $SingleCategory)
             {
-                $AllProductsCategories = $AllProductsCategories  . $SingleCategory;
+                if(end($AllProductsCategoriesArray) == $SingleCategory)
+                {
+                    $AllProductsCategories = $AllProductsCategories  . $SingleCategory;
+                }
+                else
+                {
+                    $AllProductsCategories = $AllProductsCategories  . $SingleCategory . ',' . ' ';
+                }
+            }
+            if(strlen($AllProductsCategories) >= 45)
+            {
+                return substr($AllProductsCategories, 0, 45)."...";
             }
             else
             {
-                $AllProductsCategories = $AllProductsCategories  . $SingleCategory . ',' . ' ';
+                return $AllProductsCategories;
             }
         }
-         if(strlen($AllProductsCategories) >= 45)
-         {
-            return substr($AllProductsCategories, 0, 45)."...";
-         }
-         else
-         {
-            return $AllProductsCategories;
-         }
+        else
+        {
+
+            return "All";
+        }
+
     }
 
+    function getEmailToOrder($orderID)
+    {
+        $db = getDBConnection();
+        $query = "select users.Email
+                 from users
+                 inner join orders on users.UserID = orders.USERID
+                 where orders.ORDERID = :ORDERID";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':ORDERID', $orderID);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+        console_log($result);
+        return $result;
+    }
     function getProducts($CategoryID,$QTYLessThan,$IncludeInactiveItems,$HideUnstockedItems,$ShoppingList,$SearchTerm){
         try{
             $queryText = "SELECT productview.PRODUCTID,productview.*,productcategories.CATEGORYID,category.CATEGORYDESCRIPTION FROM productview inner join productcategories on productview.PRODUCTID = productcategories.PRODUCTID
@@ -475,16 +483,17 @@
                 $queryText .= " WHERE productview.GOALSTOCK > -1";
             }
             if($IncludeInactiveItems){
-                $queryText .= " and productview.QTYONHAND > -1";
+                $queryText .= " and productview.QTYAVAILABLE > -1";
             }else{
                 if($ShoppingList){
-                    $queryText .= " and productview.QTYONHAND < productview.GOALSTOCK";
+                    $queryText .= " and productview.QTYAVAILABLE < productview.GOALSTOCK";
                 }else{
-                    $queryText .= " and productview.QTYONHAND > 0";
+                    $queryText .= " and (productview.QTYAVAILABLE > 0 or productview.GOALSTOCK > 0)";
+
                 }
             }
             if($QTYLessThan != ""){
-                $queryText .= " and productview.QTYONHAND < :QTYLessThan";
+                $queryText .= " and productview.QTYAVAILABLE < :QTYLessThan";
             }
             if($SearchTerm != ""){
                 $queryText .=" and (productview.NAME LIKE :SearchTerm OR productview.PRODUCTDESCRIPTION LIKE :SearchTerm)";
@@ -495,7 +504,7 @@
             $db = getDBConnection();
             $statement = $db->prepare($query);
             if($QTYLessThan != ""){
-                $statement->bindValue(':QTYLessThan', $QTYLessThan);;
+                $statement->bindValue(':QTYLessThan', $QTYLessThan);
             }
             if($SearchTerm != ""){
                 $statement->bindValue(':SearchTerm', "%$SearchTerm%");
@@ -559,6 +568,7 @@
                 array_push($AllOrders, new order($order[0]['ORDERID'],$order[0]['USERID'],$order[0]['STATUS'],$order[0]['DATEORDERED'],$order[0]['DATEFILLED'],$order[0]['DATECOMPLETED'],$order[0]['COMMENT'],$orderDetails, $order[0]['USERSNAME']));
             }
             return $AllOrders;
+
         }
         catch (Exception $ex)
         {
@@ -568,12 +578,179 @@
         }
     }
 
+    function getOrder($OrderID){
+        try{
+            $db = getDBConnection();
+            $query = "SELECT orders.ORDERID, orders.*, orderdetails.QTYREQUESTED, orderdetails.QTYFILLED, productview.*, concat(users.FirstName, ' ', users.LastName) as USERSNAME FROM orders inner join orderdetails on orders.ORDERID = orderdetails.ORDERID
+                                                     inner join productview on orderdetails.PRODUCTID = productview.PRODUCTID
+                                                     inner join users on orders.USERID = users.UserID WHERE orders.ORDERID = :ORDERID ORDER BY orders.DATEORDERED DESC";
+            $statement = $db->prepare($query);
+            $statement->bindValue(":ORDERID", $OrderID);
+            $statement->execute();
+            $result = $statement->fetchAll( PDO::FETCH_GROUP| PDO::FETCH_ASSOC);
+            $statement->closeCursor();
+            $AllOrders = array();
+            foreach($result as $order) {
+                $orderDetails = array();
+                foreach($order as $orderItem){
+                    array_push($orderDetails, new orderDetail($orderItem['ORDERID'],
+                        new product($orderItem['PRODUCTID'],$orderItem['NAME'],$orderItem['PRODUCTDESCRIPTION'],$orderItem['QTYONHAND'],
+                            $orderItem['MAXORDERQTY'],$orderItem['ORDERLIMIT'],$orderItem['GOALSTOCK'],$orderItem['QTYONORDER'],$orderItem['QTYAVAILABLE']),
+                        $orderItem['QTYREQUESTED'],$orderItem['QTYFILLED']));
+
+                }
+                array_push($AllOrders, new order($order[0]['ORDERID'],$order[0]['USERID'],$order[0]['STATUS'],$order[0]['DATEORDERED'],$order[0]['DATEFILLED'],$order[0]['DATECOMPLETED'],$order[0]['COMMENT'],$orderDetails, $order[0]['USERSNAME']));
+            }
+            return $AllOrders;
+        }
+        catch (Exception $ex)
+        {
+            $errorMessage = $ex->getMessage();
+            include '../view/errorPage.php';
+            die;
+        }
+    }
+
+    function getUserEmail($userID)
+    {
+        $db = getDBConnection();
+        $query = "select Email
+                    from users
+                    where USERID = :USERID";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':USERID', $userID);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+        return $result;
+    }
+
     function getUserID(){
         if(isset($_SESSION["UserID"]))
         {
             return $_SESSION["UserID"];
         }
     }
+
+    function getUserInfo($UserID)
+    {
+        $db = getDBConnection();
+        $query = "select UserID, FirstName, LastName, Email
+                    from users
+                    where UserID = :UserID";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':UserID', $UserID);
+        $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        $user = new user($result[0]['UserID'], $result[0]['FirstName'],$result[0]['LastName'],$result[0]['Email']);
+        return $user;
+    }
+
+    function getUserName($userID)
+    {
+        $db = getDBConnection();
+        $query = "select  concat(FirstName, ' ', LastName) as Name
+                    from users
+                    where USERID = :USERID";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':USERID', $userID);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+        return $result;
+    }
+
+    function getReport($ReportType, $StartDate, $EndDate)
+    {
+        console_log($StartDate);
+        console_log($EndDate);
+        if(isset($ReportType))
+        {
+            switch ($ReportType) {
+                case 'Users':
+                    $report = getUserReport($StartDate, $EndDate);
+                    break;
+                case 'Orders':
+                    $report = getOrdersReport($StartDate, $EndDate);
+                    break;
+                case 'Products':
+                    $report = getProductReport($StartDate, $EndDate);
+                    break;
+            }
+        }
+        else
+        {
+            $report = getUserReport($StartDate, $EndDate);
+        }
+
+        return $report;
+    }
+
+     function getUserReport($StartDate, $EndDate)
+    {
+        $db = getDBConnection();
+        $query = "select users.UserID, users.FirstName, users.LastName, users.Email, COUNT(orders.ORDERID) as TotalOrders
+                    from users
+                    inner join orders on users.UserID = orders.USERID
+                    where (orders.DATECOMPLETED between :STARTDATE and :ENDDATE) and orders.STATUS = :STATUS
+                    group by users.UserID";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':STARTDATE', $StartDate);
+        $statement->bindValue(':ENDDATE', $EndDate);
+        $statement->bindValue(':STATUS', 'COMPLETED');
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+        return $result;
+    }
+
+    function getOrdersReport($StartDate, $EndDate)
+    {
+        $db = getDBConnection();
+        $query = "select users.UserID,users.FirstName, users.Lastname, users.Email, orders.ORDERID, orders.DATEORDERED, orders.DATEFILLED, orders.DATECOMPLETED, orders.COMMENT, orderdetails.PRODUCTID, product.NAME, orderdetails.QTYREQUESTED,
+                        orderdetails.QTYFILLED, product.PRODUCTDESCRIPTION, category.CATEGORYID, category.CATEGORYDESCRIPTION
+                    from users
+                    inner join orders on users.UserID = orders.USERID
+                    inner join orderdetails on orders.ORDERID = orderdetails.ORDERID
+                    inner join product on orderdetails.PRODUCTID = product.PRODUCTID    
+                    inner join productcategories on product.PRODUCTID = productcategories.PRODUCTID
+                    inner join category on productcategories.CATEGORYID = category.CATEGORYID
+                    where (orders.DATECOMPLETED between :STARTDATE and :ENDDATE) and orders.STATUS = :STATUS";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':STARTDATE', $StartDate);
+        $statement->bindValue(':ENDDATE', $EndDate);
+        $statement->bindValue(':STATUS', 'COMPLETED');
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+        return $result;
+    }
+
+    function getProductReport($StartDate, $EndDate)
+    {
+        console_log('here');
+        $db = getDBConnection();
+        $query = "select product.*, category.*, SUM(orderdetails.QTYFILLED) as TOTALFILLED, COUNT(orderdetails.QTYFILLED) as UNIQUEORDERS
+                    from product   
+                    inner join productcategories on product.PRODUCTID = productcategories.PRODUCTID
+                    inner join category on productcategories.CATEGORYID = category.CATEGORYID
+                    left join orderdetails on product.PRODUCTID = orderdetails.PRODUCTID
+                    left join orders on orderdetails.ORDERID = orders.ORDERID
+                    where (orders.DATECOMPLETED between :STARTDATE and :ENDDATE) and orders.STATUS = :STATUS
+                    GROUP BY product.PRODUCTID
+                    ";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':STARTDATE', $StartDate);
+        $statement->bindValue(':ENDDATE', $EndDate);
+        $statement->bindValue(':STATUS', 'COMPLETED');
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+        return $result;
+
+    }
+
 
     function removeFromCart($PRODUCTID)
     {
@@ -623,7 +800,7 @@
             }
             if($success){
                 clearCart($USERID);
-                return $statement->rowCount();
+                return $ORDERID;
             }
             else {
                 logSQLError($statement->errorInfo());
@@ -634,6 +811,209 @@
         {
             logSQLError($statement->errorInfo());
         }
+    }
+
+    function deleteOrder($OrderID){
+        $AllOrders = getOrder($OrderID);
+        $UserID = getUserID();
+        $order = $AllOrders[0];
+        $orderOwner = $order->getUserID();
+        if(userIsAuthorized("adminChangeOrderStatus") or ($UserID == $orderOwner))
+        {
+            if($order->getOrderStatus() == 'SUBMITTED')
+            {
+                $db = getDBConnection();
+                $query = 'DELETE FROM orderdetails WHERE (ORDERID = :ORDERID)';
+                $statement = $db->prepare($query);
+                $statement->bindValue(':ORDERID', $order->getOrderID());
+                $success = $statement->execute();
+                $statement->closeCursor();
+                if($success)
+                {
+                    $db = getDBConnection();
+                    $query = 'DELETE FROM orders WHERE (ORDERID = :ORDERID)';
+                    $statement = $db->prepare($query);
+                    $statement->bindValue(':ORDERID', $order->getOrderID());
+                    $success = $statement->execute();
+                    $statement->closeCursor();
+                    if($success)
+                    {
+                        return True;
+                    }
+                    else
+                    {
+                        logSQLError($statement->errorInfo());
+                    }
+                }
+                else
+                {
+                    logSQLError($statement->errorInfo());
+                }
+
+            }
+            else if($order->getOrderStatus() == 'READY FOR PICKUP')
+            {
+                foreach ($order->getOrderDetails() as $orderDetail)
+                {
+                    $rowCount = updateQTY($orderDetail->getProductID(),$orderDetail->getQTYFilled());
+                }
+                $db = getDBConnection();
+                $query = 'DELETE FROM orderdetails WHERE (ORDERID = :ORDERID)';
+                $statement = $db->prepare($query);
+                $statement->bindValue(':ORDERID', $order->getOrderID());
+                $success = $statement->execute();
+                $statement->closeCursor();
+                if($success)
+                {
+                    $db = getDBConnection();
+                    $query = 'DELETE FROM orders WHERE (ORDERID = :ORDERID)';
+                    $statement = $db->prepare($query);
+                    $statement->bindValue(':ORDERID', $order->getOrderID());
+                    $success = $statement->execute();
+                    $statement->closeCursor();
+                    if($success)
+                    {
+                        return True;
+                    }
+                    else
+                    {
+                        logSQLError($statement->errorInfo());
+                    }
+                }
+                else
+                {
+                    logSQLError($statement->errorInfo());
+                }
+            }
+        }
+        else
+        {
+            return False;
+        }
+    }
+
+    function sendEmail($to, $cc, $bcc, $subject, $message)
+    {
+        require_once 'Mail.php';
+        $options = array();
+        $options['host'] = 'serversmtp.clarion.edu';
+        $options['port'] = '2500';
+        $options['auth'] = false;
+        $Mailer = Mail::factory('smtp', $options);
+        $recipients = $to.", ".$cc.", ".$bcc;
+        $headers = array();
+        $headers['Cc'] = $cc;
+        $headers['Bcc'] = $bcc;
+        $headers['Subject'] = $subject;
+        $headers['From'] = 'resourceroom@clarion.edu';
+        $headers['To'] = $to;
+        $headers['Content-type'] = 'text/html';
+        $htmlContent = $message;
+        $result = $Mailer->send($recipients, $headers, $htmlContent);
+        if(PEAR::isError($result))
+        {
+            echo 'Error sending email ' . $result;
+        }
+        else
+        {
+            //echo 'Email sent successfully';
+        }
+    }
+
+    function setMessage($fillerComments, $TextType, $tableBody, $EmailType)
+    {
+        if($EmailType == 'placed')
+        {
+            console_log("in placed order if");
+            $message = $TextType . PHP_EOL . PHP_EOL . "
+                                                                                                                    <html>
+                                                                                                                    <head>
+                                                                                                                    <title>HTML email</title>
+                                                                                                                    </head>
+                                                                                                                    <body>
+                                                                                                                    <table>
+                                                                                                                    <thead>
+                                                                                                                        <th>Product Name</th>
+                                                                                                                        <th>Quantity Requested</th>
+                                                                                                                    </thead>
+                                                                                                                    <tbody>" .
+                                                                                                                        $tableBody .
+                                                                                                                    "</tbody>
+                                                                                                                     </table>
+                                                                                                                     </body>
+                                                                                                                     </html>";
+        }
+        else if($EmailType == 'filled')
+        {
+            console_log("in filled order if");
+            $message = $fillerComments . PHP_EOL . PHP_EOL . $TextType . PHP_EOL . PHP_EOL . "
+                                                                                                                    <html>
+                                                                                                                    <head>
+                                                                                                                    <title>HTML email</title>
+                                                                                                                    </head>
+                                                                                                                    <body>
+                                                                                                                    <table>
+                                                                                                                    <thead>
+                                                                                                                        <th>Product Name</th>
+                                                                                                                        <th>Quantity Requested</th>
+                                                                                                                        <th>Quantity Filled</th>
+                                                                                                                    </thead>
+                                                                                                                    <tbody>" .
+                                                                                                                        $tableBody .
+                                                                                                                    "</tbody>
+                                                                                                                     </table>
+                                                                                                                     </body>
+                                                                                                                     </html>";
+        }
+        else if($EmailType == 'renotify')
+        {
+            console_log("In renotify order if");
+            $message = $TextType . PHP_EOL . PHP_EOL . "
+                                                                                <html>
+                                                                                <head>
+                                                                                <title>HTML email</title>
+                                                                                </head>
+                                                                                <body>
+                                                                                <table>
+                                                                                <thead>
+                                                                                    <th>Product Name</th>
+                                                                                    <th>Quantity Requested</th>
+                                                                                    <th>Quantity Filled</th>
+                                                                                </thead>
+                                                                                <tbody>" .
+                                                                                    $tableBody .
+                                                                                "</tbody>
+                                                                                 </table>
+                                                                                 </body>
+                                                                                 </html>";
+    }
+        else if($EmailType == 'cancelled')
+        {
+            console_log('in cancelled order if');
+            $message = $TextType . PHP_EOL . PHP_EOL . "
+                                                                                <html>
+                                                                                <head>
+                                                                                <title>HTML email</title>
+                                                                                </head>
+                                                                                <body>
+                                                                                <table>
+                                                                                <thead>
+                                                                                    <th>Product Name</th>
+                                                                                    <th>Quantity Requested</th>
+                                                                                    <th>Quantity Filled</th>
+                                                                                </thead>
+                                                                                <tbody>" .
+                                                                                    $tableBody .
+                                                                                "</tbody>
+                                                                                 </table>
+                                                                                 </body>
+                                                                                 </html>";
+        }
+        else
+        {
+            console_log('this is broken');
+        }
+
     }
 
     function updateCategory($CategoryID, $CategoryName)
@@ -711,16 +1091,31 @@
        }
    }
 
-   function UpdateSettings($ReceiversPlaced, $ReceiversFilled, $EmailTextPlaced, $EmailTextFilled, $FooterAnnouncement)
+   function UpdateSettings($PlacedCC, $FilledCC, $ReNotifyCC, $CancelledCC, $PlacedBCC, $FilledBCC, $ReNotifyBCC, $CancelledBCC, $PlacedSubject, $FilledSubject, $ReNotifySubject, $CancelledSubject, $PlacedText, $FilledText, $ReNotifyText, $CancelledText, $FooterLeftAnnouncement, $FooterRightAnnouncement)
    {
        $db = getDBConnection();
-       $query = 'UPDATE setting SET EmailOrderReceived = :EmailOrderReceived, EmailOrderFilled = :EmailOrderFilled, OrderReceivedText = :OrderReceivedText, OrderFilledText = :OrderFilledText, FooterText = :FooterText WHERE SETTINGID = 1';
+       $query = 'UPDATE setting SET EmailOrderReceived = :EmailOrderReceived, EmailOrderFilled = :EmailOrderFilled, EmailOrderReminder = :EmailOrderReminder, EmailOrderCancelled = :EmailOrderCancelled,
+                                    BCCOrderReceived = :BCCOrderReceived, BCCOrderFilled = :BCCOrderFilled, BCCOrderReminder = :BCCOrderReminder, BCCOrderCanceled = :BCCOrderCanceled,  OrderReceivedSubj = :OrderReceivedSubj, OrderFilledSubj = :OrderFilledSubj, OrderReminderSubj = :OrderReminderSubj, OrderCancelledSubj = :OrderCancelledSubj,
+                                     OrderReceivedText = :OrderReceivedText, OrderFilledText = :OrderFilledText, OrderReminderText = :OrderReminderText, OrderCancelledText = :OrderCancelledText, FooterTextLeft = :FooterTextLeft, FooterTextRight = :FooterTextRight WHERE SETTINGID = 1';
        $statement = $db->prepare($query);
-       $statement->bindValue(':EmailOrderReceived', $ReceiversPlaced);
-       $statement->bindValue(':EmailOrderFilled', $ReceiversFilled);
-       $statement->bindValue(':OrderReceivedText', $EmailTextPlaced);
-       $statement->bindValue(':OrderFilledText', $EmailTextFilled);
-       $statement->bindValue(':FooterText', $FooterAnnouncement);
+       $statement->bindValue(':EmailOrderReceived', $PlacedCC);
+       $statement->bindValue(':EmailOrderFilled', $FilledCC);
+       $statement->bindValue(':EmailOrderReminder', $ReNotifyCC);
+       $statement->bindValue(':EmailOrderCancelled', $CancelledCC);
+       $statement->bindValue(':BCCOrderReceived', $PlacedBCC);
+       $statement->bindValue(':BCCOrderFilled', $FilledBCC);
+       $statement->bindValue(':BCCOrderReminder', $ReNotifyBCC);
+       $statement->bindValue(':BCCOrderCanceled', $CancelledBCC);
+       $statement->bindValue(':OrderReceivedSubj', $PlacedSubject);
+       $statement->bindValue(':OrderFilledSubj', $FilledSubject);
+       $statement->bindValue(':OrderReminderSubj', $ReNotifySubject);
+       $statement->bindValue(':OrderCancelledSubj', $CancelledSubject);
+       $statement->bindValue(':OrderReceivedText', $PlacedText);
+       $statement->bindValue(':OrderFilledText', $FilledText);
+       $statement->bindValue(':OrderReminderText', $ReNotifyText);
+       $statement->bindValue(':OrderCancelledText', $CancelledText);
+       $statement->bindValue(':FooterTextLeft', $FooterLeftAnnouncement);
+       $statement->bindValue(':FooterTextRight', $FooterRightAnnouncement);
        $success = $statement->execute();
        $statement->closeCursor();
        if($success)

@@ -25,11 +25,12 @@
             processSubmitOrder();
             break;
     }
-
     function displayShopperOrders(){
         $SettingsInfo = getAllSettingsInfo();
         $USERID = getUserID();
         $orders = getOrderIDsByUSERID($USERID);
+        console_log(getOrderIDsByUSERID($USERID));
+        $UsersEmail = getUserEmail($USERID);
         include '../view/shopperOrders.php';
     }
 
@@ -38,34 +39,41 @@
         $SettingsInfo = getAllSettingsInfo();
         $listType = filter_input(INPUT_GET, 'ListType');
         $CategoryArray = getAllCategories();
-        if($listType =='GeneralSearch'){
-            $info = getProducts([],'',$IncludeInactiveItems = false ,$HideUnstockedItems = false,$ShoppingList = false,$_POST['searchCriteria']);
+
+        if($listType =='GeneralSearch' && isset($_POST['searchCriteria'])){
+            $info = getProducts([],'',$IncludeInactiveItems = false,$HideUnstockedItems = false,$ShoppingList = false,htmlspecialchars($_POST['searchCriteria']));
             $ProductArray = $info[0];
-            $CurrentCategory = "Related To: " . $_POST['searchCriteria'];
+            $CurrentCategory = "Related To: " . htmlspecialchars($_POST['searchCriteria']);
         }else if (isset($_GET['CATEGORYID'])) {
             $shopperCategoryID = $_GET['CATEGORYID'];
-            $CurrentCategory = $_GET['DESCRIPTION'];
+            $CurrentCategory = getCategoryHeader([$shopperCategoryID]);
             $info = getProducts([$shopperCategoryID],'',$IncludeInactiveItems = false ,$HideUnstockedItems = false,$ShoppingList = false,'');
             $ProductArray = $info[0];
         }else{
-            $CurrentCategory = $CategoryArray[0]->getCategoryDescription();
             $shopperCategoryID = $CategoryArray[0]->getCategoryID();
-            $info = getProducts([$shopperCategoryID],'',$IncludeInactiveItems = false ,$HideUnstockedItems = false,$ShoppingList = false,'');
+            $CurrentCategory = getCategoryHeader([$shopperCategoryID]);
+            $info = getProducts([$shopperCategoryID],'',$IncludeInactiveItems = false, $HideUnstockedItems = false,$ShoppingList = false,'');
             $ProductArray = $info[0];
         }
-        $CategoryHeader = $CurrentCategory;
             if ($ProductArray == false)
             {
-                $errorMessage = 'No items relevent to: ' . $_GET['Criteria'];
-                include '../view/errorPage.php';
+                if($listType =='GeneralSearch')
+                {
+                    $CategoryHeader = 'No items relevant to: ' . htmlspecialchars($_POST['searchCriteria']);
+                }
+                else
+                {
+                    $CategoryHeader = $CurrentCategory . ' has no available products.';
+                }
             }
-               else
-               {
-                   $USERID = getUserID();
-                   $cart = getCart($USERID);
-                   $_SESSION['itemsInCart'] = $cart->getNumberOfItemsInCart();
-                   include '../view/index.php';
-               }
+            else
+            {
+                $CategoryHeader = $CurrentCategory;
+            }
+        $USERID = getUserID();
+        $cart = getCart($USERID);
+        $_SESSION['itemsInCart'] = $cart->getNumberOfItemsInCart();
+        include '../view/index.php';
     }
     function displayCart()
     {
@@ -138,7 +146,44 @@
             $COMMENT = "";
         }
         if(sizeof($invalidRequests) == 0){
-            submitOrder($USERID,getCart($USERID),$COMMENT);
+            $orderID = submitOrder($USERID,getCart($USERID),$COMMENT);
+            $currentOrder = getOrder($orderID)[0];
+            $SettingsInfo = getAllSettingsInfo();
+            $UsersEmail = getUserEmail($USERID);
+            $UserInfo = getUserInfo($USERID);
+            $to = $UsersEmail['Email'];
+            $cc = $SettingsInfo['EmailOrderReceived'];
+            $bcc = $SettingsInfo['BCCOrderReceived'];
+            $subject = $SettingsInfo['OrderReceivedSubj'];
+            $tableBody = "";
+            foreach($currentOrder->getOrderDetails() as $orderDetail){
+                $ProductName = $orderDetail->getProduct()->getProductName();
+                $QtyRequested = $orderDetail->getQTYRequested();
+                $tableBody .= "
+                <tr>
+                <td>$ProductName</td>
+                <td style='text-align: center;'>$QtyRequested</td>
+                </tr>
+                ";
+            }
+            $message = $SettingsInfo['OrderReceivedText'] . "<br><br>" . "<h3>Order Summary: " . $UserInfo->getFirstName() . " " . $UserInfo->getLastName() . "</h3>" . "
+                                                                                <html>
+                                                                                <head>
+                                                                                <title>HTML email</title>
+                                                                                </head>
+                                                                                <body>
+                                                                                <table>
+                                                                                <thead>
+                                                                                    <th>Product Name</th>
+                                                                                    <th style='padding-left:30px;'>Quantity Requested</th>
+                                                                                </thead>
+                                                                                <tbody>" .
+                                                                                    $tableBody .
+                                                                                "</tbody>
+                                                                                 </table>
+                                                                                 </body>
+                                                                                 </html>";
+            sendEmail($to, $cc, $bcc, $subject, $message);
         }
         displayShopperOrders();
     }

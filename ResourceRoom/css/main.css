@@ -13,7 +13,9 @@ header, nav, section, footer {
 .account-dropdown {
     padding-left: 10px;
 }
-
+body{
+    min-height: 100vh;
+}
 .clarion-gold {
     background-color: #97824A;
 }
@@ -22,7 +24,15 @@ header, nav, section, footer {
     background-color: #003366;
 }
 
+section {
+    min-height: 75vh;
+}
+
 .clarion-white {
+    color: white;
+}
+
+.inventoryTable{
     color: white;
 }
 
@@ -37,6 +47,11 @@ header, nav, section, footer {
   border-left: 6px solid #003366;
   height: 50px;
 }
+
+.hl{
+    border-bottom: 6px solid #003366;
+}
+
 hr {width: 50px; color: #97824A}
 
 .hiddenRow {
@@ -62,6 +77,10 @@ hr {width: 50px; color: #97824A}
     font-size: 25px;
 }
 
+.filterOption{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
 .account-settings-heading {
     font-size: 35px;
 }
@@ -90,3 +109,7 @@ ul#navigation .active {
   font-weight: bold;
 }
 
+.settings-inputs
+{
+    width: 600px;
+}

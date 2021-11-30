@@ -71,12 +71,6 @@ class order
         return $this->UsersName;
     }
 
-
-
-
-
-
-
     function toString()
     {
         print_r($this);

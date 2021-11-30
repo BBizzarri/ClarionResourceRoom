@@ -15,7 +15,8 @@
 	
     if (!userIsAuthorized($action)) {
         if(!loggedIn()) {
-            header("Location:../security/index.php?action=SecurityLogin&RequestedPage=" . urlencode($_SERVER['REQUEST_URI']));
+            #header("Location:../security/index.php?action=SecurityLogin&RequestedPage=" . urlencode($_SERVER['REQUEST_URI']));
+            header("Location: ../security/php-saml-2.19.1/demo1");
         } else {
             include('../security/not_authorized.html');
         }
@@ -26,6 +27,5 @@
     
     include('../controller/shopperFunctionsInclude.php');
     include('../controller/inventoryFunctionsInclude.php');
-	
 ?>
 
