@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Bug fixing&#10;reports page updates">
+    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/controller.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/model/model.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminReports.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminReports.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,13 +104,6 @@
       <workItem from="1638204044455" duration="250000" />
       <workItem from="1638207054475" duration="18106000" />
       <workItem from="1638312617333" duration="433000" />
-    </task>
-    <task id="LOCAL-00022" summary="updated how category header gets set">
-      <created>1635366965520</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1635366965520</updated>
     </task>
     <task id="LOCAL-00023" summary="Bug fixes">
       <created>1635985138491</created>
@@ -446,7 +441,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638367072224</updated>
     </task>
-    <option name="localTasksCounter" value="71" />
+    <task id="LOCAL-00071" summary="Security Fix">
+      <created>1638375904772</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1638375904772</updated>
+    </task>
+    <option name="localTasksCounter" value="72" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -480,7 +482,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Admin inventory Mobile UI" />
     <MESSAGE value="SSO Stuff" />
     <MESSAGE value="updated all emails to not send from apache" />
     <MESSAGE value="Fixing brady's bugs for real this time" />
@@ -505,6 +506,7 @@
     <MESSAGE value="Product reports and sorting" />
     <MESSAGE value="Forgot to remove some prints" />
     <MESSAGE value="Bug fixing&#10;reports page updates" />
-    <option name="LAST_COMMIT_MESSAGE" value="Bug fixing&#10;reports page updates" />
+    <MESSAGE value="Security Fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="Security Fix" />
   </component>
 </project>
