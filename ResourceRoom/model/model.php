@@ -689,6 +689,9 @@
                 case 'Orders':
                     $report = getOrdersReport($StartDate, $EndDate);
                     break;
+                case 'OrderTotals':
+                    $report = getOrderTotalsReport($StartDate, $EndDate);
+                    break;
                 case 'Products':
                     $report = getProductReport($StartDate, $EndDate, $OnlyOrderedProducts,$CategoryList);
                     break;
@@ -723,13 +726,34 @@
     {
         $db = getDBConnection();
         $query = "select users.UserID,users.FirstName, users.Lastname, users.Email, orders.ORDERID, orders.DATEORDERED, orders.DATEFILLED, orders.DATECOMPLETED, orders.COMMENT, orderdetails.PRODUCTID, product.NAME, orderdetails.QTYREQUESTED,
-                        orderdetails.QTYFILLED, product.PRODUCTDESCRIPTION, category.CATEGORYID, category.CATEGORYDESCRIPTION
+                        orderdetails.QTYFILLED, product.PRODUCTDESCRIPTION, GROUP_CONCAT(category.CATEGORYDESCRIPTION ORDER BY category.CATEGORYDESCRIPTION ASC SEPARATOR ', ') as CATEGORY
                     from users
                     inner join orders on users.UserID = orders.USERID
                     inner join orderdetails on orders.ORDERID = orderdetails.ORDERID
                     inner join product on orderdetails.PRODUCTID = product.PRODUCTID    
                     inner join productcategories on product.PRODUCTID = productcategories.PRODUCTID
                     inner join category on productcategories.CATEGORYID = category.CATEGORYID
+                    where (orders.DATECOMPLETED between :STARTDATE and :ENDDATE) and orders.STATUS = :STATUS
+                    group by orderdetails.ORDERID,orderdetails.PRODUCTID";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':STARTDATE', $StartDate);
+        $statement->bindValue(':ENDDATE', $EndDate);
+        $statement->bindValue(':STATUS', 'COMPLETED');
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+        return $result;
+    }
+
+    function getOrderTotalsReport($StartDate, $EndDate)
+    {
+        $db = getDBConnection();
+        $query = "select COUNT(DISTINCT(orders.ORDERID)) as 'TOTAL ORDERS', COUNT(DISTINCT(orders.USERID)) as 'UNIQUE ORDERERS',
+                    SUM(orderdetails.QTYFILLED) as 'TOTAL PRODUCTS', COUNT(DISTINCT(orderdetails.PRODUCTID)) as 'UNIQUE PRODUCTS'
+                    from orders
+                    inner join users on orders.UserID = users.USERID
+                    inner join orderdetails on orders.ORDERID = orderdetails.ORDERID
+                    inner join product on orderdetails.PRODUCTID = product.PRODUCTID    
                     where (orders.DATECOMPLETED between :STARTDATE and :ENDDATE) and orders.STATUS = :STATUS";
         $statement = $db->prepare($query);
         $statement->bindValue(':STARTDATE', $StartDate);
@@ -744,12 +768,16 @@
     function getProductReport($StartDate, $EndDate, $OnlyOrderedProducts, $CategoryIDs)
     {
         $db = getDBConnection();
-        $query = "select product.*, GROUP_CONCAT(category.CATEGORYDESCRIPTION ORDER BY category.CATEGORYDESCRIPTION ASC SEPARATOR ', ') as CATEGORY,
-                    IFNULL(SUM(orderdetails.QTYFILLED),0) as 'TOTAL ORDERED', COUNT(orderdetails.QTYFILLED) as 'NUMBER OF ORDERS', COUNT(DISTINCT orders.USERID) as 'UNIQUE ORDERERS'
-                    from product   
+        $query = "select product.*,
+                    (select GROUP_CONCAT(c.CATEGORYDESCRIPTION ORDER BY c.CATEGORYDESCRIPTION ASC SEPARATOR ', ') 
+                    from category c inner join productcategories p on c.CATEGORYID = p.CATEGORYID where p.PRODUCTID = product.PRODUCTID) as CATEGORY,
+                    (Select IFNULL(sum(qtyfilled),0) from orderdetails od where od.productid = product.productid) as 'TOTALORDERED',
+                        COUNT(DISTINCT(orderdetails.ORDERID)) as 'NUMBER OF ORDERS', 
+                        COUNT(DISTINCT orders.USERID) as 'UNIQUE ORDERERS' 
+                          
+                    from product left join orderdetails on product.PRODUCTID = orderdetails.PRODUCTID
                     inner join productcategories on product.PRODUCTID = productcategories.PRODUCTID
                     inner join category on productcategories.CATEGORYID = category.CATEGORYID
-                    left join orderdetails on product.PRODUCTID = orderdetails.PRODUCTID
                     left join orders on orderdetails.ORDERID = orders.ORDERID";
 
         if($OnlyOrderedProducts)
@@ -781,7 +809,7 @@
                 $statement->bindValue(":$categoryID", $categoryID);
             }
         }
-        //console_log('Query: ' . $query);
+        console_log('Query: ' . $query);
         $statement->bindValue(':STARTDATE', $StartDate);
         $statement->bindValue(':ENDDATE', $EndDate);
         $statement->execute();

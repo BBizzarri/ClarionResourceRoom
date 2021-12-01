@@ -14,7 +14,8 @@
                                 <label for="report">Report Type:</label>
                                 <select class="" name="report" id="report">
                                     <option name="Users" value="Users" <?php if($_POST['report'] == 'Users'){ echo 'selected'; }?>>Users</option>
-                                    <option name="Orders" value="Orders" <?php if($_POST['report'] == 'Orders'){ echo 'selected'; }?>>Orders</option>
+                                    <option name="Orders" value="Orders" <?php if($_POST['report'] == 'Orders'){ echo 'selected'; }?>>All Orders</option>
+                                    <option name="OrderTotals" value="OrderTotals" <?php if($_POST['report'] == 'OrderTotals'){ echo 'selected'; }?>>Order Totals</option>
                                     <option name="Products" value="Products" <?php if($_POST['report'] == 'Products'){ echo 'selected'; }?>>Products</option>
                                 </select>
                                 <label class="reports-nav" for="example">Start Date: </label>

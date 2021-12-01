@@ -1098,7 +1098,6 @@ INSERT INTO `productcategories` (`ProductID`, `CategoryID`) VALUES
 (51, 18);
 COMMIT;
 
-
 INSERT INTO `setting` (SettingID,
                        EmailOrderReceived, EmailOrderFilled, EmailOrderReminder, EmailOrderCancelled,
                        BCCOrderReceived, BCCOrderFilled, BCCOrderReminder, BCCOrderCanceled,
@@ -1123,56 +1122,5 @@ INSERT INTO `setting` (SettingID,
      'The Resource room is located on the first floor of Gemmell in Room 112',
      'The last day to order from the resource room will be on Friday, November 19th','');
 
-INSERT INTO `orders` (`ORDERID`, `USERID`, `STATUS`, `DATEORDERED`, `DATEFILLED`, `DATECOMPLETED`, `COMMENT`) VALUES
-(1, 's_gmbennett', 'COMPLETED', '2020-08-29', '2020-09-01', '2020-09-05', ''),
-(2, 's_ajrobinso1', 'COMPLETED', '2021-05-16', '2021-05-17', '2021-05-19', 'I am allergic to nuts'),
-(3, 's_bmbizzarri', 'COMPLETED', '2021-03-18',  '2021-03-19', '2021-03-19', 'I live off campus'),
-(4, 's_smwice', 'COMPLETED', '2021-01-19', '2021-01-19', '2021-01-21', ''),
-(5, 's_bjlindermu', 'COMPLETED', '2021-02-20', '2021-02-21', '2021-02-25', ''),
-(6, 's_smwice', 'READY FOR PICKUP', '2021-11-27', '2021-11-29', '', ''),
-(7, 's_bmbizzarri', 'READY FOR PICKUP', '2021-11-25', '2021-11-29', '', ''),
-(8, 's_bjlindermu', 'READY FOR PICKUP', '2021-11-26', '2021-11-29', '', 'Extra sliced potatoes if available please'),
-(9, 's_gmbennett', 'SUBMITTED', '2021-11-29', '', '', ''),
-(10, 's_ajrobinso1', 'SUBMITTED', '2021-12-01', '', '', 'I would like a purple do rag if you have them');
-COMMIT;
-
-
-INSERT INTO `orderdetails` (`ORDERID`, `PRODUCTID`, `QTYREQUESTED`, `QTYFILLED`) VALUES
-                                                                                     -- Order 1
-                                                                                     (1, 2, 1, 1),
-                                                                                     (1, 3, 2, 2),
-                                                                                     (1, 5, 2, 2),
-                                                                                     -- Order 2
-                                                                                     (2, 10, 1, 1),
-                                                                                     (2, 11, 3, 3),
-                                                                                     (2, 13, 1, 1),
-                                                                                     -- Order 3
-                                                                                     (3, 17, 1, 1),
-                                                                                     (3, 14, 1, 0),
-                                                                                     (3, 15, 2, 2),
-                                                                                     -- Order 4
-                                                                                     (4, 200, 1, 1),
-                                                                                     (4, 100, 2, 2),
-                                                                                     (4, 34, 1, 1),
-                                                                                     -- Order 5
-                                                                                     (5, 22, 1, 1),
-                                                                                     (5, 98, 3, 2),
-                                                                                     (5, 184, 2, 2),
-                                                                                     (6, 22, 1, 1),
-                                                                                     (6, 52, 3, 3),
-                                                                                     (6, 90, 2, 1),
-                                                                                     (6, 222, 3, 2),
-                                                                                     (7, 311, 3, 1),
-                                                                                     (7, 165, 2, 2),
-                                                                                     (7, 276, 4, 0),
-                                                                                     (8, 184, 3, 2),
-                                                                                     (8, 258, 1, 1),
-                                                                                     (8, 86, 2, 1),
-                                                                                     (9, 13, 2, 0),
-                                                                                     (9, 24, 3, 0),
-                                                                                     (9, 146, 1, 0),
-                                                                                     (9, 278, 1, 0),
-                                                                                     (10, 2, 2, 0),
-                                                                                     (10, 30, 3, 0);
 
 
