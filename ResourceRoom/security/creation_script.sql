@@ -1137,6 +1137,7 @@ INSERT INTO `orders` (`ORDERID`, `USERID`, `STATUS`, `DATEORDERED`, `DATEFILLED`
 COMMIT;
 
 
+
 INSERT INTO `orderdetails` (`ORDERID`, `PRODUCTID`, `QTYREQUESTED`, `QTYFILLED`) VALUES
                                                                                      -- Order 1
 
