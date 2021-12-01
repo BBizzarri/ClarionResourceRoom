@@ -678,6 +678,8 @@
 
     function getReport($ReportType, $StartDate, $EndDate, $OnlyOrderedProducts, $CategoryList)
     {
+        console_log($StartDate);
+        console_log($EndDate);
         if(isset($ReportType))
         {
             switch ($ReportType) {
