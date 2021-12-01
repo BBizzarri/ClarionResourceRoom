@@ -91,6 +91,7 @@
                 buttons: [
                     {
                         extend: 'csvHtml5',
+                        text: 'Excel',
                         header: true
                     }
                 ]

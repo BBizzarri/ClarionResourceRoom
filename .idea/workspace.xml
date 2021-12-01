@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Forgot to">
+    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Forgot to remove some prints">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/model/model.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/security/manage_users_form.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/security/manage_users_form.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminReports.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminReports.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -102,13 +104,7 @@
       <workItem from="1638189522984" duration="7920000" />
       <workItem from="1638204044455" duration="250000" />
       <workItem from="1638207054475" duration="18106000" />
-    </task>
-    <task id="LOCAL-00019" summary="Filter work">
-      <created>1634041974567</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1634041974568</updated>
+      <workItem from="1638312617333" duration="433000" />
     </task>
     <task id="LOCAL-00020" summary="Finished Filtering">
       <created>1634240702120</created>
@@ -446,7 +442,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638277282511</updated>
     </task>
-    <option name="localTasksCounter" value="68" />
+    <task id="LOCAL-00068" summary="Forgot to remove some prints">
+      <created>1638277519766</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1638277519766</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -480,7 +483,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Creation script fix" />
     <MESSAGE value="Cancel / Delete orders, admin inventory" />
     <MESSAGE value="Admin inventory Mobile UI" />
     <MESSAGE value="SSO Stuff" />
@@ -505,6 +507,7 @@
     <MESSAGE value="category fix" />
     <MESSAGE value="add edit product fix" />
     <MESSAGE value="Product reports and sorting" />
-    <option name="LAST_COMMIT_MESSAGE" value="Product reports and sorting" />
+    <MESSAGE value="Forgot to remove some prints" />
+    <option name="LAST_COMMIT_MESSAGE" value="Forgot to remove some prints" />
   </component>
 </project>
