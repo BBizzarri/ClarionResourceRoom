@@ -11,24 +11,25 @@
                     <form id="ReportsSelect" action="../controller/controller.php?action=adminReports" method="post" enctype="multipart/form-data">
                         <label for="report">Report Type:</label><br>
                         <select class="sidebar-dropdown" name="report" id="report">
-                            <option name="Users" value="Users">Users</option>
-                            <option name="Orders" value="Orders">Orders</option>
-                            <option name="Products" value="Products">Products</option>
+                            <option name="Users" value="Users" <?php if($_POST['report'] == 'Users'){ echo 'selected'; }?>>Users</option>
+                            <option name="Orders" value="Orders" <?php if($_POST['report'] == 'Orders'){ echo 'selected'; }?>>Orders</option>
+                            <option name="Products" value="Products" <?php if($_POST['report'] == 'Products'){ echo 'selected'; }?>>Products</option>
                         </select>
-                        <div id="date-picker-example">
+                        <!--<div id="date-picker-example">-->
                             <label for="example">Start Date: </label>
                             <input type="date" value= "0001-01-01" id="startDate" name="startDate">
                             <label for="example">End Date: </label>
                             <input type="date" value="<?php echo date("Y-m-d")?>" id="endDate" name="endDate" >
-                        </div>
-                        <div>
+                        <!--</div>-->
+                        <!--<div>-->
                             <label for="OnlyOrderedProducts" title="Only shows products that have been ordered during time period">Only Ordered Products</label>
                             <input type="hidden" value = '0'  name ="OnlyOrderedProducts"/>
                             <input type="checkbox" id="OnlyOrderedProducts" name="OnlyOrderedProducts"/>
-                        </div>
-                        <div>
-                            <label for="categorySelectReports">Categories</label>
-                            <select multiple class="category-list col-12" size="<?php echo sizeof($CategoryArray) + 1; ?>" id="categorySelectReports" name="CategoryList[]" form="ReportsSelect">
+                        <!--</div>-->
+                        <!--<div>-->
+                            <!--<label for="categorySelectReports">Categories</label>-->
+                            <!--<select multiple class="category-list" size="<?php echo sizeof($CategoryArray) + 1; ?>" id="categorySelectReports" name="CategoryList[]" form="ReportsSelect">-->
+                            <select name="CategoryList[]" id="categorySelectReports">
                                 <option class="category nav-link col-12" style="white-space: normal" value="0">All</option>
                                 <?php foreach ($CategoryArray as $category) {
                                     ?>
@@ -37,7 +38,7 @@
                                 }
                                 ?>
                             </select>
-                        </div>
+                        <!--</div>-->
                           <input class="btn btn-secondary filter-button" type="submit" value="Apply"/>
                     </form>
                 </div>
