@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Change">
+    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Forgot to remove some prints">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/model/model.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/security/manage_users_form.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/security/manage_users_form.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminInventory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminReports.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminReports.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -25,7 +26,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Staging" />
+        <entry key="$PROJECT_DIR$" value="bbizzarri-resource-room" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -101,69 +102,9 @@
       <workItem from="1638130236651" duration="6226000" />
       <workItem from="1638139530959" duration="339000" />
       <workItem from="1638189522984" duration="7920000" />
-    </task>
-    <task id="LOCAL-00011" summary="Fixing styling issues">
-      <created>1632345847364</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1632345847364</updated>
-    </task>
-    <task id="LOCAL-00012" summary="Sidebar updates">
-      <created>1632613403939</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1632613403940</updated>
-    </task>
-    <task id="LOCAL-00013" summary="Sidebar updates">
-      <created>1632697104678</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1632697104678</updated>
-    </task>
-    <task id="LOCAL-00014" summary="updating creation script">
-      <created>1632705387937</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1632705387937</updated>
-    </task>
-    <task id="LOCAL-00015" summary="adding functionality to the admin inventory page">
-      <created>1632937824813</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1632937824813</updated>
-    </task>
-    <task id="LOCAL-00016" summary="adding idea">
-      <created>1632939281143</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1632939281143</updated>
-    </task>
-    <task id="LOCAL-00017" summary="adding idea">
-      <created>1632939701902</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1632939701902</updated>
-    </task>
-    <task id="LOCAL-00018" summary="Fixing table text color and updating creation script">
-      <created>1632940042329</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1632940042329</updated>
-    </task>
-    <task id="LOCAL-00019" summary="Filter work">
-      <created>1634041974567</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1634041974568</updated>
+      <workItem from="1638204044455" duration="250000" />
+      <workItem from="1638207054475" duration="18106000" />
+      <workItem from="1638312617333" duration="433000" />
     </task>
     <task id="LOCAL-00020" summary="Finished Filtering">
       <created>1634240702120</created>
@@ -445,7 +386,70 @@
       <option name="project" value="LOCAL" />
       <updated>1638201006387</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="Reports">
+      <created>1638203082159</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1638203082159</updated>
+    </task>
+    <task id="LOCAL-00061" summary="Trello bugs, hidding empty categories from students, css">
+      <created>1638216062560</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1638216062560</updated>
+    </task>
+    <task id="LOCAL-00062" summary="hidding empty categories from students">
+      <created>1638216856243</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1638216856243</updated>
+    </task>
+    <task id="LOCAL-00063" summary="Cannot remove all categories from product or add a product without a category">
+      <created>1638218254080</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1638218254080</updated>
+    </task>
+    <task id="LOCAL-00064" summary="On hand for admin inventory">
+      <created>1638219175511</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1638219175511</updated>
+    </task>
+    <task id="LOCAL-00065" summary="category fix">
+      <created>1638224089503</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1638224089503</updated>
+    </task>
+    <task id="LOCAL-00066" summary="add edit product fix">
+      <created>1638224358626</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1638224358626</updated>
+    </task>
+    <task id="LOCAL-00067" summary="Product reports and sorting">
+      <created>1638277282510</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1638277282511</updated>
+    </task>
+    <task id="LOCAL-00068" summary="Forgot to remove some prints">
+      <created>1638277519766</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1638277519766</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -479,15 +483,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="css updates" />
-    <MESSAGE value="Fixing more of Brady's mistakes" />
-    <MESSAGE value="attempt 1 at mobile add" />
-    <MESSAGE value="reports page" />
-    <MESSAGE value="updated admin permissions &#10;adding new images" />
-    <MESSAGE value="integrating email" />
-    <MESSAGE value="getting email to work right!" />
-    <MESSAGE value="Fixing date of competed orders" />
-    <MESSAGE value="Creation script fix" />
     <MESSAGE value="Cancel / Delete orders, admin inventory" />
     <MESSAGE value="Admin inventory Mobile UI" />
     <MESSAGE value="SSO Stuff" />
@@ -504,6 +499,15 @@
     <MESSAGE value="Print Order added student name" />
     <MESSAGE value="Ui fixes, report testing" />
     <MESSAGE value="Reports page work" />
-    <option name="LAST_COMMIT_MESSAGE" value="Reports page work" />
+    <MESSAGE value="Reports" />
+    <MESSAGE value="Trello bugs, hidding empty categories from students, css" />
+    <MESSAGE value="hidding empty categories from students" />
+    <MESSAGE value="Cannot remove all categories from product or add a product without a category" />
+    <MESSAGE value="On hand for admin inventory" />
+    <MESSAGE value="category fix" />
+    <MESSAGE value="add edit product fix" />
+    <MESSAGE value="Product reports and sorting" />
+    <MESSAGE value="Forgot to remove some prints" />
+    <option name="LAST_COMMIT_MESSAGE" value="Forgot to remove some prints" />
   </component>
 </project>

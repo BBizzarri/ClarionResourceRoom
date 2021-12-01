@@ -1,6 +1,8 @@
 <?php
     $title = " Admin Inventory Page";
     require '../view/headerInclude.php';
+    require_once '../lib/Mobile_Detect.php';
+    $detect = new Mobile_Detect;
 ?>
 <html>
 <body>
@@ -139,10 +141,11 @@
                                       <div class="table-heading">
                                           <h3 class="clarion-white"><?php echo $CategoryHeader ?></h3>
                                       </div>
+                                      <?php if(!$detect->isMobile()){ ?>
                                       <div class="table-heading table-heading-buttons">
                                           <input class="btn my-2 my-sm-0" id="addNewItemButton" type="button" data-toggle="modal" data-target="#addProductModal" value="Add New Item"/>
-
                                       </div>
+                                      <?php } ?>
                                       <!-- Adjust Bulk Confirm Modal -->
                                       <div class="modal fade" id="adjustBulkConfirmModal" role="dialog">
                                           <div class="modal-dialog modal-lg">-->
@@ -176,6 +179,7 @@
                                       <tr>
                                           <th>Product</th>
                                           <th>Available <?php if($_SESSION['QtyLessThan'] != null){ echo '<' . ' ' . $_SESSION['QtyLessThan'];}?></th>
+                                          <th>On Hand</th>
                                           <th>Goal Stock</th>
                                           <th>Incoming <input class="btn my-2 my-sm-0" type="button" value="Adjust All" data-toggle="modal" data-target="#adjustBulkConfirmModal"/> </th>
                                       </tr>
@@ -190,12 +194,10 @@
                                                   <a class="clarion-white" href="#" data-toggle="modal" data-target="#editProductModal_<?php echo $product->getProductID()?>"><?php echo htmlspecialchars($product->getProductName())?></a>
                                               </td>
                                               <td class="text-right">
-                                                  <?php if($product->getProductQTYAvailable() != $product->getProductQtyOnHand())
-                                                  {
-                                                      echo '(' . $product->getProductQtyOnHand() . ')  |  ';
-                                                  }
-                                                  echo $product->getProductQTYAvailable();
-                                                  ?>
+                                                  <?php echo $product->getProductQTYAvailable(); ?>
+                                              </td>
+                                              <td class="text-right">
+                                                  <?php echo $product->getProductQtyOnHand() ?>
                                               </td>
                                               <td class="text-right">
                                                   <?php echo $product->getProductGoalStock() ?>
@@ -223,6 +225,7 @@
                                                   buttons: [
                                                       {
                                                           extend: 'csvHtml5',
+                                                          text: 'Excel',
                                                           header: true
                                                       },
                                                       {
@@ -255,7 +258,7 @@
                                     <div class="item">
                                         <input type="hidden" id="CurrentProductID_<?php echo htmlspecialchars($product->getProductID()) ?>" name="ProductID" value="<?php echo htmlspecialchars($product->getProductID()) ?>"/>
                                         <h4 class="product-info-spacing" for="categorySelectEdit_<?php echo htmlspecialchars($product->getProductID()) ?>">Categories:
-                                            <select id="categorySelectEdit_<?php echo htmlspecialchars($product->getProductID()) ?>" class="selectpicker" name="CategoriesEdit[]" multiple form="editProductForm_<?php echo htmlspecialchars($product->getProductID()) ?>">
+                                            <select id="categorySelectEdit_<?php echo htmlspecialchars($product->getProductID()) ?>" class="selectpicker" name="CategoriesEdit[]" multiple form="editProductForm_<?php echo htmlspecialchars($product->getProductID()) ?>" required>
                                                 <?php foreach ($CategoryArray as $category) { ?>
                                                     <option <?php foreach($product->getProductCategories() as $SingleCategory){
                                                                         if($SingleCategory->getCategoryID() == $category->getCategoryID()){
@@ -308,7 +311,7 @@
                           <div class="item">
                               <!--<input type="hidden" name="ProductID" value="<?php echo htmlspecialchars($product->getProductID()) ?>"/>-->
                               <h4 class="product-info-spacing" for="categorySelect">Categories:
-                                  <select id="categorySelect" class="selectpicker" name="Categories[]" multiple form="addProductForm">
+                                  <select id="categorySelect"class="selectpicker" name="Categories[]" multiple form="addProductForm" required>
                                       <?php foreach ($CategoryArray as $category) { ?>
                                       <option value="<?php echo htmlspecialchars($category->getCategoryID()) ?>"><?php echo htmlspecialchars($category->getCategoryDescription()) ?></option>
                                       <?php } ?>

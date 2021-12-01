@@ -251,19 +251,19 @@
 
                 // Display of output image and save in set directory
                 imagejpeg($image_p, $target_file);
-                header("Location: {$_SERVER['HTTP_REFERER']}");
+                showInventory();
             }
         }
         else if(file_exists($target_dir . $ProductID . 'jpg'))
         {
-            header("Location: {$_SERVER['HTTP_REFERER']}");
+            showInventory();
         }
         else {
             $imgName = imagecreatefromjpeg('../productImages/ImageNotAvailable.jpg');
             $new_Name =  $ProductID;
             // Display of output image and save in set directory
             imagejpeg($imgName, '../productImages/'.$new_Name.'.jpg');
-            header("Location: {$_SERVER['HTTP_REFERER']}");
+            showInventory();
         }
     }
 
@@ -354,6 +354,15 @@
     {
         $SettingsInfo = getAllSettingsInfo();
         $ReportType = $_POST['report'];
+        $CategoryList = $_POST['CategoryList'];
+        if($_POST['OnlyOrderedProducts'] == 'on')
+        {
+            $OnlyOrderedProducts = True;
+        }
+        else
+        {
+            $OnlyOrderedProducts = False;
+        }
         if($_POST['startDate'] != null)
         {
             $StartDate = $_POST['startDate'];
@@ -370,10 +379,8 @@
         {
             $EndDate = date("Y/m/d");
         }
-        console_log('Here');
-        console_log($StartDate);
-        console_log($EndDate);
-        $SelectedReport = getReport($ReportType, toMySQLDate($StartDate), toMySQLDate($EndDate));
+        $SelectedReport = getReport($ReportType, toMySQLDate($StartDate), toMySQLDate($EndDate), $OnlyOrderedProducts ,$CategoryList);
+        $CategoryArray = getAllCategories();
         include '../view/adminReports.php';
     }
 

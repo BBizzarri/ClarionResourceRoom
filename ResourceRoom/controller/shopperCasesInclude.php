@@ -39,11 +39,22 @@
         $SettingsInfo = getAllSettingsInfo();
         $listType = filter_input(INPUT_GET, 'ListType');
         $CategoryArray = getAllCategories();
+        checkCategory($CategoryArray);
+        if($listType =='GeneralSearch' && (isset($_POST['searchCriteria']) or $_SESSION['searchCriteria'])){
+            if(isset($_POST['searchCriteria']))
+            {
+                $info = getProducts([],'',$IncludeInactiveItems = false,$HideUnstockedItems = false,$ShoppingList = false,htmlspecialchars($_POST['searchCriteria']));
+                $ProductArray = $info[0];
+                $CurrentCategory = "Related To: " . htmlspecialchars($_POST['searchCriteria']);
+                $_SESSION['searchCriteria'] = $_POST['searchCriteria'];
+            }
+            else{
+                $info = getProducts([],'',$IncludeInactiveItems = false,$HideUnstockedItems = false,$ShoppingList = false,htmlspecialchars($_SESSION['searchCriteria']));
+                $ProductArray = $info[0];
+                $CurrentCategory = "Related To: " . htmlspecialchars($_POST['searchCriteria']);
+                $_SESSION['searchCriteria'] = $_POST['searchCriteria'];
+            }
 
-        if($listType =='GeneralSearch' && isset($_POST['searchCriteria'])){
-            $info = getProducts([],'',$IncludeInactiveItems = false,$HideUnstockedItems = false,$ShoppingList = false,htmlspecialchars($_POST['searchCriteria']));
-            $ProductArray = $info[0];
-            $CurrentCategory = "Related To: " . htmlspecialchars($_POST['searchCriteria']);
         }else if (isset($_GET['CATEGORYID'])) {
             $shopperCategoryID = $_GET['CATEGORYID'];
             $CurrentCategory = getCategoryHeader([$shopperCategoryID]);
