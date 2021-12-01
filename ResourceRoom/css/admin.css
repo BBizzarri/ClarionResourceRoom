@@ -221,3 +221,7 @@ category-background {
 div#inventoryTable_info {
     color: white;
 }
+
+.reports-nav {
+    margin-left: 30px;
+}
