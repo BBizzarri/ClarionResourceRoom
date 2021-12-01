@@ -1099,6 +1099,7 @@ INSERT INTO `setting` (SettingID,
                        OrderReceivedSubj, OrderFilledSubj, OrderReminderSubj, OrderCancelledSubj,
                        FooterTextLeft, FooterTextRight, PhotoDir) VALUES
 
+
      (1,
      'A.J.Robinson1@eagle.clarion.edu,B.J.Lindermuth@eagle.clarion.edu,D.Kaltenbaugh@eagle.clarion.edu',
      'A.J.Robinson1@eagle.clarion.edu,B.J.Lindermuth@eagle.clarion.edu,D.Kaltenbaugh@eagle.clarion.edu',
