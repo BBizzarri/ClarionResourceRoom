@@ -32,7 +32,6 @@
                                 }
                                 ?>
                             </select>
-                        <!--</div>-->
                           <input class="btn btn-secondary filter-button reports-nav" type="submit" value="Apply"/>
                     </form>
                 </div>
