@@ -221,3 +221,7 @@ category-background {
 div#inventoryTable_info {
     color: white;
 }
+
+.excel-button {
+    float: right;
+}
