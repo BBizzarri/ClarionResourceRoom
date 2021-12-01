@@ -29,7 +29,7 @@
                         <!--<div>-->
                             <!--<label for="categorySelectReports">Categories</label>-->
                             <!--<select multiple class="category-list" size="<?php echo sizeof($CategoryArray) + 1; ?>" id="categorySelectReports" name="CategoryList[]" form="ReportsSelect">-->
-                            <select name="CategoryList[]" id="categorySelectReports">
+                            <select id="categorySelectReports" class="selectpicker" name="CategoryList[]" multiple form="ReportsSelect">
                                 <option class="category nav-link col-12" style="white-space: normal" value="0">All</option>
                                 <?php foreach ($CategoryArray as $category) {
                                     ?>
