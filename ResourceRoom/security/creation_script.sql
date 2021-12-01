@@ -8,6 +8,7 @@ USE resourceroom;
 GRANT USAGE ON *.* TO cis411@localhost IDENTIFIED BY 'cis411';
 GRANT ALL PRIVILEGES ON resourceroom.* TO 'cis411'@'localhost';
 
+
 -- --------------------------------------------------------
 
 CREATE TABLE functions ( FunctionID INT NOT NULL AUTO_INCREMENT,
@@ -1039,6 +1040,11 @@ INSERT INTO `productcategories` (`ProductID`, `CategoryID`) VALUES
 (324,11),
 (325,11),
 (326,12),
+(327, 1),
+(327, 2),
+(328, 4),
+(329, 4),
+(330, 11),
 (1, 15),
 (2, 15),
 (3, 15),
