@@ -9,8 +9,7 @@
     } else if (isset($_GET['action'])) {
         $action = $_GET['action'];
     } else {
-        include('../view/index.php');  // default action
-        exit();
+        $action = 'accountSettings';
     }
 	
     if (!userIsAuthorized($action)) {
