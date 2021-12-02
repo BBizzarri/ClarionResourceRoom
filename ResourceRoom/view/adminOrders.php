@@ -200,7 +200,7 @@
                                             </form>
                                         </div>
                                         <div class = 'col-auto'>
-                                            <form action="../controller/controller.php?action=deleteOrder" onsubmit="return confirm('Are you sure you want to cancel this order?');" method="post" enctype="multipart/form-data">
+                                            <form action="../controller/controller.php?action=deleteOrder&person=admin" onsubmit="return confirm('Are you sure you want to cancel this order?');" method="post" enctype="multipart/form-data">
                                                 <input type='hidden' name='ORDERID' value='<?php echo $order->getOrderID()?>'/>
                                                 <input type="submit" class="btn btn-danger"  value="Cancel Order">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -215,7 +215,7 @@
                                             </form>
                                         </div>
                                         <div class = 'col-auto'>
-                                            <form action="../controller/controller.php?action=deleteOrder" onsubmit="return confirm('Are you sure you want to cancel this order?');" method="post" enctype="multipart/form-data">
+                                            <form action="../controller/controller.php?action=deleteOrder&person=admin" onsubmit="return confirm('Are you sure you want to cancel this order?');" method="post" enctype="multipart/form-data">
                                                 <input type='hidden' name='ORDERID' value='<?php echo $order->getOrderID()?>'/>
                                                 <input type="submit" class="btn btn-danger"   value="Cancel Order">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

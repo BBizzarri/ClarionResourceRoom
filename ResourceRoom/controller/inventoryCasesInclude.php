@@ -67,6 +67,7 @@
     function adminDeleteOrder()
     {
         $OrderID = $_POST['ORDERID'];
+        $Person = $_GET['person'];
         $currentOrder = getOrder($OrderID)[0];
         $OrderedByEmail = getEmailToOrder($OrderID);
         $SettingsInfo = getAllSettingsInfo();
@@ -88,8 +89,7 @@
                     </tr>
                     ";
             }
-//         $message = setMessage('',$SettingsInfo['OrderCancelledText'],$tableBody,'cancelled');
-        $message = $SettingsInfo['OrderCancelledText'] . "<br><br>" . "<h3>Order Summary: " . $UserInfo->getFirstName() . " " . $UserInfo->getLastName() . "</h3>" . "
+            $message = $SettingsInfo['OrderCancelledText'] . "<br><br>" . "<h3>Order Summary: " . $UserInfo->getFirstName() . " " . $UserInfo->getLastName() . "</h3>" . "
                                                 <html>
                                                 <head>
                                                 <title>HTML email</title>
@@ -110,7 +110,15 @@
             $cc = $SettingsInfo['EmailOrderCancelled'];
             sendEmail($to, $cc, $bcc, $subject, $message);
         }
-            header("Location: {$_SERVER['HTTP_REFERER']}");
+        if($Person == 'student')
+        {
+            include '../view/shopperOrders.php';
+        }
+        else if($Person == 'admin')
+        {
+           include '../view/adminOrders.php';
+        }
+            //header("Location: {$_SERVER['HTTP_REFERER']}");
     }
     function addEditCategory()
     {
