@@ -63,8 +63,7 @@
                                 </div>
                             </div>
                         </div>
-                </div>
-                </form>
+                    </form>
                 </div>
             </div>
             <script>
@@ -130,170 +129,169 @@
                         </div>
                    </form>
                 </div>
+                <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
+                    <div class ="row">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="table-heading">
+                                        <h3 class="clarion-white"><?php echo $CategoryHeader ?></h3>
+                                    </div>
+                                    <?php if(!$detect->isMobile()){ ?>
+                                        <div class="table-heading table-heading-buttons">
+                                            <input class="btn my-2 my-sm-0" id="addNewItemButton" type="button" data-toggle="modal" data-target="#addProductModal" value="Add New Item"/>
+                                        </div>
+                                    <?php } ?>
+                                </div>
+                                <div class="col-12">
+                                    <button type="button" class="btn btn-info d-lg-none" onclick="openNav()">Show Filters</button>
+                                    <form id="adjustBulkForm" action="../controller/controller.php?action=processStockAdjust&Type=bulk" method="post" enctype="multipart/form-data">
+                                        <!-- Adjust Bulk Confirm Modal -->
+                                        <div class="modal fade" id="adjustBulkConfirmModal" role="dialog">
+                                            <div class="modal-dialog modal-lg">-->
+                                                <!-- Modal content-->
+                                                <div class="modal-content clarion-blue clarion-white">
+                                                    <div class="modal-header" style="border-bottom: 1px solid #97824A;">
+                                                        <h4>Confirm</h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+                                                    <div class="row modal-body">
+                                                        <div class="column product-info-left">
+                                                            <h4>Are you sure you want to proceed with a bulk adjust?</h4>
+                                                        </div>
+                                                        <div class="column product-info-right">
 
-                      <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
-                          <div class ="row">
-                              <div class="container-fluid">
-                                  <button type="button" class="btn btn-info d-lg-none" onclick="openNav()">Show Filters</button>
-                                  <form id="adjustBulkForm" action="../controller/controller.php?action=processStockAdjust&Type=bulk" method="post" enctype="multipart/form-data">
-                                      <div class="table-heading">
-                                          <h3 class="clarion-white"><?php echo $CategoryHeader ?></h3>
-                                      </div>
-                                      <?php if(!$detect->isMobile()){ ?>
-                                      <div class="table-heading table-heading-buttons">
-                                          <input class="btn my-2 my-sm-0" id="addNewItemButton" type="button" data-toggle="modal" data-target="#addProductModal" value="Add New Item"/>
-                                      </div>
-                                      <?php } ?>
-                                      <!-- Adjust Bulk Confirm Modal -->
-                                      <div class="modal fade" id="adjustBulkConfirmModal" role="dialog">
-                                          <div class="modal-dialog modal-lg">-->
-                                              <!-- Modal content-->
-                                              <div class="modal-content clarion-blue clarion-white">
-                                                  <div class="modal-header" style="border-bottom: 1px solid #97824A;">
-                                                      <h4>Confirm</h4>
-                                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                  </div>
-                                                  <div class="row modal-body">
-                                                      <div class="column product-info-left">
-                                                          <h4>Are you sure you want to proceed with a bulk adjust?</h4>
-                                                      </div>
-                                                      <div class="column product-info-right">
-
-                                                      </div>
-                                                  </div>
-                                                  <div class="modal-footer" style="border-top: 1px solid #97824A;">
-                                                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                                      <button type="submit" class="btn btn-default">Yes</button>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </div>
-                              </div>
-                          </div>
-                          <div class = "row">
-                              <div class="table-responsive">
-                                  <table class="table table-striped inventoryTable" id="inventoryTable">
-                                      <thead>
-                                      <tr>
-                                          <th>Product</th>
-                                          <th>Available <?php if($_SESSION['QtyLessThan'] != null){ echo '<' . ' ' . $_SESSION['QtyLessThan'];}?></th>
-                                          <th>On Hand</th>
-                                          <th>Goal Stock</th>
-                                          <th>Incoming <input class="btn my-2 my-sm-0" type="button" value="Adjust All" data-toggle="modal" data-target="#adjustBulkConfirmModal"/> </th>
-                                      </tr>
-                                      </thead>
-                                      <tbody>
-                                      <?php
-                                      $i = 0;
-                                      foreach($ProductArray as $product) {
-                                          ?>
-                                          <tr>
-                                              <td class="text-left">
-                                                  <a class="clarion-white" href="#" data-toggle="modal" data-target="#editProductModal_<?php echo $product->getProductID()?>"><?php echo htmlspecialchars($product->getProductName())?></a>
-                                              </td>
-                                              <td class="text-right">
-                                                  <?php echo $product->getProductQTYAvailable(); ?>
-                                              </td>
-                                              <td class="text-right">
-                                                  <?php echo $product->getProductQtyOnHand() ?>
-                                              </td>
-                                              <td class="text-right">
-                                                  <?php echo $product->getProductGoalStock() ?>
-                                              </td>
-                                              <td title="To add stock enter in number you want to increase by and to subtract stock enter a '-' in front of number you want to decrease by" >
-                                                  <div class="incoming-textbox-div">
-                                                      <input class="incoming-textbox" type="number" id="incomingAmt_<?php echo $product->getProductID()?>" value="" name="incomingAmt_<?php echo $product->getProductID()?>">
-                                                  </div>
-                                                  <div class="adjust-button-div">
-                                                      <input type="button" value="Adjust Stock" onclick="adjustSingleStock(<?php echo $product->getProductID()?>);"/>
-                                                  </div>
-                                              </td>
-                                          </tr>
-                                      <?php } ?>
-                                      </tbody>
-                                  </table>
-                                  <script>
-                                      $(document).ready(function()
-                                      {
-                                          $("#inventoryTable").DataTable(
-                                              {
-                                                  searching: false,
-                                                  "pageLength" : 100,
-                                                  dom:'Bfrtip',
-                                                  buttons: [
-                                                      {
-                                                          extend: 'csvHtml5',
-                                                          text: 'Excel',
-                                                          header: true
-                                                      },
-                                                      {
-                                                          extend: 'print',
-                                                      }
-                                                  ]
-                                              });
-                                      } );
-                                  </script>
-                                  </form>
-                              </div>
-                          </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer" style="border-top: 1px solid #97824A;">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                        <button type="submit" class="btn btn-default">Yes</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class = "row">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped inventoryTable" id="inventoryTable">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Product</th>
+                                                        <th>Available <?php if($_SESSION['QtyLessThan'] != null){ echo '<' . ' ' . $_SESSION['QtyLessThan'];}?></th>
+                                                        <th>On Hand</th>
+                                                        <th>Goal Stock</th>
+                                                        <th>Incoming <input class="btn my-2 my-sm-0" type="button" value="Adjust All" data-toggle="modal" data-target="#adjustBulkConfirmModal"/> </th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <?php
+                                                    $i = 0;
+                                                    foreach($ProductArray as $product)
+                                                    {
+                                                        ?>
+                                                        <tr>
+                                                            <td class="text-left">
+                                                                <a class="clarion-white" href="#" data-toggle="modal" data-target="#editProductModal_<?php echo $product->getProductID()?>"><?php echo htmlspecialchars($product->getProductName())?></a>
+                                                            </td>
+                                                            <td class="text-right"><?php echo $product->getProductQTYAvailable(); ?></td>
+                                                            <td class="text-right"><?php echo $product->getProductQtyOnHand() ?></td>
+                                                            <td class="text-right"><?php echo $product->getProductGoalStock()?></td>
+                                                            <td title="To add stock enter in number you want to increase by and to subtract stock enter a '-' in front of number you want to decrease by" >
+                                                                <div class="incoming-textbox-div">
+                                                                    <input class="incoming-textbox" type="number" id="incomingAmt_<?php echo $product->getProductID()?>" value="" name="incomingAmt_<?php echo $product->getProductID()?>">
+                                                                </div>
+                                                                <div class="adjust-button-div">
+                                                                    <input type="button" value="Adjust Stock" onclick="adjustSingleStock(<?php echo $product->getProductID()?>);"/>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    <?php } ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-          <?php
+        <script>
+            $(document).ready(function()
+            {
+                $("#inventoryTable").DataTable(
+                    {
+                        searching: false,
+                        "pageLength" : 100,
+                        dom:'Bfrtip',
+                        buttons: [
+                            {
+                                extend: 'csvHtml5',
+                                text: 'Excel',
+                                header: true
+                            },
+                            {
+                                extend: 'print',
+                            }
+                        ]
+                    });
+            } );
+        </script>
+            <?php
               foreach($ProductArray as $product) {
-          ?>
+            ?>
               <!-- Edit Product Modal -->
-              <div class="modal fade" id="editProductModal_<?php echo $product->getProductID()?>" role="dialog">
+            <div class="modal fade" id="editProductModal_<?php echo $product->getProductID()?>" role="dialog">
                 <div class="modal-dialog modal-lg">-->
-                          <!-- Modal content-->
-                          <form id="editProductForm_<?php echo htmlspecialchars($product->getProductID()) ?>" action="../controller/controller.php?action=addEditProduct&productMode=edit" method="post" enctype="multipart/form-data" >
-                              <div class="modal-content clarion-blue clarion-white">
-                                <div class="modal-header" style="border-bottom: 1px solid #97824A;">
-                                  <h4>Name: <input type="text" name="ProductName" value="<?php echo htmlspecialchars($product->getProductName())?>" required maxlength="50" autofocus/></h4>
-                                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <!-- Modal content-->
+                    <form id="editProductForm_<?php echo htmlspecialchars($product->getProductID()) ?>" action="../controller/controller.php?action=addEditProduct&productMode=edit" method="post" enctype="multipart/form-data" >
+                        <div class="modal-content clarion-blue clarion-white">
+                            <div class="modal-header" style="border-bottom: 1px solid #97824A;">
+                                <h4>Name: <input type="text" name="ProductName" value="<?php echo htmlspecialchars($product->getProductName())?>" required maxlength="50" autofocus/></h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="add-edit-container modal-body">
+                                <div class="item">
+                                    <input type="hidden" id="CurrentProductID_<?php echo htmlspecialchars($product->getProductID()) ?>" name="ProductID" value="<?php echo htmlspecialchars($product->getProductID()) ?>"/>
+                                    <h4 class="product-info-spacing" for="categorySelectEdit_<?php echo htmlspecialchars($product->getProductID()) ?>">Categories:
+                                    <select id="categorySelectEdit_<?php echo htmlspecialchars($product->getProductID()) ?>" class="selectpicker" name="CategoriesEdit[]" multiple form="editProductForm_<?php echo htmlspecialchars($product->getProductID()) ?>" required>
+                                        <?php foreach ($CategoryArray as $category) { ?>
+                                        <option <?php foreach($product->getProductCategories() as $SingleCategory){
+                                        if($SingleCategory->getCategoryID() == $category->getCategoryID()){
+                                        echo 'selected';
+                                        }
+                                        }?> value="<?php echo htmlspecialchars($category->getCategoryID()) ?>"><?php echo htmlspecialchars($category->getCategoryDescription()) ?></option>
+                                        <?php } ?>
+                                        </select>
+                                    </h4>
+                                    <h4 class="product-info-spacing">QTY On Hand: <input type="number" min="0" name="QtyOnHand" value="<?php echo htmlspecialchars($product->getProductQTYOnHand())?>" required/></h4>
+                                    <h4 class="product-info-spacing">Max Order QTY: <input type="number" min="0" name="MaxOrderQty" value="<?php echo htmlspecialchars($product->getProductMaxOrderQty())?>"/></h4>
+                                    <h4 class="product-info-spacing">Goal Stock: <input type="number" min="0" name="GoalStock" value="<?php echo htmlspecialchars($product->getProductGoalStock())?>" required/></h4>
+                                    <h4>Description:</h4><textarea name="ProductDescription" rows="4" cols="50"><?php echo htmlspecialchars($product->getProductDescription())?></textarea>
                                 </div>
-                                <div class="add-edit-container modal-body">
-                                    <div class="item">
-                                        <input type="hidden" id="CurrentProductID_<?php echo htmlspecialchars($product->getProductID()) ?>" name="ProductID" value="<?php echo htmlspecialchars($product->getProductID()) ?>"/>
-                                        <h4 class="product-info-spacing" for="categorySelectEdit_<?php echo htmlspecialchars($product->getProductID()) ?>">Categories:
-                                            <select id="categorySelectEdit_<?php echo htmlspecialchars($product->getProductID()) ?>" class="selectpicker" name="CategoriesEdit[]" multiple form="editProductForm_<?php echo htmlspecialchars($product->getProductID()) ?>" required>
-                                                <?php foreach ($CategoryArray as $category) { ?>
-                                                    <option <?php foreach($product->getProductCategories() as $SingleCategory){
-                                                                        if($SingleCategory->getCategoryID() == $category->getCategoryID()){
-                                                                            echo 'selected';
-                                                                        }
-                                                    }?> value="<?php echo htmlspecialchars($category->getCategoryID()) ?>"><?php echo htmlspecialchars($category->getCategoryDescription()) ?></option>
-                                                <?php } ?>
-                                            </select>
-                                        </h4>
-                                        <h4 class="product-info-spacing">QTY On Hand: <input type="number" min="0" name="QtyOnHand" value="<?php echo htmlspecialchars($product->getProductQTYOnHand())?>" required/></h4>
-                                        <h4 class="product-info-spacing">Max Order QTY: <input type="number" min="0" name="MaxOrderQty" value="<?php echo htmlspecialchars($product->getProductMaxOrderQty())?>"/></h4>
-                                        <h4 class="product-info-spacing">Goal Stock: <input type="number" min="0" name="GoalStock" value="<?php echo htmlspecialchars($product->getProductGoalStock())?>" required/></h4>
-                                        <h4>Description:</h4><textarea name="ProductDescription" rows="4" cols="50"><?php echo htmlspecialchars($product->getProductDescription())?></textarea>
+                            <div class="item">
+                                <div>
+                                    Select image to upload:
+                                    <input type="file" name="ProductImage" id="ProductImage_<?php echo htmlspecialchars($product->getProductID()) ?>">
+                                </div>
+                                    <div>
+                                        <img <?php if(file_exists("../productImages/{$product->getProductID()}.jpg")):?>
+                                        src="../productImages/<?php echo($product->getProductID())?>.jpg"
+                                        <?php else :?>
+                                        src="../productImages/ImageNotAvailable.jpg"
+                                        <?php endif ;?>
+                                        alt="..." data-toggle="modal" data-target="#productModal_<?php echo $product->getProductID()?>">
                                     </div>
-                                    <div class="item">
-                                        <div>
-                                            Select image to upload:
-                                            <input type="file" name="ProductImage" id="ProductImage_<?php echo htmlspecialchars($product->getProductID()) ?>">
-                                        </div>
-                                        <div>
-                                            <img <?php if(file_exists("../productImages/{$product->getProductID()}.jpg")):?>
-                                                    src="../productImages/<?php echo($product->getProductID())?>.jpg"
-                                                 <?php else :?>
-                                                    src="../productImages/ImageNotAvailable.jpg"
-                                                 <?php endif ;?>
-                                            alt="..." data-toggle="modal" data-target="#productModal_<?php echo $product->getProductID()?>">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer" style="border-top: 1px solid #97824A;">
-                                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                  <button type="submit" class="btn btn-default">Save</button>
-                                </div>
-                          </form>
-                  </div>
+                            </div>
+                            <div class="modal-footer" style="border-top: 1px solid #97824A;">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-default">Save</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-              </div>
+            </div>
           <?php } ?>
           <!-- Add Product Modal -->
           <div class="modal fade" id="addProductModal" role="dialog">

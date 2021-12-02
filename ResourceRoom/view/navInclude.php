@@ -79,7 +79,7 @@
                 </form>
             <?php } ?>
             <div class="dropdown account-dropdown">
-                <button class="btn dropdown-toggle" type="button" data-toggle="dropdown"><img src="../Images/person-icon.png" alt="person" height="40px" width="40px"/></button>
+                <button class="btn dropdown-toggle" type="button" data-toggle="dropdown"><img src="../Images/person-icon.png" alt="person" height="40" width="40"/></button>
                 <ul class="dropdown-menu">
                     <li><a class="nav-link color-black" href="../controller/controller.php?action=accountSettings">Settings</a></li>
                 </ul>
