@@ -706,15 +706,21 @@
      function getUserReport($StartDate, $EndDate)
     {
         $db = getDBConnection();
-        $query = "select users.UserID, users.FirstName, users.LastName, users.Email, COUNT(orders.ORDERID) as TotalOrders
+        $query = "select users.UserID, users.FirstName, users.LastName, users.Email,
+                    (Select COUNT(O.ORDERID) from orders O 
+                    where O.USERID = users.UserID AND O.STATUS = :COMPLETED AND(O.DATECOMPLETED between :STARTDATE and :ENDDATE)) as 'COMPLETED ORDERS',
+                    (Select COUNT(O1.ORDERID) from orders O1 
+                    where O1.USERID = users.UserID AND O1.STATUS = :ADMINCANCELLED AND(O1.DATEORDERED between :STARTDATE and :ENDDATE)) as 'ADMIN CANCELLED ORDERS',
+                    (Select COUNT(O2.ORDERID) from orders O2 
+                    where O2.USERID = users.UserID AND O2.STATUS = :USERCANCELLED AND(O2.DATEORDERED between :STARTDATE and :ENDDATE)) as 'USER CANCELLED ORDERS'
                     from users
-                    inner join orders on users.UserID = orders.USERID
-                    where (orders.DATECOMPLETED between :STARTDATE and :ENDDATE) and orders.STATUS = :STATUS
                     group by users.UserID";
         $statement = $db->prepare($query);
         $statement->bindValue(':STARTDATE', $StartDate);
         $statement->bindValue(':ENDDATE', $EndDate);
-        $statement->bindValue(':STATUS', 'COMPLETED');
+        $statement->bindValue(':COMPLETED', 'COMPLETED');
+        $statement->bindValue(':ADMINCANCELLED', 'ADMINCANCELLED');
+        $statement->bindValue(':USERCANCELLED', 'USERCANCELLED');
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         $statement->closeCursor();
