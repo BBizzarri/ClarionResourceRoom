@@ -8,6 +8,7 @@ USE resourceroom;
 GRANT USAGE ON *.* TO cis411@localhost IDENTIFIED BY 'cis411';
 GRANT ALL PRIVILEGES ON resourceroom.* TO 'cis411'@'localhost';
 
+
 -- --------------------------------------------------------
 
 CREATE TABLE functions ( FunctionID INT NOT NULL AUTO_INCREMENT,
@@ -1039,6 +1040,11 @@ INSERT INTO `productcategories` (`ProductID`, `CategoryID`) VALUES
 (324,11),
 (325,11),
 (326,12),
+(327, 1),
+(327, 2),
+(328, 4),
+(329, 4),
+(330, 11),
 (1, 15),
 (2, 15),
 (3, 15),
@@ -1131,9 +1137,10 @@ INSERT INTO `orders` (`ORDERID`, `USERID`, `STATUS`, `DATEORDERED`, `DATEFILLED`
 COMMIT;
 
 
+
 INSERT INTO `orderdetails` (`ORDERID`, `PRODUCTID`, `QTYREQUESTED`, `QTYFILLED`) VALUES
                                                                                      -- Order 1
-                                                                                     (1, 2, 1, 1),
+
                                                                                      (1, 3, 2, 2),
                                                                                      (1, 5, 2, 2),
                                                                                      -- Order 2
@@ -1152,7 +1159,7 @@ INSERT INTO `orderdetails` (`ORDERID`, `PRODUCTID`, `QTYREQUESTED`, `QTYFILLED`)
                                                                                      (5, 22, 1, 1),
                                                                                      (5, 98, 3, 2),
                                                                                      (5, 184, 2, 2),
-                                                                                     (6, 22, 1, 1),
+
                                                                                      (6, 52, 3, 3),
                                                                                      (6, 90, 2, 1),
                                                                                      (6, 222, 3, 2),
@@ -1162,11 +1169,11 @@ INSERT INTO `orderdetails` (`ORDERID`, `PRODUCTID`, `QTYREQUESTED`, `QTYFILLED`)
                                                                                      (8, 184, 3, 2),
                                                                                      (8, 258, 1, 1),
                                                                                      (8, 86, 2, 1),
-                                                                                     (9, 13, 2, 0),
-                                                                                     (9, 24, 3, 0),
+                                                                                     (9, 77, 2, 0),
+                                                                                     (9, 88, 3, 0),
                                                                                      (9, 146, 1, 0),
                                                                                      (9, 278, 1, 0),
-                                                                                     (10, 2, 2, 0),
+                                                                                     (10, 99, 2, 0),
                                                                                      (10, 30, 3, 0);
 
 
