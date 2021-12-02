@@ -287,7 +287,8 @@ INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (1,30),
                                                      (1,38),
                                                      (1,39),
                                                      (1,42),
-                                                     (1,43);
+                                                     (1,43),
+                                                     (1,44);
 
 INSERT INTO rolefunctions (RoleID,FunctionID) VALUES (2,25),
                                                      (2,26),
