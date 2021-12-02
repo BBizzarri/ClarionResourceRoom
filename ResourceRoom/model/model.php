@@ -481,7 +481,7 @@
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         $statement->closeCursor();
-        console_log($result);
+//         console_log($result);
         return $result;
     }
     function getProducts($CategoryID,$QTYLessThan,$IncludeInactiveItems,$HideUnstockedItems,$ShoppingList,$SearchTerm){
@@ -515,7 +515,6 @@
             }
             $queryText .= " order by productview.NAME";
             $query = $queryText;
-            console_log($query);
             $db = getDBConnection();
             $statement = $db->prepare($query);
             if($QTYLessThan != ""){
@@ -678,8 +677,8 @@
 
     function getReport($ReportType, $StartDate, $EndDate, $OnlyOrderedProducts, $CategoryList)
     {
-        console_log($StartDate);
-        console_log($EndDate);
+//         console_log($StartDate);
+//         console_log($EndDate);
         if(isset($ReportType))
         {
             switch ($ReportType) {
@@ -964,7 +963,7 @@
     {
         if($EmailType == 'placed')
         {
-            console_log("in placed order if");
+//             console_log("in placed order if");
             $message = $TextType . PHP_EOL . PHP_EOL . "
                                                                                                                     <html>
                                                                                                                     <head>
@@ -1007,7 +1006,7 @@
         }
         else if($EmailType == 'renotify')
         {
-            console_log("In renotify order if");
+//             console_log("In renotify order if");
             $message = $TextType . PHP_EOL . PHP_EOL . "
                                                                                 <html>
                                                                                 <head>
@@ -1029,7 +1028,7 @@
     }
         else if($EmailType == 'cancelled')
         {
-            console_log('in cancelled order if');
+//             console_log('in cancelled order if');
             $message = $TextType . PHP_EOL . PHP_EOL . "
                                                                                 <html>
                                                                                 <head>
@@ -1051,7 +1050,7 @@
         }
         else
         {
-            console_log('this is broken');
+//             console_log('this is broken');
         }
 
     }

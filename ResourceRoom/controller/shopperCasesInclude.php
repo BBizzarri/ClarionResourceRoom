@@ -29,7 +29,7 @@
         $SettingsInfo = getAllSettingsInfo();
         $USERID = getUserID();
         $orders = getOrderIDsByUSERID($USERID);
-        console_log(getOrderIDsByUSERID($USERID));
+//         console_log(getOrderIDsByUSERID($USERID));
         $UsersEmail = getUserEmail($USERID);
         include '../view/shopperOrders.php';
     }
