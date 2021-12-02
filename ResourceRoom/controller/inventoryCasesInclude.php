@@ -359,33 +359,77 @@
     function adminReports()
     {
         $SettingsInfo = getAllSettingsInfo();
-        $ReportType = $_POST['report'];
-        $CategoryList = $_POST['CategoryList'];
-        if($_POST['OnlyOrderedProducts'] == 'on')
+        if(isset($_POST['report']))
         {
-            $OnlyOrderedProducts = True;
+            $ReportType = $_POST['report'];
+        }
+        else
+        {
+            $ReportType = 'OrderTotals';
+        }
+        if(isset($_POST['CategoryList']))
+        {
+            $CategoryList = $_POST['CategoryList'];
+        }
+        else
+        {
+            $CategoryList = array();
+        }
+        if(isset($_POST['OrderStatusList']))
+        {
+            $OrderStatuses = $_POST['OrderStatusList'];
+        }
+        else
+        {
+            $OrderStatuses = array();
+        }
+        if(isset($_POST['OnlyOrderedProducts']))
+        {
+            if($_POST['OnlyOrderedProducts'] == 'on')
+            {
+                $OnlyOrderedProducts = True;
+            }
+            else
+            {
+                $OnlyOrderedProducts = False;
+            }
         }
         else
         {
             $OnlyOrderedProducts = False;
         }
-        if($_POST['startDate'] != null)
+        if(isset($_POST['startDate']))
         {
-            $StartDate = $_POST['startDate'];
+            if($_POST['startDate'] != null)
+            {
+                $StartDate = $_POST['startDate'];
+            }
+            else
+            {
+                $StartDate = '0000/00/00';
+            }
         }
         else
         {
             $StartDate = '0000/00/00';
         }
-        if($_POST['endDate'] != null)
+        if(isset($_POST['endDate']))
         {
-            $EndDate = $_POST['endDate'];
+            if($_POST['endDate'] != null)
+            {
+                $EndDate = $_POST['endDate'];
+            }
+            else
+            {
+                $EndDate = date("Y/m/d");
+            }
         }
         else
         {
             $EndDate = date("Y/m/d");
         }
-        $SelectedReport = getReport($ReportType, toMySQLDate($StartDate), toMySQLDate($EndDate), $OnlyOrderedProducts ,$CategoryList);
+
+        $SelectedReport = getReport($ReportType, toMySQLDate($StartDate), toMySQLDate($EndDate), $OnlyOrderedProducts ,$CategoryList, $OrderStatuses);
         $CategoryArray = getAllCategories();
         include '../view/adminReports.php';
     }

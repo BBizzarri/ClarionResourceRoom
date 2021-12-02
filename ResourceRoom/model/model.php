@@ -675,10 +675,10 @@
         return $result;
     }
 
-    function getReport($ReportType, $StartDate, $EndDate, $OnlyOrderedProducts, $CategoryList)
+    function getReport($ReportType, $StartDate, $EndDate, $OnlyOrderedProducts, $CategoryList, $OrderStatuses)
     {
-//         console_log($StartDate);
-//         console_log($EndDate);
+        console_log($StartDate);
+         console_log($EndDate);
         if(isset($ReportType))
         {
             switch ($ReportType) {
@@ -686,7 +686,7 @@
                     $report = getUserReport($StartDate, $EndDate);
                     break;
                 case 'Orders':
-                    $report = getOrdersReport($StartDate, $EndDate);
+                    $report = getOrdersReport($StartDate, $EndDate,$OrderStatuses);
                     break;
                 case 'OrderTotals':
                     $report = getOrderTotalsReport($StartDate, $EndDate);
@@ -721,23 +721,61 @@
         return $result;
     }
 
-    function getOrdersReport($StartDate, $EndDate)
+    function getOrdersReport($StartDate, $EndDate,$OrderStatuses)
     {
         $db = getDBConnection();
-        $query = "select users.UserID,users.FirstName, users.Lastname, users.Email, orders.ORDERID, orders.DATEORDERED, orders.DATEFILLED, orders.DATECOMPLETED, orders.COMMENT, orderdetails.PRODUCTID, product.NAME, orderdetails.QTYREQUESTED,
+        $query = "select users.UserID, users.FirstName, users.Lastname, users.Email, orders.STATUS, orders.DATEORDERED, orders.DATEFILLED, orders.DATECOMPLETED, orders.COMMENT, product.NAME, orderdetails.QTYREQUESTED,
                         orderdetails.QTYFILLED, product.PRODUCTDESCRIPTION, GROUP_CONCAT(category.CATEGORYDESCRIPTION ORDER BY category.CATEGORYDESCRIPTION ASC SEPARATOR ', ') as CATEGORY
                     from users
                     inner join orders on users.UserID = orders.USERID
                     inner join orderdetails on orders.ORDERID = orderdetails.ORDERID
                     inner join product on orderdetails.PRODUCTID = product.PRODUCTID    
                     inner join productcategories on product.PRODUCTID = productcategories.PRODUCTID
-                    inner join category on productcategories.CATEGORYID = category.CATEGORYID
-                    where (orders.DATECOMPLETED between :STARTDATE and :ENDDATE) and orders.STATUS = :STATUS
-                    group by orderdetails.ORDERID,orderdetails.PRODUCTID";
+                    inner join category on productcategories.CATEGORYID = category.CATEGORYID";
+
+        if(in_array('ALL', $OrderStatuses))
+        {
+            $query .= " where (orders.DATEORDERED between :STARTDATE and :ENDDATE)";
+        }
+        else if(in_array('SUBMITTED', $OrderStatuses))
+        {
+            $query .= " where (orders.DATEORDERED between :STARTDATE and :ENDDATE)";
+        }
+        else if(in_array('READYFORPICKUP', $OrderStatuses))
+        {
+            $query .= " where (orders.DATEFILLED between :STARTDATE and :ENDDATE)";
+        }
+        else if(in_array('COMPLETED', $OrderStatuses))
+        {
+            $query .= " where (orders.DATECOMPLETED between :STARTDATE and :ENDDATE)";
+        }
+        else
+        {
+            $query .= " where (orders.DATEORDERED between :STARTDATE and :ENDDATE)";
+        }
+
+        if(!in_array('ALL', $OrderStatuses))
+        {
+            $query .= " and (";
+            foreach($OrderStatuses as $OrderStatus)
+            {
+                $query .= "orders.STATUS = :$OrderStatus OR ";
+            }
+
+            $query .= "false)";
+        }
+        $query .= " group by orderdetails.ORDERID,orderdetails.PRODUCTID";
         $statement = $db->prepare($query);
+        if(!in_array('ALL', $OrderStatuses))
+        {
+            foreach($OrderStatuses as $OrderStatus)
+            {
+                console_log(":$OrderStatus");
+                $statement->bindValue(":$OrderStatus", $OrderStatus);
+            }
+        }
         $statement->bindValue(':STARTDATE', $StartDate);
         $statement->bindValue(':ENDDATE', $EndDate);
-        $statement->bindValue(':STATUS', 'COMPLETED');
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         $statement->closeCursor();
@@ -747,7 +785,7 @@
     function getOrderTotalsReport($StartDate, $EndDate)
     {
         $db = getDBConnection();
-        $query = "select COUNT(DISTINCT(orders.ORDERID)) as 'TOTAL ORDERS', COUNT(DISTINCT(orders.USERID)) as 'UNIQUE ORDERERS',
+        $query = "select COUNT(DISTINCT(orders.ORDERID)) as 'TOTAL ORDERS', COUNT(DISTINCT(orders.USERID)) as 'UNIQUE USERS',
                     SUM(orderdetails.QTYFILLED) as 'TOTAL PRODUCTS', COUNT(DISTINCT(orderdetails.PRODUCTID)) as 'UNIQUE PRODUCTS'
                     from orders
                     inner join users on orders.UserID = users.USERID
@@ -808,7 +846,6 @@
                 $statement->bindValue(":$categoryID", $categoryID);
             }
         }
-        console_log('Query: ' . $query);
         $statement->bindValue(':STARTDATE', $StartDate);
         $statement->bindValue(':ENDDATE', $EndDate);
         $statement->execute();

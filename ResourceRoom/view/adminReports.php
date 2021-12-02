@@ -13,10 +13,10 @@
                             <div class="col-auto">
                                 <label for="report">Report Type:</label>
                                 <select class="" name="report" id="report">
-                                    <option name="Users" value="Users" <?php if($_POST['report'] == 'Users'){ echo 'selected'; }?>>Users</option>
-                                    <option name="Orders" value="Orders" <?php if($_POST['report'] == 'Orders'){ echo 'selected'; }?>>All Orders</option>
-                                    <option name="OrderTotals" value="OrderTotals" <?php if($_POST['report'] == 'OrderTotals'){ echo 'selected'; }?>>Order Totals</option>
-                                    <option name="Products" value="Products" <?php if($_POST['report'] == 'Products'){ echo 'selected'; }?>>Products</option>
+                                    <option name="Users" value="Users" <?php if(isset($_POST['report']) AND $_POST['report'] == 'Users'){ echo 'selected'; }?>>Users</option>
+                                    <option name="Orders" value="Orders" <?php if(isset($_POST['report']) AND $_POST['report'] == 'Orders'){ echo 'selected'; }?>>All Orders</option>
+                                    <option name="OrderTotals" value="OrderTotals" <?php if(isset($_POST['report']) AND $_POST['report'] == 'OrderTotals'){ echo 'selected'; }?>>Order Totals</option>
+                                    <option name="Products" value="Products" <?php if(isset($_POST['report']) AND $_POST['report'] == 'Products'){ echo 'selected'; }?>>Products</option>
                                 </select>
                                 <label class="reports-nav" for="example">Start Date: </label>
                                 <input type="date" value= "0001-01-01" id="startDate" name="startDate">
@@ -36,6 +36,17 @@
                                         <?php
                                     }
                                     ?>
+                                </select>
+                            </div>
+                            <div id="allOrdersOnlyOptions" class="col-auto">
+                                <label class="reports-nav" for="orderStatusSelectReports">Order Status</label>
+                                <select id="orderStatusSelectReports" class="selectpicker" name="OrderStatusList[]" multiple form="ReportsSelect" required>
+                                    <option class="category nav-link col-12" style="white-space: normal" value="ALL">ALL</option>
+                                    <option class="category nav-link col-12" style="white-space: normal" value="SUBMITTED">SUBMITTED</option>
+                                    <option class="category nav-link col-12" style="white-space: normal" value="READYFORPICKUP">READYFORPICKUP</option>
+                                    <option class="category nav-link col-12" style="white-space: normal" value="COMPLETED">COMPLETED</option>
+                                    <option class="category nav-link col-12" style="white-space: normal" value="USERCANCELLED">USERCANCELLED</option>
+                                    <option class="category nav-link col-12" style="white-space: normal" value="ADMINCANCELLED">ADMINCANCELLED</option>
                                 </select>
                             </div>
                             <div class="col-1">
@@ -109,6 +120,13 @@
         } else {
             $('#productOnlyOptions').hide();
             $('#categorySelectReports').removeAttr('required');
+        }
+        if ($(this).val() == "Orders") {
+            $('#allOrdersOnlyOptions').show();
+            $('#orderStatusSelectReports').attr('required', '');
+        } else {
+            $('#allOrdersOnlyOptions').hide();
+            $('#orderStatusSelectReports').removeAttr('required');
         }
     });
     $("#report").trigger("change");
