@@ -10,7 +10,7 @@
     function processSignIn($user){
         try{
             $db = getDBConnection();
-            $query = 'SELECT * FROM users inner join userroles on users.UserID = userroles.UserID where users.UserID = :sUnderScore';
+            $query = 'SELECT users.* FROM users where users.UserID = :sUnderScore';
             $statement = $db->prepare($query);
             $statement->bindValue(':sUnderScore', $user->getsUnderScore());
             $statement->execute();
@@ -67,14 +67,22 @@
                 }
             }
             else{
-                print_r($result);
                 $user = new user($result[0]['UserID'],$result[0]['FirstName'],$result[0]['LastName'],$result[0]['Email']);
                 $_SESSION['UserID'] = $user->getsUnderScore();
-                if(userIsAuthorized('shopperHome')){
+                if (userIsAuthorized('adminOrders')){
+                    header( 'Location:../controller/controller.php?action=adminOrders');
+                }
+                else if(userIsAuthorized('adminInventory')){
+                    header( 'Location:../controller/controller.php?action=adminInventory');
+                }
+                else if(userIsAuthorized('shopperHome')){
                     header( 'Location:../controller/controller.php?action=shopperHome');
                 }
-                else if (userIsAuthorized('adminOrders')){
-                    header( 'Location:../controller/controller.php?action=adminOrders');
+                else
+                {
+                    $errorMessage = 'Unauthorized user' . ' ' . $user->getsUnderScore();
+                    include '../view/errorPage.php';
+                    die;
                 }
             }
         }  catch (PDOException $e) {

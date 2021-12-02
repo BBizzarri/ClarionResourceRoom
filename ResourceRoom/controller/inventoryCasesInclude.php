@@ -514,7 +514,7 @@
         $CategoryArray = getAllCategories();
         if(isset($_POST['inactiveItems']))
         {
-            console_log($_POST['inactiveItems']);
+//             console_log($_POST['inactiveItems']);
             $InactiveItems = $_POST['inactiveItems'];
         }
         else if(isset($_SESSION['InactiveItems']))
