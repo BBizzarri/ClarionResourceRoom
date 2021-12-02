@@ -772,7 +772,7 @@
                     from category c inner join productcategories p on c.CATEGORYID = p.CATEGORYID where p.PRODUCTID = product.PRODUCTID) as CATEGORY,
                     (Select IFNULL(sum(qtyfilled),0) from orderdetails od where od.productid = product.productid) as 'TOTALORDERED',
                         COUNT(DISTINCT(orderdetails.ORDERID)) as 'NUMBER OF ORDERS', 
-                        COUNT(DISTINCT orders.USERID) as 'UNIQUE ORDERERS' 
+                        COUNT(DISTINCT orders.USERID) as 'UNIQUE USERS' 
                           
                     from product left join orderdetails on product.PRODUCTID = orderdetails.PRODUCTID
                     inner join productcategories on product.PRODUCTID = productcategories.PRODUCTID
@@ -890,32 +890,28 @@
             if($order->getOrderStatus() == 'SUBMITTED')
             {
                 $db = getDBConnection();
-                $query = 'DELETE FROM orderdetails WHERE (ORDERID = :ORDERID)';
+                $query = 'UPDATE orders SET STATUS = :STATUS WHERE ORDERID = :ORDERID';
                 $statement = $db->prepare($query);
+                if($UserID == $orderOwner)
+                {
+                    $statement->bindValue(':STATUS', 'USERDELETED');
+                }
+                else
+                {
+                    $statement->bindValue(':STATUS', 'ADMINDELETED');
+                }
                 $statement->bindValue(':ORDERID', $order->getOrderID());
                 $success = $statement->execute();
                 $statement->closeCursor();
                 if($success)
                 {
-                    $db = getDBConnection();
-                    $query = 'DELETE FROM orders WHERE (ORDERID = :ORDERID)';
-                    $statement = $db->prepare($query);
-                    $statement->bindValue(':ORDERID', $order->getOrderID());
-                    $success = $statement->execute();
-                    $statement->closeCursor();
-                    if($success)
-                    {
-                        return True;
-                    }
-                    else
-                    {
-                        logSQLError($statement->errorInfo());
-                    }
+                    return True;
                 }
                 else
                 {
                     logSQLError($statement->errorInfo());
                 }
+
 
             }
             else if($order->getOrderStatus() == 'READY FOR PICKUP')
@@ -925,16 +921,25 @@
                     $rowCount = updateQTY($orderDetail->getProductID(),$orderDetail->getQTYFilled());
                 }
                 $db = getDBConnection();
-                $query = 'DELETE FROM orderdetails WHERE (ORDERID = :ORDERID)';
+                $query = 'UPDATE orderdetails SET QTYFILLED = :ZERO WHERE (ORDERID = :ORDERID)';
                 $statement = $db->prepare($query);
                 $statement->bindValue(':ORDERID', $order->getOrderID());
+                $statement->bindValue(':ZERO', 0);
                 $success = $statement->execute();
                 $statement->closeCursor();
                 if($success)
                 {
                     $db = getDBConnection();
-                    $query = 'DELETE FROM orders WHERE (ORDERID = :ORDERID)';
+                    $query = 'UPDATE orders SET STATUS = :STATUS WHERE ORDERID = :ORDERID';
                     $statement = $db->prepare($query);
+                    if($UserID == $orderOwner)
+                    {
+                        $statement->bindValue(':STATUS', 'USERDELETED');
+                    }
+                    else
+                    {
+                        $statement->bindValue(':STATUS', 'ADMINDELETED');
+                    }
                     $statement->bindValue(':ORDERID', $order->getOrderID());
                     $success = $statement->execute();
                     $statement->closeCursor();
