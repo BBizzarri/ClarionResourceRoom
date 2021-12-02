@@ -68,7 +68,7 @@
                                                 <?php if($order->getOrderStatus() != "COMPLETED"):?>
                                                 <tr>
                                                     <td colspan="0">
-                                                        <form action="../controller/controller.php?action=deleteOrder" onsubmit="return confirm('Are you sure you want to cancel this order?');" method="post" enctype="multipart/form-data">
+                                                        <form action="../controller/controller.php?action=deleteOrder&person=student" onsubmit="return confirm('Are you sure you want to cancel this order?');" method="post" enctype="multipart/form-data">
                                                             <div class="form-group row">
                                                                 <input type='hidden' name='ORDERID' value='<?php echo $order->getOrderID()?>'/>
                                                                 <input type="submit" class="btn btn-danger" style="margin-right: 25px" value="Cancel Order">

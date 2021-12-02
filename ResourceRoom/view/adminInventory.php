@@ -4,8 +4,6 @@
     require_once '../lib/Mobile_Detect.php';
     $detect = new Mobile_Detect;
 ?>
-<html>
-<body>
     <section class="clarion-blue">
         <div>
             <div id="hiddenMenu" class="overlay" >
@@ -115,7 +113,7 @@
                             <a href="../controller/controller.php?action=adminInventory&ClearFilters=true" class="btn btn-secondary filter-button" role="button">Clear</a>
                             <input class="btn btn-secondary filter-button" type="submit" value="Apply"/>
                         </div>
-                            <div class="col-sm-6 col-md-6 col-lg-12 col-xl-12"">
+                            <div class="col-sm-6 col-md-6 col-lg-12 col-xl-12">
                             <hr class="sidebar-seperator">
                             <h3 class="sidebar-heading">Categories</h3>
                             <div class="col-12">
@@ -336,8 +334,6 @@
             </div>
           </div>
     </section>
-</body>
-</html>
 <?php
     require '../view/footerInclude.php';
 ?>
