@@ -67,17 +67,16 @@
     function adminDeleteOrder()
     {
         $OrderID = $_POST['ORDERID'];
-        $Person = $_GET['person'];
+        $UserID = $_SESSION['UserID'];
         $currentOrder = getOrder($OrderID)[0];
         $OrderedByEmail = getEmailToOrder($OrderID);
         $SettingsInfo = getAllSettingsInfo();
         $UserInfo = getUserInfo($currentOrder->getUserID());
-        if(deleteOrder($OrderID))
-        {
+        if (deleteOrder($OrderID)) {
             $to = $OrderedByEmail['Email'];
             $bcc = $SettingsInfo['BCCOrderCanceled'];
             $subject = $SettingsInfo['OrderCancelledSubj'];
-            foreach($currentOrder->getOrderDetails() as $orderDetail){
+            foreach ($currentOrder->getOrderDetails() as $orderDetail) {
                 $ProductName = $orderDetail->getProduct()->getProductName();
                 $QtyRequested = $orderDetail->getQTYRequested();
                 $QtyFilled = $orderDetail->getQTYFilled();
@@ -102,24 +101,23 @@
                                                     <th style='padding-left: 30px;'>Quantity Filled</th>
                                                 </thead>
                                                 <tbody>" .
-                                                $tableBody .
-                                                "</tbody>
+                $tableBody .
+                "</tbody>
                                                  </table>
                                                  </body>
                                                  </html>";
             $cc = $SettingsInfo['EmailOrderCancelled'];
             sendEmail($to, $cc, $bcc, $subject, $message);
         }
-        if($Person == 'student')
-        {
-            include '../view/shopperOrders.php';
+        if (userIsAuthorized('adminOrders')) {
+            header('Location:../controller/controller.php?action=adminOrders');
+        } else if (userIsAuthorized('adminInventory')) {
+            header('Location:../controller/controller.php?action=adminInventory');
+        } else if (userIsAuthorized('shopperOrders')) {
+            header('Location:../controller/controller.php?action=shopperOrders');
         }
-        else if($Person == 'admin')
-        {
-           include '../view/adminOrders.php';
-        }
-            //header("Location: {$_SERVER['HTTP_REFERER']}");
     }
+
     function addEditCategory()
     {
         $CategoryMode = $_GET['categoryMode'];

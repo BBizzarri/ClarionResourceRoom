@@ -894,11 +894,11 @@
                 $statement = $db->prepare($query);
                 if($UserID == $orderOwner)
                 {
-                    $statement->bindValue(':STATUS', 'USERDELETED');
+                    $statement->bindValue(':STATUS', 'USERCANCELLED');
                 }
                 else
                 {
-                    $statement->bindValue(':STATUS', 'ADMINDELETED');
+                    $statement->bindValue(':STATUS', 'ADMINCANCELLED');
                 }
                 $statement->bindValue(':ORDERID', $order->getOrderID());
                 $success = $statement->execute();
@@ -934,11 +934,11 @@
                     $statement = $db->prepare($query);
                     if($UserID == $orderOwner)
                     {
-                        $statement->bindValue(':STATUS', 'USERDELETED');
+                        $statement->bindValue(':STATUS', 'USERCANCELLED');
                     }
                     else
                     {
-                        $statement->bindValue(':STATUS', 'ADMINDELETED');
+                        $statement->bindValue(':STATUS', 'ADMINCANCELLED');
                     }
                     $statement->bindValue(':ORDERID', $order->getOrderID());
                     $success = $statement->execute();
