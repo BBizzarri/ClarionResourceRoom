@@ -40,11 +40,11 @@
 
  </head>
  <body>
- <div class="h-100">
+ <div>
      <header class="center">
          <h1>Resource Room</h1>
      </header>
-
+ </div>
 <?php
         require_once '../view/navInclude.php';
         require_once '../model/product.php';

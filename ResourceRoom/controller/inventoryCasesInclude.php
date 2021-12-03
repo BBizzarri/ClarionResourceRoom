@@ -67,17 +67,16 @@
     function adminDeleteOrder()
     {
         $OrderID = $_POST['ORDERID'];
-        $Person = $_GET['person'];
+        $UserID = $_SESSION['UserID'];
         $currentOrder = getOrder($OrderID)[0];
         $OrderedByEmail = getEmailToOrder($OrderID);
         $SettingsInfo = getAllSettingsInfo();
         $UserInfo = getUserInfo($currentOrder->getUserID());
-        if(deleteOrder($OrderID))
-        {
+        if (deleteOrder($OrderID)) {
             $to = $OrderedByEmail['Email'];
             $bcc = $SettingsInfo['BCCOrderCanceled'];
             $subject = $SettingsInfo['OrderCancelledSubj'];
-            foreach($currentOrder->getOrderDetails() as $orderDetail){
+            foreach ($currentOrder->getOrderDetails() as $orderDetail) {
                 $ProductName = $orderDetail->getProduct()->getProductName();
                 $QtyRequested = $orderDetail->getQTYRequested();
                 $QtyFilled = $orderDetail->getQTYFilled();
@@ -102,24 +101,23 @@
                                                     <th style='padding-left: 30px;'>Quantity Filled</th>
                                                 </thead>
                                                 <tbody>" .
-                                                $tableBody .
-                                                "</tbody>
+                $tableBody .
+                "</tbody>
                                                  </table>
                                                  </body>
                                                  </html>";
             $cc = $SettingsInfo['EmailOrderCancelled'];
             sendEmail($to, $cc, $bcc, $subject, $message);
         }
-        if($Person == 'student')
-        {
-            include '../view/shopperOrders.php';
+        if (userIsAuthorized('adminOrders')) {
+            header('Location:../controller/controller.php?action=adminOrders');
+        } else if (userIsAuthorized('adminInventory')) {
+            header('Location:../controller/controller.php?action=adminInventory');
+        } else if (userIsAuthorized('shopperOrders')) {
+            header('Location:../controller/controller.php?action=shopperOrders');
         }
-        else if($Person == 'admin')
-        {
-           include '../view/adminOrders.php';
-        }
-            //header("Location: {$_SERVER['HTTP_REFERER']}");
     }
+
     function addEditCategory()
     {
         $CategoryMode = $_GET['categoryMode'];
@@ -361,33 +359,77 @@
     function adminReports()
     {
         $SettingsInfo = getAllSettingsInfo();
-        $ReportType = $_POST['report'];
-        $CategoryList = $_POST['CategoryList'];
-        if($_POST['OnlyOrderedProducts'] == 'on')
+        if(isset($_POST['report']))
         {
-            $OnlyOrderedProducts = True;
+            $ReportType = $_POST['report'];
+        }
+        else
+        {
+            $ReportType = 'OrderTotals';
+        }
+        if(isset($_POST['CategoryList']))
+        {
+            $CategoryList = $_POST['CategoryList'];
+        }
+        else
+        {
+            $CategoryList = array();
+        }
+        if(isset($_POST['OrderStatusList']))
+        {
+            $OrderStatuses = $_POST['OrderStatusList'];
+        }
+        else
+        {
+            $OrderStatuses = array();
+        }
+        if(isset($_POST['OnlyOrderedProducts']))
+        {
+            if($_POST['OnlyOrderedProducts'] == 'on')
+            {
+                $OnlyOrderedProducts = True;
+            }
+            else
+            {
+                $OnlyOrderedProducts = False;
+            }
         }
         else
         {
             $OnlyOrderedProducts = False;
         }
-        if($_POST['startDate'] != null)
+        if(isset($_POST['startDate']))
         {
-            $StartDate = $_POST['startDate'];
+            if($_POST['startDate'] != null)
+            {
+                $StartDate = $_POST['startDate'];
+            }
+            else
+            {
+                $StartDate = '0000/00/00';
+            }
         }
         else
         {
             $StartDate = '0000/00/00';
         }
-        if($_POST['endDate'] != null)
+        if(isset($_POST['endDate']))
         {
-            $EndDate = $_POST['endDate'];
+            if($_POST['endDate'] != null)
+            {
+                $EndDate = $_POST['endDate'];
+            }
+            else
+            {
+                $EndDate = date("Y/m/d");
+            }
         }
         else
         {
             $EndDate = date("Y/m/d");
         }
-        $SelectedReport = getReport($ReportType, toMySQLDate($StartDate), toMySQLDate($EndDate), $OnlyOrderedProducts ,$CategoryList);
+
+        $SelectedReport = getReport($ReportType, toMySQLDate($StartDate), toMySQLDate($EndDate), $OnlyOrderedProducts ,$CategoryList, $OrderStatuses);
         $CategoryArray = getAllCategories();
         include '../view/adminReports.php';
     }

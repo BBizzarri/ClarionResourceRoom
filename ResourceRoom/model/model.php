@@ -675,10 +675,10 @@
         return $result;
     }
 
-    function getReport($ReportType, $StartDate, $EndDate, $OnlyOrderedProducts, $CategoryList)
+    function getReport($ReportType, $StartDate, $EndDate, $OnlyOrderedProducts, $CategoryList, $OrderStatuses)
     {
-//         console_log($StartDate);
-//         console_log($EndDate);
+        console_log($StartDate);
+         console_log($EndDate);
         if(isset($ReportType))
         {
             switch ($ReportType) {
@@ -686,7 +686,10 @@
                     $report = getUserReport($StartDate, $EndDate);
                     break;
                 case 'Orders':
-                    $report = getOrdersReport($StartDate, $EndDate);
+                    $report = getOrdersReport($StartDate, $EndDate,$OrderStatuses);
+                    break;
+                case 'OrderTotals':
+                    $report = getOrderTotalsReport($StartDate, $EndDate);
                     break;
                 case 'Products':
                     $report = getProductReport($StartDate, $EndDate, $OnlyOrderedProducts,$CategoryList);
@@ -703,32 +706,97 @@
      function getUserReport($StartDate, $EndDate)
     {
         $db = getDBConnection();
-        $query = "select users.UserID, users.FirstName, users.LastName, users.Email, COUNT(orders.ORDERID) as TotalOrders
+        $query = "select users.UserID, users.FirstName, users.LastName, users.Email,
+                    (Select COUNT(O.ORDERID) from orders O 
+                    where O.USERID = users.UserID AND O.STATUS = :COMPLETED AND(O.DATECOMPLETED between :STARTDATE and :ENDDATE)) as 'COMPLETED ORDERS',
+                    (Select COUNT(O1.ORDERID) from orders O1 
+                    where O1.USERID = users.UserID AND O1.STATUS = :ADMINCANCELLED AND(O1.DATEORDERED between :STARTDATE and :ENDDATE)) as 'ADMIN CANCELLED ORDERS',
+                    (Select COUNT(O2.ORDERID) from orders O2 
+                    where O2.USERID = users.UserID AND O2.STATUS = :USERCANCELLED AND(O2.DATEORDERED between :STARTDATE and :ENDDATE)) as 'USER CANCELLED ORDERS'
                     from users
-                    inner join orders on users.UserID = orders.USERID
-                    where (orders.DATECOMPLETED between :STARTDATE and :ENDDATE) and orders.STATUS = :STATUS
                     group by users.UserID";
         $statement = $db->prepare($query);
         $statement->bindValue(':STARTDATE', $StartDate);
         $statement->bindValue(':ENDDATE', $EndDate);
-        $statement->bindValue(':STATUS', 'COMPLETED');
+        $statement->bindValue(':COMPLETED', 'COMPLETED');
+        $statement->bindValue(':ADMINCANCELLED', 'ADMINCANCELLED');
+        $statement->bindValue(':USERCANCELLED', 'USERCANCELLED');
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         $statement->closeCursor();
         return $result;
     }
 
-    function getOrdersReport($StartDate, $EndDate)
+    function getOrdersReport($StartDate, $EndDate,$OrderStatuses)
     {
         $db = getDBConnection();
-        $query = "select users.UserID,users.FirstName, users.Lastname, users.Email, orders.ORDERID, orders.DATEORDERED, orders.DATEFILLED, orders.DATECOMPLETED, orders.COMMENT, orderdetails.PRODUCTID, product.NAME, orderdetails.QTYREQUESTED,
-                        orderdetails.QTYFILLED, product.PRODUCTDESCRIPTION, category.CATEGORYID, category.CATEGORYDESCRIPTION
+        $query = "select users.UserID, users.FirstName, users.Lastname, users.Email, orders.STATUS, orders.DATEORDERED, orders.DATEFILLED, orders.DATECOMPLETED, orders.COMMENT, product.NAME, orderdetails.QTYREQUESTED,
+                        orderdetails.QTYFILLED, product.PRODUCTDESCRIPTION, GROUP_CONCAT(category.CATEGORYDESCRIPTION ORDER BY category.CATEGORYDESCRIPTION ASC SEPARATOR ', ') as CATEGORY
                     from users
                     inner join orders on users.UserID = orders.USERID
                     inner join orderdetails on orders.ORDERID = orderdetails.ORDERID
                     inner join product on orderdetails.PRODUCTID = product.PRODUCTID    
                     inner join productcategories on product.PRODUCTID = productcategories.PRODUCTID
-                    inner join category on productcategories.CATEGORYID = category.CATEGORYID
+                    inner join category on productcategories.CATEGORYID = category.CATEGORYID";
+
+        if(in_array('ALL', $OrderStatuses))
+        {
+            $query .= " where (orders.DATEORDERED between :STARTDATE and :ENDDATE)";
+        }
+        else if(in_array('SUBMITTED', $OrderStatuses))
+        {
+            $query .= " where (orders.DATEORDERED between :STARTDATE and :ENDDATE)";
+        }
+        else if(in_array('READYFORPICKUP', $OrderStatuses))
+        {
+            $query .= " where (orders.DATEFILLED between :STARTDATE and :ENDDATE)";
+        }
+        else if(in_array('COMPLETED', $OrderStatuses))
+        {
+            $query .= " where (orders.DATECOMPLETED between :STARTDATE and :ENDDATE)";
+        }
+        else
+        {
+            $query .= " where (orders.DATEORDERED between :STARTDATE and :ENDDATE)";
+        }
+
+        if(!in_array('ALL', $OrderStatuses))
+        {
+            $query .= " and (";
+            foreach($OrderStatuses as $OrderStatus)
+            {
+                $query .= "orders.STATUS = :$OrderStatus OR ";
+            }
+
+            $query .= "false)";
+        }
+        $query .= " group by orderdetails.ORDERID,orderdetails.PRODUCTID";
+        $statement = $db->prepare($query);
+        if(!in_array('ALL', $OrderStatuses))
+        {
+            foreach($OrderStatuses as $OrderStatus)
+            {
+                console_log(":$OrderStatus");
+                $statement->bindValue(":$OrderStatus", $OrderStatus);
+            }
+        }
+        $statement->bindValue(':STARTDATE', $StartDate);
+        $statement->bindValue(':ENDDATE', $EndDate);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+        return $result;
+    }
+
+    function getOrderTotalsReport($StartDate, $EndDate)
+    {
+        $db = getDBConnection();
+        $query = "select COUNT(DISTINCT(orders.ORDERID)) as 'TOTAL ORDERS', COUNT(DISTINCT(orders.USERID)) as 'UNIQUE USERS',
+                    SUM(orderdetails.QTYFILLED) as 'TOTAL PRODUCTS', COUNT(DISTINCT(orderdetails.PRODUCTID)) as 'UNIQUE PRODUCTS'
+                    from orders
+                    inner join users on orders.UserID = users.USERID
+                    inner join orderdetails on orders.ORDERID = orderdetails.ORDERID
+                    inner join product on orderdetails.PRODUCTID = product.PRODUCTID    
                     where (orders.DATECOMPLETED between :STARTDATE and :ENDDATE) and orders.STATUS = :STATUS";
         $statement = $db->prepare($query);
         $statement->bindValue(':STARTDATE', $StartDate);
@@ -743,12 +811,16 @@
     function getProductReport($StartDate, $EndDate, $OnlyOrderedProducts, $CategoryIDs)
     {
         $db = getDBConnection();
-        $query = "select product.*, GROUP_CONCAT(category.CATEGORYDESCRIPTION ORDER BY category.CATEGORYDESCRIPTION ASC SEPARATOR ', ') as CATEGORY,
-                    SUM(orderdetails.QTYFILLED) as TOTALORDERED, COUNT(orderdetails.QTYFILLED) as UNIQUEORDERS
-                    from product
+        $query = "select product.*,
+                    (select GROUP_CONCAT(c.CATEGORYDESCRIPTION ORDER BY c.CATEGORYDESCRIPTION ASC SEPARATOR ', ') 
+                    from category c inner join productcategories p on c.CATEGORYID = p.CATEGORYID where p.PRODUCTID = product.PRODUCTID) as CATEGORY,
+                    (Select IFNULL(sum(qtyfilled),0) from orderdetails od where od.productid = product.productid) as 'TOTALORDERED',
+                        COUNT(DISTINCT(orderdetails.ORDERID)) as 'NUMBER OF ORDERS', 
+                        COUNT(DISTINCT orders.USERID) as 'UNIQUE USERS' 
+                          
+                    from product left join orderdetails on product.PRODUCTID = orderdetails.PRODUCTID
                     inner join productcategories on product.PRODUCTID = productcategories.PRODUCTID
                     inner join category on productcategories.CATEGORYID = category.CATEGORYID
-                    left join orderdetails on product.PRODUCTID = orderdetails.PRODUCTID
                     left join orders on orderdetails.ORDERID = orders.ORDERID";
 
         if($OnlyOrderedProducts)
@@ -780,7 +852,6 @@
                 $statement->bindValue(":$categoryID", $categoryID);
             }
         }
-        //console_log('Query: ' . $query);
         $statement->bindValue(':STARTDATE', $StartDate);
         $statement->bindValue(':ENDDATE', $EndDate);
         $statement->execute();
@@ -862,32 +933,28 @@
             if($order->getOrderStatus() == 'SUBMITTED')
             {
                 $db = getDBConnection();
-                $query = 'DELETE FROM orderdetails WHERE (ORDERID = :ORDERID)';
+                $query = 'UPDATE orders SET STATUS = :STATUS WHERE ORDERID = :ORDERID';
                 $statement = $db->prepare($query);
+                if($UserID == $orderOwner)
+                {
+                    $statement->bindValue(':STATUS', 'USERCANCELLED');
+                }
+                else
+                {
+                    $statement->bindValue(':STATUS', 'ADMINCANCELLED');
+                }
                 $statement->bindValue(':ORDERID', $order->getOrderID());
                 $success = $statement->execute();
                 $statement->closeCursor();
                 if($success)
                 {
-                    $db = getDBConnection();
-                    $query = 'DELETE FROM orders WHERE (ORDERID = :ORDERID)';
-                    $statement = $db->prepare($query);
-                    $statement->bindValue(':ORDERID', $order->getOrderID());
-                    $success = $statement->execute();
-                    $statement->closeCursor();
-                    if($success)
-                    {
-                        return True;
-                    }
-                    else
-                    {
-                        logSQLError($statement->errorInfo());
-                    }
+                    return True;
                 }
                 else
                 {
                     logSQLError($statement->errorInfo());
                 }
+
 
             }
             else if($order->getOrderStatus() == 'READY FOR PICKUP')
@@ -897,16 +964,25 @@
                     $rowCount = updateQTY($orderDetail->getProductID(),$orderDetail->getQTYFilled());
                 }
                 $db = getDBConnection();
-                $query = 'DELETE FROM orderdetails WHERE (ORDERID = :ORDERID)';
+                $query = 'UPDATE orderdetails SET QTYFILLED = :ZERO WHERE (ORDERID = :ORDERID)';
                 $statement = $db->prepare($query);
                 $statement->bindValue(':ORDERID', $order->getOrderID());
+                $statement->bindValue(':ZERO', 0);
                 $success = $statement->execute();
                 $statement->closeCursor();
                 if($success)
                 {
                     $db = getDBConnection();
-                    $query = 'DELETE FROM orders WHERE (ORDERID = :ORDERID)';
+                    $query = 'UPDATE orders SET STATUS = :STATUS WHERE ORDERID = :ORDERID';
                     $statement = $db->prepare($query);
+                    if($UserID == $orderOwner)
+                    {
+                        $statement->bindValue(':STATUS', 'USERCANCELLED');
+                    }
+                    else
+                    {
+                        $statement->bindValue(':STATUS', 'ADMINCANCELLED');
+                    }
                     $statement->bindValue(':ORDERID', $order->getOrderID());
                     $success = $statement->execute();
                     $statement->closeCursor();

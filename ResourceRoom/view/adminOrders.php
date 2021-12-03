@@ -90,8 +90,8 @@
             ?>
             <!-- Individual order Modal -->
             <div class="modal fade" id="orderDetails_<?php echo $order->getOrderID()?>" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable orderModals">
-                    <div class="modal-content w-100 clarion-blue clarion-white">
+                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content clarion-blue clarion-white">
                         <div class="modal-header">
                             <h5 class="modal-title" id="staticBackdropLabel_<?php echo $order->getOrderID()?>"><?php echo htmlspecialchars($order->getOrderStatus()) . ':' . ' ' . htmlspecialchars($order->getUsersName())?></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -200,7 +200,7 @@
                                             </form>
                                         </div>
                                         <div class = 'col-auto'>
-                                            <form action="../controller/controller.php?action=deleteOrder&person=admin" onsubmit="return confirm('Are you sure you want to cancel this order?');" method="post" enctype="multipart/form-data">
+                                            <form action="../controller/controller.php?action=deleteOrder" onsubmit="return confirm('Are you sure you want to cancel this order?');" method="post" enctype="multipart/form-data">
                                                 <input type='hidden' name='ORDERID' value='<?php echo $order->getOrderID()?>'/>
                                                 <input type="submit" class="btn btn-danger"  value="Cancel Order">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -215,7 +215,7 @@
                                             </form>
                                         </div>
                                         <div class = 'col-auto'>
-                                            <form action="../controller/controller.php?action=deleteOrder&person=admin" onsubmit="return confirm('Are you sure you want to cancel this order?');" method="post" enctype="multipart/form-data">
+                                            <form action="../controller/controller.php?action=deleteOrder" onsubmit="return confirm('Are you sure you want to cancel this order?');" method="post" enctype="multipart/form-data">
                                                 <input type='hidden' name='ORDERID' value='<?php echo $order->getOrderID()?>'/>
                                                 <input type="submit" class="btn btn-danger"   value="Cancel Order">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
