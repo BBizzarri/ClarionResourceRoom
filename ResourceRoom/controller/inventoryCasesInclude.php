@@ -372,7 +372,7 @@
         }
         else
         {
-            $CategoryList = array();
+            $CategoryList = 'array()';
         }
         if(isset($_POST['OrderStatusList']))
         {

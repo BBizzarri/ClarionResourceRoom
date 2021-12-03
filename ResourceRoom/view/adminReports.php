@@ -31,18 +31,42 @@
                                 id="startDate" name="startDate"
                                 >
                                 <label class="reports-nav" for="example">End Date: </label>
-                                <input type="date" value="<?php echo date("Y-m-d")?>" id="endDate" name="endDate" >
+                                <input type="date" value="<?php if($_POST['endDate'])
+                                                                {
+                                                                    echo $_POST['endDate'];
+                                                                }
+                                                                else
+                                                                {
+                                                                    echo date('Y-m-d');
+                                                                }?>"
+                                id="endDate" name="endDate"
+                                >
                             </div>
                             <div id="productOnlyOptions" class="col-auto">
                                 <label class="reports-nav" for="OnlyOrderedProducts" title="Only shows products that have been ordered during time period">Only Ordered Products</label>
                                 <input type="hidden" value = '0'  name ="OnlyOrderedProducts"/>
-                                <input type="checkbox" id="OnlyOrderedProducts" name="OnlyOrderedProducts"/>
+                                <input type="checkbox" id="OnlyOrderedProducts" name="OnlyOrderedProducts" <?php if($_POST['OnlyOrderedProducts']){ echo "checked='checked'";} ?>/>
                                 <label class="reports-nav" for="categorySelectReports">Categories</label>
                                 <select id="categorySelectReports" class="selectpicker" name="CategoryList[]" multiple form="ReportsSelect" required>
-                                    <option class="category nav-link col-12" style="white-space: normal" value="0">All</option>
-                                    <?php foreach ($CategoryArray as $category) {
-                                        ?>
-                                        <option class="category nav-link col-12" style="white-space: normal" value="<?php echo $category->getCategoryID()?>"> <?php echo htmlspecialchars($category->getCategoryDescription())?></option>
+                                    <option <?php foreach($CategoryList as $SingleCategory)
+                                                  {
+                                                    if($SingleCategory == '0')
+                                                    {
+                                                      echo 'selected';
+                                                    }
+                                                  }?>
+                                        class="category nav-link col-12" style="white-space: normal" value="0">All
+                                    </option>
+                                    <?php foreach ($CategoryArray as $category) { ?>
+                                        <option <?php foreach($CategoryList as $SingleCategory)
+                                                      {
+                                                        if($SingleCategory == $category->getCategoryID())
+                                                        {
+                                                          echo 'selected';
+                                                        }
+                                                      }?>
+                                            class="category nav-link col-12" style="white-space: normal" value="<?php echo $category->getCategoryID()?>"> <?php echo htmlspecialchars($category->getCategoryDescription())?>
+                                        </option>
                                         <?php
                                     }
                                     ?>
@@ -51,12 +75,66 @@
                             <div id="allOrdersOnlyOptions" class="col-auto">
                                 <label class="reports-nav" for="orderStatusSelectReports">Order Status</label>
                                 <select id="orderStatusSelectReports" class="selectpicker" name="OrderStatusList[]" multiple form="ReportsSelect" required>
-                                    <option class="category nav-link col-12" style="white-space: normal" value="ALL">ALL</option>
-                                    <option class="category nav-link col-12" style="white-space: normal" value="SUBMITTED">SUBMITTED</option>
-                                    <option class="category nav-link col-12" style="white-space: normal" value="READYFORPICKUP">READYFORPICKUP</option>
-                                    <option class="category nav-link col-12" style="white-space: normal" value="COMPLETED">COMPLETED</option>
-                                    <option class="category nav-link col-12" style="white-space: normal" value="USERCANCELLED">USERCANCELLED</option>
-                                    <option class="category nav-link col-12" style="white-space: normal" value="ADMINCANCELLED">ADMINCANCELLED</option>
+                                    <option class="category nav-link col-12" style="white-space: normal" value="ALL"<?php foreach($OrderStatuses as $SingleStatus)
+                                                                                                                           {
+                                                                                                                                if($SingleStatus == 'ALL')
+                                                                                                                                {
+                                                                                                                                    echo 'selected';
+                                                                                                                                }
+                                                                                                                           }?>
+                                    >
+                                        ALL
+                                    </option>
+                                    <option class="category nav-link col-12" style="white-space: normal" value="SUBMITTED"<?php foreach($OrderStatuses as $SingleStatus)
+                                                                                                                                 {
+                                                                                                                                      if($SingleStatus == 'SUBMITTED')
+                                                                                                                                      {
+                                                                                                                                          echo 'selected';
+                                                                                                                                      }
+                                                                                                                                 }?>
+                                    >
+                                        SUBMITTED
+                                    </option>
+                                    <option class="category nav-link col-12" style="white-space: normal" value="READYFORPICKUP" <?php foreach($OrderStatuses as $SingleStatus)
+                                                                                                                                       {
+                                                                                                                                          if($SingleStatus == 'READYFORPICKUP')
+                                                                                                                                          {
+                                                                                                                                              echo 'selected';
+                                                                                                                                          }
+                                                                                                                                       }?>
+                                    >
+                                        READYFORPICKUP
+                                    </option>
+                                    <option class="category nav-link col-12" style="white-space: normal" value="COMPLETED" <?php foreach($OrderStatuses as $SingleStatus)
+                                                                                                                                  {
+                                                                                                                                     if($SingleStatus == 'COMPLETED')
+                                                                                                                                     {
+                                                                                                                                         echo 'selected';
+                                                                                                                                     }
+                                                                                                                                  }?>
+                                    >
+                                        COMPLETED
+                                    </option>
+                                    <option class="category nav-link col-12" style="white-space: normal" value="USERCANCELLED" <?php foreach($OrderStatuses as $SingleStatus)
+                                                                                                                                     {
+                                                                                                                                        if($SingleStatus == 'USERCANCELLED')
+                                                                                                                                        {
+                                                                                                                                            echo 'selected';
+                                                                                                                                        }
+                                                                                                                                     }?>
+                                    >
+                                        USERCANCELLED
+                                    </option>
+                                    <option class="category nav-link col-12" style="white-space: normal" value="ADMINCANCELLED" <?php foreach($OrderStatuses as $SingleStatus)
+                                                                                                                                         {
+                                                                                                                                            if($SingleStatus == 'ADMINCANCELLED')
+                                                                                                                                            {
+                                                                                                                                                echo 'selected';
+                                                                                                                                            }
+                                                                                                                                         }?>
+                                    >
+                                        ADMINCANCELLED
+                                    </option>
                                 </select>
                             </div>
                             <div class="col-1">
