@@ -275,15 +275,19 @@
 
     function adminChangeOrderStatus(){
         $orderID = $_GET['orderID'];
-        $status = $_GET['STATUS'];
-        $usersName = $_GET['usersName'];
+        $status = $_GET['status'];
+        console_log($status);
+//         $usersName = $_GET['usersName'];
         if($status == "SUBMITTED"){
             $newStatus = "READY FOR PICKUP";
         }
         else if($status == "READY FOR PICKUP"){
             $newStatus = "COMPLETED";
-        }else{
-            $newStatus = "COMPLETED";
+        }else if($status == "USERCANCELLED" || $status == "ADMINCANCELLED"){
+            $newStatus = "ERROR1";
+        }
+        else{
+            $newStatus = "ERROR2";
         }
         changeOrderStatus($orderID,$newStatus);
         header("Location: {$_SERVER['HTTP_REFERER']}");
