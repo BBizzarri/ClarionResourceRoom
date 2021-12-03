@@ -745,7 +745,7 @@
         $db = getDBConnection();
         $query = "select product.*, GROUP_CONCAT(category.CATEGORYDESCRIPTION ORDER BY category.CATEGORYDESCRIPTION ASC SEPARATOR ', ') as CATEGORY,
                     SUM(orderdetails.QTYFILLED) as TOTALORDERED, COUNT(orderdetails.QTYFILLED) as UNIQUEORDERS
-                    from product   
+                    from product
                     inner join productcategories on product.PRODUCTID = productcategories.PRODUCTID
                     inner join category on productcategories.CATEGORYID = category.CATEGORYID
                     left join orderdetails on product.PRODUCTID = orderdetails.PRODUCTID

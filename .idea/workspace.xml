@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Bug fixing&#10;reports page updates">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/security/creation_script.sql" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/security/creation_script.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/model/model.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/model.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,13 +102,6 @@
       <workItem from="1638204044455" duration="250000" />
       <workItem from="1638207054475" duration="18106000" />
       <workItem from="1638312617333" duration="433000" />
-    </task>
-    <task id="LOCAL-00023" summary="Bug fixes">
-      <created>1635985138491</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1635985138491</updated>
     </task>
     <task id="LOCAL-00024" summary="Taking print_r out">
       <created>1636124910844</created>
@@ -446,7 +439,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638460531081</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="Fixing page redirection on admin delete category">
+      <created>1638462597064</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1638462597065</updated>
+    </task>
+    <option name="localTasksCounter" value="73" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -480,7 +480,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="SSO Stuff" />
     <MESSAGE value="updated all emails to not send from apache" />
     <MESSAGE value="Fixing brady's bugs for real this time" />
     <MESSAGE value="Removed log in/out button, shopper search fix if no products returned" />
@@ -505,6 +504,7 @@
     <MESSAGE value="Forgot to remove some prints" />
     <MESSAGE value="Bug fixing&#10;reports page updates" />
     <MESSAGE value="Cleaning code up" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cleaning code up" />
+    <MESSAGE value="Fixing page redirection on admin delete category" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixing page redirection on admin delete category" />
   </component>
 </project>
