@@ -2,8 +2,6 @@
     $title = " Admin Orders Page";
     require '../view/headerInclude.php';
 ?>
-    <html>
-    <body>
     <section class="clarion-blue">
         <div class="container-fluid clarion-white">
             <div class="row">
@@ -60,6 +58,22 @@
                 </div>
                 <div class="col">
                     <h3 class="text-center">COMPLETED ORDERS</h3>
+                    <form id="AdminOrdersDatesSelect" action="../controller/controller.php?action=adminOrders" method="post" enctype="multipart/form-data" style="padding-top: 5px">
+                        <label class="reports-nav" for="example">Orders Since: </label>
+                        <input type="date" value="<?php if(isset($_POST['orderSince']))
+                                                         {
+                                                            $date = $_POST['orderSince'];
+                                                         }
+                                                         else
+                                                         {
+                                                            $currentDate = date('Y/m/d');
+                                                            $date = date('Y-m-d', strtotime($currentDate.' -4 months'));
+                                                         }
+                                                         echo $date;?>"
+                        id="orderSince" name="orderSince"
+                        >
+                        <input class="btn btn-secondary filter-button reports-nav" type="submit" value="Apply"/>
+                    </form>
                     <table class="table table-condensed clarion-white" id="completedOrdersTable" style="border-collapse:collapse;">
                         <thead>
                         <tr>
@@ -71,7 +85,7 @@
                         <tbody>
                         <?php foreach($AllOrders as $order)
                         {
-                            if($order->getOrderStatus() == "COMPLETED")
+                            if($order->getOrderStatus() == "COMPLETED" && $order->getOrderDateCompleted() > $date)
                             {
                                 ?>
                                 <tr data-toggle="modal" data-target="#orderDetails_<?php echo $order->getOrderID()?>">
@@ -85,7 +99,7 @@
                 </div>
             </div>
         </div>
-        <?php foreach($AllOrders as $order)
+        <?php if($order->getOrderStatus() != "USERCANCELLED" && $order->getOrderStatus() != "ADMINCANCELLED"){ foreach($AllOrders as $order)
         {
             ?>
             <!-- Individual order Modal -->
@@ -102,7 +116,9 @@
                             <form id="order_<?php echo $order->getOrderID()?>"
                                 <?php if($order->getOrderStatus() == "SUBMITTED"): ?>
                                 action="../controller/controller.php?action=adminFillOrder&orderID=<?php echo $order->getOrderID()?>&status=<?php echo $order->getOrderStatus()?>"
-                                 <?php else:?>
+                                <?php elseif($order->getOrderStatus() == "READY FOR PICKUP"): ?>
+                                action="../controller/controller.php?action=adminChangeOrderStatus&orderID=<?php echo $order->getOrderID()?>&status=<?php echo $order->getOrderStatus()?>"
+                                <?php else: ?>
                                 action="../controller/controller.php?action=adminChangeOrderStatus&orderID=<?php echo $order->getOrderID()?>&status=<?php echo $order->getOrderStatus()?>"
                                 <?php endif; ?>
                                 method="post" enctype="multipart/form-data">
@@ -227,6 +243,8 @@
                                     <div class = 'd-flex justify-content-end'>
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     </div>
+                                <?php else: ?>
+                                </form>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -234,10 +252,9 @@
                 </div>
             </div>
             </div>
-        <?php  }?>
+        <?php  }
+        }?>
     </section>
-    </body>
-    </html>
     <script>
         $(document).ready(function()
         {
