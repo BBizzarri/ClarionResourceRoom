@@ -69,11 +69,11 @@
         $OrderID = $_POST['ORDERID'];
         $UserID = $_SESSION['UserID'];
         $currentOrder = getOrder($OrderID)[0];
-        $OrderedByEmail = getEmailToOrder($OrderID);
+        $OrderedByInfo = getEmailNameToOrder($OrderID);
         $SettingsInfo = getAllSettingsInfo();
         $UserInfo = getUserInfo($currentOrder->getUserID());
         if (deleteOrder($OrderID)) {
-            $to = $OrderedByEmail['Email'];
+            $to = $OrderedByInfo['Email'];
             $bcc = $SettingsInfo['BCCOrderCanceled'];
             $subject = $SettingsInfo['OrderCancelledSubj'];
             foreach ($currentOrder->getOrderDetails() as $orderDetail) {
@@ -88,7 +88,7 @@
                     </tr>
                     ";
             }
-            $message = $SettingsInfo['OrderCancelledText'] . "<br><br>" . "<h3>Order Summary: " . $UserInfo->getFirstName() . " " . $UserInfo->getLastName() . "</h3>" . "
+            $message = $SettingsInfo['OrderCancelledText'] . "<br><br>" . "<h3>Order Summary: " . $OrderedByInfo['FullName'] . "</h3>" . "
                                                 <html>
                                                 <head>
                                                 <title>HTML email</title>
@@ -314,9 +314,9 @@
         $currentOrder = getOrder($orderID)[0];
         $SettingsInfo = getAllSettingsInfo();
         $USERID = getUserID();
-        $OrderedByEmail = getEmailToOrder($orderID);
+        $OrderedByInfo = getEmailNameToOrder($orderID);
         $UserInfo = getUserInfo($USERID);
-        $to = $OrderedByEmail['Email'];
+        $to = $OrderedByInfo['Email'];
         $subject = $SettingsInfo['OrderFilledSubj'];
         $tableBody = "";
         foreach($currentOrder->getOrderDetails() as $orderDetail){
@@ -331,8 +331,7 @@
             </tr>
             ";
         }
-//         $message = setMessage($fillerComments, $SettingsInfo['OrderFilledText'],$tableBody,'filled');
-        $message = $fillerComments . "<br><br>" . $SettingsInfo['OrderFilledText'] . "<br><br>" . "<h3>Order Summary: " . $UserInfo->getFirstName() . " " . $UserInfo->getLastName() . "</h3>" . "
+        $message = $fillerComments . "<br><br>" . $SettingsInfo['OrderFilledText'] . "<br><br>" . "<h3>Order Summary: " . $OrderedByInfo['FullName'] . "</h3>" . "
                                                                                         <html>
                                                                                         <head>
                                                                                         <title>HTML email</title>
@@ -474,9 +473,9 @@
         $orderID = $_GET['orderID'];
         $SettingsInfo = getAllSettingsInfo();
         $USERID = getUserID();
-        $OrderedByEmail = getEmailToOrder($orderID);
+        $OrderedByInfo = getEmailNameToOrder($orderID);
         $UserInfo = getUserInfo($USERID);
-        $to = $OrderedByEmail['Email'];
+        $to = $OrderedByInfo['Email'];
         $bcc = $SettingsInfo['BCCOrderReminder'];
         $subject = $SettingsInfo['OrderReminderSubj'];
         $currentOrder = getOrder($orderID)[0];
@@ -492,8 +491,7 @@
                         </tr>
                         ";
         }
-//         $message = setMessage('',$SettingsInfo['OrderReminderText'],$tableBody,'renotify');
-        $message = $SettingsInfo['OrderReminderText'] . "<br><br>" . "<h3>Order Summary: " . $UserInfo->getFirstName() . " " . $UserInfo->getLastName() . "</h3>" . "
+        $message = $SettingsInfo['OrderReminderText'] . "<br><br>" . "<h3>Order Summary: " . $OrderedByInfo['FullName'] . "</h3>" . "
                                                 <html>
                                                 <head>
                                                 <title>HTML email</title>

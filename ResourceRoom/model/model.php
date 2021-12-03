@@ -469,10 +469,10 @@
         }
         $categoryArray = array_values($categoryArray);
     }
-    function getEmailToOrder($orderID)
+    function getEmailNameToOrder($orderID)
     {
         $db = getDBConnection();
-        $query = "select users.Email
+        $query = "select users.Email, concat(users.FirstName, ' ', users.LastName) as FullName
                  from users
                  inner join orders on users.UserID = orders.USERID
                  where orders.ORDERID = :ORDERID";
@@ -481,7 +481,6 @@
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         $statement->closeCursor();
-//         console_log($result);
         return $result;
     }
     function getProducts($CategoryID,$QTYLessThan,$IncludeInactiveItems,$HideUnstockedItems,$ShoppingList,$SearchTerm){
