@@ -58,6 +58,17 @@
                                             </ul>
                                             <input type="button" value="Add Category" data-toggle="modal" data-target="#add_categoryModal">
                                         </div>
+                                        <div>
+                                            <?php if(sizeof($ProductArray) > 0) { ?>
+                                            <h1>Error Deleting Category</h1>
+                                            <h3>These products must be made inactive or added to another Category</h3>
+                                            <ul class="a">
+                                            <?php foreach ($ProductArray as $product) { console_log($product); ?>
+                                                <li><a class="color-black" id="<?php echo htmlspecialchars($product->getProductID()) ?>" href="#" data-toggle="modal"><?php echo htmlspecialchars($product->getProductName()) ?></a></li>
+                                            <?php } ?>
+                                            </ul>
+                                            <?php } ?>
+                                        </div>
                                     </div>
                                     <form id="updateEmailAnnouncementSettings" action="../controller/controller.php?action=updateEmailAnnouncementSettings" method="post" enctype="multipart/form-data" >
                                         <div class="card account-settings-card">

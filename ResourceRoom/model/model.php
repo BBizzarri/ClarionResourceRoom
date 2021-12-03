@@ -220,13 +220,13 @@
     function deactivateCategory($categoryID){
         try{
             $db = getDBConnection();
-            $query = "SELECT * FROM productcategories";
+            $query = "SELECT * FROM productcategories INNER JOIN productview on productcategories.PRODUCTID = productview.PRODUCTID";
             $statement = $db->prepare($query);
-            $statement->bindValue(':CATEGORYID', $categoryID);
             $statement->execute();
             $result = $statement->fetchAll( PDO::FETCH_GROUP| PDO::FETCH_ASSOC);
             $statement->closeCursor();
             $products = array();
+
             foreach($result as $product)
             {
                 $isInCategory = False;
@@ -238,16 +238,26 @@
                 }
                 if($isInCategory)
                 {
-                    if(count($product) == 1 )
+                    if(count($product) == 1)
                     {
-                        array_push($products, $product);
+                        if($product[0]['GOALSTOCK'] != 0 OR $product[0]['QTYONHAND'] != 0)
+                        {
+                            array_push($products, $product);
+                        }
                     }
                 }
             }
 
+
+
+            $productArray = array();
             if(count($products) > 0)
             {
-                $canDeactivate = False;
+                foreach($products as $product)
+                {
+                    array_push($productArray, new product($product[0]['PRODUCTID'],$product[0]['NAME'],$product[0]['PRODUCTDESCRIPTION'],$product[0]['QTYONHAND'],
+                        $product[0]['MAXORDERQTY'],$product[0]['ORDERLIMIT'],$product[0]['GOALSTOCK'],$product[0]['QTYONORDER'],$product[0]['QTYAVAILABLE']));
+                }
             }
             else
             {
@@ -259,9 +269,8 @@
                 $statement->execute();
                 $results = $statement->fetchAll();
                 $statement->closeCursor();
-                $canDeactivate = True;
             }
-            return $canDeactivate;
+            return $productArray;
         }
         catch (Exception $ex)
         {
