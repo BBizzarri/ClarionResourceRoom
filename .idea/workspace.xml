@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/model/model.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminReports.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminReports.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,13 +103,6 @@
       <workItem from="1638204044455" duration="250000" />
       <workItem from="1638207054475" duration="18106000" />
       <workItem from="1638312617333" duration="433000" />
-    </task>
-    <task id="LOCAL-00027" summary="Pictures">
-      <created>1636302590167</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1636302590167</updated>
     </task>
     <task id="LOCAL-00028" summary="Bug fixes">
       <created>1636303239752</created>
@@ -447,7 +440,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638483723321</updated>
     </task>
-    <option name="localTasksCounter" value="76" />
+    <task id="LOCAL-00076" summary="Fixing the order summary name in the emails to be the correct person">
+      <created>1638540802181</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1638540802181</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -481,7 +481,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Admin Order Buttons and comment box fixed" />
     <MESSAGE value="Order Delete confirmation" />
     <MESSAGE value="Admin inventory search removed" />
     <MESSAGE value="Better Manage Users page" />
@@ -506,6 +505,7 @@
     <MESSAGE value="Order deletion" />
     <MESSAGE value="Bulk adjust fix" />
     <MESSAGE value="Order reporting" />
-    <option name="LAST_COMMIT_MESSAGE" value="Order reporting" />
+    <MESSAGE value="Fixing the order summary name in the emails to be the correct person" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixing the order summary name in the emails to be the correct person" />
   </component>
 </project>

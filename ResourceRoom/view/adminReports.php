@@ -19,7 +19,17 @@
                                     <option name="Products" value="Products" <?php if(isset($_POST['report']) AND $_POST['report'] == 'Products'){ echo 'selected'; }?>>Products</option>
                                 </select>
                                 <label class="reports-nav" for="example">Start Date: </label>
-                                <input type="date" value= "0001-01-01" id="startDate" name="startDate">
+                                <input type="date" value= "<?php if($_POST['startDate'])
+                                                                 {
+                                                                    echo $_POST['startDate'];
+                                                                 }
+                                                                 else
+                                                                 {
+                                                                    $currentDate = date('Y/m/d'); $final_date = date('Y-m-d', strtotime($currentDate.' -4 months'));
+                                                                    echo $final_date;
+                                                                 }?>"
+                                id="startDate" name="startDate"
+                                >
                                 <label class="reports-nav" for="example">End Date: </label>
                                 <input type="date" value="<?php echo date("Y-m-d")?>" id="endDate" name="endDate" >
                             </div>
