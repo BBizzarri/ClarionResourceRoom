@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/model/model.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/model.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -103,13 +101,6 @@
       <workItem from="1638204044455" duration="250000" />
       <workItem from="1638207054475" duration="18106000" />
       <workItem from="1638312617333" duration="433000" />
-    </task>
-    <task id="LOCAL-00030" summary="css updates">
-      <created>1636310215968</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1636310215968</updated>
     </task>
     <task id="LOCAL-00031" summary="Fixing more of Brady's mistakes">
       <created>1636315051402</created>
@@ -447,7 +438,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638642748162</updated>
     </task>
-    <option name="localTasksCounter" value="79" />
+    <task id="LOCAL-00079" summary="fixing the date search on admin orders page">
+      <created>1638661268923</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1638661268923</updated>
+    </task>
+    <option name="localTasksCounter" value="80" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -481,7 +479,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Better Manage Users page" />
     <MESSAGE value="fixes/feature updates" />
     <MESSAGE value="Mobile UI fixes" />
     <MESSAGE value="Empty category fix" />
@@ -506,6 +503,7 @@
     <MESSAGE value="Fixing the order summary name in the emails to be the correct person" />
     <MESSAGE value="Keeping all fields populated in the reports page" />
     <MESSAGE value="taking out the editor for the subject line in the account settings page" />
-    <option name="LAST_COMMIT_MESSAGE" value="taking out the editor for the subject line in the account settings page" />
+    <MESSAGE value="fixing the date search on admin orders page" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixing the date search on admin orders page" />
   </component>
 </project>
