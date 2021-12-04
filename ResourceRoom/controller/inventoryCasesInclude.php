@@ -60,8 +60,12 @@
     function adminDeleteCategory()
     {
         $categoryID = $_POST['CategoryID'];
-        $result = deactivateCategory($categoryID);
-        header("Location: {$_SERVER['HTTP_REFERER']}");
+        $ProductArray = deactivateCategory($categoryID);
+        $USERID = getUserID();
+        $UserInfo = getUserInfo($USERID);
+        $CategoryArray = getAllCategories();
+        $SettingsInfo = getAllSettingsInfo();
+        include '../view/accountSettings.php';
     }
 
     function adminDeleteOrder()

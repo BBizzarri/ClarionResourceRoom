@@ -141,6 +141,7 @@
                             <form action="../controller/controller.php?action=shopperSubmitOrder" method="post" enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label for="cartComment">Special Order Instructions</label>
+                                    <p><small>**If you are a Venango Student please state that in the comment field**</small></p>
                                     <textarea class="form-control" rows="5" id="cartComment" name="cartComment"></textarea>
                                 </div>
                                 <div class="form-group row">
