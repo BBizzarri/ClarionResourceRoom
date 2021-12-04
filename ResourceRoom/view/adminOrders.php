@@ -85,6 +85,8 @@
                         <tbody>
                         <?php foreach($AllOrders as $order)
                         {
+                            console_log($AllOrders);
+                            console_log($order->getOrderDateCompleted() . ' ' . '>' . ' ' . $date);
                             if($order->getOrderStatus() == "COMPLETED" && $order->getOrderDateCompleted() > $date)
                             {
                                 ?>
