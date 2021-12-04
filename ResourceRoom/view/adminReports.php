@@ -45,25 +45,29 @@
                             <div id="productOnlyOptions" class="col-auto">
                                 <label class="reports-nav" for="OnlyOrderedProducts" title="Only shows products that have been ordered during time period">Only Ordered Products</label>
                                 <input type="hidden" value = '0'  name ="OnlyOrderedProducts"/>
-                                <input type="checkbox" id="OnlyOrderedProducts" name="OnlyOrderedProducts" <?php if($_POST['OnlyOrderedProducts']){ echo "checked='checked'";} ?>/>
+                                <input type="checkbox" id="OnlyOrderedProducts" name="OnlyOrderedProducts" <?php if(isset($_POST['OnlyOrderedProducts']) AND $_POST['OnlyOrderedProducts']){ echo "checked='checked'";} ?>/>
                                 <label class="reports-nav" for="categorySelectReports">Categories</label>
                                 <select id="categorySelectReports" class="selectpicker" name="CategoryList[]" multiple form="ReportsSelect" required>
-                                    <option <?php foreach($CategoryList as $SingleCategory)
-                                                  {
-                                                    if($SingleCategory == '0')
-                                                    {
-                                                      echo 'selected';
-                                                    }
+                                    <option <?php if(sizeof($CategoryList) > 0){
+                                                      foreach($CategoryList as $SingleCategory)
+                                                      {
+                                                        if($SingleCategory == '0')
+                                                        {
+                                                          echo 'selected';
+                                                        }
+                                                      }
                                                   }?>
                                         class="category nav-link col-12" style="white-space: normal" value="0">All
                                     </option>
                                     <?php foreach ($CategoryArray as $category) { ?>
-                                        <option <?php foreach($CategoryList as $SingleCategory)
-                                                      {
-                                                        if($SingleCategory == $category->getCategoryID())
-                                                        {
-                                                          echo 'selected';
-                                                        }
+                                        <option <?php if(sizeof($CategoryList)> 0){
+                                                          foreach($CategoryList as $SingleCategory)
+                                                          {
+                                                            if($SingleCategory == $category->getCategoryID())
+                                                            {
+                                                              echo 'selected';
+                                                            }
+                                                          }
                                                       }?>
                                             class="category nav-link col-12" style="white-space: normal" value="<?php echo $category->getCategoryID()?>"> <?php echo htmlspecialchars($category->getCategoryDescription())?>
                                         </option>
