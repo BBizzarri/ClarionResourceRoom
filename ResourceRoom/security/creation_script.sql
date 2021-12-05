@@ -68,8 +68,8 @@ CREATE TABLE orders
 CREATE TABLE product
 (   PRODUCTID               INT AUTO_INCREMENT,
     NAME                    VARCHAR(50),
-    PRODUCTDESCRIPTION             VARCHAR(255),
-    QTYONHAND               INT,
+    PRODUCTDESCRIPTION      VARCHAR(255),
+    QTYONHAND               INT UNSIGNED,
     MAXORDERQTY             INT,
     GOALSTOCK               INT,
     CONSTRAINT PRODUCT_PK PRIMARY KEY (PRODUCTID)
