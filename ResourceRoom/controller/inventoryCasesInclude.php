@@ -191,6 +191,7 @@
         {
             if($ProductMode == 'Add')
             {
+                console_log('IF');
                 $ProductID = addProduct($ProductName, $QtyOnHand, $MaxOrderQty, $GoalStock, $ProductDescription, $ProductCategories);
             }
             else
@@ -202,6 +203,7 @@
         else
         {
             include '../view/errorPage.php';
+            die;
         }
 
         $target_dir = "../productImages/";
@@ -236,7 +238,6 @@
             // if everything is ok, try to upload file
             }
             else {
-
                 move_uploaded_file($_FILES["ProductImage"]["tmp_name"], $target_file);
                 rename($target_file, $target_dir . $ProductID . '.jpg');
                 $target_file = $target_dir . $ProductID . '.jpg';
@@ -261,19 +262,23 @@
 
                 // Display of output image and save in set directory
                 imagejpeg($image_p, $target_file);
-                showInventory();
+                header( 'Location:../controller/controller.php?action=adminInventory');
             }
         }
-        else if(file_exists($target_dir . $ProductID . 'jpg'))
+        else if(file_exists($target_dir . $ProductID . '.jpg'))
         {
-            showInventory();
+            //console_log('FILE EXISTS');
+            //console_log($target_dir . $ProductID . '.jpg');
+            header( 'Location:../controller/controller.php?action=adminInventory');
         }
         else {
+            //console_log('FILE DOESNT EXISTS');
+            //console_log($target_dir . $ProductID . '.jpg');
             $imgName = imagecreatefromjpeg('../productImages/ImageNotAvailable.jpg');
             $new_Name =  $ProductID;
             // Display of output image and save in set directory
             imagejpeg($imgName, '../productImages/'.$new_Name.'.jpg');
-            showInventory();
+            header( 'Location:../controller/controller.php?action=adminInventory');
         }
     }
 
