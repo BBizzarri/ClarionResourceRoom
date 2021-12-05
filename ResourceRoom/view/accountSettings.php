@@ -1,8 +1,7 @@
 <script src="//js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>
 <script type="text/javascript">bkLib.onDomLoaded(function()
 	{
-	    for (let i = 1; i <= 5 ; i++) {
-          new nicEditor().panelInstance('subject' + i.toString());
+	    for (let i = 1; i <= 6 ; i++) {
           new nicEditor({buttonList : ['fontFamily','fontSize','bold','italic','underline','strikeThrough','subscript','superscript','html','image']}).panelInstance('body' + i.toString());
         }
 
