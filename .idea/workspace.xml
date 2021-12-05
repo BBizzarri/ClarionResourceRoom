@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
+    <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="Cart warning for Venango students">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/controller/inventoryCasesInclude.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminReports.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminReports.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/adminOrders.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,6 +102,9 @@
       <workItem from="1638204044455" duration="250000" />
       <workItem from="1638207054475" duration="18106000" />
       <workItem from="1638312617333" duration="433000" />
+      <workItem from="1638642849473" duration="586000" />
+      <workItem from="1638644075834" duration="460000" />
+      <workItem from="1638737930343" duration="465000" />
     </task>
     <task id="LOCAL-00029" summary="making everyone elses work">
       <created>1636305001909</created>
@@ -481,7 +483,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Admin inventory search removed" />
     <MESSAGE value="Better Manage Users page" />
     <MESSAGE value="fixes/feature updates" />
     <MESSAGE value="Mobile UI fixes" />
@@ -506,6 +507,7 @@
     <MESSAGE value="Order reporting" />
     <MESSAGE value="Fixing the order summary name in the emails to be the correct person" />
     <MESSAGE value="Keeping all fields populated in the reports page" />
-    <option name="LAST_COMMIT_MESSAGE" value="Keeping all fields populated in the reports page" />
+    <MESSAGE value="Cart warning for Venango students" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cart warning for Venango students" />
   </component>
 </project>

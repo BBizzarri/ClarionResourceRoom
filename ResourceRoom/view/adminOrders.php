@@ -99,7 +99,9 @@
                 </div>
             </div>
         </div>
-        <?php if($order->getOrderStatus() != "USERCANCELLED" && $order->getOrderStatus() != "ADMINCANCELLED"){ foreach($AllOrders as $order)
+        <?php
+            foreach($AllOrders as $order)
+                if($order->getOrderStatus() != "USERCANCELLED" && $order->getOrderStatus() != "ADMINCANCELLED"){
         {
             ?>
             <!-- Individual order Modal -->
