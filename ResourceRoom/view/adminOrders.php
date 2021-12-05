@@ -5,7 +5,7 @@
     <section class="clarion-blue">
         <div class="container-fluid clarion-white">
             <div class="row">
-                <div class="col">
+                <div class="col-sm-12 col-md-6 col-lg-4 table-responsive-sm">
                     <h3 class="text-center">SUBMITTED ORDERS</h3>
                     <table class="table table-condensed" id="submittedOrders" style="border-collapse:collapse;">
                         <thead>
@@ -31,7 +31,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col">
+                <div class="col-sm-12 col-md-6 col-lg-4 table-responsive-sm">
                     <h3 class="text-center">READY FOR PICKUP</h3>
                     <table class="table table-condensed" style="border-collapse:collapse;">
                         <thead>
@@ -56,7 +56,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col">
+                <div class="col-md-12 col-lg-4">
                     <h3 class="text-center">COMPLETED ORDERS</h3>
                     <form id="AdminOrdersDatesSelect" action="../controller/controller.php?action=adminOrders" method="post" enctype="multipart/form-data" style="padding-top: 5px">
                         <label class="reports-nav" for="example">Orders Since: </label>
@@ -74,7 +74,7 @@
                         >
                         <input class="btn btn-secondary filter-button reports-nav" type="submit" value="Apply"/>
                     </form>
-                    <table class="table table-condensed clarion-white" id="completedOrdersTable" style="border-collapse:collapse;">
+                    <table class="table table-condensed table-responsive-sm clarion-white" id="completedOrdersTable" style="border-collapse:collapse;">
                         <thead>
                         <tr>
                             <th>Name</th>
@@ -99,7 +99,9 @@
                 </div>
             </div>
         </div>
-        <?php if($order->getOrderStatus() != "USERCANCELLED" && $order->getOrderStatus() != "ADMINCANCELLED"){ foreach($AllOrders as $order)
+        <?php
+            foreach($AllOrders as $order)
+                if($order->getOrderStatus() != "USERCANCELLED" && $order->getOrderStatus() != "ADMINCANCELLED"){
         {
             ?>
             <!-- Individual order Modal -->
@@ -146,14 +148,14 @@
                                         <?php foreach($order->getOrderDetails() as $orderDetail)
                                         {
                                             ?>
-                                            <tr>
+                                            <tr class="form-group">
                                                 <td class="text-left"><?php echo htmlspecialchars($orderDetail->getProduct()->getProductName())?></td>
                                                 <?php if($orderDescriptionFlag): ?>
                                                     <td class="text-left"><?php echo htmlspecialchars($orderDetail->getProduct()->getProductDescription());?></td>
                                                 <?php endif; ?>
                                                 <td><?php echo htmlspecialchars($orderDetail->getQTYRequested())?></td>
                                             <?php if($order->getOrderStatus() == "SUBMITTED"): ?>
-                                                <td><input type="number" min="0" name="<?php echo $orderDetail->getProductID()?>" value="<?php echo htmlspecialchars($orderDetail->getQTYRequested())?>" required/></td>
+                                                <td><input class="col-12" type="number" min="0" name="<?php echo $orderDetail->getProductID()?>" value="<?php echo htmlspecialchars($orderDetail->getQTYRequested())?>" required/></td>
                                             <?php else:?>
                                                 <td><?php echo htmlspecialchars($orderDetail->getQTYFilled())?></td>
                                             <?php endif; ?>
