@@ -198,7 +198,7 @@
                                                             <td class="text-right"><?php echo $product->getProductGoalStock()?></td>
                                                             <td title="To add stock enter in number you want to increase by and to subtract stock enter a '-' in front of number you want to decrease by" >
                                                                 <div class="incoming-textbox-div">
-                                                                    <input class="incoming-textbox" type="number" id="incomingAmt_<?php echo $product->getProductID()?>" value="" name="incomingAmt_<?php echo $product->getProductID()?>">
+                                                                    <input class="incoming-textbox" type="text" id="incomingAmt_<?php echo $product->getProductID()?>" value="" name="incomingAmt_<?php echo $product->getProductID()?>" oninput="this.value = this.value.replace(/[^0-9-]/g, '');">
                                                                 </div>
                                                                 <div class="adjust-button-div">
                                                                     <input type="button" value="Adjust Stock" onclick="adjustSingleStock(<?php echo $product->getProductID()?>);"/>
