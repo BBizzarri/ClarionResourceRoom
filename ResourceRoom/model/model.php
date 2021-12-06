@@ -736,7 +736,7 @@
     function getOrdersReport($StartDate, $EndDate,$OrderStatuses)
     {
         $db = getDBConnection();
-        $query = "select users.UserID, users.FirstName, users.Lastname, users.Email, orders.STATUS, orders.DATEORDERED, orders.DATEFILLED, orders.DATECOMPLETED, orders.COMMENT, product.NAME, orderdetails.QTYREQUESTED,
+        $query = "select users.UserID, users.FirstName, users.Lastname, users.Email, orders.ORDERID, orders.STATUS, orders.DATEORDERED, orders.DATEFILLED, orders.DATECOMPLETED, orders.COMMENT, product.NAME, orderdetails.QTYREQUESTED,
                         orderdetails.QTYFILLED, product.PRODUCTDESCRIPTION, GROUP_CONCAT(category.CATEGORYDESCRIPTION ORDER BY category.CATEGORYDESCRIPTION ASC SEPARATOR ', ') as CATEGORY
                     from users
                     inner join orders on users.UserID = orders.USERID
