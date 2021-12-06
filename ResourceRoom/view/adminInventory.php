@@ -268,9 +268,9 @@
                                                 <?php } ?>
                                             </select>
                                         </h4>
-                                        <h4 class="product-info-spacing">QTY On Hand: <input class="col-12 type="number" min="0" name="QtyOnHand" value="<?php echo htmlspecialchars($product->getProductQTYOnHand())?>" required/></h4>
-                                        <h4 class="product-info-spacing">Max Order QTY: <input class="col-12 type="number" min="0" name="MaxOrderQty" value="<?php echo htmlspecialchars($product->getProductMaxOrderQty())?>"/></h4>
-                                        <h4 class="product-info-spacing">Goal Stock: <input class="col-12 type="number" min="0" name="GoalStock" value="<?php echo htmlspecialchars($product->getProductGoalStock())?>" required/></h4>
+                                        <h4 class="product-info-spacing">QTY On Hand: <input class="col-12" type="number" min="0" name="QtyOnHand" value="<?php echo htmlspecialchars($product->getProductQTYOnHand())?>" required/></h4>
+                                        <h4 class="product-info-spacing">Max Order QTY: <input class="col-12" type="number" min="0" name="MaxOrderQty" value="<?php echo htmlspecialchars($product->getProductMaxOrderQty())?>"/></h4>
+                                        <h4 class="product-info-spacing">Goal Stock: <input class="col-12" type="number" min="0" name="GoalStock" value="<?php echo htmlspecialchars($product->getProductGoalStock())?>" required/></h4>
                                         <h4>Description:</h4>
                                         <textarea name="ProductDescription" rows="4" class="col-12"><?php echo htmlspecialchars($product->getProductDescription())?></textarea>
                                     </div>
