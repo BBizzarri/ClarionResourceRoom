@@ -4,6 +4,7 @@
     <list default="true" id="d7831da2-d1f9-46f2-a747-f17e319f1776" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResourceRoom/model/model.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/model/model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResourceRoom/view/accountSettings.php" beforeDir="false" afterPath="$PROJECT_DIR$/ResourceRoom/view/accountSettings.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,14 +103,7 @@
       <workItem from="1638204044455" duration="250000" />
       <workItem from="1638207054475" duration="18106000" />
       <workItem from="1638312617333" duration="433000" />
-      <workItem from="1638814680094" duration="1254000" />
-    </task>
-    <task id="LOCAL-00034" summary="updated admin permissions &#10;adding new images">
-      <created>1636406443998</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1636406443998</updated>
+      <workItem from="1638814680094" duration="2465000" />
     </task>
     <task id="LOCAL-00035" summary="integrating email">
       <created>1636409086357</created>
@@ -447,7 +441,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638815030609</updated>
     </task>
-    <option name="localTasksCounter" value="83" />
+    <task id="LOCAL-00083" summary="Add order ID to all orders report">
+      <created>1638818223946</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1638818223946</updated>
+    </task>
+    <option name="localTasksCounter" value="84" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -481,7 +482,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Print Order added student name" />
     <MESSAGE value="Ui fixes, report testing" />
     <MESSAGE value="Reports page work" />
     <MESSAGE value="Reports" />
@@ -506,6 +506,7 @@
     <MESSAGE value="Photo upload and item add/edit fix" />
     <MESSAGE value="Edit modals" />
     <MESSAGE value="Product edit modal, negative fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="Product edit modal, negative fix" />
+    <MESSAGE value="Add order ID to all orders report" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add order ID to all orders report" />
   </component>
 </project>

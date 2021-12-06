@@ -78,7 +78,7 @@
        $statement->closeCursor();
        if($success)
        {
-           return $db->lastInsertId();;
+           return $db->lastInsertId();
        }
        else
        {

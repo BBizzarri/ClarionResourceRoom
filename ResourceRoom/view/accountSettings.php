@@ -63,7 +63,7 @@
                                             <h3>These products must be made inactive or added to another Category</h3>
                                             <ul class="a">
                                             <?php foreach ($ProductArray as $product) { console_log($product); ?>
-                                                <li><a class="color-black" id="<?php echo htmlspecialchars($product->getProductID()) ?>" href="#" data-toggle="modal"><?php echo htmlspecialchars($product->getProductName()) ?></a></li>
+                                                <li><?php echo htmlspecialchars($product->getProductName()) ?></li>
                                             <?php } ?>
                                             </ul>
                                             <?php } ?>
